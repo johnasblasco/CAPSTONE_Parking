@@ -16,8 +16,12 @@ const userScheme = mongoose.Schema(
             },
             status:{
                   type: Boolean,
-                  required: true,
+                  required: false,
             },
+            login:{
+                  type: Boolean,
+                  required: false,
+            }
       },
 
       {

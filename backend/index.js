@@ -17,7 +17,7 @@ app.use(cors())
 app.use(express.json())
 
 app.use("/admin",adminR)
-app.use("/client",userR)
+app.use("/user",userR)
 
 // database/mongo
 export const Connection = async() => {

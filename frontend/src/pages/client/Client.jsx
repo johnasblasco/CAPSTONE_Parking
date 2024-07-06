@@ -3,43 +3,67 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const Client = () => {
+
       const navigate = useNavigate();
       const [username, setUsername] = useState('');
       const [password, setPassword] = useState('');
       const [isLogin, setIsLogin] = useState(false);
       const [error, setError] = useState(null);
 
-      const handleLogin = () => {
-            axios.get("http://localhost:8000/client")
-                  .then(response => {
-                        response.data.forEach(user => {
-                              if (user.username === username && user.password === password) {
-                                    setIsLogin(true);
-                                    console.log("ok na")
-                                    navigate('/client/home', { replace: true });
-                              }
-                        })
+      const handleLogin = async () => {
+            try {
+                  const response = await axios.get("http://localhost:8000/user");
+                  const user = response.data.find((user) => user.username === username && user.password === password);
+                  if (!user) {
+                        setError("Credentials do not match");
+                        return;
+                  }
 
-                        if (!isLogin) setError("credentials not match")
-                  })
-                  .catch(err => {
-                        console.log(err)
-                  })
-      }
+                  setIsLogin(true);
+                  console.log("Login successful");
+                  navigate('/user/home', { replace: true });
+
+                  // Make a log of the data
+                  const now = new Date();
+                  const logData = {
+                        name: user.name,
+                        timeIn: now,
+                        timeOut: null
+                  };
+                  await axios.post("http://localhost:8000/admin/loginHistory", logData);
+
+                  // Proceed to update the data on the server
+                  await axios.put(`http://localhost:8000/user/${user._id}`, { ...user, login: true });
+                  console.log('Data updated successfully:');
+            } catch (err) {
+                  console.error('Error:', err);
+                  setError("Login failed");
+            }
+      };
 
       return (
-            <div className="bg-cover h-screen opacity-80" style={{ backgroundImage: 'url(bg.jpg)' }}>
-                  <div className="flex items-center justify-center h-screen">
-                        <div className="flex flex-col justify-center items-center gap-2 max-w-sm my-8 px-14 pt-14 pb-8 bg-gray-100 rounded-xl shadow-md overflow-x-hidden">
-                              <img src="car.png" className="h-[200px] w-[200px] object-cover" />
-                              <p className="text-center">Log in</p>
+            <div className="bg-cover bg-no-repeat h-screen object-center " style={{ backgroundImage: 'url(bg.jpeg)', objectPosition: 'bottom 10px right 20px' }}>
 
-                              <div className="flex flex-col">
+                  <div className="flex items-center justify-center h-screen">
+
+                        {/* background na mejo itim para pang takip sa masakit na damdamin*/}
+                        <div className="absolute top-0 bottom-0 right-0 left-0 bg-gray opacity-20 "></div>
+
+
+                        <div className="flex flex-col justify-between items-center gap-2 max-w-sm p-12 pb-8 bg-gray-200 rounded-xl shadow-md overflow-hidden z-10"
+                              style={{ height: '85vh' }}
+                        >
+                              <div>
+                                    <img src="logo.png" className="pt-4 object-cover opacity-1" />
+                                    <p className="text-center">Log in</p>
+                              </div>
+
+                              <div className="flex flex-col ">
                                     <label htmlFor="username">Username:</label>
                                     <input
                                           type="text"
                                           id="username"
-                                          className="border-2 bg-gray-200 px-4 py-2 w-full rounded-xl"
+                                          className="border-2 bg-gray-300 px-4 py-2 w-full rounded-xl"
                                           value={username}
                                           onChange={e => setUsername(e.target.value)}
                                     />
@@ -48,21 +72,19 @@ const Client = () => {
                                     <input
                                           type="password"
                                           id="password"
-                                          className="border-2 bg-gray-200 px-4 py-2 w-full rounded-xl"
+                                          className="border-2 bg-gray-300 px-4 py-2 w-full rounded-xl"
                                           value={password}
                                           onChange={e => setPassword(e.target.value)}
                                     />
+
+
+                                    <button
+                                          className="self-center bg-blue-900 py-3 px-12 mt-4 w-fit  text-white rounded-xl hover:bg-blue-950"
+                                          onClick={handleLogin}
+                                    >
+                                          LOGIN
+                                    </button>
                               </div>
-
-                              {error && <p className="text-red-500">{error}</p>}
-
-                              <button
-                                    className="bg-sky-950 py-3 px-12 mt-4  text-white rounded-xl hover:bg-sky-700"
-                                    onClick={handleLogin}
-                              >
-                                    LOGIN
-                              </button>
-
                         </div>
                   </div>
             </div>
