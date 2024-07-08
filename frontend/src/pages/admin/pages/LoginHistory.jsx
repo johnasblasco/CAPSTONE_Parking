@@ -5,7 +5,6 @@ const LoginHistory = (props) => {
 
       return (
 
-
             <div className='absolute left-[200px] top-[100px] lg:overflow-x-hidden max-sm:hidden'>
                   <div className="mx-4 bg-[#D9D9D9] min-h-screen rounded-3xl" style={{ width: 'calc(100vw - 250px)' }}>
                         <div className="title flex justify-center">
@@ -54,7 +53,6 @@ const LoginHistory = (props) => {
 
                   </div>
             </div >
-
       )
 }
 

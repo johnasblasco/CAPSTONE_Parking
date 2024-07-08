@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Client = () => {
 
@@ -13,12 +14,11 @@ const Client = () => {
       const handleLogin = async () => {
             try {
                   const response = await axios.get("http://localhost:8000/user");
-                  const user = response.data.find((user) => user.username === username && user.password === password);
+                  const user = response.data.find((user) => user.username === username && user.password === password && user.status === true);
                   if (!user) {
-                        setError("Credentials do not match");
-                        return;
+                        toast.error('Credentials do not match!');
+                        return
                   }
-
                   setIsLogin(true);
                   console.log("Login successful");
                   navigate('/user/home', { replace: true });
@@ -35,6 +35,9 @@ const Client = () => {
                   // Proceed to update the data on the server
                   await axios.put(`http://localhost:8000/user/${user._id}`, { ...user, login: true });
                   console.log('Data updated successfully:');
+
+
+
             } catch (err) {
                   console.error('Error:', err);
                   setError("Login failed");
@@ -87,6 +90,9 @@ const Client = () => {
                               </div>
                         </div>
                   </div>
+
+                  {/* toaster */}
+                  <Toaster />
             </div>
       );
 };

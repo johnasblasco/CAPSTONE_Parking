@@ -7,6 +7,12 @@ import ManageAccount from "./pages/ManageAccount"
 import axios from "axios"
 import { Routes, Route } from 'react-router-dom'
 const Home = () => {
+      const [logOut, setLogOut] = useState(false)
+
+      const handleLogOut = () => {
+            setLogOut(!logOut);
+      }
+
       const [employee, setEmployee] = useState([])
       useEffect(() => {
             axios.get("http://localhost:8000/admin/loginHistory")
@@ -25,18 +31,15 @@ const Home = () => {
             <div className="min-h-screen">
 
 
-                  <Header />
-                  <Navbar />
+
+
                   <Routes>
                         <Route path="/login-history" element={<LoginHistory employee={employee} />} />
                         <Route path="/create-account" element={<CreateAccount />} />
                         <Route path="/manage-account" element={<ManageAccount />} />
                   </Routes>
-
-
-
-
-
+                  <Header />
+                  <Navbar handleLogOut={handleLogOut} logOut={logOut} />
 
             </div>
 
