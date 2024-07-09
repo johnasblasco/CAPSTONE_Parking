@@ -29,7 +29,7 @@ const Navbar = (props) => {
                   {/* POPUP */}
                   {
                         logOut && <div className='fixed bg-black/20 h-full w-full z-100 flex justify-center items-center'>
-                              <div className='bg-[#D9D9D9] py-10 lg:w-[30vw] rounded-3xl flex flex-col justify-between h-[50vh]'>
+                              <div className='bg-[#D9D9D9] py-10 max-md:w-[50vw] w-[30vw] max-sm:hidden rounded-3xl flex flex-col justify-between h-[50vh]'>
                                     <h2 className='text-center text-5xl font-extrabold'>Log Out</h2>
                                     <p className='text-center'>are you sure you want to log out?</p>
                                     <div className='flex justify-evenly'>

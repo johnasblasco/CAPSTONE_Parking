@@ -9,7 +9,6 @@ import About from './pages/About';
 
 const Home = () => {
 
-
       return (
             <div className='min-h-screen'>
 
@@ -19,9 +18,11 @@ const Home = () => {
                         <Route path='/reports' element={<Reports />} />
                         <Route path='/about' element={<About />} />
                   </Routes>
-
                   <Header />
                   <Navbar />
+
+
+
             </div>
       )
 }
