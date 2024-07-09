@@ -21,7 +21,7 @@ const Client = () => {
                   }
                   setIsLogin(true);
                   console.log("Login successful");
-                  navigate('/user/home', { replace: true });
+                  navigate('/user/dashboard', { replace: true });
 
                   // Make a log of the data
                   const now = new Date();

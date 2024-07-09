@@ -31,15 +31,16 @@ const Navbar = () => {
                   <ul className=' absolute top-0 bottom-0 left-0'>
                         <div className="fixed h-full lg:w-[200px] max-[500px]:hidden rounded-3xl py-8 px-4 m-auto flex gap-4 flex-col justify-between bg-[#D9D9D9]">
                               <div className='flex gap-4 flex-col'>
-                                    <li>Login History</li>
-                                    <li>Create Account</li>
-                                    <li>Manage Accounts</li>
+                                    <Link to="/user/dashboard" className='focus:bg-[#C6C8CD] rounded-xl w-fit py-2 px-4'>Dashboard</Link>
+                                    <Link to="/user/manage-vehicles" className='focus:bg-[#C6C8CD] rounded-xl w-fit py-2 px-4'>Manage Vehicles</Link>
+                                    <Link to="/user/reports" className='focus:bg-[#C6C8CD] rounded-xl w-fit py-2 px-4'>Reports</Link>
+                                    <Link to="/user/about" className='focus:bg-[#C6C8CD] rounded-xl w-fit py-2 px-4'>About</Link>
                               </div>
 
-                              <button className=' mb-24 mx-auto bg-red-700 hover:bg-red-800 text-white w-fit flex items-center rounded-2xl p-2'>
+                              <Link to="/" onClick={handleLogout} className=' mb-24 mx-auto bg-red-700 hover:bg-red-800 text-white w-fit flex items-center rounded-2xl p-2'>
                                     <IoMdLogOut className='text-1xl' />
-                                    <Link onClick={handleLogout} to="/"><p className='text-xs font-bold'>logout</p></Link>
-                              </button>
+                                    <p className='text-xs font-bold'>logout</p>
+                              </Link>
                         </div>
                   </ul>
             </nav >
