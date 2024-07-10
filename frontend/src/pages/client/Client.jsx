@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
@@ -11,9 +11,22 @@ const Client = () => {
       const [isLogin, setIsLogin] = useState(false);
       const [error, setError] = useState(null);
 
+      //solution if may hindi nakapag log out
+      axios.get("http://localhost:8000/user")
+            .then((user) => {
+                  const isLogin = user.data.find((user) => user.login)
+                  if (isLogin) navigate('/user/dashboard', { replace: true });
+                  console.log("meron")
+            })
+            .catch(err => console.log(err))
+      console.log("wala")
+
+
       const handleLogin = async () => {
             try {
                   const response = await axios.get("http://localhost:8000/user");
+
+                  // main logic here
                   const user = response.data.find((user) => user.username === username && user.password === password && user.status === true);
                   if (!user) {
                         toast.error('Credentials do not match!');
