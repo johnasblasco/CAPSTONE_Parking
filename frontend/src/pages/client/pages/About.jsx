@@ -9,7 +9,34 @@ const About = () => {
                         </div>
 
                         {/* CONTENT */}
+                        <div className="bg-[#D6D0C4] mx-8 rounded-3xl min-h-screen h-auto flex flex-col p-8 gap-6 items-center">
+                              <p className=' bg-[#94AB95] py-1 px-4 text-lg rounded-3xl '>About this Project</p>
 
+                              <div className='bg-[#CCC0B2] rounded-lg p-6'>
+                                    <p className='text-justify'>Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                                          Dolorum saepe provident, quos porro voluptatibus dolores
+                                          praesentium officia recusandae? Quia porro dolorum incidunt
+                                          <br /><br />
+                                          voluptate vitae obcaecati. Deleniti blanditiis cupiditate
+                                          voluptates asperiores!
+                                          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                          <br /><br />
+                                          Excepturi harum, maxime sint cum exercitationem veritatis quidem architecto,
+                                          odit magni laudantium ex neque quaerat quas impedit pariatur aut dignissimos,
+                                          beatae placeat!
+                                    </p>
+                              </div>
+
+                              <div className='lg:max-w-[300px] bg-[#BBAFD4] p-4 rounded-3xl text-center'>
+                                    <p>
+                                          Created By: Group 4, 3F-G1 of <br /> College of Information Technology <br /> Bulacan state University <br /> All rights Reserved.
+                                    </p>
+                              </div>
+
+
+
+
+                        </div>
 
                   </div>
             </div >

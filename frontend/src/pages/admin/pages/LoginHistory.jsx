@@ -13,7 +13,7 @@ const LoginHistory = (props) => {
 
                         {/* CONTENT */}
 
-                        <div className="bg-[#D6D0C4] mx-8 rounded-3xl h-auto ">
+                        <div className="bg-[#D6D0C4] mx-8 rounded-3xl min-h-screen h-auto ">
 
                               <div className="flex justify-center">
                                     <span className='bg-[#94AB95] px-4 py-1 m-4 rounded-2xl '>List</span>
