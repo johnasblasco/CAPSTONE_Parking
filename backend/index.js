@@ -11,8 +11,8 @@ import mongoose from 'mongoose'
 import userR from './routes/userR.js'
 import adminR from './routes/adminR.js'
 
-
 const app = express()
+
 app.use(cors())
 app.use(express.json())
 

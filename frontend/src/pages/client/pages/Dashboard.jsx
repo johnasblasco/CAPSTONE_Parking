@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import Clock from '../components/Clock';
 import { FaCarSide } from "react-icons/fa6";
 
 // in
@@ -11,6 +12,7 @@ import { FaMinus } from "react-icons/fa6";
 
 
 const Dashboard = () => {
+
       return (
 
             <div className='absolute left-[200px] top-[100px] lg:overflow-x-hidden max-sm:hidden'>
@@ -21,7 +23,7 @@ const Dashboard = () => {
                         <div className='py-12 px-4 grid grid-cols-2 gap-10'>
                               <div className="left flex flex-col gap-4">
                                     <div className='bg-[#C6C8CD] p-8 rounded-2xl w-full'>
-                                          TIME AND DATE
+                                          <Clock />
                                     </div>
 
                                     <div className='min-h-[50vh] overflow-y-auto overflow-x-hidden flex flex-col items-center bg-[#D2BAA5] rounded-2xl '>
