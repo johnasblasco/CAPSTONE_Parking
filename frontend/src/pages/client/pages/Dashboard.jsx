@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Clock from '../components/Clock';
 import { FaCarSide } from "react-icons/fa6";
+import moment from 'moment';
 
 // in
 import { FaArrowRightToBracket } from "react-icons/fa6";
@@ -11,7 +12,8 @@ import { FaArrowRightFromBracket } from "react-icons/fa6";
 import { FaMinus } from "react-icons/fa6";
 
 
-const Dashboard = () => {
+const Dashboard = ({ vehicles }) => {
+
 
       return (
 
@@ -32,16 +34,23 @@ const Dashboard = () => {
                                                 <thead>
                                                       <tr className='text-center'>
                                                             <th>Ticket No.</th>
-                                                            <th>Type</th>
+                                                            <th className='border-l border-r border-black'>Type</th>
                                                             <th>Total Time</th>
                                                       </tr>
                                                 </thead>
                                                 <tbody>
-                                                      <tr className='text-center'>
-                                                            <td>000001</td>
-                                                            <td>2 wheels</td>
-                                                            <td>3.5 hours</td>
-                                                      </tr>
+                                                      {
+                                                            vehicles.map((vehicle, index) => {
+                                                                  return (
+                                                                        <tr key={index} className='text-center'>
+                                                                              <td>{vehicle.ticketNumber}</td>
+                                                                              <td className='border-l border-r border-black'>{vehicle.category}</td>
+                                                                              <td>{moment(vehicle.startDate).format('h')} hours</td>
+                                                                        </tr>
+                                                                  )
+                                                            })
+                                                      }
+
 
                                                 </tbody>
                                           </table>
@@ -71,8 +80,33 @@ const Dashboard = () => {
                                           </button>
                                     </div>
 
-                                    <div className='min-h-[32vh] rounded-3xl bg-[#C6C8CD] p-4'>
-                                          <span className='px-4 py-1 bg-[#B0ADBC] rounded-lg '>Slots</span>
+                                    <div className='relative min-h-[44vh] rounded-3xl bg-[#C6C8CD] p-4'>
+                                          <span className='absolute  px-4 py-1 bg-[#B0ADBC] rounded-lg z-10'>Slots</span>
+
+                                          {/* content */}
+                                          <div className='flex justify-between text-center p-4 items-center mt-4'>
+                                                <div>
+                                                      <h2 className='text-[#B94242] text-8xl'>{vehicles.length}</h2>
+                                                      <p>Occupied</p>
+                                                </div>
+
+                                                <div>
+                                                      <h2 className='text-8xl text-[#307629]'>101</h2>
+                                                      <p>Available Slots</p>
+                                                </div>
+
+                                                <div className='bg-[#AFB6C6] rounded-2xl p-8 flex flex-col gap-1'>
+                                                      <p>3/4-Wheeler</p>
+                                                      <p className='text-[#9F5D2D] text-3xl font-light'>
+                                                            {
+                                                                  vehicles.filter(vehicle => vehicle.category === "3 wheels" || vehicle.category === "4 wheels").length
+                                                            }
+                                                      </p>
+                                                      <p>2-Wheeler</p>
+                                                      <p className='text-[#9F5D2D] text-3xl font-light'>{"53"}</p>
+                                                </div>
+                                          </div>
+
                                     </div>
                               </div>
                         </div>

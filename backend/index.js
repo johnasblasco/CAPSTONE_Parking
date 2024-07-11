@@ -10,7 +10,7 @@ import mongoose from 'mongoose'
 //import components
 import userR from './routes/userR.js'
 import adminR from './routes/adminR.js'
-
+import vehicleR from './routes/vehicleR.js'
 const app = express()
 
 app.use(cors())
@@ -18,6 +18,8 @@ app.use(express.json())
 
 app.use("/admin",adminR)
 app.use("/user",userR)
+app.use("/vehicle",vehicleR)
+
 
 // database/mongo
 export const Connection = async() => {
