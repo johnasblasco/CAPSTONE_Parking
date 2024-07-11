@@ -14,7 +14,6 @@ import { FaMinus } from "react-icons/fa6";
 
 const Dashboard = ({ vehicles }) => {
 
-
       return (
 
             <div className='absolute left-[200px] top-[100px] lg:overflow-x-hidden max-sm:hidden'>
@@ -45,7 +44,9 @@ const Dashboard = ({ vehicles }) => {
                                                                         <tr key={index} className='text-center'>
                                                                               <td>{vehicle.ticketNumber}</td>
                                                                               <td className='border-l border-r border-black'>{vehicle.category}</td>
-                                                                              <td>{moment(vehicle.startDate).format('h')} hours</td>
+                                                                              <td>{
+
+                                                                              }0.1 hours</td>
                                                                         </tr>
                                                                   )
                                                             })
@@ -81,7 +82,7 @@ const Dashboard = ({ vehicles }) => {
                                     </div>
 
                                     <div className='relative min-h-[44vh] rounded-3xl bg-[#C6C8CD] p-4'>
-                                          <span className='absolute  px-4 py-1 bg-[#B0ADBC] rounded-lg z-10'>Slots</span>
+                                          <span className='absolute px-4 py-1 bg-[#B0ADBC] rounded-lg'>Slots</span>
 
                                           {/* content */}
                                           <div className='flex justify-between text-center p-4 items-center mt-4'>
@@ -101,9 +102,13 @@ const Dashboard = ({ vehicles }) => {
                                                             {
                                                                   vehicles.filter(vehicle => vehicle.category === "3 wheels" || vehicle.category === "4 wheels").length
                                                             }
+                                                            /48
                                                       </p>
                                                       <p>2-Wheeler</p>
-                                                      <p className='text-[#9F5D2D] text-3xl font-light'>{"53"}</p>
+                                                      <p className='text-[#9F5D2D] text-3xl font-light'>{
+                                                            vehicles.filter(vehicle => vehicle.category === "2 wheels").length
+                                                      }
+                                                            /53</p>
                                                 </div>
                                           </div>
 

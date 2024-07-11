@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 
 const Clock = () => {
-      const [currentTime, setCurrentTime] = useState(moment().format('h:mm:ss a'));
+      const [currentTime, setCurrentTime] = useState(moment().format('h:mm:ss'));
       const [currentDate, setCurrentDate] = useState(moment().format('dddd, MMMM DD, YYYY'));
 
       useEffect(() => {
