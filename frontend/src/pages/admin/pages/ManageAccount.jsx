@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { IoCloseOutline } from "react-icons/io5";
 import axios from 'axios'
 import etits, { Toaster } from 'react-hot-toast';
-
+import Navbar from '../components/Navbar';
+import Header from '../components/Header';
 
 const ManageAccount = () => {
 
@@ -94,6 +95,8 @@ const ManageAccount = () => {
 
       return (
             <>
+                  <Header />
+
                   <div className='absolute left-[200px] top-[100px] overflow-x-hidden max-sm:hidden'>
                         <div className="ml-4 bg-[#D9D9D9] min-h-screen rounded-3xl" style={{ width: 'calc(100vw - 250px)' }}>
                               <div className="title flex justify-center">
@@ -177,7 +180,7 @@ const ManageAccount = () => {
                   {
                         editShow &&
                         // background
-                        <div className='bg-black/40 fixed w-screen h-screen flex items-center justify-center'>
+                        <div className='bg-black/40 fixed z-50 w-screen h-screen z-100 flex items-center justify-center'>
 
                               <div className='bg-[#D9D9D9] w-[60vw] absolute left-[25vw] top-[20%] rounded-3xl '>
 
@@ -211,7 +214,8 @@ const ManageAccount = () => {
                               </div>
                         </div>
                   }
-
+                  {/* NAV */}
+                  <Navbar />
             </>
 
       )

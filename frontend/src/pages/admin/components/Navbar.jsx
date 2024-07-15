@@ -2,9 +2,14 @@ import React, { useState } from 'react'
 import { IoMdLogOut } from "react-icons/io";
 import { Link } from 'react-router-dom'
 
-const Navbar = (props) => {
+const Navbar = () => {
 
-      const { handleLogOut, logOut } = props
+      const [logOut, setLogOut] = useState(false)
+
+      const handleLogOut = () => {
+            console.log(logOut)
+            setLogOut(!logOut);
+      }
 
 
       return (

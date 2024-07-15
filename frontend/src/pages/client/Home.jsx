@@ -25,14 +25,15 @@ const Home = () => {
       return (
             <div className='min-h-screen'>
 
+
                   <Routes>
                         <Route path='/dashboard' element={<Dashboard vehicles={vehicles} />} />
                         <Route path='/manage-vehicles' element={<ManageVehicles />} />
                         <Route path='/reports' element={<Reports />} />
                         <Route path='/about' element={<About />} />
                   </Routes>
-                  <Header />
-                  <Navbar />
+
+
 
 
 

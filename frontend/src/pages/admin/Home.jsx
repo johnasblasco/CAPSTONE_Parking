@@ -7,11 +7,6 @@ import ManageAccount from "./pages/ManageAccount"
 import axios from "axios"
 import { Routes, Route } from 'react-router-dom'
 const Home = () => {
-      const [logOut, setLogOut] = useState(false)
-
-      const handleLogOut = () => {
-            setLogOut(!logOut);
-      }
 
       const [employee, setEmployee] = useState([])
       useEffect(() => {
@@ -38,8 +33,7 @@ const Home = () => {
                         <Route path="/create-account" element={<CreateAccount />} />
                         <Route path="/manage-account" element={<ManageAccount />} />
                   </Routes>
-                  <Header />
-                  <Navbar handleLogOut={handleLogOut} logOut={logOut} />
+
 
             </div>
 
