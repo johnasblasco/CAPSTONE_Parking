@@ -104,7 +104,7 @@ const Dashboard = ({ vehicles }) => {
                         showParkIn && <ParkIn setShowParkIn={setShowParkIn} />
                   }
                   {
-                        showParkOut && <ParkOut setShowParkOut={setShowParkOut} />
+                        showParkOut && <ParkOut setShowParkOut={setShowParkOut} vehicles={vehicles} />
                   }
 
                   <Navbar />
