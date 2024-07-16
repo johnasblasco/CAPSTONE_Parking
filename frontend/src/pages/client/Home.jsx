@@ -28,7 +28,7 @@ const Home = () => {
 
                   <Routes>
                         <Route path='/dashboard' element={<Dashboard vehicles={vehicles} />} />
-                        <Route path='/manage-vehicles' element={<ManageVehicles />} />
+                        <Route path='/manage-vehicles' element={<ManageVehicles vehicles={vehicles} />} />
                         <Route path='/reports' element={<Reports />} />
                         <Route path='/about' element={<About />} />
                   </Routes>

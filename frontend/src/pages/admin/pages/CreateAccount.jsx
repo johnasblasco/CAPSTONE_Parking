@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import tite, { Toaster } from 'react-hot-toast';
-import { myToast } from '../components/Toast';
+import Toast from '../components/Toast';
 import Navbar from '../components/Navbar';
 import Header from '../components/Header';
 
@@ -9,6 +9,7 @@ const CreateAccount = () => {
       const [name, setName] = useState("")
       const [username, setUsername] = useState("")
       const [password, setPassword] = useState("")
+
 
       const handleForm = async () => {
             try {
@@ -20,7 +21,7 @@ const CreateAccount = () => {
                         login: false,
                   }
                   await axios.post("http://localhost:8000/user", newUser)
-                  myToast();
+                  setShowToast(true)
 
                   // clear info
                   setName("")
@@ -34,7 +35,8 @@ const CreateAccount = () => {
 
       }
 
-      console.log(name)
+      const [showToast, setShowToast] = useState(false)
+
       return (
             <>
                   <Header />
@@ -79,6 +81,10 @@ const CreateAccount = () => {
                         {/* TOASTER */}
                         <Toaster />
                   </div >
+                  {/* CONDITIONAL RENDERING */}
+                  {
+                        showToast && <Toast setShowToast={setShowToast} />
+                  }
 
                   {/* NAV */}
                   <Navbar />

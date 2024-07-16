@@ -12,7 +12,7 @@ const About = () => {
                               </div>
 
                               {/* CONTENT */}
-                              <div className="bg-[#D6D0C4] mx-8 rounded-3xl min-h-screen h-auto flex flex-col p-8 gap-6 items-center">
+                              <div className="bg-[#D6D0C4] mx-8 rounded-3xl min-h-screen h-auto flex flex-col px-8 py-4 gap-6 items-center">
                                     <p className=' bg-[#94AB95] py-1 px-4 text-lg rounded-3xl '>About this Project</p>
 
                                     <div className='bg-[#CCC0B2] rounded-lg p-6'>

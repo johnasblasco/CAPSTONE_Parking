@@ -1,17 +1,11 @@
-import toast, { Toaster } from 'react-hot-toast';
 import { IoMdClose } from "react-icons/io";
 
 
-export const myToast = () => toast.custom((t) => (
-      <div className='fixed w-screen h-screen bg-black/40'>
-
-
-            <div
-                  className={`${t.visible ? 'animate-enter' : 'animate-leave'
-                        } relative lg:min-w-[40vw] md:max-w-[20vw] sm:max-w-[10vw]  bg-[#D9D9D9] top-10 left-[35vw] shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
-            >
-                  <div className='py-8 pl-8 pr-30'>
-                        <IoMdClose onClick={() => toast.dismiss(t.id)} className='text-3xl absolute top-2 right-2 cursor-pointer' />
+const Toast = ({ setShowToast }) => {
+      return (
+            <div className='fixed w-screen h-screen bg-black/40 flex justify-center z-50'>
+                  <div className='bg-white relative top-10 w-[600px] h-fit p-12 rounded-2xl'>
+                        <IoMdClose onClick={() => setShowToast(false)} className='text-4xl absolute top-2 right-2 cursor-pointer' />
 
                         <div>
                               <h3 className='text-2xl'>Account Added!</h3>
@@ -21,7 +15,10 @@ export const myToast = () => toast.custom((t) => (
                   </div>
 
             </div>
-      </div>
-))
+      )
+}
 
 
+
+
+export default Toast;
