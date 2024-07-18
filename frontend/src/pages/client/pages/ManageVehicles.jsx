@@ -13,7 +13,7 @@ const ManageVehicles = ({ vehicles }) => {
             const duration = moment.duration(endTime.diff(startTime));
 
             const hours = Math.floor(duration.asHours());
-            const minutes = duration.minutes();
+            const minutes = duration.minutes() > 9 ? duration.minutes() : "0" + duration.minutes()
             return { hours, minutes };
       };
 
@@ -80,7 +80,7 @@ const ManageVehicles = ({ vehicles }) => {
                                                                         <td>{vehicle.plateNumber}</td>
                                                                         <td>{vehicle.category}</td>
                                                                         <td className={`${overtime ? 'text-[#892121]' : ''}`}>
-                                                                              {`${hours}.${minutes} hrs`}
+                                                                              {`${hours}:${minutes} hours`}
                                                                         </td>
                                                                         <td><button className='bg-[#D94B2C] py-1 px-2 text-white rounded-lg'>Park out</button></td>
                                                                   </tr>

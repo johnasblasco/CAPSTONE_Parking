@@ -11,7 +11,7 @@ const CurrentlyParked = ({ vehicles }) => {
             const duration = moment.duration(endTime.diff(startTime));
 
             const hours = Math.floor(duration.asHours());
-            const minutes = duration.minutes();
+            const minutes = duration.minutes() > 9 ? duration.minutes() : "0" + duration.minutes()
             return { hours, minutes };
       };
 
@@ -57,7 +57,8 @@ const CurrentlyParked = ({ vehicles }) => {
                                                 <td>{vehicle.ticketNumber}</td>
                                                 <td className='border-l border-r border-black'>{vehicle.category}</td>
                                                 <td className={`${overtime ? 'text-[#892121]' : ''}`}>
-                                                      {`${hours}.${minutes} hrs`}
+                                                      {`${hours}:${minutes} hrs`}
+
                                                 </td>
                                           </tr>
                                     );

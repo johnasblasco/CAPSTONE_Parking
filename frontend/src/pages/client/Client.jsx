@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
 
 const Client = () => {
 
@@ -29,7 +28,7 @@ const Client = () => {
                   // main logic here
                   const user = response.data.find((user) => user.username === username && user.password === password && user.status === true);
                   if (!user) {
-                        toast.error('Credentials do not match!');
+
                         return
                   }
                   setIsLogin(true);
@@ -104,8 +103,7 @@ const Client = () => {
                         </div>
                   </div>
 
-                  {/* toaster */}
-                  <Toaster />
+
             </div>
       );
 };

@@ -14,6 +14,15 @@ const ManageAccount = () => {
 
       const [editShow, setEditShow] = useState(false);
 
+
+      // Cleanup function to clear all toasts when component unmounts
+      useEffect(() => {
+            return () => {
+                  etits.dismiss(); // Dismiss all toasts
+            };
+      }, []);
+
+
       const handleEditButton = (name, username, password) => {
             setEditName(name)
             setEditUsername(username)
@@ -174,7 +183,8 @@ const ManageAccount = () => {
                         </div>
                   </div >
                   {/* TOASTER */}
-                  <Toaster />
+                  <Toaster
+                  />
 
                   {/* POP UP */}
                   {

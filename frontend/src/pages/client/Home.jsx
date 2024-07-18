@@ -16,7 +16,8 @@ const Home = () => {
 
             axios.get("http://localhost:8000/vehicle")
                   .then((response) => {
-                        setVehicles(response.data)
+                        const vehicleTrue = response.data.filter(vehicle => vehicle.status == true)
+                        setVehicles(vehicleTrue)
                   })
                   .catch(err => console.log(err))
 

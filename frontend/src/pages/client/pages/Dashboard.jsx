@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Clock from '../components/Clock';
 import { FaCarSide } from "react-icons/fa6";
 import CurrentlyParked from '../components/CurrentlyParked';
-import { Toaster } from 'react-hot-toast';
+import Toast from '../components/Toast';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 
@@ -13,6 +13,7 @@ import { FaPlus } from "react-icons/fa6";
 
 // out
 import ParkOut from '../components/ParkOut'
+import ParkOutDetails from '../components/ParkOutDetails';
 import { FaArrowRightFromBracket } from "react-icons/fa6";
 import { FaMinus } from "react-icons/fa6";
 
@@ -20,7 +21,16 @@ import { FaMinus } from "react-icons/fa6";
 const Dashboard = ({ vehicles }) => {
       const [showParkIn, setShowParkIn] = useState(false)
       const [showParkOut, setShowParkOut] = useState(false)
+      const [showToast, setShowToast] = useState("")
 
+
+      // if meron na vehicle sa PARKOUT TO
+      const [showVehicleData, setShowVehicleData] = useState(false)
+
+      // kunin yung selected vehicle
+      const [selectedVehicle, setSelectedVehicle] = useState({})
+      // kunin yung ticket display sa parkin
+      const [displayTicket, setDisplayTicket] = useState(0);
 
       return (
             <>
@@ -101,13 +111,24 @@ const Dashboard = ({ vehicles }) => {
 
                   {/* CONDITIONAL RENDERING HERE */}
                   {
-                        showParkIn && <ParkIn setShowParkIn={setShowParkIn} />
+                        showParkIn && <ParkIn showToast={showToast} setShowParkIn={setShowParkIn} setShowToast={setShowToast} setDisplayTicket={setDisplayTicket} />
                   }
                   {
-                        showParkOut && <ParkOut setShowParkOut={setShowParkOut} vehicles={vehicles} />
+                        showParkOut && <ParkOut setShowParkOut={setShowParkOut} vehicles={vehicles} setShowVehicleData={setShowVehicleData} setSelectedVehicle={setSelectedVehicle} selectedVehicle={selectedVehicle} />
+                  }
+                  {
+                        showVehicleData && <ParkOutDetails setShowVehicleData={setShowVehicleData} selectedVehicle={selectedVehicle} setShowToast={setShowToast} />
                   }
 
+
                   <Navbar />
+
+                  {
+                        showToast == "out" && (<Toast setShowToast={setShowToast} title={"Vehicle removed!"} disc={"Vehicle has been removed to the database."} />)
+                  }
+                  {
+                        showToast == "in" && (<Toast showToast={showToast} setShowToast={setShowToast} displayTicket={displayTicket} title={"Vehicle Added!"} disc={"Vehicle has been added to the database."} />)
+                  }
             </>
 
       )

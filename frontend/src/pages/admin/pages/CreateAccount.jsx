@@ -1,6 +1,5 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import tite, { Toaster } from 'react-hot-toast';
 import Toast from '../components/Toast';
 import Navbar from '../components/Navbar';
 import Header from '../components/Header';
@@ -30,7 +29,7 @@ const CreateAccount = () => {
 
 
             } catch (error) {
-                  tite.error("Please fill all the information")
+                  console.log("Please fill all the information")
             }
 
       }
@@ -78,8 +77,6 @@ const CreateAccount = () => {
                               </div>
 
                         </div>
-                        {/* TOASTER */}
-                        <Toaster />
                   </div >
                   {/* CONDITIONAL RENDERING */}
                   {

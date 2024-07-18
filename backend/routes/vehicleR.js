@@ -56,4 +56,24 @@ router.get("/:id",(req, res)=>{
       });
 
 })
+
+router.put("/:id", async(req, res) => {
+      try {
+
+            const {id} = req.params;
+
+            const result = await VEHICLE.findByIdAndUpdate(id, req.body)
+
+            if(!result){
+                  return res.status(404).json({message: 'Vehicle not found'})
+            }
+
+            return res.status(200).send({message: 'Vehicle updated successfully'})
+
+      } catch (error) {
+            console.log("error sa update")
+            req.status(500).send({message: error.message})
+      }
+})
+
 export default router

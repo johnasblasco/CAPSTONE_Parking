@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
 
 const Admin = () => {
       const navigate = useNavigate();
@@ -21,7 +20,6 @@ const Admin = () => {
                               }
                         })
 
-                        if (!isLogin) toast.error("Credentials do not match!")
                   })
                   .catch(err => {
                         console.log(err)
@@ -72,8 +70,6 @@ const Admin = () => {
                               </div>
                         </div>
                   </div>
-                  {/* toast */}
-                  <Toaster />
             </div>
       );
 };
