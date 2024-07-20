@@ -1,64 +1,74 @@
 import { IoMdClose } from 'react-icons/io';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-const ParkIn = ({ setShowParkIn, setShowToast, setDisplayTicket }) => {
+const ParkIn = ({ setShowParkIn, setShowToast, setDisplayTicket, vehicles }) => {
       const [plateNo, setPlateNo] = useState("");
       const [selectedOption, setSelectedOption] = useState('');
 
       const handleOptionChange = (event) => {
             setSelectedOption(event.target.value);
       };
+      console.log(vehicles)
 
       const handleButton = async () => {
-            const now = new Date();
-            let randomNumber = Math.floor(Math.random() * 900000) + 100000;
+            // check muna if full 3/4 wheel is over 48 and 2 wheel is over 53
+            if (
+                  vehicles.filter((v) => v.category == "3 Wheels" || v.category == "4 Wheels").length < 48
+                  ||
+                  vehicles.filter((v) => v.category == "2 Wheels").length < 53
+            ) {
 
-            let vehicles;
-            try {
-                  // Fetch all vehicles from the server
-                  const response = await axios.get("http://localhost:8000/vehicle");
-                  vehicles = response.data;
-            } catch (error) {
-                  console.error("Error fetching vehicles:", error);
-                  return;
+
+
+
+
+                  const now = new Date();
+                  let randomNumber = Math.floor(Math.random() * 900000) + 100000;
+
+
+
+                  // Check if randomNumber is already in use
+                  let meronba = vehicles.filter((vehicle) => vehicle.ticketNumber === randomNumber);
+
+                  // pag hindi unique generate again
+                  while (meronba.length > 0) {
+                        randomNumber = Math.floor(Math.random() * 900000) + 100000;
+                        meronba = vehicles.filter((vehicle) => vehicle.ticketNumber === randomNumber);
+                  }
+
+                  try {
+                        const newVehicle = {
+                              ticketNumber: randomNumber,
+                              startDate: now,
+                              plateNumber: plateNo,
+                              category: selectedOption,
+                              endDate: null,
+                              status: true
+                        };
+
+                        // Post the new vehicle to the server
+                        await axios.post("http://localhost:8000/vehicle", newVehicle);
+
+                        //set display ticket
+                        setDisplayTicket(randomNumber)
+
+                        // Reset plateNo
+                        setPlateNo("");
+
+
+                        setShowParkIn(false)
+                        setShowToast("in")
+
+
+                  } catch (error) {
+                        console.error("Error posting new vehicle:", error);
+                  }
+            }
+            // KAPAG PUNO NA ANO GAGAWEN?
+            else {
+                  console.log("Puno NA BOSS THAGINA MO")
             }
 
-            // Check if randomNumber is already in use
-            let meronba = vehicles.filter((vehicle) => vehicle.ticketNumber === randomNumber);
-
-            // Ensure randomNumber is unique
-            while (meronba.length > 0) {
-                  randomNumber = Math.floor(Math.random() * 900000) + 100000;
-                  meronba = vehicles.filter((vehicle) => vehicle.ticketNumber === randomNumber);
-            }
-
-            try {
-                  const newVehicle = {
-                        ticketNumber: randomNumber,
-                        startDate: now,
-                        plateNumber: plateNo,
-                        category: selectedOption,
-                        endDate: null,
-                        status: true
-                  };
-
-                  // Post the new vehicle to the server
-                  await axios.post("http://localhost:8000/vehicle", newVehicle);
-
-                  //set display ticket
-                  setDisplayTicket(randomNumber)
-
-                  // Reset plateNo
-                  setPlateNo("");
-
-
-                  setShowParkIn(false)
-                  setShowToast("in")
-
-
-            } catch (error) {
-                  console.error("Error posting new vehicle:", error);
-            }
       };
 
       return (

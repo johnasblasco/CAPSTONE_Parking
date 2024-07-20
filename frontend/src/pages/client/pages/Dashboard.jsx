@@ -49,7 +49,7 @@ const Dashboard = ({ vehicles }) => {
 
                                     </div>
 
-                                    <div className="right max-lg:hidden flex flex-col gap-4">
+                                    <div className="right max-[1150px]:hidden flex flex-col gap-4">
 
                                           <div className='flex gap-4 justify-evenly'>
                                                 <button onClick={() => setShowParkIn(!showParkIn)} className='bg-[#81B489] border-2 rounded-2xl border-[#44833A] hover:bg-[#6a9c71] p-10 flex flex-col items-center w-[17vw]'>
@@ -83,7 +83,7 @@ const Dashboard = ({ vehicles }) => {
                                                       </div>
 
                                                       <div>
-                                                            <h2 className='text-8xl text-[#307629]'>101</h2>
+                                                            <h2 className='text-8xl text-[#307629]'>{101 - vehicles.length}</h2>
                                                             <p>Available Slots</p>
                                                       </div>
 
@@ -111,7 +111,7 @@ const Dashboard = ({ vehicles }) => {
 
                   {/* CONDITIONAL RENDERING HERE */}
                   {
-                        showParkIn && <ParkIn showToast={showToast} setShowParkIn={setShowParkIn} setShowToast={setShowToast} setDisplayTicket={setDisplayTicket} />
+                        showParkIn && <ParkIn vehicles={vehicles} showToast={showToast} setShowParkIn={setShowParkIn} setShowToast={setShowToast} setDisplayTicket={setDisplayTicket} />
                   }
                   {
                         showParkOut && <ParkOut setShowParkOut={setShowParkOut} vehicles={vehicles} setShowVehicleData={setShowVehicleData} setSelectedVehicle={setSelectedVehicle} selectedVehicle={selectedVehicle} />
