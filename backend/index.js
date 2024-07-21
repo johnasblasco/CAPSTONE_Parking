@@ -11,6 +11,8 @@ import mongoose from 'mongoose'
 import userR from './routes/userR.js'
 import adminR from './routes/adminR.js'
 import vehicleR from './routes/vehicleR.js'
+import earningsR from './routes/earningsR.js'
+
 const app = express()
 
 app.use(cors())
@@ -19,6 +21,7 @@ app.use(express.json())
 app.use("/admin",adminR)
 app.use("/user",userR)
 app.use("/vehicle",vehicleR)
+app.use("/earnings",earningsR )
 
 
 // database/mongo

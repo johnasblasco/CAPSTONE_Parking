@@ -54,17 +54,17 @@ const CreateAccount = () => {
                                     <div className='mt-16 mx-32 pb-10 flex flex-col gap-6 overflow-y-auto'>
                                           <div className='flex items-center gap-16'>
                                                 <label htmlFor="name">Full Name</label>
-                                                <input id='name' className='py-4 px-8 rounded-xl flex-1 bg-[#C4B9A9] placeholder-gray-800' value={name} placeholder='Please input your name here' type="text" onChange={e => setName(e.target.value)} />
+                                                <input id='name' className='py-4 px-8 rounded-xl flex-1 bg-[#C4B9A9] placeholder-black/50' value={name} placeholder='Please input your name here' type="text" onChange={e => setName(e.target.value)} />
                                           </div>
 
                                           <div className='flex items-center gap-6'>
                                                 <label htmlFor="username">New Username</label>
-                                                <input id="username" className='py-4 px-8 rounded-xl flex-1 bg-[#C4B9A9] placeholder-gray-800' value={username} placeholder='Please input your desired username here' type="text" onChange={e => setUsername(e.target.value)} />
+                                                <input id="username" className='py-4 px-8 rounded-xl flex-1 bg-[#C4B9A9] placeholder-black/50 ' value={username} placeholder='Please input your desired username here' type="text" onChange={e => setUsername(e.target.value)} />
                                           </div>
 
                                           <div className='flex items-center gap-8'>
                                                 <label htmlFor="password">New Password</label>
-                                                <input id="password" className='py-4 px-8 rounded-xl flex-1 bg-[#C4B9A9] placeholder-gray-800' value={password} placeholder='Please input your desired password here' type="password" onChange={e => setPassword(e.target.value)} />
+                                                <input id="password" className='py-4 px-8 rounded-xl flex-1 bg-[#C4B9A9] placeholder-black/50 ' value={password} placeholder='Please input your desired password here' type="password" onChange={e => setPassword(e.target.value)} />
                                           </div>
 
                                           <div className='flex justify-center'>

@@ -11,11 +11,14 @@ import axios from 'axios';
 
 const Home = () => {
       const [vehicles, setVehicles] = useState([])
-
+      const [allVehicles, setAllVehicles] = useState([])
       useEffect(() => {
 
             axios.get("http://localhost:8000/vehicle")
                   .then((response) => {
+                        const allVehicle = response.data
+                        setAllVehicles(allVehicle)
+
                         const vehicleTrue = response.data.filter(vehicle => vehicle.status == true)
                         setVehicles(vehicleTrue)
                   })
@@ -30,7 +33,7 @@ const Home = () => {
                   <Routes>
                         <Route path='/dashboard' element={<Dashboard vehicles={vehicles} />} />
                         <Route path='/manage-vehicles' element={<ManageVehicles vehicles={vehicles} />} />
-                        <Route path='/reports' element={<Reports />} />
+                        <Route path='/reports' element={<Reports allVehicles={allVehicles} />} />
                         <Route path='/about' element={<About />} />
                   </Routes>
 

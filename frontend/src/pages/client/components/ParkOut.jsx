@@ -44,7 +44,7 @@ const ParkOut = ({ setShowParkOut, vehicles, setShowVehicleData, selectedVehicle
 
                               <div className='flex justify-center items-center gap-4 w-full '>
                                     <label htmlFor="ticket" className='text-nowrap'>Search by Ticket No.</label>
-                                    <input type="number" className='bg-[#D1CBC2] py-3 px-8 rounded-xl w-[100%] outline-[#6181D3]' placeholder='Please input Ticket No.' onChange={(e) => setInputTicket(e.target.value)} />
+                                    <input type="number" className='bg-[#D1CBC2] py-3 px-8 rounded-xl w-[100%] placeholder-black/50  outline-[#6181D3]' placeholder='Please input Ticket No.' onChange={(e) => setInputTicket(e.target.value)} />
                               </div>
 
                               {/* conditional rendering here */}

@@ -84,7 +84,7 @@ const ParkIn = ({ setShowParkIn, setShowToast, setDisplayTicket, vehicles }) => 
                                     <div className='flex gap-12'>
                                           <label htmlFor="2" className='text-lg flex item-center gap-1'>
                                                 <input
-                                                      className=' m-1 h-6 w-6 '
+                                                      className=' m-1 h-6 w-6 placeholder-black/50 '
                                                       type="radio"
                                                       id="2"
                                                       name="parkingOption"
@@ -124,7 +124,7 @@ const ParkIn = ({ setShowParkIn, setShowToast, setDisplayTicket, vehicles }) => 
 
                                     <div className='flex  gap-8 items-center '>
                                           <label htmlFor="plateNo">Plate No. </label>
-                                          <input required type="text" className='rounded-xl py-3 px-8 bg-[#D1CBC2] outline-[#53AC5C] text-lg' placeholder='ILY-143' onChange={(e) => setPlateNo(e.target.value)} />
+                                          <input required type="text" className='rounded-xl placeholder-black/50  py-3 px-8 bg-[#D1CBC2] outline-[#53AC5C] text-lg' placeholder='ILY-143' onChange={(e) => setPlateNo(e.target.value)} />
                                     </div>
 
                                     <button onClick={handleButton} className='mt-auto px-16 py-3 mb-10 bg-[#53AC5C] hover:bg-[#408547] text-white font-bold text-3xl rounded-2xl '>

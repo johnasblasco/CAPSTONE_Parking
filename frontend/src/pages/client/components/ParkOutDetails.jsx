@@ -26,6 +26,7 @@ const ParkOutDetails = ({ setShowVehicleData, selectedVehicle, setShowToast }) =
             try {
                   axios.put(`http://localhost:8000/vehicle/${selectedVehicle._id}`, {
                         ...selectedVehicle,
+                        endDate: moment(),
                         status: false
                   })
 

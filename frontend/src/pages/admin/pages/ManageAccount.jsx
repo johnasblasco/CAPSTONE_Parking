@@ -202,17 +202,17 @@ const ManageAccount = () => {
 
                                           <div className='flex items-center gap-16'>
                                                 <label htmlFor="">Full Name</label>
-                                                <input className='py-4 px-8 rounded-xl flex-1 bg-[#C4B9A9] placeholder-gray-800' placeholder={editName} value={newName} onChange={e => setNewName(e.target.value)} type="text" />
+                                                <input className='py-4 px-8 rounded-xl flex-1 bg-[#C4B9A9] placeholder-black/50 ' placeholder={editName} value={newName} onChange={e => setNewName(e.target.value)} type="text" />
                                           </div>
 
                                           <div className='flex items-center gap-6'>
                                                 <label htmlFor="">New Username</label>
-                                                <input className='py-4 px-8 rounded-xl flex-1 bg-[#C4B9A9] placeholder-gray-800' placeholder={editUsername} value={newUsername} onChange={e => setNewUserName(e.target.value)} type="text" />
+                                                <input className='py-4 px-8 rounded-xl flex-1 bg-[#C4B9A9] placeholder-black/50 ' placeholder={editUsername} value={newUsername} onChange={e => setNewUserName(e.target.value)} type="text" />
                                           </div>
 
                                           <div className='flex items-center gap-8'>
                                                 <label htmlFor="">New Password</label>
-                                                <input className='py-4 px-8 rounded-xl flex-1 bg-[#C4B9A9] placeholder-gray-800' placeholder={editPassword} value={newPassword} onChange={e => setNewPassword(e.target.value)} type="password" />
+                                                <input className='py-4 px-8 rounded-xl flex-1 bg-[#C4B9A9] placeholder-black/50 ' placeholder={editPassword} value={newPassword} onChange={e => setNewPassword(e.target.value)} type="password" />
                                           </div>
 
                                           <div className='flex justify-center w-full' >
