@@ -4,16 +4,16 @@ import Navbar from '../components/Navbar';
 import { MdLocalPrintshop } from "react-icons/md";
 import axios from 'axios';
 import moment from 'moment';
+import { FaFilter } from "react-icons/fa";
+import { MdCheckBoxOutlineBlank } from "react-icons/md";
+import { MdCheckBox } from "react-icons/md";
+
 
 const Reports = ({ allVehicles }) => {
-      const [totalEarnings, setTotalEarnings] = useState(0)
 
-      axios.get("http://localhost:8000/earnings")
-            .then((response) => {
-                  setTotalEarnings(response.data[0].totalEarnings)
-                  console.log(totalEarnings)
-            })
-            .catch(err => console.log(err))
+      const [getVehicles, setVehicles] = useState(allVehicles)
+
+      const [totalEarnings, setTotalEarnings] = useState(0)
 
 
       // CURRENTLY PARKED
@@ -29,29 +29,81 @@ const Reports = ({ allVehicles }) => {
             const minutes = duration.minutes() > 9 ? duration.minutes() : "0" + duration.minutes()
             return { hours, minutes };
       };
-
-      // Update timers every minute
       useEffect(() => {
-            const intervalId = setInterval(() => {
-                  // Create new timers object with updated durations
-                  const updatedTimers = {};
-                  allVehicles.forEach((vehicle, index) => {
-                        const { hours, minutes } = formatTime(vehicle.startDate);
-                        updatedTimers[index] = { hours, minutes };
-                  });
-                  setTimers(updatedTimers);
-            }, 5000); // Update every minute (60000 milliseconds)
+            // Fetch total earnings
+            axios.get('http://localhost:8000/earnings')
+                  .then((response) => {
+                        setTotalEarnings(response.data[0].totalEarnings);
+                  })
+                  .catch(err => console.log(err));
+      }, []);
 
-            // Clear interval on component unmount
-            return () => clearInterval(intervalId);
-      }, [allVehicles]);
+      // radio button 
+      const [twoWheelsRadio, setTwoWheelsRadio] = useState(false)
+      const [threeWheelsRadio, setThreeWheelsRadio] = useState(false)
+      const [fourWheelsRadio, setFourWheelsRadio] = useState(false)
 
-      console.log(allVehicles)
+      const [IN, setIN] = useState(false)
+      const [OUT, setOUT] = useState(false)
 
+      const [search, setSearch] = useState(0);
+
+      // Handle radio button clicks
+      const handleIN = () => {
+            setIN(true)
+            setOUT(false)
+      }
+      const handleOUT = () => {
+            setIN(false)
+            setOUT(true)
+      }
+
+      const handleTwo = () => {
+            setTwoWheelsRadio(true);
+            setThreeWheelsRadio(false);
+            setFourWheelsRadio(false);
+      };
+
+      const handleThree = () => {
+            setTwoWheelsRadio(false);
+            setThreeWheelsRadio(true);
+            setFourWheelsRadio(false);
+      };
+
+      const handleFour = () => {
+            setTwoWheelsRadio(false);
+            setThreeWheelsRadio(false);
+            setFourWheelsRadio(true);
+      };
+
+      // Update table based on radio button selection
+      useEffect(() => {
+            let filteredVehicles = allVehicles;
+            if (twoWheelsRadio) {
+                  filteredVehicles = allVehicles.filter(vehicle => vehicle.category === '2 Wheels');
+            } else if (threeWheelsRadio) {
+                  filteredVehicles = allVehicles.filter(vehicle => vehicle.category === '3 Wheels');
+            } else if (fourWheelsRadio) {
+                  filteredVehicles = allVehicles.filter(vehicle => vehicle.category === '4 Wheels');
+            }
+
+
+            IN ? setVehicles(filteredVehicles.filter(vehicle => vehicle.status == true))
+                  : OUT ? setVehicles(filteredVehicles.filter(vehicle => vehicle.status == false))
+                        : setVehicles(filteredVehicles)
+
+
+      }, [twoWheelsRadio, threeWheelsRadio, fourWheelsRadio, allVehicles, IN, OUT]);
+
+      // search
+      const handleSearch = () => {
+            let filteredVehicles = allVehicles;
+            search > 0 ? setVehicles(filteredVehicles.filter(vehicle => vehicle.ticketNumber == search)) : ""
+      }
 
 
       return (
-
+            // sss
 
             <>
                   <Header />
@@ -118,8 +170,47 @@ const Reports = ({ allVehicles }) => {
                                     {/* flex between filter and table */}
                                     <div className='flex gap-4 w-full mt-8'>
                                           {/* filter */}
-                                          <div className='bg-[#C9B7B7] w-[25vw] rounded-xl h-fit'>
+                                          <div className='bg-[#C9B7B7] min-w-[15vw] flex flex-col justify-center rounded-xl h-fit gap-2 p-4'>
+                                                <div className='flex justify-center'>
+                                                      <FaFilter />
+                                                      <p>Filter</p>
+                                                </div>
+                                                <p className='text-center'>By Category</p>
 
+                                                <div className='flex flex-col gap-4 my-4'>
+
+                                                      <div className='flex justify-center items-center gap-3'>
+
+                                                            {twoWheelsRadio ? (<MdCheckBox onClick={() => setTwoWheelsRadio(!twoWheelsRadio)} className='text-2xl' />) : (<MdCheckBoxOutlineBlank onClick={handleTwo} className='text-2xl' />)}
+
+                                                            <label >2 wheeler</label>
+                                                      </div>
+
+                                                      <div className='flex justify-center items-center gap-3'>
+                                                            {threeWheelsRadio ? (<MdCheckBox onClick={() => setThreeWheelsRadio(!threeWheelsRadio)} className='text-2xl' />) : (<MdCheckBoxOutlineBlank onClick={handleThree} className='text-2xl' />)}
+                                                            <p>3 wheeler</p>
+                                                      </div>
+
+                                                      <div className='flex justify-center items-center gap-3'>
+                                                            {fourWheelsRadio ? (<MdCheckBox onClick={() => setFourWheelsRadio(!fourWheelsRadio)} className='text-2xl' />) : (<MdCheckBoxOutlineBlank onClick={handleFour} className='text-2xl' />)}
+                                                            <p>4 wheeler</p>
+                                                      </div>
+                                                </div>
+
+
+                                                <p className='text-center'>By Status</p>
+
+                                                <div className='flex flex-col gap-4 my-4 mx-8 justify-center items-center'>
+                                                      <div className='flex items-center gap-3 '>
+                                                            {IN ? <MdCheckBox onClick={() => setIN(!IN)} className='text-2xl' /> : <MdCheckBoxOutlineBlank onClick={handleIN} className='text-2xl' />}
+                                                            <p>In</p>
+                                                      </div>
+
+                                                      <div className='flex items-center gap-3'>
+                                                            {OUT ? <MdCheckBox onClick={() => setOUT(!OUT)} className='text-2xl ml-3' /> : <MdCheckBoxOutlineBlank onClick={handleOUT} className='text-2xl ml-3' />}
+                                                            <p>Out</p>
+                                                      </div>
+                                                </div>
                                           </div>
 
                                           {/* table */}
@@ -127,8 +218,8 @@ const Reports = ({ allVehicles }) => {
                                                 {/* header only */}
                                                 <div className='flex items-center justify-center gap-4'>
                                                       <p>Search by ticket No.</p>
-                                                      <input className="bg-[#C4B9A9] rounded-2xl py-1 px-6 outline-none placeholder-black/50" type="text" placeholder='Please input Ticket No.' />
-                                                      <button className='bg-[#6181D3] text-white py-1 px-2 rounded-xl'>Search</button>
+                                                      <input onChange={e => setSearch(e.target.value)} className="bg-[#C4B9A9] rounded-2xl py-1 px-6 outline-none placeholder-black/50" type="text" placeholder='Please input Ticket No.' />
+                                                      <button onClick={handleSearch} className='bg-[#6181D3] text-white py-1 px-2 rounded-xl'>Search</button>
                                                 </div>
 
                                                 {/*table  */}
@@ -144,31 +235,32 @@ const Reports = ({ allVehicles }) => {
                                                             </tr>
                                                       </thead>
                                                       <tbody>
-                                                            {allVehicles.map((vehicle, index) => {
-                                                                  const { hours, minutes } = timers[index] || formatTime(vehicle.startDate);
+                                                            {
+                                                                  getVehicles.map((vehicle, index) => {
+                                                                        const { hours, minutes } = timers[index] || formatTime(vehicle.startDate);
 
-                                                                  const duration = vehicle.endDate != null ? moment.duration(moment(vehicle.endDate).diff(moment(vehicle.startDate))) : "";
+                                                                        const duration = vehicle.endDate != null ? moment.duration(moment(vehicle.endDate).diff(moment(vehicle.startDate))) : "";
 
-                                                                  return (
-                                                                        <tr key={index} className="text-center">
-                                                                              <td>{vehicle.ticketNumber}</td>
-                                                                              <td>{moment(vehicle.startDate).format("DD-MM-YY")}</td>
-                                                                              <td>{vehicle.plateNumber}</td>
-                                                                              <td>{vehicle.category}</td>
-                                                                              <td>
-                                                                                    {vehicle.endDate != null ?
-                                                                                          duration > 24 ? `${duration.days() != 0 ? `${duration.days()} days` : ""}  ${duration.hours()} hours`
-                                                                                                :
-                                                                                                `${duration.hours()} hours`
+                                                                        return (
+                                                                              <tr key={index} className="text-center">
+                                                                                    <td>{vehicle.ticketNumber}</td>
+                                                                                    <td>{moment(vehicle.startDate).format("DD-MM-YY")}</td>
+                                                                                    <td>{vehicle.plateNumber}</td>
+                                                                                    <td>{vehicle.category}</td>
+                                                                                    <td>
+                                                                                          {vehicle.endDate != null ?
+                                                                                                duration > 24 ? `${duration.days() != 0 ? `${duration.days()} days` : ""}  ${duration.hours()} hours`
+                                                                                                      :
+                                                                                                      `${duration.hours()} hours`
 
 
-                                                                                          : `${hours}:${minutes} hours`}
+                                                                                                : `${hours}:${minutes} hours`}
 
-                                                                              </td>
-                                                                              <td>{vehicle.status ? "In" : "Out"}</td>
-                                                                        </tr>
-                                                                  );
-                                                            })}
+                                                                                    </td>
+                                                                                    <td>{vehicle.status ? "In" : "Out"}</td>
+                                                                              </tr>
+                                                                        );
+                                                                  })}
                                                       </tbody>
                                                 </table>
 
