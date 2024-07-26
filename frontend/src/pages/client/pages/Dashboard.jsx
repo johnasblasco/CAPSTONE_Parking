@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext, createContext } from 'react'
+import { myContext } from '../Home';
 import Clock from '../components/Clock';
 import { FaCarSide } from "react-icons/fa6";
 import CurrentlyParked from '../components/CurrentlyParked';
@@ -18,7 +19,22 @@ import { FaArrowRightFromBracket } from "react-icons/fa6";
 import { FaMinus } from "react-icons/fa6";
 
 
-const Dashboard = ({ vehicles }) => {
+import PropagateLoader from 'react-spinners/PropagateLoader'
+export const innerContext = createContext()
+
+const Dashboard = () => {
+
+      const [allVehicles, totalEarnings, todayEarn, setTodayEarn, vehicles, earnings] = useContext(myContext)
+
+
+      if (!allVehicles || allVehicles.length === 0) {
+            return <PropagateLoader
+                  color="#ff5400"
+                  size={30}
+                  className='absolute top-[50dvh] left-[50dvw] w-fit'
+            />
+      }
+
       const [showParkIn, setShowParkIn] = useState(false)
       const [showParkOut, setShowParkOut] = useState(false)
       const [showToast, setShowToast] = useState("")
@@ -32,6 +48,9 @@ const Dashboard = ({ vehicles }) => {
       // kunin yung ticket display sa parkin
       const [displayTicket, setDisplayTicket] = useState(0);
 
+
+      const innerContextValue = [vehicles, showToast, setShowToast, setShowParkIn, setShowParkOut, setDisplayTicket, setShowVehicleData, setSelectedVehicle, selectedVehicle, todayEarn, setTodayEarn, totalEarnings, earnings]
+      console.log("MY EARNINGS", todayEarn, totalEarnings)
       return (
             <>
                   <Header />
@@ -110,16 +129,19 @@ const Dashboard = ({ vehicles }) => {
                   </div >
 
                   {/* CONDITIONAL RENDERING HERE */}
-                  {
-                        showParkIn && <ParkIn vehicles={vehicles} showToast={showToast} setShowParkIn={setShowParkIn} setShowToast={setShowToast} setDisplayTicket={setDisplayTicket} />
-                  }
-                  {
-                        showParkOut && <ParkOut setShowParkOut={setShowParkOut} vehicles={vehicles} setShowVehicleData={setShowVehicleData} setSelectedVehicle={setSelectedVehicle} selectedVehicle={selectedVehicle} />
-                  }
-                  {
-                        showVehicleData && <ParkOutDetails setShowVehicleData={setShowVehicleData} selectedVehicle={selectedVehicle} setShowToast={setShowToast} />
-                  }
 
+                  <innerContext.Provider value={innerContextValue}>
+                        {
+                              showParkIn && <ParkIn />
+                        }
+                        {
+                              showParkOut && <ParkOut />
+                        }
+                        {
+                              showVehicleData && <ParkOutDetails />
+                        }
+
+                  </innerContext.Provider>
 
                   <Navbar />
 

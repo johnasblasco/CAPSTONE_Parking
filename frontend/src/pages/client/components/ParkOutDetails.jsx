@@ -1,10 +1,12 @@
 import React from 'react'
 import { IoMdClose } from 'react-icons/io';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { innerContext } from '../pages/Dashboard';
 import moment from 'moment';
 import axios from 'axios';
-const ParkOutDetails = ({ setShowVehicleData, selectedVehicle, setShowToast }) => {
+const ParkOutDetails = () => {
 
+      const [vehicles, showToast, setShowToast, setShowParkIn, setShowParkOut, setDisplayTicket, setShowVehicleData, setSelectedVehicle, selectedVehicle, todayEarn, setTodayEarn, totalEarnings, earnings] = useContext(innerContext)
 
       const startDate = moment(selectedVehicle.startDate);
       const currentDate = moment();
@@ -20,14 +22,21 @@ const ParkOutDetails = ({ setShowVehicleData, selectedVehicle, setShowToast }) =
       console.log("Difference in minutes:", minutesDifference);
       console.log("Difference in Days:", dayDifference);
 
-
       const handleRemove = async () => {
 
+            console.log(totalEarnings.totalEarnings)
             try {
-                  axios.put(`http://localhost:8000/vehicle/${selectedVehicle._id}`, {
+                  await axios.put(`http://localhost:8000/vehicle/${selectedVehicle._id}`, {
                         ...selectedVehicle,
                         endDate: moment(),
                         status: false
+                  })
+
+                  await axios.put(`http://localhost:8000/earnings/${earnings._id}`, {
+                        ...totalEarnings,
+                        currentDate: new Date(),
+                        totalEarnings: (totalEarnings + 20),
+                        todayEarnings: (todayEarn + 20),
                   })
 
 

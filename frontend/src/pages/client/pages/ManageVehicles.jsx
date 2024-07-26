@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { myContext } from '../Home';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 import moment from 'moment';
@@ -6,11 +7,17 @@ import { IoMdClose } from 'react-icons/io';
 import axios from 'axios';
 import Toast from '../components/Toast';
 
-const ManageAccount = ({ vehicles }) => {
+
+
+
+const ManageAccount = () => {
       const [timers, setTimers] = useState({});
       const [showPopup, setShowPopup] = useState(false);
       const [selectedVehicle, setSelectedVehicle] = useState(null);
       const [showToast, setShowToast] = useState('');
+
+      const [allVehicles, totalEarnings, todayEarn, setTodayEarn, vehicles, earnings] = useContext(myContext)
+
 
       // Format duration into hours and minutes
       const formatTime = (startDate) => {
@@ -57,6 +64,14 @@ const ManageAccount = ({ vehicles }) => {
                         status: false
                   })
 
+                  await axios.put(`http://localhost:8000/earnings/${totalEarnings._id}`, {
+                        ...totalEarnings,
+                        totalEarnings: (totalEarnings.totalEarnings + 20)
+                  })
+
+                  setTodayEarn(todayEarn + 20)
+                  console.log(totalEarnings.totalEarnings)
+
                   setShowPopup(false)
                   setShowToast("out")
 
@@ -83,7 +98,7 @@ const ManageAccount = ({ vehicles }) => {
       return (
             <>
                   <Header />
-                  <div className='absolute left-[200px] top-[100px] lg:overflow-x-hidden max-sm:hidden'>
+                  <div className='absolute left-[200px] top-[100px] lg:overflow-x-hidden max-md:hidden'>
                         <div className="mx-4 bg-[#D9D9D9] min-h-screen rounded-3xl" style={{ width: 'calc(100vw - 250px)' }}>
                               <div className="title flex justify-center">
                                     <h2 className='text-5xl my-8 font-extrabold' >Manage Vehicles</h2>

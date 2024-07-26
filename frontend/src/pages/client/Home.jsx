@@ -1,19 +1,32 @@
 
-import Header from './components/Header'
-import Navbar from './components/Navbar'
 import { Routes, Route } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import ManageVehicles from './pages/ManageVehicles';
 import Reports from './pages/Reports';
 import About from './pages/About';
-import { useEffect, useState } from 'react';
 import axios from 'axios';
+
+
+import { useEffect, useState, createContext } from 'react';
+export const myContext = createContext()
+
+
+
 
 const Home = () => {
       const [vehicles, setVehicles] = useState([])
       const [allVehicles, setAllVehicles] = useState([])
+      const [totalEarnings, setTotalEarnings] = useState({})
+      const [todayEarn, setTodayEarn] = useState();
+      const [earnings, setEarnings] = useState();
+
+      const myContextValue = [allVehicles, totalEarnings, todayEarn, setTodayEarn, vehicles, earnings]
+
+      console.log("my context variable : ", myContextValue)
+
       useEffect(() => {
 
+            // Fetch Vehicles
             axios.get("http://localhost:8000/vehicle")
                   .then((response) => {
                         const allVehicle = response.data
@@ -24,19 +37,34 @@ const Home = () => {
                   })
                   .catch(err => console.log(err))
 
+
+            // Fetch total earnings
+            axios.get('http://localhost:8000/earnings')
+                  .then((response) => {
+                        setEarnings(response.data[0])
+                        setTotalEarnings(response.data[0].totalEarnings);
+                        setTodayEarn(response.data[0].todayEarnings)
+                  })
+                  .catch(err => console.log(err));
       }, [])
+
 
       return (
             <div className='min-h-screen'>
 
+                  <myContext.Provider value={myContextValue}>
+                        <Routes>
 
-                  <Routes>
-                        <Route path='/dashboard' element={<Dashboard vehicles={vehicles} />} />
-                        <Route path='/manage-vehicles' element={<ManageVehicles vehicles={vehicles} />} />
-                        <Route path='/reports' element={<Reports allVehicles={allVehicles} />} />
-                        <Route path='/about' element={<About />} />
-                  </Routes>
 
+                              <Route path='/dashboard' element={<Dashboard />} />
+                              <Route path='/manage-vehicles' element={<ManageVehicles />} />
+                              <Route path='/reports' element={<Reports />} />
+                              <Route path='/about' element={<About />} />
+
+
+                        </Routes>
+
+                  </myContext.Provider>
 
 
 

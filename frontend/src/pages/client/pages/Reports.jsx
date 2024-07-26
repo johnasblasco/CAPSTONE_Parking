@@ -1,42 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { myContext } from '../Home'
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 import { MdLocalPrintshop } from "react-icons/md";
-import axios from 'axios';
 import moment from 'moment';
 import { FaFilter } from "react-icons/fa";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
 import { MdCheckBox } from "react-icons/md";
 
+import PropagateLoader from 'react-spinners/PropagateLoader'
+const Reports = () => {
 
-const Reports = ({ allVehicles }) => {
+      const [allVehicles, totalEarnings, todayEarn, setTodayEarn, vehicles, earnings] = useContext(myContext)
+
 
       const [getVehicles, setVehicles] = useState(allVehicles)
-
-      const [totalEarnings, setTotalEarnings] = useState(0)
-
-
-      // CURRENTLY PARKED
-      const [timers, setTimers] = useState({});
-
-      // Format duration into hours and minutes
-      const formatTime = (startDate) => {
-            const startTime = moment(startDate);
-            const endTime = moment(); // Assuming current time is end time
-            const duration = moment.duration(endTime.diff(startTime));
-
-            const hours = Math.floor(duration.asHours());
-            const minutes = duration.minutes() > 9 ? duration.minutes() : "0" + duration.minutes()
-            return { hours, minutes };
-      };
-      useEffect(() => {
-            // Fetch total earnings
-            axios.get('http://localhost:8000/earnings')
-                  .then((response) => {
-                        setTotalEarnings(response.data[0].totalEarnings);
-                  })
-                  .catch(err => console.log(err));
-      }, []);
 
       // radio button 
       const [twoWheelsRadio, setTwoWheelsRadio] = useState(false)
@@ -102,8 +80,16 @@ const Reports = ({ allVehicles }) => {
       }
 
 
+      if (!allVehicles || allVehicles.length === 0) {
+            return <PropagateLoader
+                  color="#ff5400"
+                  size={30}
+                  className='absolute top-[50dvh] left-[50dvw] w-fit'
+            />
+
+      }
+
       return (
-            // sss
 
             <>
                   <Header />
@@ -137,7 +123,7 @@ const Reports = ({ allVehicles }) => {
                                           <div className='flex text-center justify-center gap-20 mb-10 '>
 
                                                 <div>
-                                                      <p className='text-4xl my-2'>PHP <b className='font-extrabold'>20.00</b></p>
+                                                      <p className='text-4xl my-2'>PHP <b className='font-extrabold'>{todayEarn}.00</b></p>
                                                       <p>Today</p>
                                                 </div>
                                                 <div>
@@ -236,11 +222,31 @@ const Reports = ({ allVehicles }) => {
                                                       </thead>
                                                       <tbody>
                                                             {
+
+
+
                                                                   getVehicles.map((vehicle, index) => {
-                                                                        const { hours, minutes } = timers[index] || formatTime(vehicle.startDate);
 
-                                                                        const duration = vehicle.endDate != null ? moment.duration(moment(vehicle.endDate).diff(moment(vehicle.startDate))) : "";
 
+
+
+                                                                        const startDate = moment(vehicle.startDate);
+                                                                        const currentDate = moment();
+
+                                                                        let duration;
+                                                                        // if status OUT 
+                                                                        vehicle.status ? duration = moment.duration(currentDate.diff(startDate)) : duration = moment.duration(currentDate.diff(startDate))
+
+                                                                        // if status IN then Calculate the difference in hours and minutes
+
+
+                                                                        const dayDifference = duration.days();
+                                                                        const hoursDifference = duration.hours();
+                                                                        const minutesDifference = duration.minutes();
+
+                                                                        console.log("Difference in hours:", hoursDifference);
+                                                                        console.log("Difference in minutes:", minutesDifference);
+                                                                        console.log("Difference in Days:", dayDifference);
                                                                         return (
                                                                               <tr key={index} className="text-center">
                                                                                     <td>{vehicle.ticketNumber}</td>
@@ -248,19 +254,18 @@ const Reports = ({ allVehicles }) => {
                                                                                     <td>{vehicle.plateNumber}</td>
                                                                                     <td>{vehicle.category}</td>
                                                                                     <td>
-                                                                                          {vehicle.endDate != null ?
-                                                                                                duration > 24 ? `${duration.days() != 0 ? `${duration.days()} days` : ""}  ${duration.hours()} hours`
-                                                                                                      :
-                                                                                                      `${duration.hours()} hours`
+                                                                                          {
 
-
-                                                                                                : `${hours}:${minutes} hours`}
+                                                                                                dayDifference > 0 ? `${dayDifference} days ${hoursDifference} hours ${minutesDifference} mins` : `${hoursDifference} hours  ${minutesDifference} mins`
+                                                                                          }
 
                                                                                     </td>
                                                                                     <td>{vehicle.status ? "In" : "Out"}</td>
                                                                               </tr>
                                                                         );
-                                                                  })}
+                                                                  })
+
+                                                            }
                                                       </tbody>
                                                 </table>
 

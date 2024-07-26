@@ -5,7 +5,6 @@ const Toast = ({ setShowToast, title, disc, showToast, displayTicket }) => {
 
       const handleButton = () => {
             setShowToast("")
-            window.location.reload();
       }
 
       return (

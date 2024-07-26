@@ -1,8 +1,11 @@
 import { IoMdClose } from 'react-icons/io';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { innerContext } from '../pages/Dashboard';
 import moment from 'moment';
 
-const ParkOut = ({ setShowParkOut, vehicles, setShowVehicleData, selectedVehicle, setSelectedVehicle }) => {
+const ParkOut = () => {
+
+      const [vehicles, showToast, setShowToast, setShowParkIn, setShowParkOut, setDisplayTicket, setShowVehicleData, setSelectedVehicle, selectedVehicle, todayEarn, setTodayEarn, totalEarnings, earnings] = useContext(innerContext)
 
       const [hasVehicle, setHasVehicle] = useState(false)
 

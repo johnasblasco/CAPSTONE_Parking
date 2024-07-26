@@ -15,7 +15,7 @@ const Navbar = () => {
       return (
             <>
 
-                  <nav className='relative top-[100px] max-md:hidden'>
+                  <nav className='relative top-[100px] max-lg:hidden'>
                         <ul className=' absolute top-0 bottom-0 left-0'>
                               <div className="fixed h-full lg:w-[200px] rounded-3xl py-8 px-4 m-auto flex gap-4 flex-col justify-between bg-[#D9D9D9]">
                                     <div className='flex gap-4 flex-col'>

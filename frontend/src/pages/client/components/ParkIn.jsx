@@ -1,7 +1,11 @@
 import { IoMdClose } from 'react-icons/io';
-import { useEffect, useState } from 'react';
+import { useState, useContext } from 'react';
+import { innerContext } from '../pages/Dashboard';
 import axios from 'axios';
-const ParkIn = ({ setShowParkIn, setShowToast, setDisplayTicket, vehicles }) => {
+const ParkIn = () => {
+
+      const [vehicles, showToast, setShowToast, setShowParkIn, setShowParkOut, setDisplayTicket, setShowVehicleData, setSelectedVehicle, selectedVehicle, todayEarn, setTodayEarn, totalEarnings, earnings] = useContext(innerContext)
+
       const [plateNo, setPlateNo] = useState("");
       const [selectedOption, setSelectedOption] = useState('');
 

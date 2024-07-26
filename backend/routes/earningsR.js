@@ -8,7 +8,9 @@ router.post("/", async(req,res) => {
 
       try {
             const newEarnings = {
-                  totalEarnings : req.body.totalEarnings
+                  currentDate : req.body.currentDate,
+                  totalEarnings : req.body.totalEarnings,
+                  todayEarnings: req.body.todayEarnings
             }
       
             const earnings = await EARNINGS.create(newEarnings);
@@ -30,6 +32,24 @@ router.get("/:id", (req,res) => {
       EARNINGS.findById(id)
       .then(response => res.json(response))
       .catch(error => res.json(error))
+})
+
+router.put("/:id", async(req, res) => {
+      try {
+      
+            const {id} = req.params;
+
+            const result = await EARNINGS.findByIdAndUpdate(id, req.body)
+
+            if(!result){
+                  return res.status(404).json({message: 'not found'})
+            }
+
+            return res.status(200).send({message: 'earnings updated successfully'})
+
+      } catch (error) {
+            console.log("error sa update")
+      }
 })
 
 export default router
