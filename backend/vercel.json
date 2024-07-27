@@ -1,20 +1,26 @@
 {
   "version": 2,
   "functions": {
-    "api/**/*.js": {
+    "routes/**/*.js": {
       "runtime": "nodejs14.x"
     }
   },
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/$1.js"
-    }
-  ],
-  "builds": [
+      "src": "/admin(.*)",
+      "dest": "/routes/adminR.js"
+    },
     {
-      "src": "api/**/*.js",
-      "use": "@vercel/node"
+      "src": "/earnings(.*)",
+      "dest": "/routes/earningsR.js"
+    },
+    {
+      "src": "/user(.*)",
+      "dest": "/routes/userR.js"
+    },
+    {
+      "src": "/vehicle(.*)",
+      "dest": "/routes/vehicleR.js"
     }
   ]
 }
