@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "functions": {
-    "routes/**/*.js": {
-      "runtime": "nodejs14.x"
+  "builds": [
+    {
+      "src": "routes/**/*.js",
+      "use": "@vercel/node"
     }
-  },
+  ],
   "routes": [
     {
       "src": "/admin(.*)",
