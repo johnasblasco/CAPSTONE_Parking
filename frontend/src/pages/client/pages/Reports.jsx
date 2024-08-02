@@ -231,11 +231,12 @@ const Reports = () => {
 
 
                                                                         const startDate = moment(vehicle.startDate);
+                                                                        const endDate = moment(vehicle.endDate);
                                                                         const currentDate = moment();
 
                                                                         let duration;
                                                                         // if status OUT 
-                                                                        vehicle.status ? duration = moment.duration(currentDate.diff(startDate)) : duration = moment.duration(currentDate.diff(startDate))
+                                                                        vehicle.status ? duration = moment.duration(currentDate.diff(startDate)) : duration = moment.duration(endDate.diff(startDate))
 
                                                                         // if status IN then Calculate the difference in hours and minutes
 
