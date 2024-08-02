@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "routes/**/*.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/admin(.*)",
+      "dest": "/routes/adminR.js"
+    },
+    {
+      "src": "/earnings(.*)",
+      "dest": "/routes/earningsR.js"
+    },
+    {
+      "src": "/user(.*)",
+      "dest": "/routes/userR.js"
+    },
+    {
+      "src": "/vehicle(.*)",
+      "dest": "/routes/vehicleR.js"
+    }
+  ]
+}
