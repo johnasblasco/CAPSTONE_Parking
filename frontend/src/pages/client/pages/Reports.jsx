@@ -80,14 +80,14 @@ const Reports = () => {
       }
 
 
-      if (!allVehicles || allVehicles.length === 0) {
+      if (allVehicles[0] < 0) {
             return <PropagateLoader
                   color="#ff5400"
                   size={30}
                   className='absolute top-[50dvh] left-[50dvw] w-fit'
             />
-
       }
+
 
       return (
 

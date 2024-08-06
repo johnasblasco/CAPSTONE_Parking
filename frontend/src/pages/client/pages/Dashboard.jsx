@@ -39,7 +39,7 @@ const Dashboard = () => {
       // kunin yung ticket display sa parkin
       const [displayTicket, setDisplayTicket] = useState(0);
 
-      if (!allVehicles || allVehicles.length === 0) {
+      if (allVehicles[0] < 0) {
             return <PropagateLoader
                   color="#ff5400"
                   size={30}

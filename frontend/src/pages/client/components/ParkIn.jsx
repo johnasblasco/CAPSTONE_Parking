@@ -14,7 +14,7 @@ const ParkIn = () => {
 
       const handleButton = async () => {
 
-            if (vehicles.filter((v) => v.category === "3 Wheels" || v.category === "4 Wheels").length >= 48 && selectedOption === "3 Wheels" || selectedOption === "4 Wheels") {
+            if (vehicles.filter((v) => v.category === "3 Wheels" || v.category === "4 Wheels").length >= 48 && (selectedOption === "3 Wheels" || selectedOption === "4 Wheels")) {
                   console.log("sir puno na 3/4 wheels kupal ka ba")
                   // Reset plateNo
                   setPlateNo("");
@@ -92,8 +92,9 @@ const ParkIn = () => {
                   console.error("Error posting new vehicle:", error);
             }
 
-      };
 
+      };
+      console.log(vehicles)
       return (
             <>
                   <div className='fixed w-screen h-screen bg-black/40 z-50'>

@@ -14,8 +14,8 @@ export const myContext = createContext()
 
 
 const Home = () => {
-      const [vehicles, setVehicles] = useState([])
-      const [allVehicles, setAllVehicles] = useState([])
+      const [vehicles, setVehicles] = useState([-1])
+      const [allVehicles, setAllVehicles] = useState([-1])
       const [totalEarnings, setTotalEarnings] = useState({})
       const [todayEarn, setTodayEarn] = useState(0);
       const [earnings, setEarnings] = useState(0)
