@@ -15,7 +15,7 @@ const Client = () => {
             .then((user) => {
                   const isLogin = user.data.find((user) => user.login)
                   if (isLogin) navigate('/user/dashboard', { replace: true });
-                  console.log("meron")
+
             })
             .catch(err => console.log(err))
       console.log("wala")

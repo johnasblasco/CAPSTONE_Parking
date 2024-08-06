@@ -17,12 +17,11 @@ const Home = () => {
       const [vehicles, setVehicles] = useState([])
       const [allVehicles, setAllVehicles] = useState([])
       const [totalEarnings, setTotalEarnings] = useState({})
-      const [todayEarn, setTodayEarn] = useState();
-      const [earnings, setEarnings] = useState();
+      const [todayEarn, setTodayEarn] = useState(0);
+      const [earnings, setEarnings] = useState(0)
 
-      const myContextValue = [allVehicles, totalEarnings, todayEarn, setTodayEarn, vehicles, earnings]
+      const myContextValue = [allVehicles, totalEarnings, todayEarn, setTodayEarn, vehicles, setVehicles, setTotalEarnings, earnings, setEarnings]
 
-      console.log("my context variable : ", myContextValue)
 
       useEffect(() => {
 
@@ -60,7 +59,6 @@ const Home = () => {
                               <Route path='/manage-vehicles' element={<ManageVehicles />} />
                               <Route path='/reports' element={<Reports />} />
                               <Route path='/about' element={<About />} />
-
 
                         </Routes>
 

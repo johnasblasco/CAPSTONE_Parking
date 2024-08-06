@@ -6,7 +6,7 @@ import moment from 'moment';
 import axios from 'axios';
 const ParkOutDetails = () => {
 
-      const [vehicles, showToast, setShowToast, setShowParkIn, setShowParkOut, setDisplayTicket, setShowVehicleData, setSelectedVehicle, selectedVehicle, todayEarn, setTodayEarn, totalEarnings, earnings] = useContext(innerContext)
+      const [vehicles, setVehicles, showToast, setShowToast, setShowParkIn, setShowParkOut, setDisplayTicket, setShowVehicleData, setSelectedVehicle, selectedVehicle, todayEarn, setTodayEarn, totalEarnings, setTotalEarnings, earnings, setEarnings] = useContext(innerContext)
 
       const startDate = moment(selectedVehicle.startDate);
       const currentDate = moment();
@@ -24,20 +24,24 @@ const ParkOutDetails = () => {
 
       const handleRemove = async () => {
 
-            console.log(totalEarnings.totalEarnings)
-            try {
-                  await axios.put(`http://localhost:8000/vehicle/${selectedVehicle._id}`, {
-                        ...selectedVehicle,
-                        endDate: moment(),
-                        status: false
-                  })
+            const vehicleUpdateData = {
+                  ...selectedVehicle,
+                  endDate: moment(),
+                  status: false
+            };
 
-                  await axios.put(`http://localhost:8000/earnings/${earnings._id}`, {
-                        ...totalEarnings,
-                        currentDate: new Date(),
-                        totalEarnings: (totalEarnings + 20),
-                        todayEarnings: (todayEarn + 20),
-                  })
+            try {
+                  await axios.put(`http://localhost:8000/vehicle/${selectedVehicle._id}`, vehicleUpdateData)
+
+
+                  // render the updates
+                  setVehicles(prevVehicles =>
+                        prevVehicles.filter(vehicle =>
+                              vehicle._id != selectedVehicle._id
+
+                        )
+                  );
+
 
 
                   setShowVehicleData(false)

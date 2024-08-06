@@ -21,11 +21,11 @@ app.use(express.json())
 app.use("/admin",adminR)
 app.use("/user",userR)
 app.use("/vehicle",vehicleR)
-app.use("/earnings",earningsR )
-
+app.use("/earnings",earningsR)
+      
 
 // database/mongo
-export const Connection = async() => {
+const Connection = async() => {
       try {
             await mongoose.connect(DATABASE);
             console.log("boss runing na ang ating database")
@@ -33,8 +33,8 @@ export const Connection = async() => {
             // hindi mag ru run yung server kapag hindi tayo naka connect sa database
             app.listen(PORT, ()=>{
                   console.log(`boss running na backend port ${PORT} tayo`)
+            
             })
-
            
       } catch (error) {
             console.log("boss hindi tayo maka connect kase baka mali link mo or Ip address")

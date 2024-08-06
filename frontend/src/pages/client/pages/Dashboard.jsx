@@ -24,16 +24,7 @@ export const innerContext = createContext()
 
 const Dashboard = () => {
 
-      const [allVehicles, totalEarnings, todayEarn, setTodayEarn, vehicles, earnings] = useContext(myContext)
-
-
-      if (!allVehicles || allVehicles.length === 0) {
-            return <PropagateLoader
-                  color="#ff5400"
-                  size={30}
-                  className='absolute top-[50dvh] left-[50dvw] w-fit'
-            />
-      }
+      const [allVehicles, totalEarnings, todayEarn, setTodayEarn, vehicles, setVehicles, setTotalEarnings, earnings, setEarnings] = useContext(myContext)
 
       const [showParkIn, setShowParkIn] = useState(false)
       const [showParkOut, setShowParkOut] = useState(false)
@@ -48,9 +39,20 @@ const Dashboard = () => {
       // kunin yung ticket display sa parkin
       const [displayTicket, setDisplayTicket] = useState(0);
 
+      if (!allVehicles || allVehicles.length === 0) {
+            return <PropagateLoader
+                  color="#ff5400"
+                  size={30}
+                  className='absolute top-[50dvh] left-[50dvw] w-fit'
+            />
+      }
 
-      const innerContextValue = [vehicles, showToast, setShowToast, setShowParkIn, setShowParkOut, setDisplayTicket, setShowVehicleData, setSelectedVehicle, selectedVehicle, todayEarn, setTodayEarn, totalEarnings, earnings]
-      console.log("MY EARNINGS", todayEarn, totalEarnings)
+
+
+
+      const innerContextValue = [vehicles, setVehicles, showToast, setShowToast, setShowParkIn, setShowParkOut, setDisplayTicket, setShowVehicleData, setSelectedVehicle, selectedVehicle, todayEarn, setTodayEarn, totalEarnings, setTotalEarnings, earnings, setEarnings]
+
+
       return (
             <>
                   <Header />
@@ -87,7 +89,6 @@ const Dashboard = () => {
                                                       </div>
                                                       <p className='text-2xl font-[600]'>Out</p>
                                                       <FaMinus className='text-2xl font-bold' />
-
                                                 </button>
                                           </div>
 

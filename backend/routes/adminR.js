@@ -12,6 +12,8 @@ router.post("/", async(req,res) =>{
             if(!req.body.username ||!req.body.password ){
                   return res.status(400).send("includes all information please")
             }
+
+            
             // if nakapag input lahat create new Admin
             const newAdmin = {
                   username : req.body.username,

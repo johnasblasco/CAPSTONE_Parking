@@ -48,6 +48,7 @@ router.put("/:id", async(req, res) => {
             return res.status(200).send({message: 'earnings updated successfully'})
 
       } catch (error) {
+            console.log(error)
             console.log("error sa update")
       }
 })

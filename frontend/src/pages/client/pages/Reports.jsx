@@ -11,10 +11,10 @@ import { MdCheckBox } from "react-icons/md";
 import PropagateLoader from 'react-spinners/PropagateLoader'
 const Reports = () => {
 
-      const [allVehicles, totalEarnings, todayEarn, setTodayEarn, vehicles, earnings] = useContext(myContext)
+      const [allVehicles, totalEarnings, todayEarn, setTodayEarn, vehicles, setVehicles, setTotalEarnings, earnings, setEarnings] = useContext(myContext)
 
 
-      const [getVehicles, setVehicles] = useState(allVehicles)
+      const [getVehicles, getSetVehicles] = useState(allVehicles)
 
       // radio button 
       const [twoWheelsRadio, setTwoWheelsRadio] = useState(false)
@@ -66,9 +66,9 @@ const Reports = () => {
             }
 
 
-            IN ? setVehicles(filteredVehicles.filter(vehicle => vehicle.status == true))
-                  : OUT ? setVehicles(filteredVehicles.filter(vehicle => vehicle.status == false))
-                        : setVehicles(filteredVehicles)
+            IN ? getSetVehicles(filteredVehicles.filter(vehicle => vehicle.status == true))
+                  : OUT ? getSetVehicles(filteredVehicles.filter(vehicle => vehicle.status == false))
+                        : getSetVehicles(filteredVehicles)
 
 
       }, [twoWheelsRadio, threeWheelsRadio, fourWheelsRadio, allVehicles, IN, OUT]);
@@ -76,7 +76,7 @@ const Reports = () => {
       // search
       const handleSearch = () => {
             let filteredVehicles = allVehicles;
-            search > 0 ? setVehicles(filteredVehicles.filter(vehicle => vehicle.ticketNumber == search)) : ""
+            search > 0 ? getSetVehicles(filteredVehicles.filter(vehicle => vehicle.ticketNumber == search)) : ""
       }
 
 
@@ -245,9 +245,7 @@ const Reports = () => {
                                                                         const hoursDifference = duration.hours();
                                                                         const minutesDifference = duration.minutes();
 
-                                                                        console.log("Difference in hours:", hoursDifference);
-                                                                        console.log("Difference in minutes:", minutesDifference);
-                                                                        console.log("Difference in Days:", dayDifference);
+
                                                                         return (
                                                                               <tr key={index} className="text-center">
                                                                                     <td>{vehicle.ticketNumber}</td>
@@ -257,7 +255,7 @@ const Reports = () => {
                                                                                     <td>
                                                                                           {
 
-                                                                                                dayDifference > 0 ? `${dayDifference} days ${hoursDifference} hours ${minutesDifference} mins` : `${hoursDifference} hours  ${minutesDifference} mins`
+                                                                                                dayDifference > 0 ? `${dayDifference} days ${hoursDifference} hours ${minutesDifference} mins` : hoursDifference > 0 ? `${hoursDifference} hours  ${minutesDifference} mins` : `${minutesDifference} mins`
                                                                                           }
 
                                                                                     </td>

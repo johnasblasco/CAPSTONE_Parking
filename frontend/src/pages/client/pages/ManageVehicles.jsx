@@ -16,7 +16,7 @@ const ManageAccount = () => {
       const [selectedVehicle, setSelectedVehicle] = useState(null);
       const [showToast, setShowToast] = useState('');
 
-      const [allVehicles, totalEarnings, todayEarn, setTodayEarn, vehicles, earnings] = useContext(myContext)
+      const [allVehicles, totalEarnings, todayEarn, setTodayEarn, vehicles, setVehicles, setTotalEarnings, earnings, setEarnings] = useContext(myContext)
 
 
       // Format duration into hours and minutes
@@ -58,19 +58,26 @@ const ManageAccount = () => {
       };
 
       const handleRemove = async () => {
+
+            const vehicleUpdateData = {
+                  ...selectedVehicle,
+                  endDate: moment(),
+                  status: false
+            };
+
             try {
-                  await axios.put(`http://localhost:8000/vehicle/${selectedVehicle._id}`, {
-                        ...selectedVehicle,
-                        status: false
-                  })
+                  await axios.put(`http://localhost:8000/vehicle/${selectedVehicle._id}`, vehicleUpdateData)
 
-                  await axios.put(`http://localhost:8000/earnings/${totalEarnings._id}`, {
-                        ...totalEarnings,
-                        totalEarnings: (totalEarnings.totalEarnings + 20)
-                  })
 
-                  setTodayEarn(todayEarn + 20)
-                  console.log(totalEarnings.totalEarnings)
+                  // render the updates
+                  setVehicles(prevVehicles =>
+                        prevVehicles.filter(vehicle =>
+                              vehicle._id != selectedVehicle._id
+
+                        )
+                  );
+
+
 
                   setShowPopup(false)
                   setShowToast("out")
@@ -79,6 +86,7 @@ const ManageAccount = () => {
                   console.log(error)
             }
       }
+
       const [startDate, setStartDate] = useState(new Date())
       const currentDate = moment();
 
@@ -89,10 +97,6 @@ const ManageAccount = () => {
       const dayDifference = duration.days();
       const hoursDifference = duration.hours();
       const minutesDifference = duration.minutes();
-
-      console.log("Difference in hours:", hoursDifference);
-      console.log("Difference in minutes:", minutesDifference);
-      console.log("Difference in Days:", dayDifference);
 
 
       return (
