@@ -11,7 +11,7 @@ import { MdCheckBox } from "react-icons/md";
 import PropagateLoader from 'react-spinners/PropagateLoader'
 const Reports = () => {
 
-      const [allVehicles, totalEarnings, todayEarn, setTodayEarn, vehicles, setVehicles, setTotalEarnings, earnings, setEarnings] = useContext(myContext)
+      const [allVehicles, totalEarnings, todayEarn, setTodayEarn, yesterdayEarnings, vehicles, setVehicles, setTotalEarnings, earnings, setEarnings] = useContext(myContext)
 
 
       const [getVehicles, getSetVehicles] = useState(allVehicles)
@@ -127,7 +127,7 @@ const Reports = () => {
                                                       <p>Today</p>
                                                 </div>
                                                 <div>
-                                                      <p className='text-4xl my-2'>PHP <b className='font-extrabold'>2000.00</b></p>
+                                                      <p className='text-4xl my-2'>PHP <b className='font-extrabold'>{yesterdayEarnings}.00</b></p>
                                                       <p>Yesterday</p>
                                                 </div>
 

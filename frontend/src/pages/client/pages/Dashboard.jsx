@@ -24,7 +24,7 @@ export const innerContext = createContext()
 
 const Dashboard = () => {
 
-      const [allVehicles, totalEarnings, todayEarn, setTodayEarn, vehicles, setVehicles, setTotalEarnings, earnings, setEarnings] = useContext(myContext)
+      const [allVehicles, totalEarnings, todayEarn, setTodayEarn, yesterdayEarnings, vehicles, setVehicles, setTotalEarnings, earnings, setEarnings] = useContext(myContext)
 
       const [showParkIn, setShowParkIn] = useState(false)
       const [showParkOut, setShowParkOut] = useState(false)

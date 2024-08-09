@@ -63,7 +63,7 @@ router.put("/:id", async(req, res) => {
             const {id} = req.params;
 
             const result = await VEHICLE.findByIdAndUpdate(id, req.body)
-
+                        
             if(!result){
                   return res.status(404).json({message: 'Vehicle not found'})
             }

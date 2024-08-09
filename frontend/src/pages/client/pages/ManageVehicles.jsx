@@ -10,13 +10,13 @@ import Toast from '../components/Toast';
 
 
 
-const ManageAccount = () => {
+const ManageVehicles = () => {
       const [timers, setTimers] = useState({});
       const [showPopup, setShowPopup] = useState(false);
       const [selectedVehicle, setSelectedVehicle] = useState(null);
       const [showToast, setShowToast] = useState('');
 
-      const [allVehicles, totalEarnings, todayEarn, setTodayEarn, vehicles, setVehicles, setTotalEarnings, earnings, setEarnings] = useContext(myContext)
+      const [allVehicles, totalEarnings, todayEarn, setTodayEarn, yesterdayEarnings, vehicles, setVehicles, setTotalEarnings, earnings, setEarnings] = useContext(myContext)
 
 
       // Format duration into hours and minutes
@@ -213,4 +213,4 @@ const ManageAccount = () => {
       )
 }
 
-export default ManageAccount
+export default ManageVehicles
