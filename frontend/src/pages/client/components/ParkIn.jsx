@@ -94,7 +94,6 @@ const ParkIn = () => {
 
 
       };
-      console.log(vehicles)
       return (
             <>
                   <div className='fixed w-screen h-screen bg-black/40 z-50'>

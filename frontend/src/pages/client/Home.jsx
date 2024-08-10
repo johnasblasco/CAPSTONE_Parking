@@ -21,7 +21,7 @@ const Home = () => {
       const [yesterdayEarnings, setYesterdayEarnings] = useState(0)
       const [earnings, setEarnings] = useState({})
       const now = new Date();
-      const [currentEarningDate, setCurrentEarningDate] = useState(null);
+      const [currentEarningDate, setCurrentEarningDate] = useState();
 
       const myContextValue = [allVehicles, totalEarnings, todayEarn, setTodayEarn, yesterdayEarnings, vehicles, setVehicles, setTotalEarnings, earnings, setEarnings]
 
@@ -49,44 +49,45 @@ const Home = () => {
                         setCurrentEarningDate(new Date(response.data[0].currentDate))
                         setTotalEarnings(response.data[0].totalEarnings);
                         setTodayEarn(response.data[0].todayEarnings)
+                        setYesterdayEarnings(response.data[0].yesterdayEarnings)
                   })
                   .catch(err => console.log(err));
 
 
+      }, [todayEarn])
 
 
+      useEffect(() => {
+            if (currentEarningDate) {
+                  // RESET EARNINGS IF NEW DAY, MONTH, YEAR
+                  if (now.getFullYear() !== currentEarningDate.getFullYear() ||
+                        now.getMonth() !== currentEarningDate.getMonth() ||
+                        now.getDay() !== currentEarningDate.getDay()) {
 
+                        // Update earnings and reset today’s earnings
+                        setEarnings(prevEarnings => {
+                              axios.put(`http://localhost:8000/earnings/${prevEarnings._id}`, {
+                                    ...prevEarnings,
+                                    currentDate: now.toISOString(),
+                                    todayEarnings: 0,
+                                    yesterdayEarnings: prevEarnings.todayEarnings,
+                              })
+                                    .then(response => {
+                                          // Handle success
+                                          // Reset todayEarn after updating yesterdayEarnings
+                                          console.log("what the cfuck1", response.data)
 
-      }, [])
-
-      if (currentEarningDate) {
-            // RESET EARNINGS IF NEW DAY, MONTH, YEAR
-
-            // Check if the year, month, or day are different
-            if (now.getFullYear() !== currentEarningDate.getFullYear() ||
-                  now.getMonth() !== currentEarningDate.getMonth() ||
-                  now.getDate() !== currentEarningDate.getDate()) {
-
-                  // Update the earnings and reset today’s earnings
-                  axios.put('http://localhost:8000/earnings', {
-                        ...earnings,
-                        currentDate: now.toISOString(), // Convert date to ISO string for consistency
-                        todayEarnings: 0,
-                        yesterdayEarnings: todayEarn,
-                  })
-                        .then(response => {
-                              // Handle success
-                              setEarnings(response.data);
-                              setCurrentEarningDate(now);
-                              setTodayEarn(0);
-                        })
-                        .catch(err => {
-                              console.error('Error updating earnings:', err);
+                                    })
+                                    .catch(err => {
+                                          console.error('Error updating earnings:', err);
+                                    });
+                              return prevEarnings; // Return the current earnings to avoid updating state incorrectly
                         });
-            } else {
-                  console.log("Earnings data for today is already up to date.");
+                  } else {
+                        console.log("Earnings data for today is already up to date.");
+                  }
             }
-      }
+      }, [currentEarningDate, now]);
 
 
       return (
