@@ -54,7 +54,7 @@ const Home = () => {
                   .catch(err => console.log(err));
 
 
-      }, [todayEarn])
+      }, [])
 
 
       useEffect(() => {
@@ -76,6 +76,8 @@ const Home = () => {
                                           // Handle success
                                           // Reset todayEarn after updating yesterdayEarnings
                                           console.log("what the cfuck1", response.data)
+                                          setYesterdayEarnings(response.data.yesterdayEarnings)
+                                          setTodayEarn(0)
 
                                     })
                                     .catch(err => {
@@ -83,6 +85,7 @@ const Home = () => {
                                     });
                               return prevEarnings; // Return the current earnings to avoid updating state incorrectly
                         });
+
                   } else {
                         console.log("Earnings data for today is already up to date.");
                   }

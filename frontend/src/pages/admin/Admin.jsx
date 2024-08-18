@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Admin = () => {
@@ -9,10 +11,6 @@ const Admin = () => {
       const [password, setPassword] = useState('');
       const [isLogin, setIsLogin] = useState(false);
       const [error, setError] = useState(null);
-
-
-
-
 
       const handleLogin = () => {
             axios.get("http://localhost:8000/admin")
@@ -29,6 +27,8 @@ const Admin = () => {
                   .catch(err => {
                         console.log(err)
                   })
+
+            toast.error("Admin Not Found!");
       }
 
       return (
@@ -74,6 +74,19 @@ const Admin = () => {
                                     </button>
                               </div>
                         </div>
+                        <ToastContainer
+                              position="bottom-right"
+                              autoClose={2000}
+                              hideProgressBar={false}
+                              newestOnTop={false}
+                              closeOnClick
+                              rtl={false}
+                              pauseOnFocusLoss
+                              draggable
+                              pauseOnHover
+                              theme="light"
+                              transition:Bounce
+                        />
                   </div>
             </div>
       );

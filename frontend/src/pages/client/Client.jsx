@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -29,6 +31,7 @@ const Client = () => {
                   const user = response.data.find((user) => user.username === username && user.password === password && user.status === true);
                   if (!user) {
 
+                        toast.error('User Not Found!');
                         return
                   }
                   setIsLogin(true);
@@ -51,6 +54,7 @@ const Client = () => {
 
 
             } catch (err) {
+
                   console.error('Error:', err);
                   setError("Login failed");
             }
@@ -65,7 +69,7 @@ const Client = () => {
                         <div className="absolute top-0 bottom-0 right-0 left-0 bg-gray opacity-20 "></div>
 
 
-                        <div className="flex flex-col justify-between items-center gap-2 max-w-sm p-12 pb-8 bg-gray-200 rounded-xl shadow-md overflow-hidden z-10"
+                        <div className="flex flex-col justify-between items-center gap-2 max-w-[1000px] p-12 pb-8 bg-gray-200 rounded-xl shadow-md overflow-hidden z-10"
                               style={{ height: '85vh' }}
                         >
                               <div>
@@ -101,6 +105,19 @@ const Client = () => {
                                     </button>
                               </div>
                         </div>
+                        <ToastContainer
+                              position="bottom-right"
+                              autoClose={2000}
+                              hideProgressBar={false}
+                              newestOnTop={false}
+                              closeOnClick
+                              rtl={false}
+                              pauseOnFocusLoss
+                              draggable
+                              pauseOnHover
+                              theme="light"
+                              transition:Bounce
+                        />
                   </div>
 
 

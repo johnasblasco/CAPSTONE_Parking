@@ -45,7 +45,7 @@ router.put("/:id", async(req, res) => {
                   return res.status(404).json({message: 'not found'})
             }
 
-            return res.status(200).send({message: 'earnings updated successfully'})
+            return res.status(200).json(result)
 
       } catch (error) {
             console.log(error)

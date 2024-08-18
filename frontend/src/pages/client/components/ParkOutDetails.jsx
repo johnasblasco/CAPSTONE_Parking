@@ -1,10 +1,16 @@
-import React from 'react'
 import { IoMdClose } from 'react-icons/io';
 import { useEffect, useState, useContext } from 'react';
 import { innerContext } from '../pages/Dashboard';
 import moment from 'moment';
 import axios from 'axios';
+
+// PRINT? 
+import React, { useRef } from 'react';
+
 const ParkOutDetails = () => {
+
+      // STEP1: make a refference
+      const invoiceRef = useRef();
 
       const [vehicles, setVehicles, showToast, setShowToast, setShowParkIn, setShowParkOut, setDisplayTicket, setShowVehicleData, setSelectedVehicle, selectedVehicle, todayEarn, setTodayEarn, totalEarnings, setTotalEarnings, earnings, setEarnings] = useContext(innerContext)
 
@@ -46,6 +52,8 @@ const ParkOutDetails = () => {
 
                   setShowVehicleData(false)
                   setShowToast("out")
+                  handlePrint()
+
 
             } catch (error) {
                   console.log(error)
@@ -53,6 +61,55 @@ const ParkOutDetails = () => {
 
 
       }
+
+      //STEP 2: Print Function here
+      const handlePrint = () => {
+            const printWindow = window.open('', '', 'height=600,width=400');
+            const invoiceContent = invoiceRef.current.innerHTML;
+
+            printWindow.document.open();
+            printWindow.document.write(`
+                  <html>
+                  <head>
+                  <title>Invoice</title>
+                  <style>
+                        body {
+                        font-family: Arial, sans-serif;
+                        margin: 0;
+                        padding: 0;
+                        width: 3in; /* Set width to 3 inches */
+                        overflow: hidden; /* Hide overflow content */
+                        }
+                        table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        }
+                        th, td {
+                        border: 1px solid black;
+                        padding: 4px;
+                        text-align: left;
+                        }
+                        th {
+                        background-color: #f2f2f2;
+                        }
+                        @media print {
+                        body {
+                        margin: 0;
+                        width: 3in; /* Ensure the width is 3 inches for printing */
+                        }
+                        
+                        }
+                  </style>
+                  </head>
+                  <body>
+                  ${invoiceContent}
+                  </body>
+                  </html>
+                  `);
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print();
+      };
 
       return (
             <>
@@ -104,6 +161,25 @@ const ParkOutDetails = () => {
                         </div>
                   </div>
 
+                  {/*STEP 3: RECEIPT HERE HIDDEN */}
+                  < div ref={invoiceRef} className="mt-4 hidden" >
+                        <table className="border-2 border-black w-full">
+                              <thead>
+                                    <tr>
+                                          <th className="p-2">No</th>
+                                          <th className="p-2">Description</th>
+                                          <th className="p-2">Amount</th>
+                                    </tr>
+                              </thead>
+                              <tbody>
+                                    <tr>
+                                          <td className="p-2">1</td>
+                                          <td className="p-2">Service Fee</td>
+                                          <td className="p-2">$200</td>
+                                    </tr>
+                              </tbody>
+                        </table>
+                  </div >
             </>
       )
 }

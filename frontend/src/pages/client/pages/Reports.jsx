@@ -88,23 +88,24 @@ const Reports = () => {
             />
       }
 
-
+      const print = () => {
+            window.print();
+      }
       return (
 
             <>
                   <Header />
+
                   <div className='absolute left-[200px] top-[100px] lg:overflow-x-hidden max-lg:hidden'>
                         <div className="mx-4 bg-[#D9D9D9] min-h-screen rounded-3xl" style={{ width: 'calc(100vw - 250px)' }}>
 
-
-                              {/* header */}
-                              <div className='relative my-4'>
+                              <div className='relative'>
                                     <div className="title flex justify-center">
                                           <h2 className='text-5xl my-8 font-extrabold' >Reports</h2>
 
                                           <div className='absolute right-12 top-12 flex gap-2 items-center' >
                                                 <MdLocalPrintshop className='text-2xl' />
-                                                <button className='bg-[#53AC5C] py-1 px-3 rounded-xl text-white'>Print</button>
+                                                <button className='bg-[#53AC5C] py-1 px-3 rounded-xl text-white' onClick={print}>Print</button>
                                           </div>
 
                                     </div>
