@@ -71,9 +71,7 @@ const ParkIn = () => {
                   console.log(newVehicle)
 
 
-                  // print first
-                  //print dito
-                  handlePrint()
+
 
                   // Post the new vehicle to the server
                   await axios.post("http://localhost:8000/vehicle", newVehicle);
@@ -93,6 +91,12 @@ const ParkIn = () => {
 
                   // eto lang gagawin to render new vehicle
                   setVehicles((prevVehicles) => [...prevVehicles, newVehicle]);
+
+
+                  // print first lagi para iwas bug
+                  //print dito
+                  handlePrint()
+
 
                   // Set display ticket
                   setDisplayTicket(randomNumber);
@@ -121,45 +125,64 @@ const ParkIn = () => {
             printWindow.document.write(`
                   <html>
                   <head>
-                  <title>Invoice</title>
-                  <style>
-                        body {
-                        font-family: Arial, sans-serif;
+                    <title>Parking Receipt</title>
+                    <style>
+                    @import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+                      body {
+                      height: auto;
+                       text-wrap: balance;
+                        border: 1px solid black;
+                        text-align: center;
+                        font-family: poppins, sans-serif;
                         margin: 0;
                         padding: 0;
                         width: 3in; /* Set width to 3 inches */
                         overflow: hidden; /* Hide overflow content */
+                        box-sizing: border-box;
+                      }
+
+                        .head{
+                              margin: 0 7vw;
                         }
-                        table {
-                        width: 100%;
-                        border-collapse: collapse;
+                  
+                        .left{
+                              margin-top: 40px;
+                              text-align:left;
                         }
-                        th, td {
-                        border: 1px solid black;
-                        padding: 4px;
-                        text-align: left;
-                        }
-                        th {
-                        background-color: #f2f2f2;
-                        }
-                        @media print {
-                        body {
+                              
+                        .big{
                         margin: 0;
-                        width: 3in; /* Ensure the width is 3 inches for printing */
+                              font-size: 40px;
+                              font-weight: bold;
+                              letter-spacing: 3px;
                         }
                         
+                        p{
+                              
+                              font-size: 10px;
+                             margin: 10px 20px;
                         }
-                  </style>
+                        
+                     
+                      @media print {
+                        body {
+                          width: 3in; /* Ensure the width is 3 inches for printing */
+                          margin: 0;
+                        }
+                      }
+                    </style>
                   </head>
                   <body>
-                  ${invoiceContent}
+                    ${invoiceContent}
                   </body>
-                  </html>
-                  `);
+                </html>
+                `);
             printWindow.document.close();
             printWindow.focus();
             printWindow.print();
       };
+
       return (
             <>
                   <div className='fixed w-screen h-screen bg-black/40 z-50'>
@@ -224,23 +247,20 @@ const ParkIn = () => {
 
                   {/*STEP 3: RECEIPT HERE HIDDEN */}
                   < div ref={invoiceRef} className="mt-4 hidden" >
-                        <table className="border-2 border-black w-full">
-                              <thead>
-                                    <tr>
-                                          <th className="p-2">No</th>
-                                          <th className="p-2">Description</th>
-                                          <th className="p-2">Amount</th>
-                                    </tr>
-                              </thead>
-                              <tbody>
-                                    <tr>
-                                          <td className="p-2">1</td>
-                                          <td className="p-2">Service Fee</td>
-                                          <td className="p-2">$200</td>
-                                    </tr>
-                              </tbody>
-                        </table>
+                        <hr />
+                        <p className='head' >immaculate conception parish Cathedral and Minor Basilica, Diocese of Malolos</p>
+                        <p className='left'>Ticket no.</p>
+                        <h2 className='big' >{newVehicle.ticketNumber}</h2>
+                        <p >valid for 3 hours parking. <br /> overtime will be fined. </p>
+                        <p >
+                              this ticket serves as the pass for the exit.
+                              Please keep it until you exit the parking lot.
+                              <br />
+                              Thank you.
+                        </p>
+
                   </div >
+
 
             </>
       );

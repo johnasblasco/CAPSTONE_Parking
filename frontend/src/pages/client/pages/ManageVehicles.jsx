@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { myContext } from '../Home';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
@@ -6,8 +6,6 @@ import moment from 'moment';
 import { IoMdClose } from 'react-icons/io';
 import axios from 'axios';
 import Toast from '../components/Toast';
-
-
 
 
 const ManageVehicles = () => {
@@ -18,6 +16,9 @@ const ManageVehicles = () => {
 
       const [allVehicles, totalEarnings, todayEarn, setTodayEarn, yesterdayEarnings, vehicles, setVehicles, setTotalEarnings, earnings, setEarnings] = useContext(myContext)
 
+
+      // STEP1: make a refference
+      const invoiceRef = useRef();
 
       // Format duration into hours and minutes
       const formatTime = (startDate) => {
@@ -77,7 +78,8 @@ const ManageVehicles = () => {
                         )
                   );
 
-
+                  // print this
+                  handlePrint()
 
                   setShowPopup(false)
                   setShowToast("out")
@@ -98,6 +100,55 @@ const ManageVehicles = () => {
       const hoursDifference = duration.hours();
       const minutesDifference = duration.minutes();
 
+
+      //STEP 2: Print Function here
+      const handlePrint = () => {
+            const printWindow = window.open('', '', 'height=600,width=400');
+            const invoiceContent = invoiceRef.current.innerHTML;
+
+            printWindow.document.open();
+            printWindow.document.write(`
+                  <html>
+                  <head>
+                  <title>Invoice</title>
+                  <style>
+                        body {
+                        font-family: Arial, sans-serif;
+                        margin: 0;
+                        padding: 0;
+                        width: 3in; /* Set width to 3 inches */
+                        overflow: hidden; /* Hide overflow content */
+                        }
+                        table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        }
+                        th, td {
+                        border: 1px solid black;
+                        padding: 4px;
+                        text-align: left;
+                        }
+                        th {
+                        background-color: #f2f2f2;
+                        }
+                        @media print {
+                        body {
+                        margin: 0;
+                        width: 3in; /* Ensure the width is 3 inches for printing */
+                        }
+                        
+                        }
+                  </style>
+                  </head>
+                  <body>
+                  ${invoiceContent}
+                  </body>
+                  </html>
+                  `);
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print();
+      };
 
       return (
             <>
@@ -209,6 +260,26 @@ const ManageVehicles = () => {
                         showToast == "out" && <Toast setShowToast={setShowToast} title={"Vehicle removed!"} disc={"Vehicle has been removed to the database."} />
                   }
                   <Navbar />
+
+                  {/*STEP 3: RECEIPT HERE HIDDEN */}
+                  < div ref={invoiceRef} className="mt-4 hidden" >
+                        <table className="border-2 border-black w-full">
+                              <thead>
+                                    <tr>
+                                          <th className="p-2">No</th>
+                                          <th className="p-2">Description</th>
+                                          <th className="p-2">Amount</th>
+                                    </tr>
+                              </thead>
+                              <tbody>
+                                    <tr>
+                                          <td className="p-2">1</td>
+                                          <td className="p-2">Service Fee</td>
+                                          <td className="p-2">$200</td>
+                                    </tr>
+                              </tbody>
+                        </table>
+                  </div >
             </>
       )
 }
