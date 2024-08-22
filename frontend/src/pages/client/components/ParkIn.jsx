@@ -67,14 +67,16 @@ const ParkIn = () => {
                         status: true
                   };
 
+                  //put the new User in the State so that I can get the date and put it in the receipt
+                  setNewVehicle(newVehicle)
 
                   // Post the new vehicle to the server
                   await axios.post("http://localhost:8000/vehicle", newVehicle);
 
 
-                  //put the new User in the State so that I can get the date and put it in the receipt
+                  // ganto lang mag render
                   const res = await axios.get("http://localhost:8000/vehicle")
-                  setVehicles(res.data.filter(e => e.status == true))
+                  setVehicles(res.data.filter(e => e.status == false))
 
                   // Update the earnings to the server
                   const updateEarnings = {
