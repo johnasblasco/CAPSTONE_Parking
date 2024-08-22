@@ -24,17 +24,14 @@ const ParkOutDetails = () => {
       const hoursDifference = duration.hours();
       const minutesDifference = duration.minutes();
 
-      console.log("Difference in hours:", hoursDifference);
-      console.log("Difference in minutes:", minutesDifference);
-      console.log("Difference in Days:", dayDifference);
-
       const handleRemove = async () => {
-
             const vehicleUpdateData = {
                   ...selectedVehicle,
                   endDate: moment(),
                   status: false
             };
+            console.log("newvehicle here:", vehicleUpdateData)
+
 
             try {
                   await axios.put(`http://localhost:8000/vehicle/${selectedVehicle._id}`, vehicleUpdateData)

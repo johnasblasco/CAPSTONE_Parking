@@ -20,6 +20,7 @@ const ParkOut = () => {
       const handleSearch = () => {
             const found = vehicles.find((vehicle) => vehicle.ticketNumber == inputTicket)
             if (found) {
+                  console.log(found)
                   setSelectedVehicle(found)
                   setHasVehicle(true)
 

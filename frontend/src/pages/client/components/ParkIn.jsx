@@ -66,15 +66,15 @@ const ParkIn = () => {
                         endDate: null,
                         status: true
                   };
-                  //put the new User in the State so that I can get the date and put it in the receipt
-                  setNewVehicle(newVehicle)
-                  console.log(newVehicle)
-
-
 
 
                   // Post the new vehicle to the server
                   await axios.post("http://localhost:8000/vehicle", newVehicle);
+
+
+                  //put the new User in the State so that I can get the date and put it in the receipt
+                  const res = await axios.get("http://localhost:8000/vehicle")
+                  setVehicles(res.data.filter(e => e.status == true))
 
                   // Update the earnings to the server
                   const updateEarnings = {
@@ -88,9 +88,6 @@ const ParkIn = () => {
                   // Update the earnings state with the new data        
                   setTotalEarnings(updateEarnings.totalEarnings);
                   setTodayEarn(updateEarnings.todayEarnings);
-
-                  // eto lang gagawin to render new vehicle
-                  setVehicles((prevVehicles) => [...prevVehicles, newVehicle]);
 
 
                   // print first lagi para iwas bug
