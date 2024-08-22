@@ -178,7 +178,7 @@ const ParkOutDetails = () => {
 
                   {/*STEP 3: RECEIPT HERE HIDDEN */}
                   < div ref={invoiceRef} className="mt-4 hidden" >
-                        <h1>Thank you kupfl</h1>
+                        <h1>Thank you kufal</h1>
                   </div >
             </>
       )
