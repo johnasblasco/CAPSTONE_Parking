@@ -49,7 +49,7 @@ const ParkOutDetails = () => {
 
                   setShowVehicleData(false)
                   setShowToast("out")
-                  handlePrint()
+
 
 
             } catch (error) {
@@ -58,73 +58,6 @@ const ParkOutDetails = () => {
 
 
       }
-
-      //STEP 2: Print Function here
-      const handlePrint = () => {
-            const printWindow = window.open('', '', 'height=600,width=400');
-            const invoiceContent = invoiceRef.current.innerHTML;
-
-            printWindow.document.open();
-            printWindow.document.write(`
-                  <html>
-                  <head>
-                    <title>Parking Receipt</title>
-                    <style>
-                    @import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
-                      body {
-                      height: auto;
-                       text-wrap: balance;
-                        border: 1px solid black;
-                        text-align: center;
-                        font-family: poppins, sans-serif;
-                        margin: 0;
-                        padding: 0;
-                        width: 3in; /* Set width to 3 inches */
-                        overflow: hidden; /* Hide overflow content */
-                        box-sizing: border-box;
-                      }
-
-                        .head{
-                              margin: 0 7vw;
-                        }
-                  
-                        .left{
-                              margin-top: 40px;
-                              text-align:left;
-                        }
-                              
-                        .big{
-                        margin: 0;
-                              font-size: 40px;
-                              font-weight: bold;
-                              letter-spacing: 3px;
-                        }
-                        
-                        p{
-                              
-                              font-size: 10px;
-                             margin: 10px 20px;
-                        }
-                        
-                     
-                      @media print {
-                        body {
-                          width: 3in; /* Ensure the width is 3 inches for printing */
-                          margin: 0;
-                        }
-                      }
-                    </style>
-                  </head>
-                  <body>
-                    ${invoiceContent}
-                  </body>
-                </html>
-                `);
-            printWindow.document.close();
-            printWindow.focus();
-            printWindow.print();
-      };
 
       return (
             <>
@@ -176,10 +109,6 @@ const ParkOutDetails = () => {
                         </div>
                   </div>
 
-                  {/*STEP 3: RECEIPT HERE HIDDEN */}
-                  < div ref={invoiceRef} className="mt-4 hidden" >
-                        <h1>Thank you kufal</h1>
-                  </div >
             </>
       )
 }

@@ -137,8 +137,8 @@ const ParkIn = () => {
                         font-family: poppins, sans-serif;
                         margin: 0;
                         padding: 0;
-                        width: 3in; /* Set width to 3 inches */
-                        overflow: hidden; /* Hide overflow content */
+                        width: 3in; 
+                        overflow: hidden; 
                         box-sizing: border-box;
                       }
 
@@ -182,6 +182,7 @@ const ParkIn = () => {
             printWindow.focus();
             printWindow.print();
       };
+
 
       return (
             <>
