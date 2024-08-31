@@ -11,6 +11,8 @@ const ParkOut = () => {
 
       const [inputTicket, setInputTicket] = useState(0);
 
+      const [found, setFound] = useState(true);
+
       const handleView = () => {
             setShowParkOut(false)
             setShowVehicleData(true)
@@ -23,6 +25,7 @@ const ParkOut = () => {
                   console.log(found)
                   setSelectedVehicle(found)
                   setHasVehicle(true)
+                  setFound(true)
 
 
 
@@ -30,7 +33,7 @@ const ParkOut = () => {
             else {
                   console.log("wala vehicle")
                   setHasVehicle(false)
-
+                  setFound(false)
             }
 
       }
@@ -77,6 +80,12 @@ const ParkOut = () => {
                                           </table>
                                     </div>
 
+                              }
+                              {
+                                    !found &&
+                                    <div>
+                                          <p className='text-red-600'>no vehicle found!</p>
+                                    </div>
                               }
 
 

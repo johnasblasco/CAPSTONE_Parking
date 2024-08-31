@@ -7,6 +7,7 @@ import Toast from '../components/Toast';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 
+import { ToastContainer, toast } from 'react-toastify';
 // in
 import ParkIn from '../components/ParkIn'
 import { FaArrowRightToBracket } from "react-icons/fa6";
@@ -127,6 +128,19 @@ const Dashboard = () => {
                                     </div>
                               </div>
                         </div>
+                        <ToastContainer
+                              position="bottom-right"
+                              autoClose={2000}
+                              hideProgressBar={false}
+                              newestOnTop={false}
+                              closeOnClick
+                              rtl={false}
+                              pauseOnFocusLoss
+                              draggable
+                              pauseOnHover
+                              theme="light"
+                              transition:Bounce
+                        />
                   </div >
 
                   {/* CONDITIONAL RENDERING HERE */}

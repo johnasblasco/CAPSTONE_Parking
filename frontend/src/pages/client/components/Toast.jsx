@@ -9,7 +9,7 @@ const Toast = ({ setShowToast, title, disc, showToast, displayTicket }) => {
 
       return (
 
-            <div className='fixed w-screen h-screen bg-black/40 flex justify-center z-50'>
+            <div onClick={handleButton} className='fixed w-screen h-screen bg-black/40 flex justify-center z-50'>
                   <div className='bg-[#D9D9D9] font-light relative top-10 w-[550px] h-fit py-8 px-12 rounded-2xl z-100'>
                         <IoMdClose onClick={handleButton} className='text-4xl absolute top-2 right-2 cursor-pointer' />
 

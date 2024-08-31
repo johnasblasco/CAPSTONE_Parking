@@ -1,6 +1,7 @@
 import { IoMdClose } from 'react-icons/io';
 import { useState, useContext } from 'react';
 import { innerContext } from '../pages/Dashboard';
+import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 
 // PRINT? 
@@ -31,6 +32,7 @@ const ParkIn = () => {
 
                   // close parkIn
                   setShowParkIn(false);
+                  toast.error('3 and 4 wheels is Full!');
                   return
             }
             if (vehicles.filter((v) => v.category === "2 Wheels").length >= 53 && selectedOption === "2 Wheels") {
@@ -40,6 +42,7 @@ const ParkIn = () => {
 
                   // close parkIn
                   setShowParkIn(false);
+                  toast.error('2 wheels is Full!');
                   return
             }
 
@@ -118,74 +121,125 @@ const ParkIn = () => {
 
       //STEP 2: Print Function here
       const handlePrint = () => {
+            if (!invoiceRef.current) {
+                  console.error("Invoice reference is missing");
+                  return;
+            }
+
             const printWindow = window.open('', '', 'height=600,width=400');
             const invoiceContent = invoiceRef.current.innerHTML;
 
-            printWindow.document.open();
-            printWindow.document.write(`
-                  <html>
-                  <head>
-                    <title>Parking Receipt</title>
-                    <style>
-                    @import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
-                      body {
+            if (printWindow) {
+                  printWindow.document.open();
+                  printWindow.document.write(`
+                <html>
+                <head>
+                  <title>Parking Receipt</title>
+                  <style>
+                    *{
+                      margin: 0;
+                      padding: 0;
+                  }
+                    body {
                       height: auto;
-                       text-wrap: balance;
-                        border: 1px solid black;
-                        text-align: center;
-                        font-family: poppins, sans-serif;
-                        margin: 0;
-                        padding: 0;
-                        width: 3in; 
-                        overflow: hidden; 
-                        box-sizing: border-box;
-                      }
-
-                        .head{
-                              margin: 0 7vw;
-                        }
+                      text-wrap: balance;
+                      border: 1px solid black;
+                      font-family: Arial, sans-serif;
                   
-                        .left{
-                              margin-top: 40px;
-                              text-align:left;
-                        }
-                              
-                        .big{
+                      width: 3in;
+                      overflow: hidden;
+                      box-sizing: border-box;
+                    }
+                      p {
+                      font-size: 12px;
+                    }
+                    @media print {
+                      body {
+                        width: 3in;
                         margin: 0;
-                              font-size: 40px;
-                              font-weight: bold;
-                              letter-spacing: 3px;
-                        }
-                        
-                        p{
-                              
-                              font-size: 10px;
-                             margin: 10px 20px;
-                        }
-                        
-                     
-                      @media print {
-                        body {
-                          width: 3in; /* Ensure the width is 3 inches for printing */
-                          margin: 0;
-                        }
                       }
-                    </style>
-                  </head>
-                  <body>
-                    ${invoiceContent}
-                  </body>
+                    }
+                      hr{
+                        margin: 12px 5px 5px;
+                      }
+                
+                    .heading {
+                      gap: 10px;
+                      display: flex;
+                      align-items: center;
+                      justify-content: space-between;
+                      margin: 0 4vw;
+                      margin-bottom: 20px;
+                    }
+                   .heading p{
+                     text-align: center;
+                      font-size: 15px; 
+                      text-wrap: balance;
+                  }
+                   .heading img {
+                        width: 50px;
+                        height: 50px;
+                        border: 1px solid black;
+                   }
+                  .leeg{margin-top: 40px;}
+                  .leeg p{
+      
+                        margin-left: 20px;
+                  }
+                  .leeg .big {
+                      margin-left: 20px;
+                      font-size: 60px;
+                      font-weight: bold;
+                      letter-spacing: 10px;
+                    }
+
+                  .grid{
+                  margin: 0px 20px;
+                        text-align: center;
+                        display: flex;
+                        justify-content: space-evenly;
+                  }
+                  
+                  .plate{
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                  }
+                  .plate p{
+                  margin-top: 20px; 
+                        }
+                  .plate .mejo-malaki{
+                        margin: 0; 
+                        padding: 0;
+                      font-size: 25px;
+                      font-weight: bold;
+                  }
+                    
+                  .footer{
+                        margin-top: 20px;
+                        text-align: center;
+                  }
+
+                  </style>
+                </head>
+                <body>
+                  ${invoiceContent}
+                </body>
                 </html>
-                `);
-            printWindow.document.close();
-            printWindow.focus();
-            printWindow.print();
+              `);
+                  printWindow.document.close();
+                  printWindow.focus();
+                  printWindow.print();
+            } else {
+                  console.error("Failed to open print window");
+            }
       };
+
 
 
       return (
             <>
+
                   <div className='fixed w-screen h-screen bg-black/40 z-50'>
                         <div className='fixed inset-0 flex items-center justify-center bg-black/40'>
                               <div className={`relative lg:min-w-[45vw] md:max-w-[20vw] sm:max-w-[10vw] bg-[#D9D9D9] shadow-lg rounded-2xl flex flex-col gap-8 items-center p-8 w-full h-5/6`}>
@@ -244,21 +298,52 @@ const ParkIn = () => {
                                     </button>
                               </div>
                         </div>
+
                   </div >
 
                   {/*STEP 3: RECEIPT HERE HIDDEN */}
                   < div ref={invoiceRef} className="mt-4 hidden" >
                         <hr />
-                        <p className='head' >immaculate conception parish Cathedral and Minor Basilica, Diocese of Malolos</p>
-                        <p className='left'>Ticket no.</p>
-                        <h2 className='big' >{newVehicle.ticketNumber}</h2>
-                        <p >valid for 3 hours parking. <br /> overtime will be fined. </p>
-                        <p >
-                              this ticket serves as the pass for the exit.
-                              Please keep it until you exit the parking lot.
-                              <br />
-                              Thank you.
-                        </p>
+                        <div className='heading'>
+                              <img src="" alt="" />
+                              <p>immaculate Conception Parish Cathedral and Minor Basilica, <b>Diose of Malolos</b> </p>
+                        </div>
+
+                        <div className='leeg'>
+                              <p>Ticket No.</p>
+                              <p className='big'>{newVehicle.ticketNumber}</p>
+                        </div>
+
+                        <div className='grid'>
+                              <div className='left'>
+                                    <p>Park in: <br />
+                                          <b>Php. 25.00</b> <br />
+                                          <b>Paid</b>
+                                    </p>
+                              </div>
+
+                              <div className='right'>
+                                    <p>Date: <br />
+                                          <b>08 / 01 / 24</b> <br />
+                                          10:00am
+                                    </p>
+                              </div>
+                        </div>
+
+                        <div className='plate'>
+                              <p>Plate:</p>
+                              <p className='mejo-malaki'>XXXXXX</p>
+                        </div>
+
+                        {/* footer na */}
+                        <div className='footer'>
+                              <p>Paunawa.</p>
+
+                              <p>asd asdaasdsds das dsa dsa dsassa dsa dddas das dsa dasd sa assdas asdasdsad</p>
+                              <p>asd asdaasdsds das dsa dsa dsassa dsa dddas das dsa dasd sa assdas asdasdsad</p>
+                              <p>asd asdaasdsds das dsa dsa dsassa dsa dddas das dsa dasd sa assdas asdasdsad</p>
+                              <p>asd asdaasdsds das dsa dsa dsassa dsa dddas das dsa dasd sa assdas asdasdsad</p>
+                        </div>
 
                   </div >
 
