@@ -198,7 +198,7 @@ const ManageAccount = () => {
                                     <IoCloseOutline className='absolute text-4xl right-5 top-5 cursor-pointer' onClick={clearDataWhenEx} />
 
                                     {/* content */}
-                                    <div className=' overflow-auto mt-16 mx-32 h-[65vh] pb-5 flex flex-col gap-6'>
+                                    <div className=' overflow-auto mt-16 mx-32  p-10 flex flex-col gap-6'>
 
                                           <div className='flex items-center gap-16'>
                                                 <label htmlFor="">Full Name</label>

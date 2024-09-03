@@ -57,7 +57,7 @@ const Dashboard = () => {
       return (
             <>
                   <Header />
-                  <div className='absolute left-[200px] top-[100px] lg:overflow-x-hidden max-sm:hidden'>
+                  <div className='absolute left-[200px] top-[100px] lg:overflow-x-hidden max-sm:hidden '>
                         <div className="mx-4 bg-[#D9D9D9] min-h-screen rounded-3xl" style={{ width: 'calc(100vw - 250px)' }}>
 
                               {/* CONTENT */}
@@ -93,7 +93,7 @@ const Dashboard = () => {
                                                 </button>
                                           </div>
 
-                                          <div className='relative min-h-[44vh] rounded-3xl bg-[#C6C8CD] p-4'>
+                                          <div className='relative mt-8 min-h-[40vh] rounded-3xl bg-[#C6C8CD] p-4'>
                                                 <span className='absolute px-4 py-1 bg-[#B0ADBC] rounded-lg'>Slots</span>
 
                                                 {/* content */}

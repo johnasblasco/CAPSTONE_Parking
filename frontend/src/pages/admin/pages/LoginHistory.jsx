@@ -12,7 +12,7 @@ const LoginHistory = () => {
             <>
                   <Header />
 
-                  <div className='absolute left-[200px] top-[100px] lg:overflow-x-hidden max-lg:hidden'>
+                  <div className='absolute left-[200px] top-[100px] overflow-x-hidden max-lg:hidden'>
                         <div className="mx-4 bg-[#D9D9D9] min-h-screen rounded-3xl" style={{ width: 'calc(100vw - 250px)' }}>
                               <div className="title flex justify-center">
                                     <h2 className='text-5xl my-8 font-extrabold' >Login History</h2>
@@ -20,7 +20,7 @@ const LoginHistory = () => {
 
                               {/* CONTENT */}
 
-                              <div className="bg-[#D6D0C4] mx-8 rounded-3xl min-h-screen h-auto ">
+                              <div className="bg-[#D6D0C4] mx-8  rounded-3xl min-h-screen h-auto ">
 
                                     <div className="flex justify-center">
                                           <span className='bg-[#94AB95] px-4 py-1 m-4 rounded-2xl '>List</span>

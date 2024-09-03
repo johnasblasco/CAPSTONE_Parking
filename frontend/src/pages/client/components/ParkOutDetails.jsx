@@ -101,7 +101,7 @@ const ParkOutDetails = () => {
                                                 {hoursDifference >= 3 && <p className='ml-24 font-bold'>(+ overstay)</p>}
                                           </div>
 
-                                          <button onClick={handleRemove} className='bg-[#B96F6F] hover:bg-[#a96464] py-2 px-8 text-2xl font-bold rounded-2xl text-white'>Remove</button>
+                                          <button onClick={handleRemove} className='bg-[#B96F6F] hover:bg-[#c73838] py-2 px-8 text-2xl font-bold rounded-2xl text-white'>Remove</button>
                                     </div>
 
 

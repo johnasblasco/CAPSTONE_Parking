@@ -31,7 +31,7 @@ const ParkIn = () => {
                   setPlateNo("");
 
                   // close parkIn
-                  setShowParkIn(false);
+                  setShowParkIn(false)
                   toast.error('3 and 4 wheels is Full!');
                   return
             }
@@ -141,7 +141,6 @@ const ParkIn = () => {
                       padding: 0;
                   }
                     body {
-                      height: auto;
                       text-wrap: balance;
                       border: 1px solid black;
                       font-family: Arial, sans-serif;
@@ -155,14 +154,20 @@ const ParkIn = () => {
                     }
                     @media print {
                       body {
+                        height: 60vh;
                         width: 3in;
                         margin: 0;
                       }
                     }
                       hr{
+                        border: 1px solid gray;
                         margin: 12px 5px 5px;
                       }
-                
+                        
+                     .space{
+                        margin: 20px;
+                     }
+
                     .heading {
                       gap: 10px;
                       display: flex;
@@ -302,10 +307,11 @@ const ParkIn = () => {
                   </div >
 
                   {/*STEP 3: RECEIPT HERE HIDDEN */}
-                  < div ref={invoiceRef} className="mt-4 hidden" >
+                  < div ref={invoiceRef} className="hidden" >
+                        <div className='space'></div>
                         <hr />
                         <div className='heading'>
-                              <img src="" alt="" />
+                              <img src="/logo.jpeg" alt="" />
                               <p>immaculate Conception Parish Cathedral and Minor Basilica, <b>Diose of Malolos</b> </p>
                         </div>
 
@@ -338,13 +344,14 @@ const ParkIn = () => {
                         {/* footer na */}
                         <div className='footer'>
                               <p>Paunawa.</p>
+                              <p>Walang pananagutan ang Parokya sa anumang mawawala o masisira habang nakaparada sa patio <br /><br />
+                                    Ang na iyo ang magsisilbing<b>Acknowledgement Receipt</b> ng Parokya. <br /><br />
+                                    Sa pagkawala ng resibo o ticket na ito. Kailangan ipakita ang rihistro ng sasakyan at magbabayad ng <b>Php 50.00</b>
+                                    para sa kaukulang multa. <br /><br /> Mangyaring <b>iwanan itong resibo</b> o ticket paglabas ng paradahan ng Parokya.
+                              </p>
 
-                              <p>asd asdaasdsds das dsa dsa dsassa dsa dddas das dsa dasd sa assdas asdasdsad</p>
-                              <p>asd asdaasdsds das dsa dsa dsassa dsa dddas das dsa dasd sa assdas asdasdsad</p>
-                              <p>asd asdaasdsds das dsa dsa dsassa dsa dddas das dsa dasd sa assdas asdasdsad</p>
-                              <p>asd asdaasdsds das dsa dsa dsassa dsa dddas das dsa dasd sa assdas asdasdsad</p>
                         </div>
-
+                        <hr />
                   </div >
 
 
