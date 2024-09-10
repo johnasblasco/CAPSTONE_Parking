@@ -14,7 +14,7 @@ const ManageVehicles = () => {
       const [selectedVehicle, setSelectedVehicle] = useState(null);
       const [showToast, setShowToast] = useState('');
 
-      const [allVehicles, totalEarnings, todayEarn, setTodayEarn, yesterdayEarnings, vehicles, setVehicles, setTotalEarnings, earnings, setEarnings] = useContext(myContext)
+      const [socket, allVehicles, totalEarnings, todayEarn, setTodayEarn, yesterdayEarnings, vehicles, setVehicles, setTotalEarnings, earnings, setEarnings] = useContext(myContext)
 
 
       // STEP1: make a refference
@@ -69,14 +69,15 @@ const ManageVehicles = () => {
             try {
                   await axios.put(`http://localhost:8000/vehicle/${selectedVehicle._id}`, vehicleUpdateData)
 
-
                   // render the updates
-                  setVehicles(prevVehicles =>
-                        prevVehicles.filter(vehicle =>
-                              vehicle._id != selectedVehicle._id
+                  // const updatedVehicles = prevVehicles =>
+                  //       prevVehicles.filter(vehicle =>
+                  //             vehicle._id != selectedVehicle._id
 
-                        )
-                  );
+                  //       )
+
+                  // socket.emit('updateVehicle', updatedVehicles)
+
 
                   setShowPopup(false)
                   setShowToast("out")

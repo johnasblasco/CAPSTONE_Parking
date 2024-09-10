@@ -11,7 +11,7 @@ import { MdCheckBox } from "react-icons/md";
 import PropagateLoader from 'react-spinners/PropagateLoader'
 const Reports = () => {
 
-      const [allVehicles, totalEarnings, todayEarn, setTodayEarn, yesterdayEarnings, vehicles, setVehicles, setTotalEarnings, earnings, setEarnings] = useContext(myContext)
+      const [socket, allVehicles, totalEarnings, todayEarn, setTodayEarn, yesterdayEarnings, vehicles, setVehicles, setTotalEarnings, earnings, setEarnings] = useContext(myContext)
 
 
       const [getVehicles, getSetVehicles] = useState(allVehicles)

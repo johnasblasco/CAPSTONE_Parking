@@ -13,14 +13,14 @@ const Client = () => {
       const [error, setError] = useState(null);
 
       //solution if may hindi nakapag log out
-      axios.get("http://localhost:8000/user")
-            .then((user) => {
-                  const isLogin = user.data.find((user) => user.login)
-                  if (isLogin) navigate('/user/dashboard', { replace: true });
+      // axios.get("http://localhost:8000/user")
+      //       .then((user) => {
+      //             const isLogin = user.data.find((user) => user.login)
+      //             if (isLogin) navigate('/user/dashboard', { replace: true });
 
-            })
-            .catch(err => console.log(err))
-      console.log("wala")
+      //       })
+      //       .catch(err => console.log(err))
+      // console.log("wala")
 
 
       const handleLogin = async () => {

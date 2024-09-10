@@ -6,6 +6,9 @@ import Reports from './pages/Reports';
 import About from './pages/About';
 import axios from 'axios';
 
+//SOCKET IO
+import io from 'socket.io-client';
+const socket = io('http://localhost:8000');
 
 import { useEffect, useState, createContext } from 'react';
 export const myContext = createContext()
@@ -23,22 +26,55 @@ const Home = () => {
       const now = new Date();
       const [currentEarningDate, setCurrentEarningDate] = useState();
 
-      const myContextValue = [allVehicles, totalEarnings, todayEarn, setTodayEarn, yesterdayEarnings, vehicles, setVehicles, setTotalEarnings, earnings, setEarnings]
-
+      const myContextValue = [socket, allVehicles, totalEarnings, todayEarn, setTodayEarn, yesterdayEarnings, vehicles, setVehicles, setTotalEarnings, earnings, setEarnings]
 
 
       useEffect(() => {
 
-            // Fetch Vehicles
-            axios.get("http://localhost:8000/vehicle")
-                  .then((response) => {
-                        const allVehicle = response.data
-                        setAllVehicles(allVehicle)
 
-                        const vehicleTrue = response.data.filter(vehicle => vehicle.status == true)
+            return () => {
+
+                  socket.on('vehicles', (vehicles) => {
+                        setAllVehicles(vehicles)
+
+                        const vehicleTrue = vehicles.filter(vehicle => vehicle.status == true)
                         setVehicles(vehicleTrue)
                   })
-                  .catch(err => console.log(err))
+
+                  socket.on('newVehicle', (newVehicle) => {
+                        setVehicles(prevVehicle => [...prevVehicle, newVehicle])
+                  });
+
+
+                  socket.on('updateVehicle', (updatedVehicle) => {
+                        console.log('Updated Vehicle:', updatedVehicle);
+                        setVehicles(prevVehicle => prevVehicle.filter(V => V.ticketNumber != updatedVehicle.ticketNumber))
+                        console.log("new vehicle: ", vehicles)
+                  });
+
+
+                  return () => {
+                        if (socket) {
+                              socket.off('vehicles');
+                              socket.off('newVehicle');
+                              socket.off('updateVehicle');
+                        }
+                  };
+            }
+      }, [])
+
+      useEffect(() => {
+
+            // Fetch Vehicles
+            // axios.get("http://localhost:8000/vehicle")
+            //       .then((response) => {
+            //             const allVehicle = response.data
+            //             setAllVehicles(allVehicle)
+
+            //             const vehicleTrue = response.data.filter(vehicle => vehicle.status == true)
+            //             setVehicles(vehicleTrue)
+            //       })
+            //       .catch(err => console.log(err))
 
 
             // Fetch total earnings

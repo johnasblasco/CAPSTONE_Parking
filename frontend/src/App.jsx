@@ -4,9 +4,7 @@ import Home from './pages/Home';
 import ClientRoutes from './routes/ClientRoutes';
 import AdminRoutes from './routes/AdminRoutes';
 
-//SOCKET IO
-import io from 'socket.io-client';
-const socket = io('http://localhost:8000');
+
 
 const App = () => {
 

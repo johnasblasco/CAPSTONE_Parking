@@ -3,6 +3,14 @@ import {VEHICLE} from '../models/vehicle.js'
 
 const router = express.Router()
 
+// socket IO instance
+let io;
+
+export function init(ioInstance) {
+  io = ioInstance;
+}
+
+
 
 router.post('/', async(req,res) => {
 
@@ -26,6 +34,7 @@ router.post('/', async(req,res) => {
             }
 
             const vehicle = await VEHICLE.create(newVehicle);
+            io.emit('newVehicle', vehicle);
             return res.status(201).json(vehicle)
             
       } catch (error) {
@@ -57,23 +66,27 @@ router.get("/:id",(req, res)=>{
 
 })
 
-router.put("/:id", async(req, res) => {
+router.put("/:id", async (req, res) => {
       try {
-
-            const {id} = req.params;
-
-            const result = await VEHICLE.findByIdAndUpdate(id, req.body)
-                        
-            if(!result){
-                  return res.status(404).json({message: 'Vehicle not found'})
-            }
-
-            return res.status(200).send({message: 'Vehicle updated successfully'})
-
+          const { id } = req.params;
+  
+          const result = await VEHICLE.findByIdAndUpdate(id, req.body);
+  
+          if (!result) {
+              return res.status(404).json({ message: 'Vehicle not found' });
+          }
+  
+          io.emit('updateVehicle', result);
+            console.log('Emitted updated vehicle:', result);
+  
+          // Send the updated vehicle data and status in one response
+          return res.status(200).json(result);
+  
       } catch (error) {
-            console.log("error sa update")
-            req.status(500).send({message: error.message})
+          console.log("Error updating vehicle:", error);
+          return res.status(500).send({ message: error.message });
       }
-})
+  });
+  
 
 export default router

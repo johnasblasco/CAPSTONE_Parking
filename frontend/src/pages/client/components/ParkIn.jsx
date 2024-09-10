@@ -2,22 +2,26 @@ import { IoMdClose } from 'react-icons/io';
 import { useState, useContext } from 'react';
 import { innerContext } from '../pages/Dashboard';
 import { ToastContainer, toast } from 'react-toastify';
+import moment from 'moment';
 import axios from 'axios';
 
 // PRINT? 
 import React, { useRef } from 'react';
+import { Await } from 'react-router-dom';
 
 const ParkIn = () => {
       // STEP1: make a refference
       const invoiceRef = useRef();
 
 
-      const [vehicles, setVehicles, showToast, setShowToast, setShowParkIn, setShowParkOut, setDisplayTicket, setShowVehicleData, setSelectedVehicle, selectedVehicle, todayEarn, setTodayEarn, totalEarnings, setTotalEarnings, earnings, setEarnings] = useContext(innerContext);
+      const [socket, vehicles, setVehicles, showToast, setShowToast, setShowParkIn, setShowParkOut, setDisplayTicket, setShowVehicleData, setSelectedVehicle, selectedVehicle, todayEarn, setTodayEarn, totalEarnings, setTotalEarnings, earnings, setEarnings] = useContext(innerContext);
       const [plateNo, setPlateNo] = useState("");
       const [selectedOption, setSelectedOption] = useState('');
 
 
+      //just for the print 
       const [newVehicle, setNewVehicle] = useState({});
+
 
       const handleOptionChange = (event) => {
             setSelectedOption(event.target.value);
@@ -72,12 +76,9 @@ const ParkIn = () => {
 
 
                   // Post the new vehicle to the server
-                  await axios.post("http://localhost:8000/vehicle", newVehicle);
+                  await axios.post("http://localhost:8000/vehicle", newVehicle)
 
 
-                  // ganto lang mag render
-                  const res = await axios.get("http://localhost:8000/vehicle")
-                  setVehicles(res.data.filter(e => e.status == true))
 
                   //put the new User in the State so that I can get the date and put it in the receipt
                   setNewVehicle(newVehicle)
@@ -154,25 +155,21 @@ const ParkIn = () => {
                     }
                     @media print {
                       body {
-                        height: 60vh;
                         width: 3in;
                         margin: 0;
                       }
                     }
                       hr{
                         border: 1px solid gray;
-                        margin: 12px 5px 5px;
+                        margin: 22px 5px 5px;
                       }
                         
-                     .space{
-                        margin: 20px;
-                     }
 
                     .heading {
                       gap: 10px;
                       display: flex;
                       align-items: center;
-                      justify-content: space-between;
+                      justify-content: space-center;
                       margin: 0 4vw;
                       margin-bottom: 20px;
                     }
@@ -199,7 +196,7 @@ const ParkIn = () => {
                     }
 
                   .grid{
-                  margin: 0px 20px;
+                        margin: 0px 20px;
                         text-align: center;
                         display: flex;
                         justify-content: space-evenly;
@@ -308,7 +305,7 @@ const ParkIn = () => {
 
                   {/*STEP 3: RECEIPT HERE HIDDEN */}
                   < div ref={invoiceRef} className="hidden" >
-                        <div className='space'></div>
+
                         <hr />
                         <div className='heading'>
                               <img src="/logo.jpeg" alt="" />
@@ -330,15 +327,15 @@ const ParkIn = () => {
 
                               <div className='right'>
                                     <p>Date: <br />
-                                          <b>08 / 01 / 24</b> <br />
-                                          10:00am
+                                          <b>{moment(newVehicle.startDate).format('MM / DD / YY')}</b> <br />
+                                          {moment(newVehicle.startDate).format('h:mm A')}
                                     </p>
                               </div>
                         </div>
 
                         <div className='plate'>
                               <p>Plate:</p>
-                              <p className='mejo-malaki'>XXXXXX</p>
+                              <p className='mejo-malaki'>{newVehicle.plateNumber}</p>
                         </div>
 
                         {/* footer na */}
