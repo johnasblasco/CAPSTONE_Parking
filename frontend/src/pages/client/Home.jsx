@@ -14,7 +14,7 @@ import { useEffect, useState, createContext } from 'react';
 export const myContext = createContext()
 
 
-
+//babalikan ko to bukas
 
 const Home = () => {
       const [vehicles, setVehicles] = useState([-1])
