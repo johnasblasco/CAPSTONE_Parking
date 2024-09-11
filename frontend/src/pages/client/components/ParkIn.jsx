@@ -86,8 +86,8 @@ const ParkIn = () => {
                   // Update the earnings to the server
                   const updateEarnings = {
                         currentDate: new Date(),
-                        totalEarnings: (totalEarnings + 20),
-                        todayEarnings: (todayEarn + 20),
+                        totalEarnings: (totalEarnings + 25),
+                        todayEarnings: (todayEarn + 25),
                   }
                   // Make API call to update earnings
                   const response = await axios.put(`http://localhost:8000/earnings/${earnings._id}`, updateEarnings);
