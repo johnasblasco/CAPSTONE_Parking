@@ -11,8 +11,8 @@ import mongoose from 'mongoose'
 //import routes
 import userR from './routes/userR.js'
 import adminR from './routes/adminR.js'
-import vehicleR, {init} from './routes/vehicleR.js'
-import earningsR from './routes/earningsR.js'
+import vehicleR, {vehicleInit} from './routes/vehicleR.js'
+import earningsR, {earningsInit} from './routes/earningsR.js'
 
 //use express
 const app = express()
@@ -71,4 +71,5 @@ io.on('connection', socket => {
 })    
 
       
-init(io);
+vehicleInit(io);
+earningsInit(io);

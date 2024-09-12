@@ -58,6 +58,11 @@ const Home = () => {
                   setVehicles(prevVehicle => prevVehicle.filter(V => V.ticketNumber !== updatedVehicle.ticketNumber));
             });
 
+            socket.on('updateEarnings', (newEarnings) => {
+                  setTotalEarnings(newEarnings.totalEarnings);
+                  setTodayEarn(newEarnings.todayEarnings);
+            })
+
             return () => {
                   if (socket) {
                         socket.off('vehicles');

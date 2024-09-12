@@ -6,7 +6,7 @@ const router = express.Router()
 // socket IO instance
 let io;
 
-export function init(ioInstance) {
+export function vehicleInit(ioInstance) {
   io = ioInstance;
 }
 

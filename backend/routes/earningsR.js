@@ -4,6 +4,12 @@ import {EARNINGS} from '../models/earnings.js'
 
 const router = express.Router()
 
+let io;
+
+export function earningsInit(ioInstance) {
+  io = ioInstance;
+}
+
 router.post("/", async(req,res) => {
 
       try {
@@ -44,7 +50,7 @@ router.put("/:id", async(req, res) => {
             if(!result){
                   return res.status(404).json({message: 'not found'})
             }
-
+            io.emit('updateEarnings', result)
             return res.status(200).json(result)
 
       } catch (error) {

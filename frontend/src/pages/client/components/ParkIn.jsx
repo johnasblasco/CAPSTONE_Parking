@@ -7,7 +7,6 @@ import axios from 'axios';
 
 // PRINT? 
 import React, { useRef } from 'react';
-import { Await } from 'react-router-dom';
 
 const ParkIn = () => {
       // STEP1: make a refference
@@ -93,8 +92,7 @@ const ParkIn = () => {
                   const response = await axios.put(`http://localhost:8000/earnings/${earnings._id}`, updateEarnings);
 
                   // Update the earnings state with the new data        
-                  setTotalEarnings(updateEarnings.totalEarnings);
-                  setTodayEarn(updateEarnings.todayEarnings);
+
 
 
                   // print first lagi para iwas bug
