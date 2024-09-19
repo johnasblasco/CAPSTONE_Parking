@@ -2,7 +2,7 @@ import React from 'react'
 
 const Header = () => {
       return (
-            <header className='bg-[#D9D9D9] p-4 mb-4 fixed top-0 w-full z-10'>
+            <header className='bg-white p-4 mb-4 fixed top-0 rounded-b-3xl w-full z-10'>
                   <img src="/logo2.png" className='w-[200px] mx-4' />
             </header>
       )

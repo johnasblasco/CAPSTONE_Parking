@@ -61,47 +61,43 @@ const Client = () => {
       };
 
       return (
-            <div className="bg-cover bg-no-repeat h-screen object-center " style={{ backgroundImage: 'url(bg.jpeg)', objectPosition: 'bottom 10px right 20px' }}>
+            <div className="h-screen bg-[#F3D2C1] ">
 
                   <div className="flex items-center justify-center h-screen">
 
-                        {/* background na mejo itim para pang takip sa masakit na damdamin*/}
-                        <div className="absolute top-0 bottom-0 right-0 left-0 bg-gray opacity-20 "></div>
 
-
-                        <div className="flex flex-col justify-between items-center gap-2 max-w-[1000px] p-12 pb-8 bg-gray-200 rounded-xl shadow-md overflow-hidden z-10"
-                              style={{ height: '85vh' }}
+                        <div className="flex flex-col items-center gap-2 pt-28  pb-8 bg-[url('polygon1.png')] w-[650px] h-[650px] bg-contain bg-no-repeat rounded-xl "
                         >
-                              <div>
-                                    <img src="logo.png" className="pt-4 object-cover opacity-1" />
-                                    <p className="text-center">Log in</p>
+                              <div className="text-center text-[#001858]">
+                                    <h3 className="text-6xl font-extrabold">SIGN IN</h3>
+                                    <p className="text-2xl">TO PARKAID</p>
                               </div>
 
-                              <div className="flex flex-col ">
-                                    <label htmlFor="username">Username:</label>
+                              <div className="flex flex-col gap-4 pt-12 font-bold">
                                     <input
                                           type="text"
                                           id="username"
-                                          className="border-2 bg-gray-300 px-4 py-2 w-full rounded-xl"
+                                          className="border-4 bg-[#FFEFBA] border-[#001858] px-5 py-3 w-full rounded-3xl"
                                           value={username}
+                                          placeholder="Username"
                                           onChange={e => setUsername(e.target.value)}
                                     />
 
-                                    <label htmlFor="password">Password:</label>
                                     <input
                                           type="password"
                                           id="password"
-                                          className="border-2 bg-gray-300 px-4 py-2 w-full rounded-xl"
+                                          className="border-4 bg-[#FFEFBA] border-[#001858] px-5 py-3 w-full rounded-3xl"
                                           value={password}
+                                          placeholder="Password"
                                           onChange={e => setPassword(e.target.value)}
                                     />
 
 
                                     <button
-                                          className="self-center bg-blue-900 py-3 px-12 mt-4 w-fit  text-white rounded-xl hover:bg-blue-950"
+                                          className="self-center bg-[#8ED8A9] py-3 px-12 mt-4 w-fit text-2xl border-4 border-[#001858]  text-[#001858] rounded-3xl  hover:bg-[#72c791]"
                                           onClick={handleLogin}
                                     >
-                                          LOGIN
+                                          CONTINUE
                                     </button>
                               </div>
                         </div>

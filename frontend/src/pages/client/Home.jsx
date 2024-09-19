@@ -2,9 +2,12 @@ import { Routes, Route } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import ManageVehicles from './pages/ManageVehicles';
 import Reports from './pages/Reports';
-import About from './pages/About';
 import axios from 'axios';
 import PropagateLoader from 'react-spinners/PropagateLoader';
+import Header from './components/Header';
+import Navbar from './components/Navbar';
+
+
 
 // SOCKET IO
 import io from 'socket.io-client';
@@ -144,16 +147,20 @@ const Home = () => {
 
 
       return (
-            <div className='min-h-screen'>
+            <div className='min-h-screen bg-[#F3D2C1]'>
                   <myContext.Provider value={myContextValue}>
-                        <Routes>
-                              <Route path='/dashboard' element={<Dashboard />} />
-                              <Route path='/manage-vehicles' element={<ManageVehicles />} />
-                              <Route path='/reports' element={<Reports />} />
-                              <Route path='/about' element={<About />} />
-                        </Routes>
+                        <Header />
+                        <div className='overflow-y-auto'>
+                              <Routes>
+                                    <Route path='/dashboard' element={<Dashboard />} />
+                                    <Route path='/manage-vehicles' element={<ManageVehicles />} />
+                                    <Route path='/reports' element={<Reports />} />
+                              </Routes>
+                        </div>
+                        <Navbar />
                   </myContext.Provider>
             </div>
+
       );
 };
 

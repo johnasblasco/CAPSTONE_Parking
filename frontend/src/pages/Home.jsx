@@ -9,31 +9,27 @@ const Home = () => {
             navigate('/user');
       };
       return (
-            <div className="bg-cover bg-no-repeat h-screen object-center " style={{ backgroundImage: 'url(bg.jpeg)', objectPosition: 'bottom 10px right 20px' }}>
+            <div className="min-h-screen  bg-[#F3D2C1] ">
 
                   <div className="flex items-center justify-center h-screen">
 
-                        {/* background na mejo itim para pang takip sa masakit na damdamin*/}
-                        <div className="absolute top-0 bottom-0 right-0 left-0 bg-gray opacity-20 "></div>
 
+                        <div className="flex flex-col items-center gap-2 p-12 pb-8 bg-[url('polygon1.png')] w-[650px] h-[650px] bg-contain bg-no-repeat rounded-xl "
+                        >
 
-                        <div className="flex flex-col justify-between items-center gap-2 max-w-sm p-12 pb-8 bg-gray-200 rounded-xl shadow-md overflow-x-hidden z-10"
-                              style={{ height: '85vh' }}>
-
-                              <img src="logo.png" className="pt-4 object-cover opacity-1" />
+                              <img src="ei_user.png" className="pt-4 object-cover opacity-1" />
 
 
                               <div className='flex flex-col items-center gap-4'>
-                                    <p className='text-center'>continue as:</p>
                                     <button
                                           onClick={handleButtonUser}
-                                          className='rounded-xl bg-blue-900 hover:bg-blue-950 text-white text-xl px-20 py-6'
+                                          className='rounded-3xl text-[#001858] border-4 border-[#001858] text-2xl font-extrabold py-2 px-16 bg-[#8ED8A9]'
                                     >
-                                          User
+                                          USER
                                     </button>
                                     <button
                                           onClick={handleButtonAdmin}
-                                          className='rounded-xl bg-blue-900 hover:bg-blue-950 w-fit py-2 px-4 text-white text-xs'
+                                          className='rounded-3xl text-[#001858] border-4 border-[#001858] text-2xl font-extrabold py-2 px-14 bg-[#8ED8A9]'
                                     >
                                           ADMIN
                                     </button>

@@ -240,55 +240,58 @@ const ParkIn = () => {
       return (
             <>
 
-                  <div className='fixed w-screen h-screen bg-black/40 z-50'>
-                        <div className='fixed inset-0 flex items-center justify-center bg-black/40'>
-                              <div className={`relative lg:min-w-[45vw] md:max-w-[20vw] sm:max-w-[10vw] bg-[#D9D9D9] shadow-lg rounded-2xl flex flex-col gap-8 items-center p-8 w-full h-5/6`}>
-                                    <IoMdClose onClick={() => setShowParkIn(false)} className='text-3xl absolute top-2 right-2 cursor-pointer' />
+                  <div className='fixed w-screen h-screen bg-black/40 z-10'>
+                        <div className='fixed inset-0 flex items-center justify-center bg-deepBlue/40'>
+                              <div className={`relative bg-offWhite shadow-lg rounded-2xl flex flex-col gap-4 items-center p-8 w-fit `}>
+                                    <IoMdClose onClick={() => setShowParkIn(false)} className='text-4xl absolute top-4 right-4 cursor-pointer' />
 
                                     <h2 className='text-3xl font-bold mb-4 '>Parking in</h2>
 
-                                    <div className='flex gap-12'>
-                                          <label htmlFor="2" className='text-lg flex item-center gap-1'>
-                                                <input
-                                                      className=' m-1 h-6 w-6 placeholder-black/50 '
-                                                      type="radio"
-                                                      id="2"
-                                                      name="parkingOption"
-                                                      value="2 Wheels"
-                                                      checked={selectedOption === '2 Wheels'}
-                                                      onChange={handleOptionChange}
-                                                />
-                                                2-Wheeler
-                                          </label>
+                                    <div className='flex w-full gap-6 items-center'>
+                                          <p>Wheeler</p>
+                                          <div className='flex justify-center gap-12 w-full'>
+                                                <label htmlFor="2" className='text-lg flex item-center gap-1'>
+                                                      <input
+                                                            className=' m-1 h-6 w-6 placeholder-black/50 '
+                                                            type="radio"
+                                                            id="2"
+                                                            name="parkingOption"
+                                                            value="2 Wheels"
+                                                            checked={selectedOption === '2 Wheels'}
+                                                            onChange={handleOptionChange}
+                                                      />
+                                                      2
+                                                </label>
 
-                                          <label htmlFor="3" className='text-lg flex item-center gap-1'>
-                                                <input
-                                                      className='m-1 h-6 w-6'
-                                                      type="radio"
-                                                      id="3"
-                                                      name="parkingOption"
-                                                      value="3 Wheels"
-                                                      checked={selectedOption === '3 Wheels'}
-                                                      onChange={handleOptionChange}
-                                                />
-                                                3-Wheeler
-                                          </label>
+                                                <label htmlFor="3" className='text-lg flex item-center gap-1'>
+                                                      <input
+                                                            className='m-1 h-6 w-6'
+                                                            type="radio"
+                                                            id="3"
+                                                            name="parkingOption"
+                                                            value="3 Wheels"
+                                                            checked={selectedOption === '3 Wheels'}
+                                                            onChange={handleOptionChange}
+                                                      />
+                                                      3
+                                                </label>
 
-                                          <label htmlFor="4" className='text-lg flex item-center gap-1'>
-                                                <input
-                                                      className='m-1 h-6 w-6'
-                                                      type="radio"
-                                                      id="4"
-                                                      name="parkingOption"
-                                                      value="4 Wheels"
-                                                      checked={selectedOption === '4 Wheels'}
-                                                      onChange={handleOptionChange}
-                                                />
-                                                4-Wheeler
-                                          </label>
+                                                <label htmlFor="4" className='text-lg flex item-center gap-1'>
+                                                      <input
+                                                            className='m-1 h-6 w-6'
+                                                            type="radio"
+                                                            id="4"
+                                                            name="parkingOption"
+                                                            value="4 Wheels"
+                                                            checked={selectedOption === '4 Wheels'}
+                                                            onChange={handleOptionChange}
+                                                      />
+                                                      4
+                                                </label>
+                                          </div>
                                     </div>
 
-                                    <div className='flex  gap-8 items-center '>
+                                    <div className='flex gap-8 items-center '>
                                           <label htmlFor="plateNo">Plate No. </label>
                                           <input required type="text" className='rounded-xl placeholder-black/50  py-3 px-8 bg-[#D1CBC2] outline-[#53AC5C] text-lg' placeholder='ILY-143' onChange={(e) => setPlateNo(e.target.value)} />
                                     </div>
