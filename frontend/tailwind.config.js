@@ -12,7 +12,12 @@ export default {
             offWhite: '#fef6e4',
             greenWich: '#8ED8A9',
             lightBlue: '#8BD3DD',
-            yeelow: '#FFEFBA',
+            blak: '#000814',
+            darkBloe: '#001d3d',
+            bloe: '#003566',
+            darkYeelow: '#FFC300',
+            yeelow: '#FFD60A',
+            vanilla: '#FFEFBA',
           },
 
             screens: {

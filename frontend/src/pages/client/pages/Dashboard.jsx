@@ -60,13 +60,9 @@ const Dashboard = () => {
 
       return (
             <>
-                  <div className='mx-[10%] mt-[20vh] w-[80vw] text-deepBlue'>
-
-                        <div className="title flex justify-center">
-                              <h2 className='text-5xl my-8 font-extrabold' >Dashboard</h2>
-                        </div>
+                  <div className='mx-[10%] h-max-700:mt-[35vh] mt-[25vh] w-[80vw] text-deepBlue'>
                         {/* CONTENT GRID LEFT AND RIGHT */}
-                        <div className='py-12 px-4 grid grid-cols-2 gap-10'>
+                        <div className='py-1 px-4 grid grid-cols-2 gap-10'>
 
                               {/* LEFT */}
                               <div className="left max-[1150px]:hidden flex flex-col gap-4">

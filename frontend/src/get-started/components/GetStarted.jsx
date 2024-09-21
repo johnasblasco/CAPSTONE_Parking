@@ -95,14 +95,18 @@ const GetStarted = () => {
 
       return (
             <>
-                  <div className="min-h-screen pb-20 bg-[#F3D2C1] flex justify-center">
+                  <div className="min-h-screen pb-20 bg-[url('BG.png')] bg-cover bg-bottom bg-no-repeat flex justify-center">
+
                         <div className="h-max-700:w-screen h-max-700:px-30 py-20  h-max-700:ml-10 ml-40  mt-16 bg-[url('Polygon.png')] h-max-700:h-auto h-[90vh] w-[70vw] h-max-700:bg-cover bg-contain bg-no-repeat">
                               <form onSubmit={handleSubmit}>
-                                    <div className="flex ml-[-100px] justify-center h-full">
+                                    <div className="flex ml-[-200px] justify-center h-full">
                                           <div className="flex flex-col px-4 w-[35%] gap-7">
                                                 <h2 className="text-4xl tracking-wider text-[#001858] font-extrabold">SETTING UP</h2>
+                                                <p className=" text-2xl w-[90%] text-balance text-[#001858]">
+                                                      Welcome to ParKaid! Let's get you started by setting up your account.
+                                                </p>
                                                 <p className="w-[70%] text-balance text-[#001858]">
-                                                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum, eaque.
+                                                      As you Signup. You will be assigned to be the Admin of our System We'll ask you to provide some basic information to get started.
                                                 </p>
                                                 <input
                                                       type="text"
@@ -168,15 +172,15 @@ const GetStarted = () => {
 
                                                 <div className="w-56 text-wrap">
                                                       <input
-                                                            className="h-5 w-5"
+                                                            className="h-5 w-5 mx-2"
                                                             type="checkbox"
                                                             name="isChecked"
                                                             checked={formData.isChecked}
                                                             onChange={handleChange}
                                                             id="chk"
                                                       />
-                                                      <label htmlFor="chk">
-                                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                                      <label htmlFor="chk" className='text-darkBloe'>
+                                                            By clicking this, you agree to our Terms of Service and Privacy Policy.
                                                       </label>
                                                 </div>
 

@@ -102,21 +102,19 @@ const ManageVehicles = () => {
 
       return (
             <>
-                  <div className='mx-[10%] mt-[20vh] w-[80vw] text-deepBlue'>
-                        <div className="title flex justify-center">
-                              <h2 className='text-5xl my-8 font-extrabold' >Manage Vehicles</h2>
-                        </div>
+                  <div className='mx-[10%] h-max-700:mt-[35vh] mt-[25vh] w-[80vw] text-deepBlue'>
+
 
                         {/* CONTENT */}
                         <div className=" w-full relative bg-offWhite mx-8 rounded-3xl min-h-screen h-auto flex flex-col px-8 py-4 gap-6 items-center">
-                              <p className='border-4 border-deepBlue absolute left-[-35px] bg-yeelow py-1 px-4 text-lg rounded-3xl '>Currently Parked</p>
+                              <p className='border-4 font-bold border-deepBlue absolute left-[-35px] bg-yeelow py-1 px-4 text-lg rounded-3xl '>Currently Parked</p>
 
 
                               <div className='flex items-center justify-center w-full'>
                                     {/* SEARCH */}
                                     <div className='flex items-center gap-4'>
-                                          <input onChange={e => setSearch(e.target.value)} className=" w-[25vw] bg-lightBlue py-1 px-4 rounded-3xl  font-bold text-xl text-center border-4 border-deepBlue outline-none placeholder-black/50" type="text" placeholder='Search' />
-                                          <button onClick={handleSearch} className='bg-greenWich text-deepBlue font-bold py-1 px-4 rounded-3xl border-4 border-deepBlue'>Search</button>
+                                          <input onChange={e => setSearch(e.target.value)} className=" w-[25vw] bg-lightBlue py-2 px-4 rounded-3xl  font-bold text-xl text-center border-4 border-deepBlue outline-none placeholder-deepBlue/50" type="text" placeholder='Search' />
+                                          <button onClick={handleSearch} className='bg-greenWich text-deepBlue font-bold py-2 px-8 rounded-3xl border-4 border-deepBlue'>Search</button>
                                     </div>
 
 
@@ -134,7 +132,7 @@ const ManageVehicles = () => {
                                                 <th className='border-r-4 border-deepBlue'>Plate No.</th>
                                                 <th className='border-r-4 border-deepBlue'>Category</th>
                                                 <th className='border-r-4 border-deepBlue'>Total Time</th>
-                                                <th className='border-r-4 border-deepBlue'>Action</th>
+                                                <th >Action</th>
                                           </tr>
                                     </thead>
 
@@ -155,7 +153,7 @@ const ManageVehicles = () => {
                                                                   <td className={` border-r-4 border-deepBlue ${overtime ? 'text-[#892121]' : ''}`}>
                                                                         {`${hours}:${minutes} hours`}
                                                                   </td>
-                                                                  <td className='border-r-4 border-deepBlue'><button onClick={() => manageParkout(vehicle)} className='bg-pink py-1 px-2 text-deepBlue rounded-2xl border-4 font-bold border-deepBlue'>Park out</button></td>
+                                                                  <td ><button onClick={() => manageParkout(vehicle)} className='bg-pink py-1 px-2 text-deepBlue rounded-2xl border-4 font-bold border-deepBlue'>Park out</button></td>
                                                             </tr>
                                                       )
                                                 })

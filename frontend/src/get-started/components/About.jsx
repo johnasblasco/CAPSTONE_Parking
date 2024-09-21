@@ -4,15 +4,17 @@ const About = () => {
       return (
             <div className='flex justify-between '>
                   <div>
-                        <h2 className='text-8xl tracking-wider text-[#001858] font-extrabold'>ABOUT <span className='text-[#DFBD4E]'>US</span></h2>
+                        <h2 className='text-8xl tracking-wider text-white font-extrabold'>ABOUT US</h2>
 
-                        <p className='mt-10 w-[90%]  text-wrap text-lg text-[#001858]'> Lorem ipsum dolor sit amet consectetur adipisicing elit. <br />
-                              Rerum, eaque. Ratione quidem, ipsam reprehenderit ipsum delectus est odio! <br />
-                              Rerum, eaque. Ratione quidem, ipsam reprehenderit ipsum delectus <br />
+                        <p className='mt-10 w-[60%]  text-wrap text-2xl text-white'> Created By: Group 4, 3F-G1 of
+                              College of Information Technology
+                              Bulacan State University
+                              All Rights Reserved.
                         </p>
+
                   </div>
 
-                  <div className='mt-16'>
+                  <div className='mt-28 w-full'>
                         <img src="about.png" alt="" />
                   </div>
 

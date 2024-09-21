@@ -71,6 +71,7 @@ const Home = () => {
                         socket.off('vehicles');
                         socket.off('newVehicle');
                         socket.off('updateVehicle');
+                        socket.off('updateEarnings');
                   }
             };
       }, []);
@@ -147,10 +148,10 @@ const Home = () => {
 
 
       return (
-            <div className='min-h-screen bg-[#F3D2C1]'>
+            <div className='min-h-screen bg-[url("BG.png")] bg-cover bg-center bg-no-repeat'>
                   <myContext.Provider value={myContextValue}>
                         <Header />
-                        <div className='overflow-y-auto'>
+                        <div className='overflow-y-auto overflow-x-hidden'>
                               <Routes>
                                     <Route path='/dashboard' element={<Dashboard />} />
                                     <Route path='/manage-vehicles' element={<ManageVehicles />} />

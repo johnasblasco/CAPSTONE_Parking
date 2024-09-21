@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import Swal from 'sweetalert2';
 
 const Admin = () => {
       const navigate = useNavigate();
@@ -20,6 +18,11 @@ const Admin = () => {
                                     setIsLogin(true);
                                     console.log("ok na")
                                     navigate('/admin/home/login-history', { replace: true });
+                                    Swal.fire({
+                                          title: "LOGGED IN SUCCESSFULLY!",
+                                          text: "Howdy, Admin!",
+                                          icon: "success"
+                                    });
                               }
                         })
 
@@ -28,21 +31,23 @@ const Admin = () => {
                         console.log(err)
                   })
 
-            toast.error("Admin Not Found!");
+            Swal.fire({
+                  title: "LOGIN FAILED!",
+                  text: "Please check your username and password.",
+                  icon: "error"
+            });
       }
 
       return (
-            <div className="h-screen bg-[#F3D2C1] ">
+            <div className="h-screen bg-[url('BG.png')] bg-cover bg-bottom bg-no-repeat">
 
                   <div className="flex items-center justify-center h-screen">
 
 
-                        <div className="flex flex-col items-center gap-2 pt-28  pb-8 bg-[url('polygon1.png')] w-[650px] h-[650px] bg-contain bg-no-repeat rounded-xl "
+                        <div className="flex flex-col items-center pr-24 gap-2 pt-28  pb-8 bg-[url('polygon1.png')] w-[650px] h-[650px] h-max-700:h-[550px] h-max-700:w-[550px]  bg-contain bg-no-repeat rounded-xl "
                         >
-                              <div className="text-center text-[#001858]">
-                                    <h3 className="text-6xl font-extrabold">SIGN IN</h3>
-                                    <p className="text-2xl">TO PARKAID</p>
-                              </div>
+                              <p className='text-6xl text-darkBloe font-extrabold'>SIGN IN</p>
+                              <p className='text-xl text-darkBloe font-bold'>TO PARKAID</p>
 
                               <div className="flex flex-col gap-4 pt-12 font-bold">
                                     <input
@@ -72,19 +77,6 @@ const Admin = () => {
                                     </button>
                               </div>
                         </div>
-                        <ToastContainer
-                              position="bottom-right"
-                              autoClose={2000}
-                              hideProgressBar={false}
-                              newestOnTop={false}
-                              closeOnClick
-                              rtl={false}
-                              pauseOnFocusLoss
-                              draggable
-                              pauseOnHover
-                              theme="light"
-                              transition:Bounce
-                        />
                   </div>
             </div>
       );
