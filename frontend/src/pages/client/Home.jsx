@@ -64,6 +64,7 @@ const Home = () => {
             socket.on('updateEarnings', (newEarnings) => {
                   setTotalEarnings(newEarnings.totalEarnings);
                   setTodayEarn(newEarnings.todayEarnings);
+                  console.log("NEW EARNINGS", newEarnings)
             })
 
             return () => {
@@ -108,32 +109,32 @@ const Home = () => {
       }, []);
 
       // Reset earnings if needed
-      useEffect(() => {
-            if (currentEarningDate) {
-                  if (
-                        now.getFullYear() !== currentEarningDate.getFullYear() ||
-                        now.getMonth() !== currentEarningDate.getMonth() ||
-                        now.getDay() !== currentEarningDate.getDay()
-                  ) {
-                        setEarnings(prevEarnings => {
-                              axios.put(`http://localhost:8000/earnings/${prevEarnings._id}`, {
-                                    ...prevEarnings,
-                                    currentDate: now.toISOString(),
-                                    todayEarnings: 0,
-                                    yesterdayEarnings: prevEarnings.todayEarnings,
-                              })
-                                    .then(response => {
-                                          setYesterdayEarnings(response.data.yesterdayEarnings);
-                                          setTodayEarn(0);
-                                    })
-                                    .catch(err => console.error('Error updating earnings:', err));
-                              return prevEarnings;
-                        });
-                  } else {
-                        console.log("Earnings data for today is already up to date.");
-                  }
-            }
-      }, [currentEarningDate, now]);
+      // useEffect(() => {
+      //       if (currentEarningDate) {
+      //             if (
+      //                   now.getFullYear() !== currentEarningDate.getFullYear() ||
+      //                   now.getMonth() !== currentEarningDate.getMonth() ||
+      //                   now.getDay() !== currentEarningDate.getDay()
+      //             ) {
+      //                   setEarnings(prevEarnings => {
+      //                         axios.put(`http://localhost:8000/earnings/${prevEarnings._id}`, {
+      //                               ...prevEarnings,
+      //                               currentDate: now.toISOString(),
+      //                               todayEarnings: 0,
+      //                               yesterdayEarnings: prevEarnings.todayEarnings,
+      //                         })
+      //                               .then(response => {
+      //                                     setYesterdayEarnings(response.data.yesterdayEarnings);
+      //                                     setTodayEarn(0);
+      //                               })
+      //                               .catch(err => console.error('Error updating earnings:', err));
+      //                         return prevEarnings;
+      //                   });
+      //             } else {
+      //                   console.log("Earnings data for today is already up to date.");
+      //             }
+      //       }
+      // }, [currentEarningDate, now]);
 
       // Show loading spinner until data is fetched
       if (loading) {
@@ -148,10 +149,10 @@ const Home = () => {
 
 
       return (
-            <div className='min-h-screen bg-[url("BG.png")] bg-cover bg-center bg-no-repeat'>
+            <div className='bg-no-repeat bg-bottom bg-[url("BG.png")] bg-cover w-full fixed overflow-auto'>
                   <myContext.Provider value={myContextValue}>
                         <Header />
-                        <div className='overflow-y-auto overflow-x-hidden'>
+                        <div className='h-screen overflow-y-auto overflow-x-hidden'>
                               <Routes>
                                     <Route path='/dashboard' element={<Dashboard />} />
                                     <Route path='/manage-vehicles' element={<ManageVehicles />} />

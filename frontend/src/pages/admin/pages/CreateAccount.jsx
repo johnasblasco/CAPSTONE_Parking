@@ -1,8 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Toast from '../components/Toast';
-import Navbar from '../components/Navbar';
-import Header from '../components/Header';
 
 const CreateAccount = () => {
       const [name, setName] = useState("")
@@ -38,53 +36,48 @@ const CreateAccount = () => {
 
       return (
             <>
-                  <Header />
 
-                  <div className='absolute left-[200px] top-[100px] overflow-x-hidden max-lg:hidden'>
-                        <div className="mx-4 bg-[#D9D9D9] min-h-screen rounded-3xl" style={{ width: 'calc(100vw - 250px)' }}>
-                              <div className="title flex justify-center">
-                                    <h2 className='text-5xl my-8 font-extrabold' >Create Account</h2>
+                  <div className='font-bold mx-[10%] h-max-700:mt-[35vh] mt-[25vh] w-[80vw] text-deepBlue'>
+
+
+                        {/* CONTENT */}
+
+                        <div className=" relative bg-white border-4 border-bloe w-fit p-12 rounded-3xl mx-auto gap-8 flex items-center flex-col ">
+                              <p className='border-4 font-bold border-deepBlue absolute top-4 left-[-35px] bg-vanilla py-1 px-12 text-lg rounded-3xl '>Create Account</p>
+
+
+                              <div className='flex mt-12 items-center gap-16 w-[40vw]'>
+                                    <label htmlFor="name">Full Name</label>
+                                    <input id='name' className='py-4 px-8 rounded-3xl flex-1 border-4 border-bloe bg-vanilla placeholder-black/50' value={name} placeholder='Please input your name here' type="text" onChange={e => setName(e.target.value)} />
                               </div>
 
-                              {/* CONTENT */}
-
-                              <div className=" bg-[#D6D0C4] mx-8 rounded-3xl min-h-screen flex flex-col ">
-
-                                    {/* spaces, form */}
-                                    <div className='mt-16 mx-32 pb-10 flex flex-col gap-6 overflow-y-auto'>
-                                          <div className='flex items-center gap-16'>
-                                                <label htmlFor="name">Full Name</label>
-                                                <input id='name' className='py-4 px-8 rounded-xl flex-1 bg-[#C4B9A9] placeholder-black/50' value={name} placeholder='Please input your name here' type="text" onChange={e => setName(e.target.value)} />
-                                          </div>
-
-                                          <div className='flex items-center gap-6'>
-                                                <label htmlFor="username">New Username</label>
-                                                <input id="username" className='py-4 px-8 rounded-xl flex-1 bg-[#C4B9A9] placeholder-black/50 ' value={username} placeholder='Please input your desired username here' type="text" onChange={e => setUsername(e.target.value)} />
-                                          </div>
-
-                                          <div className='flex items-center gap-8'>
-                                                <label htmlFor="password">New Password</label>
-                                                <input id="password" className='py-4 px-8 rounded-xl flex-1 bg-[#C4B9A9] placeholder-black/50 ' value={password} placeholder='Please input your desired password here' type="password" onChange={e => setPassword(e.target.value)} />
-                                          </div>
-
-                                          <div className='flex justify-center'>
-                                                <button onClick={handleForm} className='hover:bg-[#56945c] bg-[#75B37B] text-white p-4 rounded-3xl text-lg font-bold'>Create Account</button>
-                                          </div>
-                                    </div>
-
-
-
+                              <div className='flex items-center gap-6 w-[40vw]'>
+                                    <label htmlFor="username">New Username</label>
+                                    <input id="username" className='py-4 px-8 rounded-3xl flex-1 border-4 border-bloe bg-vanilla placeholder-black/50 ' value={username} placeholder='Please input your desired username here' type="text" onChange={e => setUsername(e.target.value)} />
                               </div>
 
+                              <div className='flex items-center gap-8 w-[40vw]'>
+                                    <label htmlFor="password">New Password</label>
+                                    <input id="password" className='py-4 px-8 rounded-3xl flex-1 border-4 border-bloe bg-vanilla placeholder-black/50 ' value={password} placeholder='Please input your desired password here' type="password" onChange={e => setPassword(e.target.value)} />
+                              </div>
+
+                              <div className='flex justify-center'>
+                                    <button onClick={handleForm} className='bg-greenWich border-4 border-bloe   hover:bg-[#75d397] text-bloe py-2 px-8 rounded-3xl text-lg font-bold'>Create Account</button>
+                              </div>
                         </div>
-                  </div >
+
+
+
+                  </div>
+
+
+
                   {/* CONDITIONAL RENDERING */}
                   {
                         showToast && <Toast setShowToast={setShowToast} />
                   }
 
                   {/* NAV */}
-                  <Navbar />
             </>
       )
 }

@@ -5,6 +5,9 @@ import ManageAccount from "./pages/ManageAccount"
 import axios from "axios"
 import { Routes, Route } from 'react-router-dom'
 
+import Header from './components/Header'
+import Navbar from "./components/Navbar"
+
 export const myContext = createContext();
 
 
@@ -30,21 +33,20 @@ const Home = () => {
 
       console.log(employee)
       return (
-            <div className="min-h-screen">
+            <div className='bg-no-repeat bg-bottom bg-[url("BG.png")] bg-cover w-full fixed overflow-auto'>
 
 
-
+                  <Header />
                   <myContext.Provider value={myContextValue}>
-
-
-                        <Routes>
-                              <Route path="/login-history" element={<LoginHistory />} />
-                              <Route path="/create-account" element={<CreateAccount />} />
-                              <Route path="/manage-account" element={<ManageAccount />} />
-                        </Routes>
-
+                        <div className='h-screen overflow-y-auto overflow-x-hidden'>
+                              <Routes>
+                                    <Route path="/login-history" element={<LoginHistory />} />
+                                    <Route path="/create-account" element={<CreateAccount />} />
+                                    <Route path="/manage-account" element={<ManageAccount />} />
+                              </Routes>
+                        </div>
                   </myContext.Provider>
-
+                  <Navbar />
             </div>
 
       )
