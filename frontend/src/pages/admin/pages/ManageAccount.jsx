@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { IoCloseOutline } from "react-icons/io5";
 import axios from 'axios'
 import etits, { Toaster } from 'react-hot-toast';
-import Navbar from '../components/Navbar';
-import Header from '../components/Header';
 
 const ManageAccount = () => {
 
@@ -104,62 +102,59 @@ const ManageAccount = () => {
 
       return (
             <>
-                  <Header />
 
-                  <div className='absolute left-[200px] top-[100px] overflow-x-hidden max-lg:hidden'>
-                        <div className="ml-4 bg-[#D9D9D9] min-h-screen rounded-3xl" style={{ width: 'calc(100vw - 250px)' }}>
-                              <div className="title flex justify-center">
-                                    <h2 className='text-5xl my-8 font-extrabold' >Manage Account</h2>
-                              </div>
-
-                              {/* CONTENT */}
-
-                              <div className="bg-[#D6D0C4] mx-8 rounded-3xl min-h-screen h-auto ">
-
-                                    <div className="flex justify-center">
-                                          <span className='bg-[#94AB95] px-4 py-1 m-4 rounded-2xl '>List</span>
-                                    </div>
-
-                                    {/* table */}
-
-                                    <table className='w-5/6 mx-auto h-auto'>
-                                          <thead>
-                                                <tr>
-                                                      <th className=''></th>
-                                                      <th>Number</th>
-                                                      <th>Username</th>
-                                                      <th>Name</th>
-                                                      <th>Status</th>
-                                                      <th>Action</th>
+                  <div className='mx-[10%] h-max-700:mt-[35vh] mt-[25vh] w-[80vw] text-deepBlue'>
 
 
-                                                </tr>
-                                                <tr>
-                                                      <td className='bg-gray-900 p-[0.1px]' colSpan="6" />
-                                                </tr>
-                                                <tr>
-                                                      <td><br /></td>
-                                                </tr>
-                                          </thead>
-                                          <tbody className='text-center'>
-                                                {
-                                                      users.map((user, index) => {
 
-                                                            id = user._id;
+                        {/* CONTENT */}
 
-                                                            return (
-                                                                  <tr className='h-12 hover:bg-[#C9B7B7] rounded-3xl' key={index}>
+                        <div className="font-bold relative py-24 bg-white border-4 border-bloe w-[80%] mx-auto px-12 rounded-3xl ">
 
-                                                                        <td><button
-                                                                              className='bg-[#6181D3] py-1 px-4 rounded-lg text-white hover:bg-[#425a96] '
+
+                              <p className='border-4 font-bold border-deepBlue absolute top-4 left-[-35px] bg-vanilla py-1 px-8 text-lg rounded-3xl '>Manage Account</p>
+
+                              {/* table */}
+
+                              <table className='w-full h-auto '>
+                                    <thead>
+                                          <tr className='border-b-4 border-bloe'>
+
+                                                <th className="border-r-4 border-bloe" >Number</th>
+                                                <th className="border-r-4 border-bloe" >Username</th>
+                                                <th className="border-r-4 border-bloe" >Name</th>
+                                                <th className="border-r-4 border-bloe" >Status</th>
+                                                <th>Action</th>
+
+                                          </tr>
+
+
+                                    </thead>
+                                    <tbody className='text-center'>
+                                          {
+                                                users.map((user, index) => {
+
+                                                      id = user._id;
+
+                                                      return (
+                                                            <tr className='h-12 rounded-3xl' key={index}>
+
+
+                                                                  <td className="border-r-4 border-bloe" >{index + 1}</td>
+                                                                  <td className="border-r-4 border-bloe" >{user.username}</td>
+                                                                  <td className="border-r-4 border-bloe" >{user.name}</td>
+                                                                  <td className="border-r-4 border-bloe" >{user.status ? "Active" : "Inactive"}</td>
+
+                                                                  <td className="w-fit">
+
+                                                                        <button
+                                                                              className='bg-[#6181D3] py-1 px-8 mx-4 rounded-lg text-white hover:bg-[#425a96] '
                                                                               onClick={() => handleEditButton(user.name, user.username, user.password)}
-                                                                        >Edit</button></td>
-                                                                        <td className='w-2'>{index + 1}</td>
-                                                                        <td>{user.username}</td>
-                                                                        <td>{user.name}</td>
-                                                                        <td>{user.status ? "Active" : "Inactive"}</td>
+                                                                        >
+                                                                              Edit
+                                                                        </button>
 
-                                                                        <td>{user.status ?
+                                                                        {user.status ?
                                                                               (
                                                                                     <button onClick={() => handleAction(user)} className='text-white bg-[#B96F6F] hover:bg-[#a54f4f]  py-1 px-4 rounded-lg'>Deactivate</button>
 
@@ -169,21 +164,21 @@ const ManageAccount = () => {
                                                                                     <button onClick={() => handleAction(user)} className='text-white bg-[#5cc967] hover:bg-[#3c8143]  py-1 px-[25px] rounded-lg'>Activate</button>
                                                                               )
                                                                         }</td>
-                                                                  </tr>
+                                                            </tr>
 
-                                                            )
-                                                      })
-                                                }
+                                                      )
+                                                })
+                                          }
 
-                                          </tbody>
-                                    </table>
-
-                              </div>
+                                    </tbody>
+                              </table>
 
                         </div>
+
+
                   </div >
                   {/* TOASTER */}
-                  <Toaster
+                  < Toaster
                   />
 
                   {/* POP UP */}
@@ -224,8 +219,6 @@ const ManageAccount = () => {
                               </div>
                         </div>
                   }
-                  {/* NAV */}
-                  <Navbar />
             </>
 
       )

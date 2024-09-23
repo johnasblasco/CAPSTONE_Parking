@@ -2,9 +2,12 @@ import { Routes, Route } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import ManageVehicles from './pages/ManageVehicles';
 import Reports from './pages/Reports';
-import About from './pages/About';
 import axios from 'axios';
 import PropagateLoader from 'react-spinners/PropagateLoader';
+import Header from './components/Header';
+import Navbar from './components/Navbar';
+
+
 
 // SOCKET IO
 import io from 'socket.io-client';
@@ -61,6 +64,7 @@ const Home = () => {
             socket.on('updateEarnings', (newEarnings) => {
                   setTotalEarnings(newEarnings.totalEarnings);
                   setTodayEarn(newEarnings.todayEarnings);
+                  console.log("NEW EARNINGS", newEarnings)
             })
 
             return () => {
@@ -68,6 +72,7 @@ const Home = () => {
                         socket.off('vehicles');
                         socket.off('newVehicle');
                         socket.off('updateVehicle');
+                        socket.off('updateEarnings');
                   }
             };
       }, []);
@@ -104,32 +109,32 @@ const Home = () => {
       }, []);
 
       // Reset earnings if needed
-      useEffect(() => {
-            if (currentEarningDate) {
-                  if (
-                        now.getFullYear() !== currentEarningDate.getFullYear() ||
-                        now.getMonth() !== currentEarningDate.getMonth() ||
-                        now.getDay() !== currentEarningDate.getDay()
-                  ) {
-                        setEarnings(prevEarnings => {
-                              axios.put(`http://localhost:8000/earnings/${prevEarnings._id}`, {
-                                    ...prevEarnings,
-                                    currentDate: now.toISOString(),
-                                    todayEarnings: 0,
-                                    yesterdayEarnings: prevEarnings.todayEarnings,
-                              })
-                                    .then(response => {
-                                          setYesterdayEarnings(response.data.yesterdayEarnings);
-                                          setTodayEarn(0);
-                                    })
-                                    .catch(err => console.error('Error updating earnings:', err));
-                              return prevEarnings;
-                        });
-                  } else {
-                        console.log("Earnings data for today is already up to date.");
-                  }
-            }
-      }, [currentEarningDate, now]);
+      // useEffect(() => {
+      //       if (currentEarningDate) {
+      //             if (
+      //                   now.getFullYear() !== currentEarningDate.getFullYear() ||
+      //                   now.getMonth() !== currentEarningDate.getMonth() ||
+      //                   now.getDay() !== currentEarningDate.getDay()
+      //             ) {
+      //                   setEarnings(prevEarnings => {
+      //                         axios.put(`http://localhost:8000/earnings/${prevEarnings._id}`, {
+      //                               ...prevEarnings,
+      //                               currentDate: now.toISOString(),
+      //                               todayEarnings: 0,
+      //                               yesterdayEarnings: prevEarnings.todayEarnings,
+      //                         })
+      //                               .then(response => {
+      //                                     setYesterdayEarnings(response.data.yesterdayEarnings);
+      //                                     setTodayEarn(0);
+      //                               })
+      //                               .catch(err => console.error('Error updating earnings:', err));
+      //                         return prevEarnings;
+      //                   });
+      //             } else {
+      //                   console.log("Earnings data for today is already up to date.");
+      //             }
+      //       }
+      // }, [currentEarningDate, now]);
 
       // Show loading spinner until data is fetched
       if (loading) {
@@ -144,16 +149,20 @@ const Home = () => {
 
 
       return (
-            <div className='min-h-screen'>
+            <div className='bg-no-repeat bg-bottom bg-[url("BG.png")] bg-cover w-full fixed overflow-auto'>
                   <myContext.Provider value={myContextValue}>
-                        <Routes>
-                              <Route path='/dashboard' element={<Dashboard />} />
-                              <Route path='/manage-vehicles' element={<ManageVehicles />} />
-                              <Route path='/reports' element={<Reports />} />
-                              <Route path='/about' element={<About />} />
-                        </Routes>
+                        <Header />
+                        <div className='h-screen overflow-y-auto overflow-x-hidden'>
+                              <Routes>
+                                    <Route path='/dashboard' element={<Dashboard />} />
+                                    <Route path='/manage-vehicles' element={<ManageVehicles />} />
+                                    <Route path='/reports' element={<Reports />} />
+                              </Routes>
+                        </div>
+                        <Navbar />
                   </myContext.Provider>
             </div>
+
       );
 };
 

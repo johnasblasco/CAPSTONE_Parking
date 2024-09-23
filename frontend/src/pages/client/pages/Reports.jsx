@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { myContext } from '../Home'
-import Header from '../components/Header';
-import Navbar from '../components/Navbar';
 import { MdLocalPrintshop } from "react-icons/md";
 import moment from 'moment';
 import { FaFilter } from "react-icons/fa";
@@ -88,197 +86,166 @@ const Reports = () => {
             />
       }
 
-      const print = () => {
-            window.print();
-      }
       return (
 
             <>
-                  <Header />
+                  <div className='mx-[10%] h-max-700:mt-[35vh] mt-[25vh] w-[82vw] text-deepBlue'>
 
-                  <div className='absolute left-[200px] top-[100px] lg:overflow-x-hidden max-lg:hidden'>
-                        <div className="mx-4 bg-[#D9D9D9] min-h-screen rounded-3xl" style={{ width: 'calc(100vw - 250px)' }}>
 
-                              <div className='relative'>
-                                    <div className="title flex justify-center">
-                                          <h2 className='text-5xl my-8 font-extrabold' >Reports</h2>
+                        {/* EARNINGS */}
+                        <div className='flex justify-between  ml-[3%] w-[75vw] h-[20vh]'>
 
-                                          <div className='absolute right-12 top-12 flex gap-2 items-center' >
-                                                <MdLocalPrintshop className='text-2xl' />
-                                                <button className='bg-[#53AC5C] py-1 px-3 rounded-xl text-white' onClick={print}>Print</button>
-                                          </div>
+                              {/* today earnings */}
+                              <div className='h-max-700:p-16 flex gap-4 items-center pt-10 justify-center relative border-4 border-deepBlue shadow-2xl rounded-3xl  bg-offWhite p-2 w-[30%]'>
+                                    <p className='border-4 border-deepBlue font-bold absolute left-[-35px] top-2 bg-yeelow py-1 px-4 text-lg rounded-3xl '>Today's Earnings</p>
+                                    <p className='h-max-700:text-3xl text-5xl font-bold text-deepBlue'>PHP</p>
+                                    <p className='h-max-700:text-4xl text-6xl font-bold text-deepBlue'>{todayEarn}.00</p>
+                              </div>
 
+                              <div className='h-max-700:p-16 flex gap-4 items-center pt-10 justify-center relative border-4 border-deepBlue shadow-2xl  rounded-3xl bg-offWhite p-2 w-[30%]'>
+                                    <p className='border-4 border-deepBlue font-bold absolute left-[-35px] top-2 bg-yeelow py-1 px-4 text-lg rounded-3xl '>Total Earnings</p>
+                                    <p className='h-max-700:text-3xl text-5xl font-bold text-deepBlue'>PHP</p>
+                                    <p className='h-max-700:text-4xl  text-6xl font-bold text-deepBlue'>{totalEarnings}.00</p>
+                              </div>
+                              {/* Filter */}
+                              <div className='h-max-700:p-16 flex flex-col gap-4 items-center pt-10 justify-center relative border-4 border-deepBlue shadow-2xl  rounded-3xl bg-offWhite p-2 w-[25%]'>
+                                    <p className='border-4 border-deepBlue font-bold absolute left-[-35px] top-2 bg-yeelow py-1 px-4 text-lg rounded-3xl '>Filter</p>
+                                    <p className='text-3xl font-bold text-deepBlue'>By Date</p>
+                                    <div className='flex gap-4'>
+                                          <button className='p-2 font-bold rounded-full border-4 border-deepBlue bg-lightBlue'>MM / YYYY</button>
+                                          <button className='py-2 px-6 font-bold rounded-full border-4 border-deepBlue bg-pink'>Print</button>
                                     </div>
                               </div>
-                              {/* EARNINGS */}
-                              <div className='mx-10 flex items-center gap-6 justify-around font-light'>
+                        </div>
 
-                                    {/* left */}
-                                    <div className='bg-[#C1B8B8] w-[45dvw] rounded-2xl '>
 
-                                          <div className='bg-[#A89595] mx-4 mt-4 rounded-xl w-fit px-6 py-1'>
-                                                <span>Earnings</span>
+                        {/* flex filter and table */}
+                        <div className='flex font-bold gap-4 w-full'>
+
+                              {/* filter */}
+                              <div className='relative mt-32 border-4 shadow-2xl border-deepBlue bg-offWhite min-w-[14vw] flex flex-col justify-center rounded-3xl h-fit gap-2 p-4 py-10'>
+                                    <p className='flex border-4 border-deepBlue absolute left-[-35px] top-2 font-bold bg-yeelow py-1 px-12 text-lg rounded-3xl '><FaFilter />Filter</p>
+
+                                    <p className='mt-12 text-center text-2xl font-bold'>By Wheels</p>
+
+                                    <div className='flex justify-center gap-4 my-4'>
+                                          <div className='flex justify-center items-center gap-3'>
+
+                                                {twoWheelsRadio ? (<MdCheckBox onClick={() => setTwoWheelsRadio(!twoWheelsRadio)} className='text-4xl' />) : (<MdCheckBoxOutlineBlank onClick={handleTwo} className='text-4xl' />)}
+
+                                                <label>2</label>
                                           </div>
 
-
-                                          <div className='flex text-center justify-center gap-20 mb-10 '>
-
-                                                <div>
-                                                      <p className='text-4xl my-2'>PHP <b className='font-extrabold'>{todayEarn}.00</b></p>
-                                                      <p>Today</p>
-                                                </div>
-                                                <div>
-                                                      <p className='text-4xl my-2'>PHP <b className='font-extrabold'>{yesterdayEarnings}.00</b></p>
-                                                      <p>Yesterday</p>
-                                                </div>
-
-                                          </div>
-                                    </div>
-
-                                    {/* right */}
-                                    <div className='bg-[#9CD2A5] w-[25dvw] rounded-2xl '>
-                                          <div className='bg-[#87BB83] mx-4 mt-4 rounded-xl w-fit px-6 py-1'>
-                                                <span>Total Earnings</span>
+                                          <div className='flex justify-center items-center gap-3'>
+                                                {threeWheelsRadio ? (<MdCheckBox onClick={() => setThreeWheelsRadio(!threeWheelsRadio)} className='text-4xl' />) : (<MdCheckBoxOutlineBlank onClick={handleThree} className='text-4xl' />)}
+                                                <p>3 </p>
                                           </div>
 
-                                          <div className=' flex items-start text-center mb-10'>
-                                                <p className='text-4xl my-5 w-full'>PHP <b className='font-extrabold'>{totalEarnings}.00</b></p>
+                                          <div className='flex justify-center items-center gap-3'>
+                                                {fourWheelsRadio ? (<MdCheckBox onClick={() => setFourWheelsRadio(!fourWheelsRadio)} className='text-4xl' />) : (<MdCheckBoxOutlineBlank onClick={handleFour} className='text-4xl' />)}
+                                                <p>4 </p>
                                           </div>
                                     </div>
 
+
+                                    <p className='mt-12 text-center text-2xl font-bold'>By Status</p>
+
+                                    <div className='flex gap-4 my-4 mx-8 justify-center items-center'>
+                                          <div className='flex items-center gap-2 '>
+                                                {IN ? <MdCheckBox onClick={() => setIN(!IN)} className='text-4xl' /> : <MdCheckBoxOutlineBlank onClick={handleIN} className='text-4xl' />}
+                                                <p className='text-xl'>IN</p>
+                                          </div>
+
+                                          <div className='flex items-center gap-1'>
+                                                {OUT ? <MdCheckBox onClick={() => setOUT(!OUT)} className='text-4xl ml-3' /> : <MdCheckBoxOutlineBlank onClick={handleOUT} className='text-4xl ml-3' />}
+                                                <p className='text-xl'>OUT</p>
+                                          </div>
+                                    </div>
+
+                                    <p className='mt-12 text-center text-2xl font-bold'>By Date</p>
+                                    <button className='p-2 m-auto text-xl w-[80%] font-bold rounded-full border-4 border-deepBlue bg-lightBlue'>MM / YYYY</button>
                               </div>
 
 
 
                               {/* vehicle table content */}
-                              <div className="bg-[#D6D0C4] m-12 rounded-3xl min-h-screen h-auto flex flex-col py-4 px-4 gap-6 items-center">
-                                    <p className=' bg-[#94AB95] py-1 px-10 text-lg rounded-3xl '>Car History</p>
-
-                                    {/* flex between filter and table */}
-                                    <div className='flex gap-4 w-full mt-8'>
-                                          {/* filter */}
-                                          <div className='bg-[#C9B7B7] min-w-[15vw] flex flex-col justify-center rounded-xl h-fit gap-2 p-4'>
-                                                <div className='flex justify-center'>
-                                                      <FaFilter />
-                                                      <p>Filter</p>
-                                                </div>
-                                                <p className='text-center'>By Category</p>
-
-                                                <div className='flex flex-col gap-4 my-4'>
-
-                                                      <div className='flex justify-center items-center gap-3'>
-
-                                                            {twoWheelsRadio ? (<MdCheckBox onClick={() => setTwoWheelsRadio(!twoWheelsRadio)} className='text-2xl' />) : (<MdCheckBoxOutlineBlank onClick={handleTwo} className='text-2xl' />)}
-
-                                                            <label >2 wheeler</label>
-                                                      </div>
-
-                                                      <div className='flex justify-center items-center gap-3'>
-                                                            {threeWheelsRadio ? (<MdCheckBox onClick={() => setThreeWheelsRadio(!threeWheelsRadio)} className='text-2xl' />) : (<MdCheckBoxOutlineBlank onClick={handleThree} className='text-2xl' />)}
-                                                            <p>3 wheeler</p>
-                                                      </div>
-
-                                                      <div className='flex justify-center items-center gap-3'>
-                                                            {fourWheelsRadio ? (<MdCheckBox onClick={() => setFourWheelsRadio(!fourWheelsRadio)} className='text-2xl' />) : (<MdCheckBoxOutlineBlank onClick={handleFour} className='text-2xl' />)}
-                                                            <p>4 wheeler</p>
-                                                      </div>
-                                                </div>
-
-
-                                                <p className='text-center'>By Status</p>
-
-                                                <div className='flex flex-col gap-4 my-4 mx-8 justify-center items-center'>
-                                                      <div className='flex items-center gap-3 '>
-                                                            {IN ? <MdCheckBox onClick={() => setIN(!IN)} className='text-2xl' /> : <MdCheckBoxOutlineBlank onClick={handleIN} className='text-2xl' />}
-                                                            <p>In</p>
-                                                      </div>
-
-                                                      <div className='flex items-center gap-3'>
-                                                            {OUT ? <MdCheckBox onClick={() => setOUT(!OUT)} className='text-2xl ml-3' /> : <MdCheckBoxOutlineBlank onClick={handleOUT} className='text-2xl ml-3' />}
-                                                            <p>Out</p>
-                                                      </div>
-                                                </div>
+                              <div className="relative border-4 border-deepBlue bg-offWhite m-12 rounded-3xl min-h-screen h-auto flex flex-col w-full py-4 px-4 gap-6 items-center">
+                                    <p className='border-4 border-deepBlue absolute left-[-35px] top-2 font-bold bg-yeelow py-1 px-12 text-lg rounded-3xl '>Car History</p>
+                                    {/* table */}
+                                    <div className='w-full'>
+                                          {/* header only */}
+                                          <div className='flex items-center justify-end gap-4 '>
+                                                <p>Search by ticket No.</p>
+                                                <input onChange={e => setSearch(e.target.value)} className=" w-[25vw] bg-lightBlue py-2 px-4 rounded-3xl font-bold text-xl text-center border-4 border-deepBlue outline-none placeholder-deepBlue/50" type="text" placeholder='Please Input Ticket No.' />
+                                                <button onClick={handleSearch} className='bg-greenWich text-deepBlue font-bold py-2 px-8 rounded-3xl border-4 border-deepBlue'>Search</button>
+                                                <button onClick={handleSearch} className='bg-pink text-deepBlue justify-self-end font-bold py-2 px-8 rounded-3xl border-4 ml-14 border-deepBlue'>Print</button>
                                           </div>
 
-                                          {/* table */}
-                                          <div className='w-full'>
-                                                {/* header only */}
-                                                <div className='flex items-center justify-center gap-4'>
-                                                      <p>Search by ticket No.</p>
-                                                      <input onChange={e => setSearch(e.target.value)} className="bg-[#C4B9A9] rounded-2xl py-1 px-6 outline-none placeholder-black/50" type="text" placeholder='Please input Ticket No.' />
-                                                      <button onClick={handleSearch} className='bg-[#6181D3] text-white py-1 px-2 rounded-xl'>Search</button>
-                                                </div>
 
-                                                {/*table  */}
-                                                <table className='w-full my-10'>
-                                                      <thead>
-                                                            <tr className='text-center border-b border-black'>
-                                                                  <th>Ticket No.</th>
-                                                                  <th>Date</th>
-                                                                  <th>Plate No.</th>
-                                                                  <th>Category</th>
-                                                                  <th>Total Time</th>
-                                                                  <th>Status</th>
-                                                            </tr>
-                                                      </thead>
-                                                      <tbody>
-                                                            {
+                                          {/*table  */}
+                                          <table className='w-full my-10'>
+                                                <thead>
+                                                      <tr className='text-center border-b-4 border-deepBlue'>
+                                                            <th className='border-r-4 border-deepBlue'>Ticket No.</th>
+                                                            <th className='border-r-4 border-deepBlue'>Date</th>
+                                                            <th className='border-r-4 border-deepBlue'>Plate No.</th>
+                                                            <th className='border-r-4 border-deepBlue'>Category</th>
+                                                            <th className='border-r-4 border-deepBlue'>Total Time</th>
+                                                            <th>Status</th>
+                                                      </tr>
+                                                </thead>
+                                                <tbody>
+                                                      {
+                                                            getVehicles.map((vehicle, index) => {
 
+                                                                  const startDate = moment(vehicle.startDate);
+                                                                  const endDate = moment(vehicle.endDate);
+                                                                  const currentDate = moment();
 
+                                                                  let duration;
+                                                                  // if status OUT 
+                                                                  vehicle.status ? duration = moment.duration(currentDate.diff(startDate)) : duration = moment.duration(endDate.diff(startDate))
 
-                                                                  getVehicles.map((vehicle, index) => {
-
+                                                                  // if status IN then Calculate the difference in hours and minutes
 
 
-
-                                                                        const startDate = moment(vehicle.startDate);
-                                                                        const endDate = moment(vehicle.endDate);
-                                                                        const currentDate = moment();
-
-                                                                        let duration;
-                                                                        // if status OUT 
-                                                                        vehicle.status ? duration = moment.duration(currentDate.diff(startDate)) : duration = moment.duration(endDate.diff(startDate))
-
-                                                                        // if status IN then Calculate the difference in hours and minutes
+                                                                  const dayDifference = duration.days();
+                                                                  const hoursDifference = duration.hours();
+                                                                  const minutesDifference = duration.minutes();
 
 
-                                                                        const dayDifference = duration.days();
-                                                                        const hoursDifference = duration.hours();
-                                                                        const minutesDifference = duration.minutes();
+                                                                  return (
+                                                                        <tr key={index} className="text-center">
+                                                                              <td className='border-r-4 border-deepBlue' >{vehicle.ticketNumber}</td>
+                                                                              <td className='border-r-4 border-deepBlue'>{moment(vehicle.startDate).format("DD-MM-YY")}</td>
+                                                                              <td className='border-r-4 border-deepBlue'>{vehicle.plateNumber}</td>
+                                                                              <td className='border-r-4 border-deepBlue'>{vehicle.category}</td>
+                                                                              <td className='border-r-4 border-deepBlue'>
+                                                                                    {
 
+                                                                                          dayDifference > 0 ? `${dayDifference} days ${hoursDifference} hours ${minutesDifference} mins` : hoursDifference > 0 ? `${hoursDifference} hours  ${minutesDifference} mins` : `${minutesDifference} mins`
+                                                                                    }
 
-                                                                        return (
-                                                                              <tr key={index} className="text-center">
-                                                                                    <td>{vehicle.ticketNumber}</td>
-                                                                                    <td>{moment(vehicle.startDate).format("DD-MM-YY")}</td>
-                                                                                    <td>{vehicle.plateNumber}</td>
-                                                                                    <td>{vehicle.category}</td>
-                                                                                    <td>
-                                                                                          {
+                                                                              </td>
+                                                                              <td>{vehicle.status ? "In" : "Out"}</td>
+                                                                        </tr>
+                                                                  );
+                                                            })
 
-                                                                                                dayDifference > 0 ? `${dayDifference} days ${hoursDifference} hours ${minutesDifference} mins` : hoursDifference > 0 ? `${hoursDifference} hours  ${minutesDifference} mins` : `${minutesDifference} mins`
-                                                                                          }
-
-                                                                                    </td>
-                                                                                    <td>{vehicle.status ? "In" : "Out"}</td>
-                                                                              </tr>
-                                                                        );
-                                                                  })
-
-                                                            }
-                                                      </tbody>
-                                                </table>
+                                                      }
+                                                </tbody>
+                                          </table>
 
 
 
-                                          </div>
                                     </div>
-
                               </div>
 
                         </div>
-                  </div >
-                  <Navbar />
+                  </div>
+
+
+
             </>
       )
 }

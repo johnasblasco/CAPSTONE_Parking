@@ -16,6 +16,7 @@ router.post("/", async(req,res) =>{
             
             // if nakapag input lahat create new Admin
             const newAdmin = {
+                  name: req.body.name,
                   username : req.body.username,
                   password : req.body.password
             }
@@ -28,6 +29,34 @@ router.post("/", async(req,res) =>{
             res.json(error)
       }
 })
+
+// PUT endpoint to update the existing admin's details
+router.put("/", async (req, res) => {
+      try {
+          console.log('Request received:', req.body);  // Add this for debugging
+  
+          const { name, username, password } = req.body;
+          if (!username || !password) {
+              return res.status(400).send("Please include all required information.");
+          }
+  
+          const admin = await ADMIN.findOne();
+          if (!admin) {
+              return res.status(404).json({ message: "Admin not found." });
+          }
+  
+          admin.name = name || admin.name;
+          admin.username = username || admin.username;
+          admin.password = password || admin.password;
+  
+          await admin.save();
+          return res.status(200).json({ message: "Admin updated successfully", admin });
+      } catch (error) {
+          console.error('Error in PUT request:', error);  // Add this for error details
+          return res.status(500).json({ message: "An error occurred", error });
+      }
+  });
+  
 
 
 
