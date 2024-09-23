@@ -37,14 +37,14 @@ const CurrentlyParked = ({ vehicles }) => {
       };
 
       return (
-            <div className='relative border-4 border-deepBlue shadow-2xl max-h-[55vh] min-h-[55vh] overflow-y-auto flex flex-col items-center bg-offWhite rounded-2xl '>
-                  <span className='absolute top-2 px-8 py-2 bg-yeelow border-4 border-deepBlue text-xl font-bold  rounded-full'>Currently Parked</span>
-                  <table className='w-[90%] m-4 mt-24'>
+            <div className='max-h-[55vh] min-h-[55vh] overflow-y-auto overflow-x-hidden flex flex-col items-center bg-[#D2BAA5] rounded-2xl '>
+                  <p className='bg-[#AB9A80] rounded-3xl py-1 px-4 m-2'>Currently Parked</p>
+                  <table className='w-[90%] m-4'>
                         <thead>
                               <tr className='text-center'>
-                                    <th className='border-b-4 border-deepBlue'>Ticket No.</th>
-                                    <th className='border-l-4 border-b-4 border-r-4 border-deepBlue '>Type</th>
-                                    <th className='border-b-4 border-deepBlue'>Total Time</th>
+                                    <th>Ticket No.</th>
+                                    <th className='border-l border-r border-black'>Type</th>
+                                    <th>Total Time</th>
                               </tr>
                         </thead>
                         <tbody>
@@ -53,9 +53,9 @@ const CurrentlyParked = ({ vehicles }) => {
                                     const overtime = isOvertime(hours);
 
                                     return (
-                                          <tr key={index} className={`text-center ${overtime ? '' : ''}`}>
+                                          <tr key={index} className={`text-center ${overtime ? 'bg-[#B49389]' : ''}`}>
                                                 <td>{vehicle.ticketNumber}</td>
-                                                <td className='border-l-4 border-r-4  border-deepBlue'>{vehicle.category}</td>
+                                                <td className='border-l border-r border-black'>{vehicle.category}</td>
                                                 <td className={`${overtime ? 'text-[#892121]' : ''}`}>
                                                       {`${hours}:${minutes} hrs`}
 

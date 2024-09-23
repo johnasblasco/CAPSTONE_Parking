@@ -15,9 +15,9 @@ const Clock = () => {
             return () => clearInterval(intervalId);
       }, []);
       return (
-            <div className='text-center '>
-                  <span className='text-8xl font-bold mr-2'>{currentTime}</span> <span className='text-8xl'>{moment().format('A')}</span>
-                  <p className='text-4xl font-light p-1'>{currentDate}</p>
+            <div className='text-center'>
+                  <span className='text-5xl font-bold mr-2'>{currentTime}</span> <span className='text-5xl'>{moment().format('A')}</span>
+                  <p className='text-2xl font-light p-1'>{currentDate}</p>
             </div>
       );
 }

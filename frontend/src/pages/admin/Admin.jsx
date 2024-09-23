@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Admin = () => {
       const navigate = useNavigate();
@@ -17,12 +19,7 @@ const Admin = () => {
                               if (admin.username === username && admin.password === password) {
                                     setIsLogin(true);
                                     console.log("ok na")
-                                    navigate('/admin/home/login-history');
-                                    Swal.fire({
-                                          title: "LOGGED IN SUCCESSFULLY!",
-                                          text: "Howdy, Admin!",
-                                          icon: "success"
-                                    });
+                                    navigate('/admin/home/login-history', { replace: true });
                               }
                         })
 
@@ -31,52 +28,65 @@ const Admin = () => {
                         console.log(err)
                   })
 
-            Swal.fire({
-                  title: "LOGIN FAILED!",
-                  text: "Please check your username and password.",
-                  icon: "error"
-            });
+            toast.error("Admin Not Found!");
       }
 
       return (
-            <div className="h-screen bg-[url('BG.png')] bg-cover bg-bottom bg-no-repeat">
+            <div className="bg-cover bg-no-repeat h-screen object-center " style={{ backgroundImage: 'url(bg.jpeg)', objectPosition: 'bottom 10px right 20px' }}>
 
                   <div className="flex items-center justify-center h-screen">
 
+                        {/* background na mejo itim para pang takip sa masakit na damdamin*/}
+                        <div className="absolute top-0 bottom-0 right-0 left-0 bg-gray opacity-20 "></div>
 
-                        <div className="flex flex-col items-center pr-24 gap-2 pt-28  pb-8 bg-[url('polygon1.png')] w-[650px] h-[650px] h-max-700:h-[550px] h-max-700:w-[550px]  bg-contain bg-no-repeat rounded-xl "
-                        >
-                              <p className='text-6xl text-darkBloe font-extrabold'>SIGN IN</p>
-                              <p className='text-xl text-darkBloe font-bold'>TO PARKAID</p>
 
-                              <div className="flex flex-col gap-4 pt-12 font-bold">
+                        <div className="flex flex-col justify-between items-center gap-2 max-w-sm p-12 pb-8 bg-gray-200 rounded-xl shadow-md overflow-hidden z-10"
+                              style={{ height: '85vh' }}>
+                              <div>
+                                    <img src="logo.png" className="pt-4 object-cover opacity-1" />
+                                    <p className="text-center">Log in</p>
+                              </div>
+
+                              <div className="flex flex-col ">
+                                    <label htmlFor="username">Username:</label>
                                     <input
                                           type="text"
                                           id="username"
-                                          className="border-4 bg-[#FFEFBA] border-[#001858] px-5 py-3 w-full rounded-3xl"
+                                          className="border-2 bg-gray-300 px-4 py-2 w-full rounded-xl"
                                           value={username}
-                                          placeholder="Username"
                                           onChange={e => setUsername(e.target.value)}
                                     />
 
+                                    <label htmlFor="password">Password:</label>
                                     <input
                                           type="password"
                                           id="password"
-                                          className="border-4 bg-[#FFEFBA] border-[#001858] px-5 py-3 w-full rounded-3xl"
+                                          className="border-2 bg-gray-300 px-4 py-2 w-full rounded-xl"
                                           value={password}
-                                          placeholder="Password"
                                           onChange={e => setPassword(e.target.value)}
                                     />
 
-
                                     <button
-                                          className="self-center bg-[#8ED8A9] py-3 px-12 mt-4 w-fit text-2xl border-4 border-[#001858]  text-[#001858] rounded-3xl  hover:bg-[#72c791]"
+                                          className="self-center bg-blue-900 py-3 px-12 mt-4 w-fit  text-white rounded-xl hover:bg-blue-950"
                                           onClick={handleLogin}
                                     >
-                                          CONTINUE
+                                          LOGIN
                                     </button>
                               </div>
                         </div>
+                        <ToastContainer
+                              position="bottom-right"
+                              autoClose={2000}
+                              hideProgressBar={false}
+                              newestOnTop={false}
+                              closeOnClick
+                              rtl={false}
+                              pauseOnFocusLoss
+                              draggable
+                              pauseOnHover
+                              theme="light"
+                              transition:Bounce
+                        />
                   </div>
             </div>
       );

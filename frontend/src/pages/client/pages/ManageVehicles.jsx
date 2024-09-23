@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { myContext } from '../Home';
+import Header from '../components/Header';
+import Navbar from '../components/Navbar';
 import moment from 'moment';
 import { IoMdClose } from 'react-icons/io';
 import axios from 'axios';
@@ -13,7 +15,6 @@ const ManageVehicles = () => {
       const [showToast, setShowToast] = useState('');
 
       const [socket, allVehicles, totalEarnings, todayEarn, setTodayEarn, yesterdayEarnings, vehicles, setVehicles, setTotalEarnings, earnings, setEarnings] = useContext(myContext)
-
 
 
       // STEP1: make a refference
@@ -67,9 +68,19 @@ const ManageVehicles = () => {
 
             try {
                   await axios.put(`http://localhost:8000/vehicle/${selectedVehicle._id}`, vehicleUpdateData)
+
+                  // render the updates
+                  // const updatedVehicles = prevVehicles =>
+                  //       prevVehicles.filter(vehicle =>
+                  //             vehicle._id != selectedVehicle._id
+
+                  //       )
+
+                  // socket.emit('updateVehicle', updatedVehicles)
+
+
                   setShowPopup(false)
                   setShowToast("out")
-
 
             } catch (error) {
                   console.log(error)
@@ -88,88 +99,71 @@ const ManageVehicles = () => {
       const minutesDifference = duration.minutes();
 
 
-
-      // search
-      const [getVehicles, getSetVehicles] = useState(vehicles)
-      const [search, setSearch] = useState(0);
-      console.log(search)
-      const handleSearch = () => {
-            let filteredVehicles = vehicles;
-            search > 0 ? setVehicles(filteredVehicles.filter(vehicle => vehicle.ticketNumber == search)) : ""
-
-      }
-
-
       return (
             <>
-                  <div className='mx-[10%] h-max-700:mt-[35vh] mt-[25vh] w-[80vw] text-deepBlue'>
-
-
-                        {/* CONTENT */}
-                        <div className="border-4 border-bloe w-full relative bg-white mx-8 rounded-3xl min-h-screen h-auto flex flex-col px-8 py-4 gap-6 items-center">
-                              <p className='border-4 font-bold border-deepBlue absolute left-[-35px] bg-yeelow py-1 px-4 text-lg rounded-3xl '>Currently Parked</p>
-
-                              <div className='flex items-center justify-center w-full'>
-                                    {/* SEARCH */}
-                                    <div className='flex items-center gap-4'>
-                                          <input onChange={e => setSearch(e.target.value)} className=" w-[25vw] bg-lightBlue py-2 px-4 rounded-3xl  font-bold text-xl text-center border-4 border-deepBlue outline-none placeholder-deepBlue/50" type="text" placeholder='Search' />
-                                          <button onClick={handleSearch} className='bg-greenWich text-deepBlue font-bold py-2 px-8 rounded-3xl border-4 border-deepBlue'>Search</button>
-                                    </div>
+                  <Header />
+                  <div className='absolute left-[200px] top-[100px] lg:overflow-x-hidden max-md:hidden'>
+                        <div className="mx-4 bg-[#D9D9D9] min-h-screen rounded-3xl" style={{ width: 'calc(100vw - 250px)' }}>
+                              <div className="title flex justify-center">
+                                    <h2 className='text-5xl my-8 font-extrabold' >Manage Vehicles</h2>
                               </div>
 
-                              <table className='w-full text-center mt-16'>
-                                    <thead>
-                                          <tr className='border-b-4 border-deepBlue'>
-                                                <th className='border-r-4 border-deepBlue'>Ticket No.</th>
-                                                <th className='border-r-4 border-deepBlue'>Date</th>
-                                                <th className='border-r-4 border-deepBlue'>Plate No.</th>
-                                                <th className='border-r-4 border-deepBlue'>Category</th>
-                                                <th className='border-r-4 border-deepBlue'>Total Time</th>
-                                                <th >Action</th>
-                                          </tr>
-                                    </thead>
+                              {/* CONTENT */}
+                              <div className="bg-[#D6D0C4] mx-8 rounded-3xl min-h-screen h-auto flex flex-col px-8 py-4 gap-6 items-center">
+                                    <p className=' bg-[#94AB95] py-1 px-4 text-lg rounded-3xl '>Currently Parked</p>
 
-                                    <tbody>
-                                          {
+                                    <table className='w-full text-center '>
+                                          <thead>
+                                                <tr className='border-b border-black'>
+                                                      <th>Ticket No.</th>
+                                                      <th>Date</th>
+                                                      <th>Plate No.</th>
+                                                      <th>Category</th>
+                                                      <th>Total Time</th>
+                                                      <th>Action</th>
+                                                </tr>
+                                          </thead>
 
-                                                vehicles.map((vehicle, index) => {
-                                                      const { hours, minutes } = timers[index] || formatTime(vehicle.startDate);
-                                                      const overtime = isOvertime(hours);
-                                                      return (
+                                          <tbody>
+                                                {
+
+                                                      vehicles.map((vehicle, index) => {
+                                                            const { hours, minutes } = timers[index] || formatTime(vehicle.startDate);
+                                                            const overtime = isOvertime(hours);
+                                                            return (
 
 
-                                                            <tr key={index} className={`text-center h-10 ${overtime ? '' : ''}  `}>
-                                                                  <td className='border-r-4 border-deepBlue'>{vehicle.ticketNumber}</td>
-                                                                  <td className='border-r-4 border-deepBlue'>{moment(new Date(vehicle.startDate)).format('DD-MM-YY')}</td>
-                                                                  <td className='border-r-4 border-deepBlue'>{vehicle.plateNumber}</td>
-                                                                  <td className='border-r-4 border-deepBlue'>{vehicle.category}</td>
-                                                                  <td className={` border-r-4 border-deepBlue ${overtime ? 'text-[#892121]' : ''}`}>
-                                                                        {`${hours}:${minutes} hours`}
-                                                                  </td>
-                                                                  <td ><button onClick={() => manageParkout(vehicle)} className='bg-pink py-1 px-2 text-deepBlue rounded-2xl border-4 font-bold border-deepBlue'>Park out</button></td>
-                                                            </tr>
-                                                      )
-                                                })
-                                          }
-                                    </tbody>
-                              </table>
+                                                                  <tr key={index} className={`text-center h-10 ${overtime ? 'bg-[#C9B7B7]' : ''}`}>
+                                                                        <td>{vehicle.ticketNumber}</td>
+                                                                        <td>{moment(new Date(vehicle.startDate)).format('DD-MM-YY')}</td>
+                                                                        <td>{vehicle.plateNumber}</td>
+                                                                        <td>{vehicle.category}</td>
+                                                                        <td className={`${overtime ? 'text-[#892121]' : ''}`}>
+                                                                              {`${hours}:${minutes} hours`}
+                                                                        </td>
+                                                                        <td><button onClick={() => manageParkout(vehicle)} className='bg-[#D94B2C] py-1 px-2 text-white rounded-lg'>Park out</button></td>
+                                                                  </tr>
+                                                            )
+                                                      })
+                                                }
+                                          </tbody>
+                                    </table>
+
+                              </div>
 
                         </div>
-
-                  </div>
-
+                  </div >
                   {
                         showPopup && (
                               <div className='fixed w-screen h-screen bg-black/40 z-50'>
-                                    <div className='fixed inset-0 flex items-center justify-center bg-deepBlue/40'>
+                                    <div className='fixed inset-0 flex items-center justify-center bg-black/40'>
 
-                                          {/* FORM */}
-                                          <div className={`relative bg-offWhite shadow-lg rounded-3xl flex flex-col gap-8 items-center p-20 `}>
-                                                <IoMdClose onClick={() => setShowPopup(false)} className='text-5xl absolute top-4 right-4 cursor-pointer' />
+                                          <div className={`relative lg:min-w-[45vw] md:max-w-[20vw] sm:max-w-[10vw] bg-[#D9D9D9] shadow-lg rounded-2xl flex flex-col gap-8  p-8 w-full h-5/6`}>
+                                                <IoMdClose onClick={() => { setShowPopup(false) }} className='text-3xl absolute top-2 right-2 cursor-pointer' />
 
-                                                <h2 className='text-6xl text-bloe font-bold text-center '>Parking Out</h2>
+                                                <h2 className='text-3xl font-bold mb-4 text-center '>Parking Out</h2>
 
-                                                <div className='bg-[#EEE4E4] w-full rounded-2xl gap-8 flex justify-between p-8 font-bold'>
+                                                <div className='bg-[#D1D0CA] w-full rounded-2xl flex justify-between px-10 font-bold'>
                                                       <div>
                                                             <p>Ticket Number</p>
                                                             <p>Date</p>
@@ -180,7 +174,7 @@ const ManageVehicles = () => {
 
                                                       <div className='border border-[#0000004F] my-2'></div>
 
-                                                      <div className='text-right'>
+                                                      <div className=''>
                                                             <p>{selectedVehicle.ticketNumber}</p>
                                                             <p>{moment(new Date(selectedVehicle.startDate)).format("DD-MM-YY")}</p>
                                                             <p>{selectedVehicle.category}</p>
@@ -201,7 +195,7 @@ const ManageVehicles = () => {
                                                             {hoursDifference >= 3 && <p className='ml-24 font-bold'>(+ overstay)</p>}
                                                       </div>
 
-                                                      <button onClick={handleRemove} className='bg-pink border-4 border-bloe hover:bg-[#c73838] py-2 px-8 text-2xl font-bold rounded-2xl text-white'>Remove</button>
+                                                      <button onClick={handleRemove} className='bg-[#B96F6F] hover:bg-[#c73838] py-2 px-8 text-2xl font-bold rounded-2xl text-white'>Remove</button>
                                                 </div>
 
 
@@ -214,6 +208,7 @@ const ManageVehicles = () => {
                   {
                         showToast == "out" && <Toast setShowToast={setShowToast} title={"Vehicle removed!"} disc={"Vehicle has been removed to the database."} />
                   }
+                  <Navbar />
 
                   {/*STEP 3: RECEIPT HERE HIDDEN */}
                   < div ref={invoiceRef} className="mt-4 hidden" >
