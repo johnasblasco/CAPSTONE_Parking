@@ -6,29 +6,38 @@ const Settings = () => {
 
 
 
-                  {/* CONTENT */}
+                  {/* Background */}
 
                   <div className="font-bold relative pt-12 shadow-2xl border-4 border-bloe bg-white mx-8  rounded-3xl min-h-screen h-auto ">
-
-                        <div className='flex min-h-screen justify-between p-20'>
+                        {/* CONTENT */}
+                        <div className='flex min-h-screen justify-center p-20'>
                               {/* left */}
-                              <div className='border-4 border-bloe flex flex-col items-center'>
+                              <div className='border-4 px-16 border-bloe flex flex-col items-center'>
                                     <p className='text-6xl text-bloe '>DETAILS</p>
                                     <img src="/capture.png" alt="" />
-                                    <input type="text" className='text-center py-4 border-4 border-bloe' placeholder='Company Name' />
-                                    <textarea className='overflow-y-auto text-pretty text-center border-4 m-4 border-bloe' rows="9" cols="40" placeholder='Company Rules'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vitae, voluptatum ducimus, assumenda illo minima libero minus nisi exercitationem consequuntur nulla quos. Nisi repellat quod similique expedita, ex sed consequuntur magni.</textarea>
+                                    <input type="text" className='text-center rounded-3xl w-[90%] py-4 border-4 border-bloe' placeholder='Company Name' />
+                                    <textarea className='overflow-y-auto rounded-3xl p-4 text-pretty text-center border-4 m-4 border-bloe' rows="9" cols="40" placeholder='Company Rules'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vitae, voluptatum ducimus, assumenda illo minima libero minus nisi exercitationem consequuntur nulla quos. Nisi repellat quod similique expedita, ex sed consequuntur magni.</textarea>
                               </div>
 
                               {/* right */}
-                              <div className='border-4 border-bloe text-center'>
-                                    <p className='text-2xl text-bloe '>Total Parking Spaces</p>
+                              <div className=' mx-auto px-40 border-4 border-bloe text-center'>
+                                    <p className='text-3xl text-bloe my-4 '>Total Parking Spaces</p>
+
                                     <div className='flex gap-4 justify-center'>
-                                          <input type="text" className='border-4 w-20 border-bloe' placeholder='2 wheels' />
-                                          <input type="text" className='border-4 w-20 border-bloe' placeholder='3/4 wheels' />
+                                          <input type="text" className='border-4 p-4 w-40 rounded-3xl text-center border-bloe' placeholder='2 wheels' />
+                                          <input type="text" className='border-4 p-4 w-40 rounded-3xl text-center border-bloe' placeholder='3/4 wheels' />
                                     </div>
-                                    <input type="text" />
-                                    <input type="text" />
-                                    <input type="text" />
+
+                                    <p className='mt-8 text-3xl'>Price per ticket</p>
+                                    <input type="text" className='rounded-3xl  m-2 w-full text-4xl text-center py-4 border-4 border-bloe' placeholder='Company Name' />
+
+                                    <p className='mt-8 text-3xl'>(Optional) Hours Limit </p>
+                                    <input type="text" className='rounded-3xl  m-2 w-full text-4xl text-center py-4 border-4 border-bloe' placeholder='Company Name' />
+
+                                    <p className='mt-8 text-3xl'>(Optional) Price per ticket</p>
+                                    <input type="text" className='rounded-3xl  m-2 w-full text-4xl text-center py-4 border-4 border-bloe' placeholder='Company Name' />
+
+                                    <button className='mt-12 bg-greenWich border-4 border-bloe hover:bg-[#75d397] text-bloe py-4 px-8 rounded-3xl text-lg font-bold'>Save Changes</button>
                               </div>
                         </div>
 
