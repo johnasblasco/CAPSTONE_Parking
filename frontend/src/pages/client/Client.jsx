@@ -43,7 +43,7 @@ const Client = () => {
                         text: "Welcome, parking attendant!",
                         icon: "success"
                   });
-                  navigate('/user/dashboard', { replace: true });
+                  navigate('/user/home/dashboard', { replace: true });
 
                   // Make a log of the data
                   const now = new Date();

@@ -17,7 +17,7 @@ const Admin = () => {
                               if (admin.username === username && admin.password === password) {
                                     setIsLogin(true);
                                     console.log("ok na")
-                                    navigate('/admin/home/login-history', { replace: true });
+                                    navigate('/admin/home/login-history');
                                     Swal.fire({
                                           title: "LOGGED IN SUCCESSFULLY!",
                                           text: "Howdy, Admin!",

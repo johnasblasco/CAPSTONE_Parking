@@ -95,7 +95,7 @@ const ManageVehicles = () => {
       console.log(search)
       const handleSearch = () => {
             let filteredVehicles = vehicles;
-            search > 0 ? setVehicles(filteredVehicles.filter(vehicle => vehicle.ticketNumber == search)) : setVehicles(getVehicles)
+            search > 0 ? setVehicles(filteredVehicles.filter(vehicle => vehicle.ticketNumber == search)) : ""
 
       }
 
@@ -109,20 +109,13 @@ const ManageVehicles = () => {
                         <div className="border-4 border-bloe w-full relative bg-white mx-8 rounded-3xl min-h-screen h-auto flex flex-col px-8 py-4 gap-6 items-center">
                               <p className='border-4 font-bold border-deepBlue absolute left-[-35px] bg-yeelow py-1 px-4 text-lg rounded-3xl '>Currently Parked</p>
 
-
                               <div className='flex items-center justify-center w-full'>
                                     {/* SEARCH */}
                                     <div className='flex items-center gap-4'>
                                           <input onChange={e => setSearch(e.target.value)} className=" w-[25vw] bg-lightBlue py-2 px-4 rounded-3xl  font-bold text-xl text-center border-4 border-deepBlue outline-none placeholder-deepBlue/50" type="text" placeholder='Search' />
                                           <button onClick={handleSearch} className='bg-greenWich text-deepBlue font-bold py-2 px-8 rounded-3xl border-4 border-deepBlue'>Search</button>
                                     </div>
-
-
                               </div>
-
-
-
-
 
                               <table className='w-full text-center mt-16'>
                                     <thead>

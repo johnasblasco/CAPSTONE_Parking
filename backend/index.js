@@ -29,6 +29,7 @@ app.use(express.json());
 // Static folder for serving uploaded files
 app.use(express.static('public'));
 
+
 // Routes
 app.use('/admin', adminR);
 app.use('/user', userR);
