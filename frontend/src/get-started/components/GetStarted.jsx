@@ -86,7 +86,7 @@ const GetStarted = () => {
                         text: "Your Account has been created successfully!",
                         icon: "success"
                   });
-                  navigate('/login');
+                  navigate('/admin/home/login-history');
             } catch (error) {
                   setFormError('Error updating admin details. Please try again.');
                   console.error('Error:', error);
