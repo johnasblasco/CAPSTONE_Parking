@@ -12,7 +12,7 @@ const Settings = () => {
                         {/* CONTENT */}
                         <div className='flex min-h-screen justify-center p-20'>
                               {/* left */}
-                              <div className='border-4 px-16 border-bloe flex flex-col items-center'>
+                              <div className='px-16 flex flex-col items-center'>
                                     <p className='text-6xl text-bloe '>DETAILS</p>
                                     <img src="/capture.png" alt="" />
                                     <input type="text" className='text-center rounded-3xl w-[90%] py-4 border-4 border-bloe' placeholder='Company Name' />
@@ -20,22 +20,22 @@ const Settings = () => {
                               </div>
 
                               {/* right */}
-                              <div className=' mx-auto px-40 border-4 border-bloe text-center'>
+                              <div className=' mx-auto px-40  text-center'>
                                     <p className='text-3xl text-bloe my-4 '>Total Parking Spaces</p>
 
                                     <div className='flex gap-4 justify-center'>
-                                          <input type="text" className='border-4 p-4 w-40 rounded-3xl text-center border-bloe' placeholder='2 wheels' />
-                                          <input type="text" className='border-4 p-4 w-40 rounded-3xl text-center border-bloe' placeholder='3/4 wheels' />
+                                          <input type="number" className='border-4 p-4 w-40 rounded-3xl text-center border-bloe' placeholder='2 wheels' />
+                                          <input type="number" className='border-4 p-4 w-40 rounded-3xl text-center border-bloe' placeholder='3/4 wheels' />
                                     </div>
 
                                     <p className='mt-8 text-3xl'>Price per ticket</p>
-                                    <input type="text" className='rounded-3xl  m-2 w-full text-4xl text-center py-4 border-4 border-bloe' placeholder='Company Name' />
+                                    <input type="number" className='rounded-3xl  m-2 w-full text-4xl text-center py-4 border-4 border-bloe' placeholder='PHP 30.00' />
 
                                     <p className='mt-8 text-3xl'>(Optional) Hours Limit </p>
-                                    <input type="text" className='rounded-3xl  m-2 w-full text-4xl text-center py-4 border-4 border-bloe' placeholder='Company Name' />
+                                    <input type="number" className='rounded-3xl  m-2 w-full text-4xl text-center py-4 border-4 border-bloe' placeholder='3 HOURS' />
 
-                                    <p className='mt-8 text-3xl'>(Optional) Price per ticket</p>
-                                    <input type="text" className='rounded-3xl  m-2 w-full text-4xl text-center py-4 border-4 border-bloe' placeholder='Company Name' />
+                                    <p className='mt-8 text-3xl'>(Optional) Overtime Ticket</p>
+                                    <input type="number" className='rounded-3xl  m-2 w-full text-4xl text-center py-4 border-4 border-bloe' placeholder='PHP 20.00' />
 
                                     <button className='mt-12 bg-greenWich border-4 border-bloe hover:bg-[#75d397] text-bloe py-4 px-8 rounded-3xl text-lg font-bold'>Save Changes</button>
                               </div>

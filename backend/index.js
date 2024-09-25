@@ -13,6 +13,7 @@ import userR from './routes/userR.js';
 import adminR from './routes/adminR.js';
 import vehicleR, { vehicleInit } from './routes/vehicleR.js';
 import earningsR, { earningsInit } from './routes/earningsR.js';
+import settingsR from './routes/settingsR.js';
 
 // Multer for handling file uploads
 import multer from 'multer';
@@ -35,6 +36,7 @@ app.use('/admin', adminR);
 app.use('/user', userR);
 app.use('/vehicle', vehicleR);
 app.use('/earnings', earningsR);
+app.use('/settings', settingsR);
 
 // Setup Multer for storing files in the public/uploads folder
 const storage = multer.diskStorage({
