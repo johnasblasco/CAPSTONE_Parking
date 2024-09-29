@@ -34,7 +34,7 @@ const Home = () => {
 
       console.log(employee)
       return (
-            <div className='bg-no-repeat bg-bottom bg-[url("BG.png")] bg-cover w-full fixed overflow-auto'>
+            <div className='bg-no-repeat bg-bottom bg-[url("/BG.png")] bg-cover w-full fixed overflow-auto'>
 
                   <Header />
                   <myContext.Provider value={myContextValue}>

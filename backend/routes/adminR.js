@@ -128,7 +128,7 @@ router.put("/loginHistory/:id", async(req, res) => {
 
       } catch (error) {
             console.log("error sa update")
-            req.status(500).send({message: error.message})
+            res.status(500).send({message: error.message})
       }
 })
 

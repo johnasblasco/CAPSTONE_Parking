@@ -3,16 +3,13 @@ import { useEffect, useState, useContext } from 'react';
 import { innerContext } from '../pages/Dashboard';
 import moment from 'moment';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
-// PRINT? 
-import React, { useRef } from 'react';
 
-const ParkOutDetails = () => {
+const ParkOutDetails = ({ pricePerTicket }) => {
 
-      // STEP1: make a refference
-      const invoiceRef = useRef();
 
-      const [socket, vehicles, setVehicles, showToast, setShowToast, setShowParkIn, setShowParkOut, setDisplayTicket, setShowVehicleData, setSelectedVehicle, selectedVehicle, todayEarn, setTodayEarn, totalEarnings, setTotalEarnings, earnings, setEarnings] = useContext(innerContext)
+      const [socket, vehicles, setVehicles, setShowParkIn, setShowParkOut, setDisplayTicket, setShowVehicleData, setSelectedVehicle, selectedVehicle] = useContext(innerContext)
 
       const startDate = moment(selectedVehicle.startDate);
       const currentDate = moment();
@@ -48,8 +45,7 @@ const ParkOutDetails = () => {
 
 
                   setShowVehicleData(false)
-                  setShowToast("out")
-
+                  parkOutAlert()
 
 
             } catch (error) {
@@ -57,6 +53,21 @@ const ParkOutDetails = () => {
             }
 
 
+      }
+      const parkOutAlert = () => {
+            Swal.fire({
+                  title: "Parkout successful!",
+                  width: 600,
+                  padding: "3em",
+                  color: "#716add",
+                  background: "#fff",
+                  backdrop: `
+                    rgba(0,0,123,0.4)
+                    url("/moving-car.gif")
+                    left top
+                    no-repeat
+                  `
+            });
       }
 
       return (
@@ -98,7 +109,7 @@ const ParkOutDetails = () => {
 
                                     <div className='flex my-auto items-center gap-6 '>
                                           <div>
-                                                <p>Total Charge: <b> Php.20.00</b> </p>
+                                                <p>Total Charge: <b> Php.{pricePerTicket}.00</b> </p>
                                                 {hoursDifference >= 3 && <p className='ml-24 font-bold'>(+ overstay)</p>}
                                           </div>
 

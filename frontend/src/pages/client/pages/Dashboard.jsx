@@ -3,10 +3,9 @@ import { myContext } from '../Home';
 import Clock from '../components/Clock';
 import { FaCarSide } from "react-icons/fa6";
 import CurrentlyParked from '../components/CurrentlyParked';
-import Toast from '../components/Toast';
 import Slots from '../components/Slots';
 
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 // in
 import ParkIn from '../components/ParkIn'
 import { FaArrowRightToBracket } from "react-icons/fa6";
@@ -18,17 +17,27 @@ import ParkOutDetails from '../components/ParkOutDetails';
 import { FaArrowRightFromBracket } from "react-icons/fa6";
 import { FaMinus } from "react-icons/fa6";
 
-
-import PropagateLoader from 'react-spinners/PropagateLoader'
 export const innerContext = createContext()
 
 const Dashboard = () => {
 
-      const [socket, allVehicles, totalEarnings, todayEarn, setTodayEarn, yesterdayEarnings, vehicles, setVehicles, setTotalEarnings, earnings, setEarnings] = useContext(myContext)
+      const [
+            socket,
+            allVehicles,
+            setAllVehicles,
+            vehicles,
+            setVehicles,
+            companyName,
+            parkingRules,
+            twoWheels,
+            threeAndFourWheels,
+            pricePerTicket,
+            hoursLimit,
+            overTimeFees,
+      ] = useContext(myContext)
 
       const [showParkIn, setShowParkIn] = useState(false)
       const [showParkOut, setShowParkOut] = useState(false)
-      const [showToast, setShowToast] = useState("")
 
 
       // if meron na vehicle sa PARKOUT TO
@@ -40,26 +49,24 @@ const Dashboard = () => {
       const [displayTicket, setDisplayTicket] = useState(0);
 
 
+      const innerContextValue = [socket, vehicles, setVehicles, setShowParkIn, setShowParkOut, setDisplayTicket, setShowVehicleData, setSelectedVehicle, selectedVehicle]
 
-      // loading muna mga par
-      const [loading, setLoading] = useState(true);
+      const handleParkIn = () => {
+            console.log(vehicles.length, twoWheels, threeAndFourWheels)
+            if (vehicles.length < (threeAndFourWheels + twoWheels)) {
+                  setShowParkIn(!showParkIn)
+                  return
+            }
+            else {
+                  alert("sir puno na kupal ka ba")
+                  return
+            }
 
-      if (loading[0] < 0) {
-            return <PropagateLoader
-                  color="#ff5400"
-                  size={30}
-                  className='absolute top-[50dvh] left-[50dvw] w-fit'
-            />
       }
-
-
-
-
-      const innerContextValue = [socket, vehicles, setVehicles, showToast, setShowToast, setShowParkIn, setShowParkOut, setDisplayTicket, setShowVehicleData, setSelectedVehicle, selectedVehicle, todayEarn, setTodayEarn, totalEarnings, setTotalEarnings, earnings, setEarnings]
-
 
       return (
             <>
+
                   <div className='mx-[10%] h-max-700:mt-[35vh] mt-[25vh] w-[80vw] text-deepBlue'>
                         {/* CONTENT GRID LEFT AND RIGHT */}
                         <div className='py-1 px-4 grid grid-cols-2 gap-10'>
@@ -70,7 +77,7 @@ const Dashboard = () => {
                                     {/* IN AND OUT */}
                                     <div className='flex gap-8 justify-center bg-[#FEF6E4] p-6   rounded-3xl border-4 border-deepBlue'>
 
-                                          <button onClick={() => setShowParkIn(!showParkIn)} className='bg-greenWich w-[40%] h-[280px] border-4 border-deepBlue rounded-2xl  hover:bg-[#6a9c71] p-10 flex flex-col items-center justify-center  '>
+                                          <button onClick={handleParkIn} className=' w-[40%] h-[280px] border-4 border-deepBlue rounded-2xl   hover:scale-95 bg-green-300 hover:bg-greenWich hover:brightness-150 p-10 flex flex-col items-center justify-center  '>
                                                 <div className='flex gap-2'>
                                                       <FaCarSide className='text-7xl' />
                                                       <FaArrowRightToBracket className='text-7xl' />
@@ -79,7 +86,7 @@ const Dashboard = () => {
                                                 <FaPlus className='text-4xl font-[600]' />
                                           </button>
 
-                                          <button onClick={() => setShowParkOut(!showParkOut)} className='bg-pink w-[40%] h-[280px] border-4 border-deepBlue rounded-2xl hover:bg-[#a15c5c] p-10 flex flex-col items-center  justify-center '>
+                                          <button onClick={() => setShowParkOut(!showParkOut)} className=' w-[40%] h-[280px] border-4 border-deepBlue rounded-2xl hover:scale-95 bg-pink hover:bg-red-500 p-10 flex flex-col items-center  justify-center '>
                                                 <div className='flex gap-2'>
                                                       <FaCarSide className='text-7xl' />
                                                       <FaArrowRightFromBracket className='text-7xl' />
@@ -93,7 +100,7 @@ const Dashboard = () => {
                                     {/* SLOTS */}
                                     <div className='relative mt-8  rounded-3xl bg-offWhite border-4 border-deepBlue p-4 shadow-2xl'>
                                           <span className='absolute px-8 py-2 bg-yeelow border-4 border-deepBlue text-xl font-bold left-[-35px] rounded-full'>Slots</span>
-                                          <Slots vehicles={vehicles} />
+                                          <Slots vehicles={vehicles} twoWheels={twoWheels} threeAndFourWheels={threeAndFourWheels} />
 
 
                                     </div>
@@ -137,25 +144,16 @@ const Dashboard = () => {
 
                   <innerContext.Provider value={innerContextValue}>
                         {
-                              showParkIn && <ParkIn />
+                              showParkIn && <ParkIn companyName={companyName} parkingRules={parkingRules} pricePerTicket={pricePerTicket} twoWheel={twoWheels} threeAndFourWheels={threeAndFourWheels} />
                         }
                         {
                               showParkOut && <ParkOut />
                         }
                         {
-                              showVehicleData && <ParkOutDetails />
+                              showVehicleData && <ParkOutDetails pricePerTicket={pricePerTicket} />
                         }
 
                   </innerContext.Provider>
-
-
-
-                  {
-                        showToast == "out" && (<Toast setShowToast={setShowToast} title={"Vehicle removed!"} disc={"Vehicle has been removed to the database."} />)
-                  }
-                  {
-                        showToast == "in" && (<Toast showToast={showToast} setShowToast={setShowToast} displayTicket={displayTicket} title={"Vehicle Added!"} disc={"Vehicle has been added to the database."} />)
-                  }
             </>
 
       )

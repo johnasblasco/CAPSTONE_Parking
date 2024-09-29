@@ -17,7 +17,7 @@ const Admin = () => {
                               if (admin.username === username && admin.password === password) {
                                     setIsLogin(true);
                                     console.log("ok na")
-                                    navigate('/admin/home/login-history');
+                                    navigate('/admin/home/settings');
                                     Swal.fire({
                                           title: "LOGGED IN SUCCESSFULLY!",
                                           text: "Howdy, Admin!",
@@ -39,12 +39,12 @@ const Admin = () => {
       }
 
       return (
-            <div className="h-screen bg-[url('BG.png')] bg-cover bg-bottom bg-no-repeat">
+            <div className="h-screen bg-[url('/BG.png')] bg-cover bg-bottom bg-no-repeat">
 
                   <div className="flex items-center justify-center h-screen">
 
 
-                        <div className="flex flex-col items-center pr-24 gap-2 pt-28  pb-8 bg-[url('polygon1.png')] w-[650px] h-[650px] h-max-700:h-[550px] h-max-700:w-[550px]  bg-contain bg-no-repeat rounded-xl "
+                        <div className="flex flex-col items-center pr-24 gap-2 pt-28  pb-8 bg-[url('/polygon1.png')] w-[650px] h-[650px] h-max-700:h-[550px] h-max-700:w-[550px]  bg-contain bg-no-repeat rounded-xl "
                         >
                               <p className='text-6xl text-darkBloe font-extrabold'>SIGN IN</p>
                               <p className='text-xl text-darkBloe font-bold'>TO PARKAID</p>
@@ -70,7 +70,7 @@ const Admin = () => {
 
 
                                     <button
-                                          className="self-center bg-[#8ED8A9] py-3 px-12 mt-4 w-fit text-2xl border-4 border-[#001858]  text-[#001858] rounded-3xl  hover:bg-[#72c791]"
+                                          className="self-center bg-greenWich py-3 px-12 mt-4 w-fit text-2xl border-4 border-gray-300 text-offWhite  rounded-3xl"
                                           onClick={handleLogin}
                                     >
                                           CONTINUE
