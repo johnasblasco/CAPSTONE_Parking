@@ -15,8 +15,7 @@ router.post("/", async(req,res) => {
       try {
             const newEarnings = {
                   currentDate : req.body.currentDate,
-                  totalEarnings : req.body.totalEarnings,
-                  todayEarnings: req.body.todayEarnings
+                  earnings : req.body.earnings
             }
       
             const earnings = await EARNINGS.create(newEarnings);

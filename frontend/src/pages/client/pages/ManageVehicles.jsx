@@ -3,17 +3,28 @@ import { myContext } from '../Home';
 import moment from 'moment';
 import { IoMdClose } from 'react-icons/io';
 import axios from 'axios';
-import Toast from '../components/Toast';
+import Swal from 'sweetalert2';
 
 
 const ManageVehicles = () => {
       const [timers, setTimers] = useState({});
       const [showPopup, setShowPopup] = useState(false);
       const [selectedVehicle, setSelectedVehicle] = useState(null);
-      const [showToast, setShowToast] = useState('');
 
-      const [socket, allVehicles, totalEarnings, todayEarn, setTodayEarn, yesterdayEarnings, vehicles, setVehicles, setTotalEarnings, earnings, setEarnings] = useContext(myContext)
-
+      const [
+            socket,
+            allVehicles,
+            setAllVehicles,
+            vehicles,
+            setVehicles,
+            companyName,
+            parkingRules,
+            twoWheels,
+            threeAndFourWheels,
+            pricePerTicket,
+            hoursLimit,
+            overTimeFees,
+      ] = useContext(myContext)
 
 
       // STEP1: make a refference
@@ -68,12 +79,27 @@ const ManageVehicles = () => {
             try {
                   await axios.put(`http://localhost:8000/vehicle/${selectedVehicle._id}`, vehicleUpdateData)
                   setShowPopup(false)
-                  setShowToast("out")
+                  parkOutAlert()
 
 
             } catch (error) {
                   console.log(error)
             }
+      }
+      const parkOutAlert = () => {
+            Swal.fire({
+                  title: "Parkout successful!",
+                  width: 600,
+                  padding: "3em",
+                  color: "#716add",
+                  background: "#fff",
+                  backdrop: `
+                    rgba(0,0,123,0.4)
+                    url("/moving-car.gif")
+                    left top
+                    no-repeat
+                  `
+            });
       }
 
       const [startDate, setStartDate] = useState(new Date())
@@ -95,25 +121,25 @@ const ManageVehicles = () => {
       console.log(search)
       const handleSearch = () => {
             let filteredVehicles = vehicles;
-            search > 0 ? setVehicles(filteredVehicles.filter(vehicle => vehicle.ticketNumber == search)) : ""
+            search > 0 ? setVehicles(filteredVehicles.filter(vehicle => vehicle.ticketNumber == search)) : setVehicles(getVehicles)
 
       }
 
 
       return (
             <>
-                  <div className='mx-[10%] h-max-700:mt-[35vh] mt-[25vh] w-[80vw] text-deepBlue'>
+                  <div className='mx-[9%] h-max-700:mt-[35vh] mt-[25vh] w-[80vw] text-deepBlue'>
 
 
                         {/* CONTENT */}
-                        <div className="border-4 border-bloe w-full relative bg-white mx-8 rounded-3xl min-h-screen h-auto flex flex-col px-8 py-4 gap-6 items-center">
+                        <div className="border-4 border-bloe w-[99%] relative bg-white mx-8 rounded-3xl min-h-screen h-auto flex flex-col px-8 py-4 gap-6 items-center">
                               <p className='border-4 font-bold border-deepBlue absolute left-[-35px] bg-yeelow py-1 px-4 text-lg rounded-3xl '>Currently Parked</p>
 
                               <div className='flex items-center justify-center w-full'>
                                     {/* SEARCH */}
                                     <div className='flex items-center gap-4'>
-                                          <input onChange={e => setSearch(e.target.value)} className=" w-[25vw] bg-lightBlue py-2 px-4 rounded-3xl  font-bold text-xl text-center border-4 border-deepBlue outline-none placeholder-deepBlue/50" type="text" placeholder='Search' />
-                                          <button onClick={handleSearch} className='bg-greenWich text-deepBlue font-bold py-2 px-8 rounded-3xl border-4 border-deepBlue'>Search</button>
+                                          <input onChange={e => setSearch(e.target.value)} className=" w-[25vw] border-gray-500 py-2 px-4 rounded-2xl  font-bold text-xl text-center border-4 placeholder-deepBlue/50" type="text" placeholder='Search by ticket Number' />
+                                          <button onClick={handleSearch} className='bg-greenWich hover:scale-95 hover:brightness-125 text-white text-xl  font-bold py-2 px-8 rounded-2xl border-2 border-offWhite shadow'>Search</button>
                                     </div>
                               </div>
 
@@ -146,7 +172,7 @@ const ManageVehicles = () => {
                                                                   <td className={` border-r-4 border-deepBlue ${overtime ? 'text-[#892121]' : ''}`}>
                                                                         {`${hours}:${minutes} hours`}
                                                                   </td>
-                                                                  <td ><button onClick={() => manageParkout(vehicle)} className='bg-pink py-1 px-2 text-deepBlue rounded-2xl border-4 font-bold border-deepBlue'>Park out</button></td>
+                                                                  <td ><button onClick={() => manageParkout(vehicle)} className='bg-pink py-2 px-3 hover:scale-95 hover:bg-red-500 hover:brightness-90 text-deepBlue rounded-2xl border-4 font-bold border-deepBlue'>Park out</button></td>
                                                             </tr>
                                                       )
                                                 })
@@ -197,7 +223,7 @@ const ManageVehicles = () => {
 
                                                 <div className='flex my-auto items-center gap-6 '>
                                                       <div>
-                                                            <p>Total Charge: <b> Php.20.00</b> </p>
+                                                            <p>Total Charge: <b> Php.{pricePerTicket}.00</b> </p>
                                                             {hoursDifference >= 3 && <p className='ml-24 font-bold'>(+ overstay)</p>}
                                                       </div>
 
@@ -210,15 +236,9 @@ const ManageVehicles = () => {
                               </div>
                         )
                   }
-                  {/* TOAST */}
-                  {
-                        showToast == "out" && <Toast setShowToast={setShowToast} title={"Vehicle removed!"} disc={"Vehicle has been removed to the database."} />
-                  }
 
-                  {/*STEP 3: RECEIPT HERE HIDDEN */}
-                  < div ref={invoiceRef} className="mt-4 hidden" >
-                        <h1>Thank you kufal</h1>
-                  </div >
+
+
             </>
       )
 }

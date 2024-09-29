@@ -86,7 +86,7 @@ const GetStarted = () => {
                         text: "Your Account has been created successfully!",
                         icon: "success"
                   });
-                  navigate('/admin/home/login-history');
+                  navigate('/admin/home/settings');
             } catch (error) {
                   setFormError('Error updating admin details. Please try again.');
                   console.error('Error:', error);
@@ -95,7 +95,7 @@ const GetStarted = () => {
 
       return (
             <>
-                  <div className="min-h-screen pb-20 bg-[url('BG.png')] bg-cover bg-bottom bg-no-repeat flex justify-center">
+                  <div className="min-h-screen pb-20 bg-[url('/BG.png')] bg-cover bg-bottom bg-no-repeat flex justify-center">
 
                         <div className="h-max-700:w-screen h-max-700:px-30 py-20  h-max-700:ml-10 ml-40  mt-16 bg-[url('Polygon.png')] h-max-700:h-auto h-[90vh] w-[70vw] h-max-700:bg-cover bg-contain bg-no-repeat">
                               <form onSubmit={handleSubmit}>

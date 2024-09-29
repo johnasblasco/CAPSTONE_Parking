@@ -10,7 +10,7 @@ export default {
             deepBlue: '#001858',
             pink: '#f582ae',
             offWhite: '#fef6e4',
-            greenWich: '#8ED8A9',
+            greenWich: '#22c55e',
             lightBlue: '#8BD3DD',
             blak: '#000814',
             darkBloe: '#001d3d',

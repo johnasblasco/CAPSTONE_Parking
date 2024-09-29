@@ -5,7 +5,7 @@ import moment from 'moment';
 
 
 const ParkOut = () => {
-      const [socket, vehicles, setVehicles, showToast, setShowToast, setShowParkIn, setShowParkOut, setDisplayTicket, setShowVehicleData, setSelectedVehicle, selectedVehicle, todayEarn, setTodayEarn, totalEarnings, setTotalEarnings, earnings, setEarnings] = useContext(innerContext)
+      const [socket, vehicles, setVehicles, setShowParkIn, setShowParkOut, setDisplayTicket, setShowVehicleData, setSelectedVehicle, selectedVehicle] = useContext(innerContext)
 
       const [hasVehicle, setHasVehicle] = useState(false)
 
@@ -42,21 +42,20 @@ const ParkOut = () => {
       return (
             <div className='fixed w-screen h-screen bg-black/40 z-50'>
                   <div className='fixed inset-0 flex items-center justify-center bg-deepBlue/40'>
-                        <div className={`relative bg-offWhite shadow-lg rounded-3xl flex flex-col gap-8 items-center p-16 `}>
+                        <div className={`relative text-bloe border-4 border-darkBloe bg-offWhite shadow-lg rounded-2xl flex flex-col gap-8 items-center p-16 w-[600px]`}>
                               <IoMdClose onClick={() => setShowParkOut(false)} className='text-5xl absolute top-4 right-4 cursor-pointer' />
 
-                              <h2 className='ml-8 text-center text-6xl font-bold text-bloe'>Parking Out</h2>
+                              <h2 className='text-3xl font-bold mb-4 '>Parking in</h2>
 
                               <div className='flex justify-center items-center gap-4 w-full '>
-                                    <label htmlFor="ticket" className='text-nowrap'>Ticket No.</label>
-                                    <input type="number" className='bg-vanilla text-lg font-bold py-3 px-8 rounded-3xl w-[100%] placeholder-bloe/50  outline-[#6181D3] border-4 border-bloe' placeholder='Please input Ticket No.' onChange={(e) => setInputTicket(e.target.value)} />
+                                    <input type="number" className='border-4 border-gray-500 rounded-md p-4 w-full text-center text-lg font-bold py-3 px-8  placeholder-bloe/50  outline-[#6181D3]' placeholder='Please input Ticket No.' onChange={(e) => setInputTicket(e.target.value)} />
                               </div>
 
                               {/* conditional rendering here */}
                               {
                                     hasVehicle &&
 
-                                    <div className='w-full bg-[#DAD3BB] py-4 rounded-2xl'>
+                                    <div className='w-full bg-[#DAD3BB] py-8 text-lg font-bold rounded-2xl'>
                                           <table className='w-full text-center'>
                                                 <thead>
                                                       <tr>
@@ -72,7 +71,7 @@ const ParkOut = () => {
                                                             <td>{selectedVehicle.ticketNumber}</td>
                                                             <td>{moment(new Date(selectedVehicle.startDate)).format('DD-MM-YY')}</td>
                                                             <td>{selectedVehicle.plateNumber}</td>
-                                                            <td><button onClick={handleView} className='bg-lightBlue hover:bg-bloe hover:text-white hover:border-black text-darkBloe border-4 border-bloe py-1 px-6 rounded-2xl'>Select</button></td>
+                                                            <td><button onClick={handleView} className='bg-greenWich hover:scale-95 p-4 text-darkBloe border-4 border-black py-1 px-6 rounded-2xl'>Select</button></td>
                                                       </tr>
                                                 </tbody>
                                           </table>
@@ -87,7 +86,7 @@ const ParkOut = () => {
                               }
 
 
-                              <button onClick={handleSearch} className=' px-14 py-3  bg-greenWich text-bloe border-4 border-darkBloe font-bold text-2xl rounded-full '>
+                              <button onClick={handleSearch} className=' bg-darkBloe hover:bg-bloe text-white p-4  rounded-lg w-full'>
                                     Search
                               </button>
                         </div>

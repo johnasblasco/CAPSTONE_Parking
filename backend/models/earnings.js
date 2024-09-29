@@ -8,17 +8,9 @@ const earnings = mongoose.Schema(
                   required : true,
             },
 
-            totalEarnings : {
+            earnings : {
                   type : Number,
                   required : true,
-            },
-            todayEarnings : {
-                  type : Number,
-                  required : true,
-            },
-            yesterdayEarnings : {
-                  type : Number,
-                  required : false,
             }
       }
 
