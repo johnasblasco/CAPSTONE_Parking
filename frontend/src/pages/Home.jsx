@@ -37,13 +37,13 @@ const Home = () => {
                               <div className='flex flex-col items-center gap-4'>
                                     <button
                                           onClick={handleButtonUser}
-                                          className='rounded-3xl text-offWhite border-4 hover:scale-90 border-darkBloe text-2xl font-extrabold py-2 px-16 bg-greenWich'
+                                          className='rounded-3xl text-bloe border-4 hover:scale-90 border-bloe text-2xl font-extrabold py-2 px-16 bg-yeelow'
                                     >
                                           USER
                                     </button>
                                     <button
                                           onClick={handleButtonAdmin}
-                                          className='rounded-3xl text-offWhite hover:scale-90 border-4 border-[#001858] text-2xl font-extrabold py-2 px-14 bg-bloe'
+                                          className='rounded-3xl text-offWhite hover:scale-90 border-4 border-offWhite text-2xl font-extrabold py-2 px-14 bg-bloe'
                                     >
                                           ADMIN
                                     </button>

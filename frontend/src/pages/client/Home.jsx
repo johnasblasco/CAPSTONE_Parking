@@ -8,6 +8,8 @@ import Header from './components/Header';
 import Navbar from './components/Navbar';
 import io from 'socket.io-client';
 import { useEffect, useState, createContext } from 'react';
+import Swal from 'sweetalert2';
+import 'animate.css';
 
 export const myContext = createContext();
 const socket = io('http://localhost:8000');
@@ -63,6 +65,31 @@ const Home = () => {
             };
 
             fetchVehicles();
+            Swal.fire({
+                  title: "Welcome to Parking Management System",
+                  text: "You can add vehicles and start parking.",
+                  imageUrl: "/moving-car.gif",
+                  width: 700,
+                  imageWidth: 400,
+                  imageHeight: 300,
+                  imageAlt: "Custom image",
+                  showClass: {
+                        popup: `
+                      animate__animated
+                      animate__fadeInUp
+                      animate__faster
+                    `
+                  },
+                  hideClass: {
+                        popup: `
+                      animate__animated
+                      animate__fadeOutDown
+                      animate__faster
+                    `
+                  }
+            });
+
+
       }, []);
 
 

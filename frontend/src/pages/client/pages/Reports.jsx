@@ -6,8 +6,95 @@ import { FaFilter } from "react-icons/fa";
 import { MdCheckBoxOutlineBlank, MdCheckBox } from "react-icons/md";
 import PropagateLoader from 'react-spinners/PropagateLoader';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const Reports = () => {
+
+      const [todaysEarnings, setTodaysEarnings] = useState(0);
+      const [allEarnings, setAllEarnings] = useState([]);
+      const [selectedDateEarnings, setSelectedDateEarnings] = useState(0);
+      const [selectedDate, setSelectedDate] = useState(null);
+      const [todaysVehicles, setTodaysVehicles] = useState([]);
+      const [selectedDateVehicle, setSelectedDateVehicle] = useState([]);
+
+      useEffect(() => {
+            const fetchEarnings = async () => {
+                  const res = await axios.get('http://localhost:8000/earnings');
+                  setAllEarnings(res.data);
+
+                  // Calculate today's earnings
+                  const today = new Date().toISOString().split('T')[0];
+                  const todaysData = res.data.filter(earning => earning.currentDate.startsWith(today));
+                  setTodaysEarnings(todaysData.reduce((sum, earning) => sum + earning.earnings, 0));
+
+                  // Fetch today's vehicles
+                  await fetchSelectedVehicles(today); // Fetch vehicles for today
+            };
+            fetchEarnings();
+      }, []);
+
+      const fetchSelectedVehicles = async (date) => {
+            try {
+                  const res = await axios.get('http://localhost:8000/vehicle');
+                  console.log("Selected date:", date);
+                  console.log("Vehicle API response:", res.data);
+
+                  // Check if vehicles have startDate and filter them
+                  const filteredVehicles = res.data.filter(vehicle => {
+                        if (vehicle.startDate) {
+                              const vehicleDate = new Date(vehicle.startDate).toISOString().split('T')[0]; // Extract the date part
+                              console.log("Vehicle startDate:", vehicle.startDate, " | Extracted date:", vehicleDate); // Log date comparison
+                              return vehicleDate === date; // Compare with selected date
+                        }
+                        return false; // Skip if startDate is missing
+                  });
+
+                  console.log("Filtered Vehicles:", filteredVehicles); // Log filtered vehicles
+
+                  // Set today's vehicles state based on the selected date
+                  setTodaysVehicles(filteredVehicles.length); // Set today's vehicles to the count of filtered vehicles
+                  setSelectedDateVehicle(filteredVehicles); // Keep the filtered vehicles for the selected date
+            } catch (error) {
+                  console.error('Error fetching vehicles:', error);
+            }
+      };
+
+
+      const handleDateSelection = async () => {
+            const pastMinimumDate = new Date('2024-01-01').toISOString().split('T')[0];
+
+            const { value: date } = await Swal.fire({
+                  title: "Select Departure Date",
+                  input: "date",
+                  inputAttributes: {
+                        required: true,
+                        min: pastMinimumDate,
+                  },
+                  showCancelButton: true,
+                  confirmButtonText: "Submit",
+            });
+
+            if (date) {
+                  const filteredEarnings = allEarnings.filter(earning =>
+                        earning.currentDate.startsWith(date)
+                  );
+                  const earningsForSelectedDate = filteredEarnings.reduce((sum, earning) => sum + earning.earnings, 0);
+
+                  // Set the selected date earnings
+                  setTodaysEarnings(earningsForSelectedDate); // This updates today's earnings display
+                  setSelectedDateEarnings(earningsForSelectedDate);
+                  setSelectedDate(date);
+
+                  // Fetch vehicles for the selected date
+                  await fetchSelectedVehicles(date);
+
+                  Swal.fire("PRINT DATE", date);
+            }
+      };
+
+
+
+
       const invoiceRef = useRef();
       const [
             socket,
@@ -121,8 +208,106 @@ const Reports = () => {
                   />
             );
       }
+      // Earnings Print function
+      const earningsPrint = () => {
+            if (!invoiceRef.current) {
+                  console.error("Invoice reference is missing");
+                  return;
+            }
 
-      // Print function
+            const printWindow = window.open('', '', 'height=842,width=595');
+            const invoiceContent = invoiceRef.current.innerHTML;
+
+            if (!printWindow) {
+                  console.error("Failed to open print window");
+                  return;
+            }
+
+            // Structure the earnings and vehicle information
+            const earningsDetails = `
+                  <div style="padding: 20px; font-family: Arial, sans-serif;">
+                        <h1 style="text-align: center;">Earnings Report</h1>
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                        <tr>
+                              <th style="border: 1px solid black; padding: 8px; text-align: left;">Today's Earnings</th>
+                              <td style="border: 1px solid black; padding: 8px;">PHP ${todaysEarnings}.00</td>
+                        </tr>
+                        
+                        <tr>
+                              <th style="border: 1px solid black; padding: 8px; text-align: left;">Selected Date (${selectedDate || 'N/A'})</th>
+                              <td style="border: 1px solid black; padding: 8px;">PHP ${selectedDateEarnings || '0'}.00</td>
+                        </tr>
+                        </table>
+
+                        
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                        <tr>
+                              <th style="border: 1px solid black; padding: 8px;">Ticket Number</th>
+                              <th style="border: 1px solid black; padding: 8px;">Plate Number</th>
+                              <th style="border: 1px solid black; padding: 8px;">Vehicle Type</th>
+                              <th style="border: 1px solid black; padding: 8px;">Entry Date</th>
+                              <th style="border: 1px solid black; padding: 8px;">Parking Charges</th>
+
+                        </tr>
+                        ${selectedDateVehicle.map(vehicle => `
+                              <tr style="text-align: center;">
+                                    <td style="border: 1px solid black; padding: 8px;">${vehicle.ticketNumber}</td>
+                                    <td style="border: 1px solid black; padding: 8px;">${vehicle.plateNumber}</td>
+                                    <td style="border: 1px solid black; padding: 8px;">${vehicle.category}</td>
+                                    <td style="border: 1px solid black; padding: 8px;">${new Date(vehicle.startDate).toLocaleString()}</td>
+                                    <td style="border: 1px solid black; padding: 8px;">${pricePerTicket}</td>
+                              </tr>
+                        `).join('')}
+                        </table>
+                  </div>
+                  `;
+
+            printWindow.document.open();
+            printWindow.document.write(`
+                <html>
+                    <head>
+                        <title>Print Earnings Report</title>
+                        <style>
+                            @media print {
+                                @page {
+                                    size: A4;
+                                    margin: 20mm;
+                                }
+                                body {
+                                    font-family: Arial, sans-serif;
+                                    margin: 0;
+                                }
+                                table {
+                                    width: 100%;
+                                    border-collapse: collapse;
+                                }
+                                th, td {
+                                    border: 1px solid black;
+                                    padding: 8px;
+                                    text-align: center;
+                                }
+                                th {
+                                    background-color: #f2f2f2;
+                                }
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        ${earningsDetails}
+                        <script>
+                            window.onload = function() {
+                                window.print();
+                            };
+                        </script>
+                    </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.focus();
+      };
+
+
+      // Car Print function
       const carPrint = () => {
             if (!invoiceRef.current) {
                   console.error("Invoice reference is missing");
@@ -186,17 +371,16 @@ const Reports = () => {
                   <div className='mx-[10%] h-max-700:mt-[35vh] mt-[25vh] w-[82vw] text-deepBlue'>
                         {/* EARNINGS */}
                         <div className='flex justify-between ml-[3%] w-[75vw] h-[20vh]'>
+                              {/* today's vehicle */}
+                              <div className='h-max-700:p-16 flex gap-4 items-center pt-10 justify-center relative border-4 border-deepBlue shadow-2xl rounded-3xl bg-offWhite p-2 w-[30%]'>
+                                    <p className='border-4 border-deepBlue font-bold absolute left-[-35px] top-2 bg-yeelow py-1 px-4 text-lg rounded-3xl'>Today's Vehicle</p>
+                                    <p className='h-max-700:text-4xl text-6xl font-bold text-deepBlue'>{todaysVehicles}</p>
+                              </div>
                               {/* today earnings */}
                               <div className='h-max-700:p-16 flex gap-4 items-center pt-10 justify-center relative border-4 border-deepBlue shadow-2xl rounded-3xl bg-offWhite p-2 w-[30%]'>
                                     <p className='border-4 border-deepBlue font-bold absolute left-[-35px] top-2 bg-yeelow py-1 px-4 text-lg rounded-3xl'>Today's Earnings</p>
                                     <p className='h-max-700:text-3xl text-5xl font-bold text-deepBlue'>PHP</p>
-                                    <p className='h-max-700:text-4xl text-6xl font-bold text-deepBlue'>00.00</p>
-                              </div>
-
-                              <div className='h-max-700:p-16 flex gap-4 items-center pt-10 justify-center relative border-4 border-deepBlue shadow-2xl rounded-3xl bg-offWhite p-2 w-[30%]'>
-                                    <p className='border-4 border-deepBlue font-bold absolute left-[-35px] top-2 bg-yeelow py-1 px-4 text-lg rounded-3xl'>Total Earnings</p>
-                                    <p className='h-max-700:text-3xl text-5xl font-bold text-deepBlue'>PHP</p>
-                                    <p className='h-max-700:text-4xl text-6xl font-bold text-deepBlue'>00.00</p>
+                                    <p className='h-max-700:text-4xl text-6xl font-bold text-deepBlue'>{todaysEarnings}.00</p>
                               </div>
 
                               {/* Filter */}
@@ -204,10 +388,10 @@ const Reports = () => {
                                     <p className='border-4 border-deepBlue font-bold absolute left-[-35px] top-2 bg-yeelow py-1 px-4 text-lg rounded-3xl'>Filter</p>
                                     <p className='text-3xl font-bold text-deepBlue'>By Date</p>
                                     <div className='flex'>
-                                          <button className='m-4 h-12 bg-pink hover:scale-95 rounded-2xl p-2 px-4 text-white' >
+                                          <button onClick={handleDateSelection} className='m-4 h-12 bg-pink hover:scale-95 rounded-2xl p-2 px-4 text-white' >
                                                 <FaFilter className='inline' /> MM/DD
                                           </button>
-                                          <button className='m-4 h-12 bg-bloe hover:scale-95 rounded-2xl p-2 text-white'>
+                                          <button onClick={earningsPrint} className='m-4 h-12 bg-bloe hover:scale-95 rounded-2xl p-2 text-white'>
                                                 <MdLocalPrintshop className='inline' /> Print Earnings
                                           </button>
                                     </div>

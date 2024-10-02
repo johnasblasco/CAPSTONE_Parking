@@ -4,26 +4,40 @@ import { useNavigate } from 'react-router-dom';
 const Header = () => {
 
       const navigate = useNavigate();
+      const logoutAlert = Swal.mixin({
+            customClass: {
+                  confirmButton: "btn btn-success",
+                  cancelButton: "btn btn-danger"
+            },
+            buttonsStyling: false
+      });
+
       const logout = () => {
-            Swal.fire({
-                  title: "Are you sure? You Want To Logout?",
+            logoutAlert.fire({
+                  title: "Are you sure? You want to logout?",
                   text: "You won't be able to revert this!",
                   icon: "warning",
                   showCancelButton: true,
-                  confirmButtonColor: "#3085d6",
-                  cancelButtonColor: "#d33",
-                  confirmButtonText: "Yes, Logout!"
-            }).then((result) => {
+                  confirmButtonText: "Yes, Logout!",
+                  cancelButtonText: "No, cancel!",
+                  reverseButtons: true
+            }).then(async (result) => {
                   if (result.isConfirmed) {
-                        Swal.fire({
-                              title: "Success!",
-                              text: "Your account has been logged out.",
+                        logoutAlert.fire({
+                              title: "Logged Out!",
+                              text: "You have successfully logged out.",
                               icon: "success"
                         });
-                        navigate('/')
+                        navigate("/");
+                  } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        logoutAlert.fire({
+                              title: "Cancelled",
+                              text: "You have cancelled the logout.",
+                              icon: "error"
+                        });
                   }
             });
-      }
+      };
       return (
             <header className='bg-white py-4 px-12 mb-4 flex items-center justify-between fixed top-0 rounded-b-3xl w-full z-10'>
                   <img src="/logo2.png" className='w-[200px] mx-4' />

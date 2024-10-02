@@ -9,7 +9,7 @@ const Slots = ({ vehicles, twoWheels, threeAndFourWheels }) => {
                   </div>
 
                   <div>
-                        <h2 className='text-9xl text-greenWich text-stroke-4 text-stroke-deepBlue'>{(twoWheels + threeAndFourWheels) - vehicles.length}</h2>
+                        <h2 className='text-9xl text-greenWich contrast-150 text-stroke-4 text-stroke-deepBlue'>{(twoWheels + threeAndFourWheels) - vehicles.length}</h2>
                         <p>Available Slots</p>
                   </div>
 

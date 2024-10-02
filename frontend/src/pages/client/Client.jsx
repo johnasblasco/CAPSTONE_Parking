@@ -10,17 +10,6 @@ const Client = () => {
       const [isLogin, setIsLogin] = useState(false);
       const [error, setError] = useState(null);
 
-      //solution if may hindi nakapag log out
-      // axios.get("http://localhost:8000/user")
-      //       .then((user) => {
-      //             const isLogin = user.data.find((user) => user.login)
-      //             if (isLogin) navigate('/user/dashboard', { replace: true });
-
-      //       })
-      //       .catch(err => console.log(err))
-      // console.log("wala")
-
-
       const handleLogin = async () => {
             try {
                   const response = await axios.get("http://localhost:8000/user");
@@ -38,11 +27,6 @@ const Client = () => {
                   }
                   setIsLogin(true);
                   console.log("Login successful");
-                  Swal.fire({
-                        title: "LOGGED IN SUCCESSFULLY!",
-                        text: "Welcome, parking attendant!",
-                        icon: "success"
-                  });
                   navigate('/user/home/dashboard', { replace: true });
 
                   // Make a log of the data
@@ -100,7 +84,7 @@ const Client = () => {
 
 
                                     <button
-                                          className="self-center bg-greenWich hover:scale-90 py-3 px-12 mt-4 w-fit text-2xl border-4 border-gray-300 text-offWhite rounded-3xl"
+                                          className="self-center bg-yeelow hover:scale-90 py-3 px-12 mt-4 w-fit text-2xl border-4 border-bloe text-bloe rounded-3xl"
                                           onClick={handleLogin}
                                     >
                                           CONTINUE
