@@ -36,20 +36,15 @@ const Reports = () => {
       const fetchSelectedVehicles = async (date) => {
             try {
                   const res = await axios.get('http://localhost:8000/vehicle');
-                  console.log("Selected date:", date);
-                  console.log("Vehicle API response:", res.data);
-
                   // Check if vehicles have startDate and filter them
                   const filteredVehicles = res.data.filter(vehicle => {
                         if (vehicle.startDate) {
                               const vehicleDate = new Date(vehicle.startDate).toISOString().split('T')[0]; // Extract the date part
-                              console.log("Vehicle startDate:", vehicle.startDate, " | Extracted date:", vehicleDate); // Log date comparison
+
                               return vehicleDate === date; // Compare with selected date
                         }
                         return false; // Skip if startDate is missing
                   });
-
-                  console.log("Filtered Vehicles:", filteredVehicles); // Log filtered vehicles
 
                   // Set today's vehicles state based on the selected date
                   setTodaysVehicles(filteredVehicles.length); // Set today's vehicles to the count of filtered vehicles
@@ -112,16 +107,17 @@ const Reports = () => {
       ] = useContext(myContext);
 
       const [getVehicles, getSetVehicles] = useState(allVehicles);
-      const [twoWheelsRadio, setTwoWheelsRadio] = useState(false);
-      const [threeWheelsRadio, setThreeWheelsRadio] = useState(false);
-      const [fourWheelsRadio, setFourWheelsRadio] = useState(false);
-      const [IN, setIN] = useState(false);
-      const [OUT, setOUT] = useState(false);
+
       const [search, setSearch] = useState(0);
 
       const [timers, setTimers] = useState({});
 
       // Handle radio button clicks
+      const [twoWheelsRadio, setTwoWheelsRadio] = useState(false);
+      const [threeWheelsRadio, setThreeWheelsRadio] = useState(false);
+      const [fourWheelsRadio, setFourWheelsRadio] = useState(false);
+      const [IN, setIN] = useState(false);
+      const [OUT, setOUT] = useState(false);
       const handleIN = () => {
             setIN(true)
             setOUT(false)
@@ -385,7 +381,7 @@ const Reports = () => {
 
                               {/* Filter */}
                               <div className='h-max-700:p-16 flex flex-col gap-4 items-center pt-10 justify-center relative border-4 border-deepBlue shadow-2xl rounded-3xl bg-offWhite p-2 w-[25%]'>
-                                    <p className='border-4 border-deepBlue font-bold absolute left-[-35px] top-2 bg-yeelow py-1 px-4 text-lg rounded-3xl'>Filter</p>
+                                    <p className='border-4 border-deepBlue font-bold absolute left-[-40px] top-2 bg-yeelow py-1 px-4 text-lg rounded-3xl'>Filter Earnings</p>
                                     <p className='text-3xl font-bold text-deepBlue'>By Date</p>
                                     <div className='flex'>
                                           <button onClick={handleDateSelection} className='m-4 h-12 bg-pink hover:scale-95 rounded-2xl p-2 px-4 text-white' >
@@ -402,7 +398,7 @@ const Reports = () => {
                         <div className='flex font-bold gap-4 w-full'>
                               {/* filter */}
                               <div className='relative mt-32 border-4 shadow-2xl border-deepBlue bg-offWhite min-w-[14vw] flex flex-col justify-center rounded-3xl h-fit gap-2 p-4 py-10'>
-                                    <p className='flex border-4 border-deepBlue absolute left-[-35px] top-2 font-bold bg-yeelow py-1 px-12 text-lg rounded-3xl'><FaFilter />Filter</p>
+                                    <p className='flex border-4 border-deepBlue absolute left-[-35px] top-2 font-bold bg-yeelow py-1 px-12 text-lg rounded-3xl'><FaFilter />Filter Vehicle</p>
 
                                     <p className='mt-12 text-center text-2xl font-bold'>By Wheels</p>
 
@@ -451,7 +447,8 @@ const Reports = () => {
                               </div>
 
                               {/* Table */}
-                              <div className=' border-4 border-deepBlue shadow-2xl max-h-[68vh] overflow-y-auto rounded-3xl bg-offWhite p-6 min-w-[70vw] mt-32'>
+                              <div className=' relative border-4 border-deepBlue shadow-2xl max-h-[68vh] overflow-y-auto rounded-3xl bg-offWhite p-6 min-w-[70vw] mt-32'>
+                                    <p className='border-4 border-deepBlue font-bold absolute left-[40%] top-2 bg-yeelow py-1 px-4 text-lg rounded-3xl'>All Vehicles Report</p>
                                     <button className='m-4 h-12 bg-bloe hover:scale-95 rounded-2xl p-2 text-white' onClick={carPrint}>
                                           <MdLocalPrintshop className='inline' /> Print Report
                                     </button>
