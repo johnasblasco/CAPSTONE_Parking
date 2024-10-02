@@ -144,7 +144,7 @@ const Dashboard = () => {
 
                   <innerContext.Provider value={innerContextValue}>
                         {
-                              showParkIn && <ParkIn companyName={companyName} parkingRules={parkingRules} pricePerTicket={pricePerTicket} twoWheel={twoWheels} threeAndFourWheels={threeAndFourWheels} />
+                              showParkIn && <ParkIn companyName={companyName} parkingRules={parkingRules} pricePerTicket={pricePerTicket} twoWheels={twoWheels} threeAndFourWheels={threeAndFourWheels} />
                         }
                         {
                               showParkOut && <ParkOut />

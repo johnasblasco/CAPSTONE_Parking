@@ -42,6 +42,7 @@ const Home = () => {
                         setPricePerTicket(response.data.pricePerTicket);
                         setHoursLimit(response.data.hoursLimit);
                         setOverTimeFees(response.data.overtimeFees);
+                        console.log(response.data);
                   } catch (err) {
                         console.error(err);
                   }

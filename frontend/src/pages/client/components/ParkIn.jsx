@@ -5,6 +5,7 @@ import moment from 'moment';
 import axios from 'axios';
 
 const ParkIn = ({ companyName, parkingRules, pricePerTicket, twoWheels, threeAndFourWheels }) => {
+
       const invoiceRef = useRef();
       const [socket, vehicles, setVehicles, setShowParkIn, setShowParkOut, setDisplayTicket, setShowVehicleData, setSelectedVehicle, selectedVehicle] = useContext(innerContext);
 
@@ -23,7 +24,7 @@ const ParkIn = ({ companyName, parkingRules, pricePerTicket, twoWheels, threeAnd
                   setShowParkIn(false);
                   return;
             }
-            if (vehicles.filter((v) => v.category === "2 Wheels").length >= twoWheels && selectedOption === "2 Wheels") {
+            if (vehicles.filter((v) => v.category === "2 Wheels").length >= twoWheels && (selectedOption === "2 Wheels")) {
                   console.log("sir puno na 2 wheels kupal ka ba");
                   setPlateNo("");
                   setShowParkIn(false);
