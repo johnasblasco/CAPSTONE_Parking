@@ -70,10 +70,10 @@ const Admin = () => {
 
 
                                     <button
-                                          className="self-center bg-greenWich py-3 px-12 mt-4 w-fit text-2xl border-4 border-gray-300 text-offWhite  rounded-3xl"
+                                          className="self-center bg-bloe hover:scale-90 py-3 px-12 mt-4 w-fit text-2xl border-4 border-gray-300 text-offWhite  rounded-3xl"
                                           onClick={handleLogin}
                                     >
-                                          CONTINUE
+                                          ➡️ Go to Admin
                                     </button>
                               </div>
                         </div>

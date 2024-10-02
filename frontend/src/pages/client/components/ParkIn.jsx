@@ -52,7 +52,8 @@ const ParkIn = ({ companyName, parkingRules, pricePerTicket, twoWheels, threeAnd
                         plateNumber: plateNo.toUpperCase(),
                         category: selectedOption,
                         endDate: null,
-                        status: true
+                        status: true,
+                        extraCharges: 0
                   };
 
                   // Post the new vehicle to the server

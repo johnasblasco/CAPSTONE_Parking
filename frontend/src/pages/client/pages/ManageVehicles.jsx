@@ -10,6 +10,7 @@ const ManageVehicles = () => {
       const [timers, setTimers] = useState({});
       const [showPopup, setShowPopup] = useState(false);
       const [selectedVehicle, setSelectedVehicle] = useState(null);
+      const [displayVehicles, setDisplayVehicles] = useState([]);
 
       const [
             socket,
@@ -40,6 +41,10 @@ const ManageVehicles = () => {
             const minutes = duration.minutes() > 9 ? duration.minutes() : "0" + duration.minutes()
             return { hours, minutes };
       };
+
+      useEffect(() => {
+            setDisplayVehicles(vehicles)
+      }, [vehicles])
 
       // Update timers every minute
       useEffect(() => {
@@ -114,14 +119,11 @@ const ManageVehicles = () => {
       const minutesDifference = duration.minutes();
 
 
-
-      // search
-      const [getVehicles, getSetVehicles] = useState(vehicles)
       const [search, setSearch] = useState(0);
       console.log(search)
       const handleSearch = () => {
             let filteredVehicles = vehicles;
-            search > 0 ? setVehicles(filteredVehicles.filter(vehicle => vehicle.ticketNumber == search)) : setVehicles(getVehicles)
+            search > 0 ? setDisplayVehicles(filteredVehicles.filter(vehicle => vehicle.ticketNumber == search)) : setDisplayVehicles(vehicles)
 
       }
 
@@ -138,8 +140,8 @@ const ManageVehicles = () => {
                               <div className='flex items-center justify-center w-full'>
                                     {/* SEARCH */}
                                     <div className='flex items-center gap-4'>
-                                          <input onChange={e => setSearch(e.target.value)} className=" w-[25vw] border-gray-500 py-2 px-4 rounded-2xl  font-bold text-xl text-center border-4 placeholder-deepBlue/50" type="text" placeholder='Search by ticket Number' />
-                                          <button onClick={handleSearch} className='bg-greenWich hover:scale-95 hover:brightness-125 text-white text-xl  font-bold py-2 px-8 rounded-2xl border-2 border-offWhite shadow'>Search</button>
+                                          <input onChange={e => setSearch(e.target.value)} className=" w-[25vw] border-gray-500 py-2 px-4 rounded-2xl  font-bold text-xl text-center border-4 outline-8 outline-bloe placeholder-deepBlue/50" type="text" placeholder='Search by ticket Number' />
+                                          <button onClick={handleSearch} className='bg-bloe hover:scale-95 hover:brightness-125 text-white text-xl  font-bold py-2 px-8 rounded-2xl border-2 border-bloe shadow-xl'>Search</button>
                                     </div>
                               </div>
 
@@ -158,7 +160,7 @@ const ManageVehicles = () => {
                                     <tbody>
                                           {
 
-                                                vehicles.map((vehicle, index) => {
+                                                displayVehicles.map((vehicle, index) => {
                                                       const { hours, minutes } = timers[index] || formatTime(vehicle.startDate);
                                                       const overtime = isOvertime(hours);
                                                       return (

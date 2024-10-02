@@ -45,7 +45,7 @@ const ParkOut = () => {
                         <div className={`relative text-bloe border-4 border-darkBloe bg-offWhite shadow-lg rounded-2xl flex flex-col gap-8 items-center p-16 w-[600px]`}>
                               <IoMdClose onClick={() => setShowParkOut(false)} className='text-5xl absolute top-4 right-4 cursor-pointer' />
 
-                              <h2 className='text-3xl font-bold mb-4 '>Parking in</h2>
+                              <h2 className='text-3xl font-bold mb-4 '>Parking Out</h2>
 
                               <div className='flex justify-center items-center gap-4 w-full '>
                                     <input type="number" className='border-4 border-gray-500 rounded-md p-4 w-full text-center text-lg font-bold py-3 px-8  placeholder-bloe/50  outline-[#6181D3]' placeholder='Please input Ticket No.' onChange={(e) => setInputTicket(e.target.value)} />
