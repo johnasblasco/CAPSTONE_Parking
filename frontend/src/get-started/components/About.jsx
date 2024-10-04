@@ -7,14 +7,14 @@ const About = () => {
                         <h2 className='text-8xl tracking-wider text-white font-extrabold'>ABOUT US</h2>
 
                         <p className='mt-10 w-[60%]  text-wrap text-2xl text-white'> Created By: Group 4, 3F-G1 of
-                              College of Information Technology
+                              College of Information and Communications Technology
                               Bulacan State University
                               All Rights Reserved.
                         </p>
 
                   </div>
 
-                  <div className='mt-28 w-full'>
+                  <div className='w-full'>
                         <img src="about.png" alt="" />
                   </div>
 

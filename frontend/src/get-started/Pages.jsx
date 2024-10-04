@@ -8,12 +8,12 @@ const Pages = () => {
       const [mySwitch, setMySwitch] = useState(true)
 
       return (
-            <div className='bg-no-repeat bg-bottom bg-[url("/BG.png")] bg-cover w-full fixed overflow-auto'>
+            <div className='bg-no-repeat bg-bottom bg-[url("/BG.png")] bg-cover w-full fixed overflow-scroll'>
 
                   <div className='h-screen px-28 pt-12  '>
                         <Header setMySwitch={setMySwitch} />
 
-                        <div className='mt-24'>
+                        <div className='mt-48'>
                               {
                                     mySwitch ? (<Form />) : (<About />)
 

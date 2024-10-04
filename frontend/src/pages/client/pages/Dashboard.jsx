@@ -6,6 +6,7 @@ import CurrentlyParked from '../components/CurrentlyParked';
 import Slots from '../components/Slots';
 
 import { ToastContainer } from 'react-toastify';
+import Swal from 'sweetalert2';
 // in
 import ParkIn from '../components/ParkIn'
 import { FaArrowRightToBracket } from "react-icons/fa6";
@@ -58,7 +59,14 @@ const Dashboard = () => {
                   return
             }
             else {
-                  alert("sir puno na kupal ka ba")
+                  Swal.fire({
+                        title: 'Parking Lot Full!',
+                        text: 'No spots are available right now. Please try again later.',
+                        icon: 'warning',
+                        confirmButtonText: 'Got it!',
+                        backdrop: true
+                  });
+
                   return
             }
 
