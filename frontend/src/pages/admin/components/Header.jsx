@@ -14,9 +14,9 @@ const Header = () => {
 
       const logout = () => {
             logoutAlert.fire({
-                  title: "Are you sure? You want to logout?",
-                  text: "You won't be able to revert this!",
-                  icon: "warning",
+                  title: "Are you sure you want to logout?",
+                  position: "center",
+                  icon: "question",
                   showCancelButton: true,
                   confirmButtonText: "Yes, Logout!",
                   cancelButtonText: "No, cancel!",

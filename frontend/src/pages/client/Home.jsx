@@ -26,8 +26,6 @@ const Home = () => {
 
       const [vehicles, setVehicles] = useState([]);
       const [allVehicles, setAllVehicles] = useState([]);
-
-
       const [loading, setLoading] = useState(true);
 
       // Fetch Settings data
@@ -42,9 +40,10 @@ const Home = () => {
                         setPricePerTicket(response.data.pricePerTicket);
                         setHoursLimit(response.data.hoursLimit);
                         setOverTimeFees(response.data.overtimeFees);
-                        console.log(response.data);
                   } catch (err) {
                         console.error(err);
+                  } finally {
+                        setLoading(false);
                   }
             };
 
@@ -61,45 +60,40 @@ const Home = () => {
                   } catch (error) {
                         console.error(error);
                   } finally {
-                        setLoading(false);  // Data is fetched, stop loading
+                        setLoading(false);
                   }
             };
 
             fetchVehicles();
-            Swal.fire({
-                  title: "Welcome to Parking Management System",
-                  text: "You can add vehicles and start parking.",
-                  imageUrl: "/moving-car.gif",
-                  width: 700,
-                  imageWidth: 400,
-                  imageHeight: 300,
-                  imageAlt: "Custom image",
-                  showClass: {
-                        popup: `
-                      animate__animated
-                      animate__fadeInUp
-                      animate__faster
-                    `
-                  },
-                  hideClass: {
-                        popup: `
-                      animate__animated
-                      animate__fadeOutDown
-                      animate__faster
-                    `
-                  }
-            });
-
-
       }, []);
 
+      // SweetAlert only when companyName is available
+      useEffect(() => {
+            if (companyName) {
+                  Swal.fire({
+                        title: `${companyName}`,
+                        text: "Welcome to Parking Management System",
+                        imageUrl: "/uploads/uploaded-image.jpeg",
+                        width: 700,
+                        imageWidth: 400,
+                        imageHeight: 300,
+                        imageAlt: "Custom image",
+                        showClass: {
+                              popup: 'animate__animated animate__fadeInUp animate__faster'
+                        },
+                        hideClass: {
+                              popup: 'animate__animated animate__fadeOutDown animate__faster'
+                        }
+                  });
+            }
+      }, [companyName]);
 
-      // Use socket to get vehicles data
+      // Socket handling for vehicle data
       useEffect(() => {
             socket.on('vehicles', (vehicles) => {
                   setAllVehicles(vehicles);
                   setVehicles(vehicles.filter(vehicle => vehicle.status === true));
-                  setLoading(false);  // Data is fetched from socket
+                  setLoading(false);
             });
 
             socket.on('newVehicle', (newVehicle) => {
@@ -132,7 +126,6 @@ const Home = () => {
             hoursLimit,
             overTimeFees,
       ];
-
 
       if (loading) {
             return (

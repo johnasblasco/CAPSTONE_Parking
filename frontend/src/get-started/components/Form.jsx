@@ -20,7 +20,7 @@ const Form = () => {
 
                         </div>
 
-                        <div className='mt-10 flex justify-start items-center'>
+                        <div className='mt-48 flex justify-start items-center'>
                               <img src="/cict.png" alt="" />
                               <img src="/bulsu.png" alt="" />
                         </div>

@@ -3,6 +3,7 @@ import { useState, useContext, useRef } from 'react';
 import { innerContext } from '../pages/Dashboard';
 import moment from 'moment';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const ParkIn = ({ companyName, parkingRules, pricePerTicket, twoWheels, threeAndFourWheels }) => {
 
@@ -19,13 +20,13 @@ const ParkIn = ({ companyName, parkingRules, pricePerTicket, twoWheels, threeAnd
 
       const handleButton = async () => {
             if (vehicles.filter((v) => v.category === "3 Wheels" || v.category === "4 Wheels").length >= threeAndFourWheels && (selectedOption === "3 Wheels" || selectedOption === "4 Wheels")) {
-                  console.log("sir puno na 3/4 wheels kupal ka ba");
+                  Swal.fire("Three and Four Wheels are full!");
                   setPlateNo("");
                   setShowParkIn(false);
                   return;
             }
             if (vehicles.filter((v) => v.category === "2 Wheels").length >= twoWheels && (selectedOption === "2 Wheels")) {
-                  console.log("sir puno na 2 wheels kupal ka ba");
+                  Swal.fire("Two Wheels are full!");
                   setPlateNo("");
                   setShowParkIn(false);
                   return;
@@ -187,7 +188,7 @@ const ParkIn = ({ companyName, parkingRules, pricePerTicket, twoWheels, threeAnd
                 <body>
                   <hr />
                   <div class="heading">
-                    <img src="/logo.jpeg" alt="" />
+                    <img src="/uploads/uploaded-image.jpeg" alt="" />
                     <p>${companyName}</p>
                   </div>
           

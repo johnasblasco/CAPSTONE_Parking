@@ -3,6 +3,7 @@ import LoginHistory from "./pages/LoginHistory"
 import CreateAccount from "./pages/CreateAccount"
 import ManageAccount from "./pages/ManageAccount"
 import Settings from './pages/Settings'
+import Reports from "./pages/Reports"
 import axios from "axios"
 import { Routes, Route } from 'react-router-dom'
 
@@ -31,8 +32,6 @@ const Home = () => {
                         console.log(err)
                   })
       }, [])
-
-      console.log(employee)
       return (
             <div className='bg-no-repeat bg-bottom bg-[url("/BG.png")] bg-cover w-full fixed overflow-auto'>
 
@@ -45,6 +44,7 @@ const Home = () => {
                                     <Route path="/login-history" element={<LoginHistory />} />
                                     <Route path="/create-account" element={<CreateAccount />} />
                                     <Route path="/manage-account" element={<ManageAccount />} />
+                                    <Route path="/reports" element={<Reports />} />
                               </Routes>
                         </div>
                   </myContext.Provider>

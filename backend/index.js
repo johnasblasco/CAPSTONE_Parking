@@ -1,12 +1,10 @@
 import { PORT, DATABASE } from './config.js';
 import axios from 'axios';
-// server imports
 import express from 'express';
 import { Server } from 'socket.io';
 import cors from 'cors';
-
-// database imports
 import mongoose from 'mongoose';
+import path from 'path';  // Import path for absolute directory
 
 // import routes
 import userR from './routes/userR.js';
@@ -23,8 +21,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Static folder for serving uploaded files
-app.use(express.static('public'));
+// Serve static files from frontend/public/uploads
+const __dirname = path.resolve();
+app.use('/uploads', express.static(path.join(__dirname, '../frontend/public/uploads')));
 
 // Routes
 app.use('/admin', adminR);
@@ -58,7 +57,7 @@ const io = new Server(expressServer, { cors: { origin: '*' } });
 io.on('connection', socket => {
   console.log(`User ${socket.id} connected boss`);
 
-  // Send this to all
+  // Send this to all kupal
   const initialData = async () => {
     const vehicle = await axios.get('http://localhost:8000/vehicle');
     socket.emit('vehicles', vehicle.data);

@@ -16,6 +16,7 @@ const Reports = () => {
       const [selectedDate, setSelectedDate] = useState(null);
       const [todaysVehicles, setTodaysVehicles] = useState([]);
       const [selectedDateVehicle, setSelectedDateVehicle] = useState([]);
+      const [getVehicles, setGetVehicles] = useState([]);
 
       useEffect(() => {
             const fetchEarnings = async () => {
@@ -49,6 +50,7 @@ const Reports = () => {
                   // Set today's vehicles state based on the selected date
                   setTodaysVehicles(filteredVehicles.length); // Set today's vehicles to the count of filtered vehicles
                   setSelectedDateVehicle(filteredVehicles); // Keep the filtered vehicles for the selected date
+                  setGetVehicles(filteredVehicles); // Keep the filtered vehicles for the selected date so that it can be used in the table
             } catch (error) {
                   console.error('Error fetching vehicles:', error);
             }
@@ -106,8 +108,6 @@ const Reports = () => {
             overTimeFees,
       ] = useContext(myContext);
 
-      const [getVehicles, getSetVehicles] = useState(allVehicles);
-
       const [search, setSearch] = useState(0);
 
       const [timers, setTimers] = useState({});
@@ -149,7 +149,7 @@ const Reports = () => {
       useEffect(() => {
             const intervalId = setInterval(() => {
                   const updatedTimers = {};
-                  getVehicles.forEach((vehicle, index) => {
+                  selectedDateVehicle.forEach((vehicle, index) => {
                         const startDate = moment(vehicle.startDate);
                         const duration = moment().diff(startDate, 'minutes'); // Calculate duration in minutes
                         const hours = Math.floor(duration / 60);
@@ -164,7 +164,7 @@ const Reports = () => {
 
       // Update table based on radio button selection
       useEffect(() => {
-            let filteredVehicles = allVehicles;
+            let filteredVehicles = selectedDateVehicle;
 
             // Filter by category
             if (twoWheelsRadio) {
@@ -182,16 +182,16 @@ const Reports = () => {
                   filteredVehicles = filteredVehicles.filter(vehicle => vehicle.status === false);
             }
 
-            getSetVehicles(filteredVehicles);
+            setGetVehicles(filteredVehicles);
       }, [twoWheelsRadio, threeWheelsRadio, fourWheelsRadio, allVehicles, IN, OUT]);
 
       // Search
       const handleSearch = () => {
-            let filteredVehicles = allVehicles;
+            let filteredVehicles = selectedDateVehicle;
             if (search > 0) {
-                  getSetVehicles(filteredVehicles.filter(vehicle => vehicle.ticketNumber.toString() === search.toString()));
+                  setGetVehicles(filteredVehicles.filter(vehicle => vehicle.ticketNumber.toString() === search.toString()));
             } else {
-                  getSetVehicles(allVehicles); // Reset to all vehicles if search is empty
+                  setGetVehicles(allVehicles); // Reset to all vehicles if search is empty
             }
       };
 
