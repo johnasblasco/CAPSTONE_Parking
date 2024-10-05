@@ -21,9 +21,10 @@ const Navbar = () => {
                               <div className='flex justify-center gap-4 '>
 
                                     <Link to="/admin/home/settings" className='focus:bg-darkYeelow rounded-full w-[200px] border-4 border-[#001858] py-2 px-4'>Settings</Link>
-                                    <Link to="/admin/home/login-history" className='focus:bg-darkYeelow rounded-full w-[200px] border-4 border-[#001858] py-2 px-4'>Login History</Link>
                                     <Link to="/admin/home/create-account" className='focus:bg-darkYeelow rounded-full w-[200px] border-4 border-[#001858] py-2 px-4'>Create Account</Link>
                                     <Link to="/admin/home/manage-account" className='focus:bg-darkYeelow rounded-full border-4 border-[#001858] w-[200px] py-2 px-4'>Manage Account</Link>
+                                    <Link to="/admin/home/login-history" className='focus:bg-darkYeelow rounded-full w-[200px] border-4 border-[#001858] py-2 px-4'>Login History</Link>
+                                    <Link to="/admin/home/reports" className='focus:bg-darkYeelow rounded-full w-[200px] border-4 border-[#001858] py-2 px-4'>Reports</Link>
                               </div>
 
 

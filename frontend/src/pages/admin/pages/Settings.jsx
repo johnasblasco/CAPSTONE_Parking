@@ -79,12 +79,12 @@ const Settings = () => {
       };
 
       return (
-            <div className="min-h-screen h-max-700:mt-[25vh] mt-[10vh] flex justify-center items-center">
-                  <div className="w-full max-w-6xl flex gap-8 items-start p-8">
+            <div className="text-bloe font-bold min-h-screen h-max-700:mt-[35vh] mt-[20vh] flex justify-center items-center">
+                  <div className="ml-5 w-[70%]  flex gap-8 items-start p-8">
 
                         {/* Left Card (Details) */}
-                        <div className="bg-white h-[680px] p-8 rounded-xl shadow-md flex-1 transition-transform duration-300 hover:scale-105">
-                              <h2 className="text-4xl font-bold mb-6 text-center text-blue-600">DETAILS</h2>
+                        <div className="bg-white p-8 rounded-xl shadow-md flex-1 transition-transform duration-300 hover:scale-105">
+                              <h2 className="text-6xl font-bold mb-6 text-center text-bloe">DETAILS</h2>
                               <div className="flex flex-col items-center mb-6">
                                     <div
                                           onClick={handleUpload}
@@ -93,7 +93,7 @@ const Settings = () => {
                                           <img
                                                 src={selectedImage}
                                                 alt="Click to upload"
-                                                className="w-40 h-40 rounded-full border-4 border-pink-300 shadow-md"
+                                                className="w-72 h-72 rounded-full border-4 border-pink-300 shadow-md"
                                           />
                                     </div>
                                     <input
@@ -109,7 +109,7 @@ const Settings = () => {
                                           value={formData.companyName}
                                           onChange={handleChange}
                                           placeholder="Company Name"
-                                          className="p-4 border text-center border-gray-300 rounded-full mb-4 w-11/12 text-lg transition-all duration-300 focus:bg-yellow-50 focus:border-yellow-500 hover:shadow-lg"
+                                          className="p-4 border-4 text-center bg-vanilla border-bloe rounded-full mb-4 w-11/12 text-lg transition-all duration-300 focus:bg-blue-50 focus:border-blue-500 hover:shadow-lg"
                                           required
                                     />
                                     <textarea
@@ -117,7 +117,7 @@ const Settings = () => {
                                           value={formData.parkingRules}
                                           onChange={handleChange}
                                           placeholder="Parking Rules"
-                                          className="p-4 text-center border border-gray-300 rounded-3xl mb-4 w-11/12 text-lg transition-all duration-300 focus:bg-yellow-50 focus:border-yellow-500 hover:shadow-lg"
+                                          className="p-4 text-center border-4 bg-vanilla border-bloe rounded-3xl mb-4 w-11/12 text-lg transition-all duration-300 focus:bg-blue-50 focus:border-blue-500 hover:shadow-lg"
                                           rows="8"
                                           required
                                     />
@@ -125,59 +125,71 @@ const Settings = () => {
                         </div>
 
                         {/* Right Card (Settings) */}
-                        <div className="bg-white h-[680px]  p-8 rounded-xl shadow-md flex-1 transition-transform duration-300 hover:scale-105">
-                              <h2 className="text-4xl font-bold mb-6 text-center text-blue-600">Settings</h2>
+                        <div className="bg-white h-[835px] py-8 rounded-xl shadow-md flex-1 transition-transform duration-300 hover:scale-105">
 
-                              <div className="grid gap-4">
-                                    <input
-                                          type="number"
-                                          name="twoWheels"
-                                          value={formData.twoWheels}
-                                          onChange={handleChange}
-                                          placeholder="Total 2 Wheels"
-                                          className="p-4 border text-center border-gray-300 rounded-full text-lg transition-all duration-300 focus:bg-yellow-50 focus:border-yellow-500 hover:shadow-lg"
-                                          required
-                                    />
-                                    <input
-                                          type="number"
-                                          name="threeAndFourWheels"
-                                          value={formData.threeAndFourWheels}
-                                          onChange={handleChange}
-                                          placeholder="Total 3/4 Wheels"
-                                          className="p-4 border text-center border-gray-300 rounded-full text-lg transition-all duration-300 focus:bg-yellow-50 focus:border-yellow-500 hover:shadow-lg"
-                                          required
-                                    />
+
+                              <div className="grid gap-4 justify-items-center">
+
+
+                                    <p className='mt-6 text-2xl text-slate-500 text-center'>Amount of Parking Spaces</p>
+                                    <div className='flex justify-center gap-4'>
+                                          <input
+                                                type="number"
+                                                name="twoWheels"
+                                                value={formData.twoWheels}
+                                                onChange={handleChange}
+                                                placeholder="Total 2 Wheels"
+                                                className="p-4 w-[30%] border-4 text-center bg-vanilla border-bloe rounded-full text-lg transition-all duration-300 focus:bg-blue-50 focus:border-blue-500 hover:shadow-lg"
+                                                required
+                                          />
+                                          <input
+                                                type="number"
+                                                name="threeAndFourWheels"
+                                                value={formData.threeAndFourWheels}
+                                                onChange={handleChange}
+                                                placeholder="Total 3/4 Wheels"
+                                                className="p-4 border-4 w-[30%] text-center bg-vanilla border-bloe rounded-full text-lg transition-all duration-300 focus:bg-blue-50 focus:border-blue-500 hover:shadow-lg"
+                                                required
+                                          />
+                                    </div>
+
+
+                                    <p className='mt-6 text-2xl text-slate-500 text-center'>Price Per Ticket</p>
                                     <input
                                           type="number"
                                           name="pricePerTicket"
                                           value={formData.pricePerTicket}
                                           onChange={handleChange}
-                                          placeholder="Price per Ticket"
-                                          className="p-4 border text-center border-gray-300 rounded-full text-lg transition-all duration-300 focus:bg-yellow-50 focus:border-yellow-500 hover:shadow-lg"
+                                          placeholder="PHP 50.00"
+                                          className="p-4 w-[70%] border-4 text-center bg-vanilla border-bloe rounded-full text-xl transition-all duration-300 focus:bg-blue-50 focus:border-blue-500 hover:shadow-lg"
                                           required
                                     />
+
+                                    <p className='mt-6 text-2xl text-slate-500 text-center'>(optional) Hours Limit</p>
                                     <input
                                           type="number"
                                           name="hoursLimit"
                                           value={formData.hoursLimit}
                                           onChange={handleChange}
-                                          placeholder="Hours Limit (optional)"
-                                          className="p-4 border text-center border-gray-300 rounded-full text-lg transition-all duration-300 focus:bg-yellow-50 focus:border-yellow-500 hover:shadow-lg"
+                                          placeholder="3 HOURS"
+                                          className="p-4 border-4 w-[70%] text-center bg-vanilla border-bloe rounded-full text-xl transition-all duration-300 focus:bg-blue-50 focus:border-blue-500 hover:shadow-lg"
                                     />
+
+                                    <p className='mt-6 text-2xl text-slate-500 text-center'>(optional) Ovetime Fee</p>
                                     <input
                                           type="number"
                                           name="overTimeFees"
                                           value={formData.overTimeFees}
                                           onChange={handleChange}
-                                          placeholder="Overtime Fees (optional)"
-                                          className="p-4 border text-center border-gray-300 rounded-full text-lg transition-all duration-300 focus:bg-yellow-50 focus:border-yellow-500 hover:shadow-lg"
+                                          placeholder="PHP 20.00"
+                                          className="p-4 border-4 w-[70%] bg-vanilla text-center border-bloe rounded-full text-xl transition-all duration-300 focus:bg-blue-50 focus:border-blue-500 hover:shadow-lg"
                                     />
 
-                                    {formError && <p className="text-red-500 text-center text-lg">{formError}</p>}
+                                    {formError ? <p className="text-red-500 text-center text-lg">{formError}</p> : <br />}
 
                                     <button
                                           type="submit"
-                                          className="bg-gradient-to-r bg-greenWich text-white rounded-full py-3 text-xl font-bold hover:from-green-500 hover:to-blue-600 transition-all duration-300"
+                                          className="px-12  bg-greenWich/40 rounded-full py-4 text-xl font-bold hover:scale-90 border-4 border-bloe"
                                           onClick={handleSubmit}
                                     >
                                           Save Changes

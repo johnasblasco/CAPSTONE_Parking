@@ -46,3 +46,11 @@
       @apply bg-pink m-2 text-white font-bold text-xl py-2 px-4 rounded-lg hover:bg-red-600; /* Cancel button styles */
   }
   
+
+  @layer base {
+      * {
+        transition-duration: 400ms;
+        transition-timing-function: ease;
+      }
+    }
+    

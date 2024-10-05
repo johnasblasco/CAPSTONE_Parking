@@ -2,13 +2,33 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 const Form = () => {
+      const parkAid = "PARK-AID";
+      const system = "SYSTEM";
       return (
             <div className='grid grid-cols-2 grid-rows-1'>
                   <div>
-                        <h2 className='text-8xl tracking-wide text-yeelow font-extrabold'>PARK-AID</h2>
-                        <h2 className='text-8xl tracking-widest text-offWhite font-extrabold'>SYSTEM</h2>
+                        <h2 className='text-8xl tracking-wide animate-color-change font-extrabold'>
+                              {parkAid.split("").map((letter, index) => (
+                                    <span
+                                          key={index}
+                                          className={`inline-block transition-transform duration-400 hover:scale-125 ${letter === " " ? "w-4" : ""}`}
+                                    >
+                                          {letter}
+                                    </span>
+                              ))}
+                        </h2>
 
-                        <p className='mt-10 w-[60%] text-wrap text-2xl text-white'> A Parking system that will help you to park your vehicle in a safe and secure way, right at your fingertips</p>
+                        <h2 className='text-8xl tracking-widest text-offWhite font-extrabold'>
+                              {system.split("").map((letter, index) => (
+                                    <span
+                                          key={index}
+                                          className={`inline-block transition-transform duration-400 hover:scale-125 ${letter === " " ? "w-4" : ""}`}
+                                    >
+                                          {letter}
+                                    </span>
+                              ))}
+                        </h2>
+                        <p className=' mt-10 w-[60%] text-wrap text-2xl text-white'> A Parking system that will help you to park your vehicle in a safe and secure way, right at your fingertips</p>
                         <p />
 
 
@@ -27,7 +47,7 @@ const Form = () => {
                   </div>
 
 
-                  <img src="landing_Car.png" className=' z-[-1] mt-[-140px]' />
+                  <img src="landing_Car.png" className='z-[-1] mt-[-140px]' />
 
 
             </div >

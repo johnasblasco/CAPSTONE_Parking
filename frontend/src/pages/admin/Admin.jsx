@@ -19,9 +19,11 @@ const Admin = () => {
                                     console.log("ok na")
                                     navigate('/admin/home/settings');
                                     Swal.fire({
-                                          title: "LOGGED IN SUCCESSFULLY!",
-                                          text: "Howdy, Admin!",
-                                          icon: "success"
+                                          position: "center",
+                                          icon: "success",
+                                          title: "Sucessfully logged in!",
+                                          showConfirmButton: false,
+                                          timer: 1500
                                     });
                               }
                         })

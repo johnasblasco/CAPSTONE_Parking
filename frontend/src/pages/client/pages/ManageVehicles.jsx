@@ -288,8 +288,7 @@ const ManageVehicles = () => {
                                     </button>
                               </div>
 
-                              <div className="border-4 border-bloe w-[99%] relative bg-white mx-8 rounded-3xl min-h-screen h-auto flex flex-col px-8 py-4 gap-6 items-center">
-                                    <p className='border-4 font-bold border-deepBlue absolute left-[-35px] bg-yeelow py-1 px-4 text-lg rounded-3xl '>Currently Parked</p>
+                              <div className="border-4 overflow-y-auto max-h-[760px] mb-12  border-bloe w-[99%] relative bg-white mx-8 rounded-3xl  flex flex-col px-8 py-4 gap-6 items-center">
 
                                     <div className='flex items-center justify-center w-full'>
                                           {/* SEARCH */}
