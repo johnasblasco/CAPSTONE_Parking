@@ -87,19 +87,7 @@ const Reports = () => {
       return (
             <>
                   <div className='mx-[10%] h-max-700:mt-[35vh] mt-[25vh] w-[80vw] text-deepBlue'>
-                        <div className='flex m-12 gap-5 justify-center ml-[3%] w-[75vw] h-[20vh]'>
-                              {/* Total Vehicles */}
-                              <div className='h-max-700:p-16 flex gap-4 items-center pt-10 justify-center relative border-4 border-deepBlue shadow-2xl rounded-3xl bg-offWhite p-2 w-[30%]'>
-                                    <p className='border-4 border-deepBlue font-bold absolute left-[-35px] top-2 bg-yeelow py-1 px-4 text-lg rounded-3xl'>Total Vehicles</p>
-                                    <p className='h-max-700:text-4xl text-6xl font-bold text-deepBlue'>{totalVehicles}</p>
-                              </div>
-                              {/* Total Earnings */}
-                              <div className='h-max-700:p-16 flex gap-4 items-center pt-10 justify-center relative border-4 border-deepBlue shadow-2xl rounded-3xl bg-offWhite p-2 w-[30%]'>
-                                    <p className='border-4 border-deepBlue font-bold absolute left-[-35px] top-2 bg-yeelow py-1 px-4 text-lg rounded-3xl'>Total Earnings</p>
-                                    <p className='h-max-700:text-3xl text-5xl font-bold text-deepBlue'>PHP</p>
-                                    <p className='h-max-700:text-4xl text-6xl font-bold text-deepBlue'>{totalEarnings}.00</p>
-                              </div>
-                        </div>
+
 
                         {/* Chart and User List */}
                         <div className='flex gap-4 max-h-[700px]'>
@@ -135,7 +123,7 @@ const Reports = () => {
 
 
 
-                              <div className="relative p-4 w-full shadow-2xl border-4 border-bloe bg-white rounded-3xl overflow-y-auto">
+                              <div className="h-max-700:hidden relative p-4 w-full shadow-2xl border-4 border-bloe bg-white rounded-3xl overflow-y-auto">
                                     <p className='border-4 border-deepBlue font-bold mx-auto w-fit bg-yeelow py-1 px-4 text-lg rounded-3xl'>Employee Accounts</p>
 
                                     <table className='mt-12 w-full text-center border border-bloe rounded-lg overflow-hidden shadow-lg'>
@@ -175,6 +163,30 @@ const Reports = () => {
 
                               </div>
                         </div>
+
+                        {/* END OF CHARTS AND TABLE */}
+
+
+                        {/* TOTALS REPORTS */}
+                        <div className='flex m-12 gap-5 justify-center ml-[3%] w-[75vw] h-[20vh]'>
+                              {/* Total Vehicles */}
+                              <div className='h-max-700:p-16 flex gap-4 items-center pt-10 justify-center relative border-4 border-deepBlue shadow-2xl rounded-3xl bg-offWhite p-2 w-[30%]'>
+                                    <p className='border-4 border-deepBlue font-bold absolute left-[-35px] top-2 bg-yeelow py-1 px-4 text-lg rounded-3xl'>Total Vehicles</p>
+                                    <p className='h-max-700:text-4xl text-6xl font-bold text-deepBlue'>{totalVehicles}</p>
+                              </div>
+                              {/* Total Earnings */}
+                              <div className='h-max-700:p-16 flex gap-4 items-center pt-10 justify-center relative border-4 border-deepBlue shadow-2xl rounded-3xl bg-offWhite p-2 w-[30%]'>
+                                    <p className='border-4 border-deepBlue font-bold absolute left-[-35px] top-2 bg-yeelow py-1 px-4 text-lg rounded-3xl'>Total Earnings</p>
+                                    <p className='h-max-700:text-3xl text-5xl font-bold text-deepBlue'>PHP</p>
+                                    <p className='h-max-700:text-4xl text-6xl font-bold text-deepBlue'>{totalEarnings}.00</p>
+                              </div>
+                              {/* Total Employees */}
+                              <div className='h-max-700:p-16 flex gap-4 items-center pt-10 justify-center relative border-4 border-deepBlue shadow-2xl rounded-3xl bg-offWhite p-2 w-[30%]'>
+                                    <p className='border-4 border-deepBlue font-bold absolute left-[-35px] top-2 bg-yeelow py-1 px-4 text-lg rounded-3xl'>Total Employees</p>
+                                    <p className='h-max-700:text-4xl text-6xl font-bold text-deepBlue'>{users.length}</p>
+                              </div>
+                        </div>
+
                   </div>
             </>
       );
