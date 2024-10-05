@@ -188,7 +188,7 @@ const ParkIn = ({ companyName, parkingRules, pricePerTicket, twoWheels, threeAnd
                 <body>
                   <hr />
                   <div class="heading">
-                    <img src="/uploads/uploaded-image.jpeg" alt="" />
+                    <img src="/uploads/uploaded-image.jpg" alt="" />
                     <p>${companyName}</p>
                   </div>
           

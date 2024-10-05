@@ -136,7 +136,7 @@ const Home = () => {
       }
 
       return (
-            <div className='bg-no-repeat bg-bottom bg-[url("/BG.png")] bg-cover w-full fixed overflow-auto'>
+            <div className=' bg-no-repeat bg-bottom bg-[url("/BG.png")] bg-cover w-full fixed overflow-auto'>
                   <myContext.Provider value={myContextValue}>
                         <Header />
                         <div className='h-screen overflow-y-auto overflow-x-hidden'>

@@ -19,6 +19,9 @@ export default {
             yeelow: '#FFD60A',
             vanilla: '#FFEFBA',
           },
+          transitionDuration: {
+            '400': '400ms',
+          },
 
             screens: {
                   'h-max-700': { 'raw': '(max-height: 700px)' },
@@ -35,6 +38,29 @@ export default {
                   'deepBlue': '#001858',
                   'black': '#000000',
                 },
+
+            // FOR  ANIMATION 
+            keyframes: {
+            scaleUp: {
+                  '0%, 100%': { transform: 'scale(1)' },
+                  '50%': { transform: 'scale(1.25)' },
+            },
+            colorChange: {
+                  '0%': { color: '#FFD60A' },
+                  '25%': { color: 'white' },
+                  '50%': { color: '#ec4899' }, // Pink color
+                  '75%': { color: 'ec4899' },
+            '     100%': { color: '#FFD60A' },
+            },
+            },
+            animation: {
+            'scale-text': 'scaleUp 2s ease-in-out infinite',
+            'color-change': 'colorChange 10s ease-in-out infinite ',
+            }
+
+
+
+            //     END OF EXTENDS
         },
       },
       plugins: [],

@@ -85,7 +85,7 @@ const Reports = () => {
                   // Fetch vehicles for the selected date
                   await fetchSelectedVehicles(date);
 
-                  Swal.fire("PRINT DATE", date);
+                  Swal.fire("SELECTED DATE", date);
             }
       };
 
@@ -225,7 +225,7 @@ const Reports = () => {
                         <h1 style="text-align: center;">Earnings Report</h1>
                         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
                         <tr>
-                              <th style="border: 1px solid black; padding: 8px; text-align: left;">Today's Earnings</th>
+                              <th style="border: 1px solid black; padding: 8px; text-align: left;">Total Earnings</th>
                               <td style="border: 1px solid black; padding: 8px;">PHP ${todaysEarnings}.00</td>
                         </tr>
                         
@@ -303,64 +303,6 @@ const Reports = () => {
       };
 
 
-      // Car Print function
-      const carPrint = () => {
-            if (!invoiceRef.current) {
-                  console.error("Invoice reference is missing");
-                  return;
-            }
-
-            const printWindow = window.open('', '', 'height=842,width=595');
-            const invoiceContent = invoiceRef.current.innerHTML;
-
-            if (!printWindow) {
-                  console.error("Failed to open print window");
-                  return;
-            }
-
-            printWindow.document.open();
-            printWindow.document.write(`
-            <html>
-                <head>
-                    <title>Print Invoice</title>
-                    <style>
-                        @media print {
-                            @page {
-                                size: A4;
-                                margin: 20mm;
-                            }
-                            body {
-                                font-family: Arial, sans-serif;
-                                margin: 0;
-                            }
-                            table {
-                                width: 100%;
-                                border-collapse: collapse;
-                            }
-                            th, td {
-                                border: 1px solid black;
-                                padding: 8px;
-                                text-align: center;
-                            }
-                            th {
-                                background-color: #f2f2f2;
-                            }
-                        }
-                    </style>
-                </head>
-                <body>
-                    ${invoiceContent}
-                    <script>
-                        window.onload = function() {
-                            window.print();
-                        };
-                    </script>
-                </body>
-            </html>
-        `);
-            printWindow.document.close();
-            printWindow.focus();
-      };
 
       return (
             <>
@@ -374,13 +316,13 @@ const Reports = () => {
                               </div>
                               {/* today earnings */}
                               <div className='h-max-700:p-16 flex gap-4 items-center pt-10 justify-center relative border-4 border-deepBlue shadow-2xl rounded-3xl bg-offWhite p-2 w-[30%]'>
-                                    <p className='border-4 border-deepBlue font-bold absolute left-[-35px] top-2 bg-yeelow py-1 px-4 text-lg rounded-3xl'>Today's Earnings</p>
+                                    <p className='border-4 border-deepBlue font-bold absolute left-[-35px] top-2 bg-yeelow py-1 px-4 text-lg rounded-3xl'>Total Earnings</p>
                                     <p className='h-max-700:text-3xl text-5xl font-bold text-deepBlue'>PHP</p>
                                     <p className='h-max-700:text-4xl text-6xl font-bold text-deepBlue'>{todaysEarnings}.00</p>
                               </div>
 
                               {/* Filter */}
-                              <div className='h-max-700:p-16 flex flex-col gap-4 items-center pt-10 justify-center relative border-4 border-deepBlue shadow-2xl rounded-3xl bg-offWhite p-2 w-[25%]'>
+                              <div className='font-bold h-max-700:p-16 flex flex-col gap-4 items-center pt-10 justify-center relative border-4 border-deepBlue shadow-2xl rounded-3xl bg-offWhite p-2 w-[25%]'>
                                     <p className='border-4 border-deepBlue font-bold absolute left-[-40px] top-2 bg-yeelow py-1 px-4 text-lg rounded-3xl'>Filter Earnings</p>
                                     <p className='text-3xl font-bold text-deepBlue'>By Date</p>
                                     <div className='flex'>
@@ -388,7 +330,7 @@ const Reports = () => {
                                                 <FaFilter className='inline' /> MM/DD
                                           </button>
                                           <button onClick={earningsPrint} className='m-4 h-12 bg-bloe hover:scale-95 rounded-2xl p-2 text-white'>
-                                                <MdLocalPrintshop className='inline' /> Print Earnings
+                                                <MdLocalPrintshop className='inline' /> Print Reports
                                           </button>
                                     </div>
                               </div>
@@ -448,11 +390,8 @@ const Reports = () => {
 
                               {/* Table */}
                               <div className=' relative border-4 border-deepBlue shadow-2xl max-h-[68vh] overflow-y-auto rounded-3xl bg-offWhite p-6 min-w-[70vw] mt-32'>
-                                    <p className='border-4 border-deepBlue font-bold absolute left-[40%] top-2 bg-yeelow py-1 px-4 text-lg rounded-3xl'>All Vehicles Report</p>
-                                    <button className='m-4 h-12 bg-bloe hover:scale-95 rounded-2xl p-2 text-white' onClick={carPrint}>
-                                          <MdLocalPrintshop className='inline' /> Print Report
-                                    </button>
-                                    <div ref={invoiceRef}>
+
+                                    <div ref={invoiceRef} className='mt-12'>
                                           <table className='table-fixed border-collapse w-full'>
                                                 <thead>
                                                       <tr>

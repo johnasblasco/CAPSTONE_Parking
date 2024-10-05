@@ -51,9 +51,11 @@ const Header = () => {
                   if (result.isConfirmed) {
                         await loginHistory(); // Call loginHistory before navigating
                         logoutAlert.fire({
-                              title: "Logged Out!",
-                              text: "You have successfully logged out.",
-                              icon: "success"
+                              position: "center",
+                              icon: "success",
+                              title: "Sucessfully logged out!",
+                              showConfirmButton: false,
+                              timer: 1500
                         });
                         navigate("/");
                   } else if (result.dismiss === Swal.DismissReason.cancel) {
