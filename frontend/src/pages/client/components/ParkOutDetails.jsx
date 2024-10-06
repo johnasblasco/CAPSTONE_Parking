@@ -6,7 +6,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 
-const ParkOutDetails = ({ pricePerTicket }) => {
+const ParkOutDetails = ({ pricePerTicket, overTimeFees, hoursLimit }) => {
 
 
       const [socket, vehicles, setVehicles, setShowParkIn, setShowParkOut, setDisplayTicket, setShowVehicleData, setSelectedVehicle, selectedVehicle] = useContext(innerContext)
@@ -20,14 +20,45 @@ const ParkOutDetails = ({ pricePerTicket }) => {
       const dayDifference = duration.days();
       const hoursDifference = duration.hours();
       const minutesDifference = duration.minutes();
+      const [ifOverStay, setIfOverStay] = useState(false)
 
       const handleRemove = async () => {
-            const vehicleUpdateData = {
-                  ...selectedVehicle,
-                  endDate: moment(),
-                  status: false
+            let vehicleUpdateData = {
+
             };
-            console.log("newvehicle here:", vehicleUpdateData)
+
+            // if overstay logic.
+            if (dayDifference > 0 || hoursDifference > hoursLimit) {
+                  setIfOverStay(true)
+                  console.log("overstay to boy")
+                  vehicleUpdateData = {
+                        ...selectedVehicle,
+                        extraCharges: overTimeFees,
+                        endDate: moment(),
+                        status: false
+                  };
+
+
+                  await axios.post("http://localhost:8000/earnings", {
+                        currentDate: new Date().toISOString(),
+                        earnings: overTimeFees
+                  })
+
+                  console.log("newvehicle here:", vehicleUpdateData)
+
+            }
+            else {
+                  setIfOverStay(false)
+                  console.log("not overstay to boy")
+                  vehicleUpdateData = {
+                        ...selectedVehicle,
+                        endDate: moment(),
+                        status: false
+                  };
+                  console.log("newvehicle here:", vehicleUpdateData)
+
+            }
+
 
 
             try {
@@ -110,7 +141,7 @@ const ParkOutDetails = ({ pricePerTicket }) => {
                                     <div className='flex my-auto items-center gap-6 '>
                                           <div>
                                                 <p>Total Charge: <b> Php.{pricePerTicket}.00</b> </p>
-                                                {hoursDifference >= 3 && <p className='ml-24 font-bold'>(+ overstay)</p>}
+                                                {hoursDifference >= hoursLimit && <p className='ml-24 font-bold'>(+ overstay)</p>}
                                           </div>
 
                                           <button onClick={handleRemove} className='bg-pink border-4 border-bloe hover:bg-[#c73838] py-2 px-8 text-2xl font-bold rounded-2xl text-white'>Remove</button>
