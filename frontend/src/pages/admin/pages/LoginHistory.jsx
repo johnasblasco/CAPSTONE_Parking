@@ -17,7 +17,7 @@ const LoginHistory = () => {
                         <div className="relative pt-12 shadow-2xl border-4 border-bloe bg-white mx-8  rounded-3xl min-h-screen h-auto ">
 
 
-                              <p className='border-4 font-bold border-deepBlue absolute top-4 left-[-35px] bg-vanilla py-1 px-8 text-lg rounded-3xl '>Login History</p>
+                              <p className='border-4 font-bold border-deepBlue absolute top-4 left-[-35px] bg-yeelow py-1 px-8 text-lg rounded-3xl '>Login History</p>
 
 
                               <table className='w-11/12 mx-auto my-8'>

@@ -174,7 +174,8 @@ const ManageVehicles = () => {
 
       // Determine if vehicle is overtime
       const isOvertime = (hours) => {
-            return hours >= 3;
+            return hours >= hoursLimit && hoursLimit != 0;
+
       };
 
       const manageParkout = (allVehicles) => {
@@ -184,13 +185,44 @@ const ManageVehicles = () => {
       };
 
 
-      const handleRemove = async () => {
+      const [ifOverStay, setIfOverStay] = useState(false)
 
-            const vehicleUpdateData = {
-                  ...selectedVehicle,
-                  endDate: moment(),
-                  status: false
+      const handleRemove = async () => {
+            let vehicleUpdateData = {
+
             };
+
+            // if overstay logic.
+            if ((dayDifference > 0 || hoursDifference > hoursLimit) && hoursLimit != 0) {
+                  setIfOverStay(true)
+                  console.log("overstay to boy")
+                  vehicleUpdateData = {
+                        ...selectedVehicle,
+                        extraCharges: overTimeFees,
+                        endDate: moment(),
+                        status: false
+                  };
+
+
+                  await axios.post("http://localhost:8000/earnings", {
+                        currentDate: new Date().toISOString(),
+                        earnings: overTimeFees
+                  })
+
+                  console.log("newvehicle here:", vehicleUpdateData)
+
+            }
+            else {
+                  setIfOverStay(false)
+                  console.log("not overstay to boy")
+                  vehicleUpdateData = {
+                        ...selectedVehicle,
+                        endDate: moment(),
+                        status: false
+                  };
+                  console.log("newvehicle here:", vehicleUpdateData)
+
+            }
 
             try {
                   await axios.put(`http://localhost:8000/vehicle/${selectedVehicle._id}`, vehicleUpdateData)
@@ -231,7 +263,7 @@ const ManageVehicles = () => {
 
 
       const [search, setSearch] = useState(0);
-      console.log(search)
+
       const handleSearch = () => {
             let filteredVehicles = vehicles;
             search > 0 ? setDisplayVehicles(filteredVehicles.filter(vehicle => vehicle.ticketNumber == search)) : setDisplayVehicles(vehicles)
@@ -385,7 +417,7 @@ const ManageVehicles = () => {
                                                 <div className='flex my-auto items-center gap-6 '>
                                                       <div>
                                                             <p>Total Charge: <b> Php.{pricePerTicket}.00</b> </p>
-                                                            {hoursDifference >= 3 && <p className='ml-24 font-bold'>(+ overstay)</p>}
+                                                            {(hoursDifference >= hoursLimit && hoursLimit != 0) && <p className='ml-24 font-bold'>(+ overstay)</p>}
                                                       </div>
 
                                                       <button onClick={handleRemove} className='bg-pink border-4 border-bloe hover:bg-[#c73838] py-2 px-8 text-2xl font-bold rounded-2xl text-white'>Remove</button>
