@@ -68,12 +68,15 @@ const Home = () => {
       }, []);
 
       // SweetAlert only when companyName is available
+      const [myImg, setMyImg] = useState(null);
       useEffect(() => {
+            axios.get('http://localhost:8000/upload')
+                  .then(response => setMyImg(response.data))
             if (companyName) {
                   Swal.fire({
                         title: `${companyName}`,
                         text: "Welcome to Parking Management System",
-                        imageUrl: "/uploads/uploaded-image.jpeg",
+                        imageUrl: `/uploads/` + myImg,
                         width: 700,
                         imageWidth: 400,
                         imageHeight: 300,

@@ -32,6 +32,33 @@ const storage = multer.diskStorage({
 // Multer middleware
 const upload = multer({ storage });
 
+router.get('/', (req, res) => {
+      fs.readdir(frontendPublicDir, (err, files) => {
+        if (err) {
+          return res.status(500).json({ error: 'Error reading uploads directory' });
+        }
+    
+        // If there are no files, respond accordingly
+        if (files.length === 0) {
+          return res.status(404).json({ message: 'No files found' });
+        }
+    
+        // Sort files by modified time in descending order (newest first)
+        const sortedFiles = files
+          .map(file => ({
+            name: file,
+            time: fs.statSync(path.join(frontendPublicDir, file)).mtime.getTime()
+          }))
+          .sort((a, b) => b.time - a.time);
+    
+        const latestFile = sortedFiles[0].name; // Get the most recent file name
+    
+        // Send the latest file name as the response
+        res.json(latestFile);
+      });
+    });
+    
+
 // File upload route
 router.post('/', upload.single('image'), (req, res) => {
   if (!req.file) {
@@ -56,5 +83,6 @@ router.post('/', upload.single('image'), (req, res) => {
   const filePath = `/uploads/uploaded-image${path.extname(req.file.filename)}`;
   res.json({ message: 'File uploaded successfully', filePath });
 });
+
 
 export default router;

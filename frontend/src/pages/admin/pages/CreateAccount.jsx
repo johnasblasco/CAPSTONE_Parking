@@ -1,12 +1,13 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import Toast from '../components/Toast';
+import { useNavigate } from 'react-router-dom'
 
 const CreateAccount = () => {
       const [name, setName] = useState("")
       const [username, setUsername] = useState("")
       const [password, setPassword] = useState("")
 
+      const navigate = useNavigate()
 
       const handleForm = async () => {
             try {
@@ -24,6 +25,8 @@ const CreateAccount = () => {
                   setName("")
                   setUsername("")
                   setPassword("")
+
+                  navigate("/admin/pages/manage-account")
 
 
             } catch (error) {
@@ -45,7 +48,7 @@ const CreateAccount = () => {
                               <p className='border-4 font-bold border-deepBlue absolute top-4 left-[-35px] bg-yeelow py-1 px-12 text-lg rounded-3xl '>Create Account</p>
 
 
-                              <h2 className='mt-6 text-2xl'>Create Account for Employees</h2>
+                              <h2 className='mt-6 text-2xl'>Create Account for Parking Attendant</h2>
                               <div className='flex mt-4 items-center gap-16 w-[40vw]'>
                                     <label htmlFor="name">Full Name</label>
                                     <input id='name' className='py-4 px-8 rounded-3xl flex-1 border-4 border-bloe hover:bg-bloe/10 placeholder-black/50' value={name} placeholder='Please input your name here' type="text" onChange={e => setName(e.target.value)} />
@@ -72,10 +75,7 @@ const CreateAccount = () => {
 
 
 
-                  {/* CONDITIONAL RENDERING */}
-                  {
-                        showToast && <Toast setShowToast={setShowToast} />
-                  }
+
 
                   {/* NAV */}
             </>

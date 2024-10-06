@@ -38,13 +38,16 @@ const Settings = () => {
                               },
                         });
 
-                        const imageUrl = `http://localhost:8000${response.data.filePath}`;
+                        // Add a timestamp as a query parameter to the image URL to prevent caching
+                        const timestamp = new Date().getTime();
+                        const imageUrl = `http://localhost:8000${response.data.filePath}?t=${timestamp}`;
                         setSelectedImage(imageUrl);
                   } catch (error) {
                         setFormError('Error uploading file. Please try again.');
                   }
             }
       };
+
 
       const handleChange = (e) => {
             const { name, value } = e.target;
@@ -91,8 +94,8 @@ const Settings = () => {
       const stepLabels = ['Company Info', 'Parking Rules', 'Wheels Data', 'Pricing', 'Time Limit', 'Overtime Fees'];
 
       return (
-            <div className="flex mt-[10vh] h-max-700:mt-[35vh] h-screen justify-center items-center ">
-                  <div className="relative max-w-3xl w-full p-8 bg-white rounded-lg shadow-2xl">
+            <div className="font-bold flex mt-[9vh] h-max-700:mt-[35vh] h-screen justify-center items-center ">
+                  <div className="relative max-w-4xl w-full p-8 bg-white rounded-lg shadow-2xl">
 
                         <p className='border-4 font-bold border-deepBlue absolute top-4 left-[-35px] bg-yeelow py-1 px-8 text-lg rounded-3xl '>Settings</p>
 
@@ -236,6 +239,7 @@ const Settings = () => {
 
                               {currentStep === 4 && (
                                     <div className="space-y-6">
+                                          <h3 className="text-xl text-center font-semibold text-gray-700">Parking Prices Per Ticket</h3>
                                           <input
                                                 type="number"
                                                 name="pricePerTicket"
