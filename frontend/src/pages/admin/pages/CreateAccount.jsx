@@ -26,7 +26,7 @@ const CreateAccount = () => {
                   setUsername("")
                   setPassword("")
 
-                  navigate("/admin/pages/manage-account")
+                  navigate("/admin/home/manage-account")
 
 
             } catch (error) {
