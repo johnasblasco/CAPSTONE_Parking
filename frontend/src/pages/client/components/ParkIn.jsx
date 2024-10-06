@@ -1,5 +1,5 @@
 import { IoMdClose } from 'react-icons/io';
-import { useState, useContext, useRef } from 'react';
+import { useState, useContext, useRef, useEffect } from 'react';
 import { innerContext } from '../pages/Dashboard';
 import moment from 'moment';
 import axios from 'axios';
@@ -13,10 +13,17 @@ const ParkIn = ({ companyName, parkingRules, pricePerTicket, twoWheels, threeAnd
       const [plateNo, setPlateNo] = useState("");
       const [selectedOption, setSelectedOption] = useState('');
       const [newVehicle, setNewVehicle] = useState({});
+      const [myImg, setMyImg] = useState("");
 
       const handleOptionChange = (event) => {
             setSelectedOption(event.target.value);
       };
+
+      useEffect(() => {
+            axios.get("http://localhost:8000/upload")
+                  .then(response => setMyImg(response.data))
+
+      }, [])
 
       const handleButton = async () => {
             if (vehicles.filter((v) => v.category === "3 Wheels" || v.category === "4 Wheels").length >= threeAndFourWheels && (selectedOption === "3 Wheels" || selectedOption === "4 Wheels")) {
@@ -66,6 +73,10 @@ const ParkIn = ({ companyName, parkingRules, pricePerTicket, twoWheels, threeAnd
                         currentDate: new Date().toISOString(),
                         earnings: pricePerTicket
                   })
+
+
+
+
 
                   // Set the new vehicle data in state
                   setNewVehicle(vehicleData);
@@ -188,7 +199,7 @@ const ParkIn = ({ companyName, parkingRules, pricePerTicket, twoWheels, threeAnd
                 <body>
                   <hr />
                   <div class="heading">
-                    <img src="/uploads/uploaded-image.jpg" alt="" />
+                    <img src="/uploads/${myImg}"    alt="" />
                     <p>${companyName}</p>
                   </div>
           

@@ -55,7 +55,7 @@ export default {
             },
             animation: {
             'scale-text': 'scaleUp 2s ease-in-out infinite',
-            'color-change': 'colorChange 10s ease-in-out infinite ',
+            'color-change': 'colorChange 8s ease-in-out infinite ',
             }
 
 
