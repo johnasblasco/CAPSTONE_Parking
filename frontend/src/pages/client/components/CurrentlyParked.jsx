@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 
-const CurrentlyParked = ({ vehicles }) => {
+const CurrentlyParked = ({ vehicles, hoursLimit }) => {
       const [timers, setTimers] = useState({});
 
       // Format duration into hours and minutes
@@ -33,7 +33,7 @@ const CurrentlyParked = ({ vehicles }) => {
 
       // Determine if vehicle is overtime
       const isOvertime = (hours) => {
-            return hours >= 3;
+            return hours >= hoursLimit && hoursLimit != 0;
       };
 
       return (

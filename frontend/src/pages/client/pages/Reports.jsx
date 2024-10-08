@@ -205,6 +205,7 @@ const Reports = () => {
             );
       }
       // Earnings Print function
+      // Earnings Print function
       const earningsPrint = () => {
             if (!invoiceRef.current) {
                   console.error("Invoice reference is missing");
@@ -221,83 +222,64 @@ const Reports = () => {
 
             // Structure the earnings and vehicle information
             const earningsDetails = `
-                  <div style="padding: 20px; font-family: Arial, sans-serif;">
-                        <h1 style="text-align: center;">Earnings Report</h1>
-                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
-                        <tr>
-                              <th style="border: 1px solid black; padding: 8px; text-align: left;">Total Earnings</th>
-                              <td style="border: 1px solid black; padding: 8px;">PHP ${todaysEarnings}.00</td>
-                        </tr>
-                        
-                        <tr>
-                              <th style="border: 1px solid black; padding: 8px; text-align: left;">Selected Date (${selectedDate || 'N/A'})</th>
-                              <td style="border: 1px solid black; padding: 8px;">PHP ${selectedDateEarnings || '0'}.00</td>
-                        </tr>
-                        </table>
-
-                        
-                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
-                        <tr>
-                              <th style="border: 1px solid black; padding: 8px;">Ticket Number</th>
-                              <th style="border: 1px solid black; padding: 8px;">Plate Number</th>
-                              <th style="border: 1px solid black; padding: 8px;">Vehicle Type</th>
-                              <th style="border: 1px solid black; padding: 8px;">Entry Date</th>
-                              <th style="border: 1px solid black; padding: 8px;">Parking Charges</th>
-
-                        </tr>
-                        ${selectedDateVehicle.map(vehicle => `
-                              <tr style="text-align: center;">
-                                    <td style="border: 1px solid black; padding: 8px;">${vehicle.ticketNumber}</td>
-                                    <td style="border: 1px solid black; padding: 8px;">${vehicle.plateNumber}</td>
-                                    <td style="border: 1px solid black; padding: 8px;">${vehicle.category}</td>
-                                    <td style="border: 1px solid black; padding: 8px;">${new Date(vehicle.startDate).toLocaleString()}</td>
-                                    <td style="border: 1px solid black; padding: 8px;">${pricePerTicket}</td>
-                              </tr>
-                        `).join('')}
-                        </table>
-                  </div>
-                  `;
+        <div style="padding: 20px; font-family: Arial, sans-serif;">
+          <h1 style="text-align: center;">Earnings Report</h1>
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <tr>
+              <th style="border: 1px solid black; padding: 8px; text-align: left;">Total Earnings</th>
+              <td style="border: 1px solid black; padding: 8px;">PHP ${todaysEarnings}.00</td>
+            </tr>
+            
+            <tr>
+              <th style="border: 1px solid black; padding: 8px; text-align: left;">Selected Date (${selectedDate || 'N/A'})</th>
+              <td style="border: 1px solid black; padding: 8px;">PHP ${selectedDateEarnings || '0'}.00</td>
+            </tr>
+          </table>
+    
+          ${invoiceContent}
+        </div>
+      `;
 
             printWindow.document.open();
             printWindow.document.write(`
-                <html>
-                    <head>
-                        <title>Print Earnings Report</title>
-                        <style>
-                            @media print {
-                                @page {
-                                    size: A4;
-                                    margin: 20mm;
-                                }
-                                body {
-                                    font-family: Arial, sans-serif;
-                                    margin: 0;
-                                }
-                                table {
-                                    width: 100%;
-                                    border-collapse: collapse;
-                                }
-                                th, td {
-                                    border: 1px solid black;
-                                    padding: 8px;
-                                    text-align: center;
-                                }
-                                th {
-                                    background-color: #f2f2f2;
-                                }
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        ${earningsDetails}
-                        <script>
-                            window.onload = function() {
-                                window.print();
-                            };
-                        </script>
-                    </body>
-                </html>
-            `);
+        <html>
+          <head>
+            <title>Print Earnings Report</title>
+            <style>
+              @media print {
+                @page {
+                  size: A4;
+                  margin: 20mm;
+                }
+                body {
+                  font-family: Arial, sans-serif;
+                  margin: 0;
+                }
+                table {
+                  width: 100%;
+                  border-collapse: collapse;
+                }
+                th, td {
+                  border: 1px solid black;
+                  padding: 8px;
+                  text-align: center;
+                }
+                th {
+                  background-color: #f2f2f2;
+                }
+              }
+            </style>
+          </head>
+          <body>
+            ${earningsDetails}
+            <script>
+              window.onload = function() {
+                window.print();
+              };
+            </script>
+          </body>
+        </html>
+      `);
             printWindow.document.close();
             printWindow.focus();
       };
@@ -329,8 +311,8 @@ const Reports = () => {
                                           <button onClick={handleDateSelection} className='m-4 h-12 bg-pink hover:scale-95 rounded-2xl p-2 px-4 text-white' >
                                                 <FaFilter className='inline' /> MM/DD
                                           </button>
-                                          <button onClick={earningsPrint} className='m-4 h-12 bg-bloe hover:scale-95 rounded-2xl p-2 text-white'>
-                                                <MdLocalPrintshop className='inline' /> Print Reports
+                                          <button onClick={earningsPrint} className='font-extrabold m-4 h-12 bg-bloe hover:scale-95 rounded-2xl p-2 text-white'>
+                                                <MdLocalPrintshop className='inline text-2xl' /> Print Reports
                                           </button>
                                     </div>
                               </div>

@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
-import { Doughnut } from 'react-chartjs-2';
+import { Doughnut, Line } from 'react-chartjs-2';
 import { FaMotorcycle, FaBicycle, FaCar } from 'react-icons/fa';
 import {
       Chart as ChartJS,
@@ -13,28 +13,26 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Reports = () => {
       const chartRef = useRef(null);
-      // DATAS HERE
       const [totalEarnings, setTotalEarnings] = useState(0);
       const [totalVehicles, setTotalVehicles] = useState(0);
       const [TwoWheels, setTwoWheels] = useState(0);
       const [ThreeWheels, setThreeWheels] = useState(0);
       const [FourWheels, setFourWheels] = useState(0);
       const [users, setUsers] = useState([]);
+      const [earningsData, setEarningsData] = useState([]);
 
-      // Predefined chart colors
       const CHART_COLORS = {
             red: 'rgb(255, 99, 132)',
             green: 'rgb(75, 192, 192)',
             blue: 'rgb(54, 162, 235)',
       };
 
-      // Vehicle categories data (Cars, Bikes, Trucks)
       const data = {
-            labels: ['TwoWheels', 'ThreeWheels', 'FourWheels'], // 3 vehicle categories
+            labels: ['TwoWheels', 'ThreeWheels', 'FourWheels'],
             datasets: [
                   {
                         label: 'Vehicle Categories',
-                        data: [TwoWheels, ThreeWheels, FourWheels], // Example data for each category
+                        data: [TwoWheels, ThreeWheels, FourWheels],
                         backgroundColor: [
                               CHART_COLORS.red,
                               CHART_COLORS.green,
@@ -44,18 +42,22 @@ const Reports = () => {
             ],
       };
 
-      // Ensure chart instance is destroyed before reuse
-      useEffect(() => {
-            const chart = chartRef.current;
-            return () => {
-                  if (chart) {
-                        chart.destroy(); // Destroy the chart instance when the component unmounts
+      const earningsChartData = {
+            labels: earningsData.map(entry => entry.date),
+            datasets: [
+                  {
+                        label: 'Daily Total Earnings',
+                        data: earningsData.map(entry => entry.totalEarnings),
+                        fill: true,
+                        borderColor: 'rgb(75, 192, 192)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        tension: 0.4,
+                        borderWidth: 2,
+                        pointRadius: 4,
+                        pointBackgroundColor: 'rgb(75, 192, 192)'
                   }
-            };
-      }, []);
-
-
-
+            ]
+      };
 
       useEffect(() => {
             axios.get("http://localhost:8000/vehicle")
@@ -64,35 +66,52 @@ const Reports = () => {
                         setTwoWheels(response.data.filter(vehicle => vehicle.category === '2 Wheels').length);
                         setThreeWheels(response.data.filter(vehicle => vehicle.category === '3 Wheels').length);
                         setFourWheels(response.data.filter(vehicle => vehicle.category === '4 Wheels').length);
-                  })
+                  });
 
             axios.get("http://localhost:8000/user")
                   .then(response => {
-                        console.log(response.data);
                         setUsers(response.data);
-                  })
+                  });
 
             axios.get("http://localhost:8000/earnings")
                   .then(response => {
-                        const sumOfTotal = response.data.reduce((acc, item) => acc + item.earnings, 0);
+                        const earningsByDate = {};
+
+                        response.data.forEach(item => {
+                              const date = new Date(item.currentDate).toLocaleDateString('en-US', {
+                                    year: 'numeric',
+                                    month: '2-digit',
+                                    day: '2-digit'
+                              });
+
+                              if (!earningsByDate[date]) {
+                                    earningsByDate[date] = 0;
+                              }
+                              earningsByDate[date] += item.earnings;
+                        });
+
+                        const earningsArray = Object.keys(earningsByDate).map(date => ({
+                              date,
+                              totalEarnings: earningsByDate[date]
+                        }));
+
+                        setEarningsData(earningsArray);
+
+                        const sumOfTotal = earningsArray.reduce((acc, item) => acc + item.totalEarnings, 0);
                         setTotalEarnings(sumOfTotal);
-
-                  })
-
-
-      }, [])
-
+                  });
+      }, []);
 
 
       return (
             <>
-                  <div className='mx-[10%] h-max-700:mt-[35vh] mt-[25vh] w-[80vw] text-deepBlue'>
+                  <div className='mx-[10%] pb-12 h-max-700:mt-[35vh] mt-[25vh] w-[80vw] text-deepBlue'>
 
 
                         {/* Chart and User List */}
                         <div className='flex gap-4 max-h-[700px]'>
                               <div className="flex relative pt-24 p-12 shadow-2xl border-4 min-w-[70%] border-bloe bg-white rounded-3xl">
-                                    <p className='border-4 border-deepBlue font-bold absolute left-[-35px] top-2 bg-yeelow py-1 px-4 text-lg rounded-3xl'>Vehicle Reports</p>
+                                    <p className='border-4 border-deepBlue font-bold absolute left-[-35px] top-2 bg-yeelow py-1 px-8 text-lg rounded-3xl'>Total Vehicle Reports</p>
 
                                     <div className="flex flex-row items-center justify-evenly w-full">
                                           {TwoWheels + ThreeWheels + FourWheels > 0 ? (
@@ -166,12 +185,20 @@ const Reports = () => {
 
                         {/* END OF CHARTS AND TABLE */}
 
+                        {/* CHARTS OF EARNINGS*/}
+                        <div className=" relative h-[450px] mt-12 shadow-2xl border-4 border-bloe bg-white rounded-3xl p-6">
+
+                              <p className='border-4 border-deepBlue font-bold absolute left-[-35px] top-2 bg-yeelow py-1 px-8 text-lg rounded-3xl'>All-time Earnings</p>
+                              <Line className='w-mt-6 mt-4' data={earningsChartData} />
+                        </div>
+                        {/* END OF CHARTS OF EARNINGS*/}
+
 
                         {/* TOTALS REPORTS */}
                         <div className='flex m-12 gap-5 justify-center ml-[3%] w-[75vw] h-[20vh]'>
                               {/* Total Vehicles */}
                               <div className='h-max-700:p-16 flex gap-4 items-center pt-10 justify-center relative border-4 border-deepBlue shadow-2xl rounded-3xl bg-offWhite p-2 w-[30%]'>
-                                    <p className='border-4 border-deepBlue font-bold absolute left-[-35px] top-2 bg-yeelow py-1 px-4 text-lg rounded-3xl'>Total Vehicles</p>
+                                    <p className='border-4 border-deepBlue font-bold absolute left-[-35px] top-2 bg-yeelow py-1 px-4 text-lg rounded-3xl'>Total Parked Vehicles</p>
                                     <p className='h-max-700:text-4xl text-6xl font-bold text-deepBlue'>{totalVehicles}</p>
                               </div>
                               {/* Total Earnings */}
@@ -186,6 +213,14 @@ const Reports = () => {
                                     <p className='h-max-700:text-4xl text-6xl font-bold text-deepBlue'>{users.length}</p>
                               </div>
                         </div>
+                        {/* END OF TOTALS REPORTS */}
+
+
+
+
+
+
+
 
                   </div>
             </>

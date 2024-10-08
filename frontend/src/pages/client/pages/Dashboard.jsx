@@ -125,7 +125,7 @@ const Dashboard = () => {
 
                                     {/* PARKED */}
 
-                                    <CurrentlyParked vehicles={vehicles} />
+                                    <CurrentlyParked vehicles={vehicles} hoursLimit={hoursLimit} />
 
                               </div>
                         </div>

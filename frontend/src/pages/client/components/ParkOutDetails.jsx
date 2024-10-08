@@ -28,7 +28,7 @@ const ParkOutDetails = ({ pricePerTicket, overTimeFees, hoursLimit }) => {
             };
 
             // if overstay logic.
-            if (dayDifference > 0 || hoursDifference > hoursLimit) {
+            if ((dayDifference > 0 || hoursDifference > hoursLimit) && hoursLimit != 0) {
                   setIfOverStay(true)
                   console.log("overstay to boy")
                   vehicleUpdateData = {
@@ -141,7 +141,7 @@ const ParkOutDetails = ({ pricePerTicket, overTimeFees, hoursLimit }) => {
                                     <div className='flex my-auto items-center gap-6 '>
                                           <div>
                                                 <p>Total Charge: <b> Php.{pricePerTicket}.00</b> </p>
-                                                {hoursDifference >= hoursLimit && <p className='ml-24 font-bold'>(+ overstay)</p>}
+                                                {(hoursDifference >= hoursLimit && hoursLimit != 0) && <p className='ml-24 font-bold'>(+ overstay)</p>}
                                           </div>
 
                                           <button onClick={handleRemove} className='bg-pink border-4 border-bloe hover:bg-[#c73838] py-2 px-8 text-2xl font-bold rounded-2xl text-white'>Remove</button>

@@ -13,7 +13,7 @@ const Form = () => {
                               {parkAid.split("").map((letter, index) => (
                                     <span
                                           key={index}
-                                          className={`inline-block animate-color-change transition-transform duration-400 hover:animate-spin ${letter === " " ? "w-4" : ""}`}
+                                          className={`inline-block animate-color-change transition-transform duration-400 hover:animate-scale-text ${letter === " " ? "w-4" : ""}`}
                                     >
                                           {letter}
                                     </span>

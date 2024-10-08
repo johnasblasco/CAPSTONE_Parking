@@ -11,7 +11,7 @@ const About = () => {
                               {title.split("").map((letter, index) => (
                                     <span
                                           key={index}
-                                          className={`inline-block animate-color-change hover:animate-spin ${letter === " " ? "w-4" : ""}`}
+                                          className={`inline-block animate-color-change hover:animate-scale-text ${letter === " " ? "w-4" : ""}`}
                                     >
                                           {letter}
                                     </span>
