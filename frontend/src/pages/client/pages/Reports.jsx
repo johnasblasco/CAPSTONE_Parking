@@ -311,8 +311,8 @@ const Reports = () => {
                                           <button onClick={handleDateSelection} className='m-4 h-12 bg-pink hover:scale-95 rounded-2xl p-2 px-4 text-white' >
                                                 <FaFilter className='inline' /> MM/DD
                                           </button>
-                                          <button onClick={earningsPrint} className='m-4 h-12 bg-bloe hover:scale-95 rounded-2xl p-2 text-white'>
-                                                <MdLocalPrintshop className='inline' /> Print Reports
+                                          <button onClick={earningsPrint} className='font-extrabold m-4 h-12 bg-bloe hover:scale-95 rounded-2xl p-2 text-white'>
+                                                <MdLocalPrintshop className='inline text-2xl' /> Print Reports
                                           </button>
                                     </div>
                               </div>

@@ -48,7 +48,7 @@ const CreateAccount = () => {
                               <p className='border-4 font-bold border-deepBlue absolute top-4 left-[-35px] bg-yeelow py-1 px-12 text-lg rounded-3xl '>Create Account</p>
 
 
-                              <h2 className='mt-6 text-2xl'>Create Account for Parking Attendant</h2>
+                              <h2 className='mt-6 ml-8 text-2xl'>Create User Account (Employees)</h2>
                               <div className='flex mt-4 items-center gap-16 w-[40vw]'>
                                     <label htmlFor="name">Full Name</label>
                                     <input id='name' className='py-4 px-8 rounded-3xl flex-1 border-4 border-bloe hover:bg-bloe/10 placeholder-black/50' value={name} placeholder='Please input your name here' type="text" onChange={e => setName(e.target.value)} />
