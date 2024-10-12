@@ -94,20 +94,26 @@ const Settings = () => {
       const stepLabels = ['Company Info', 'Parking Rules', 'Wheels Data', 'Pricing', 'Time Limit', 'Overtime Fees'];
 
       return (
-            <div className="font-bold flex mt-[9vh] h-max-700:mt-[35vh] h-screen justify-center items-center ">
-                  <div className="relative max-w-4xl w-full p-8 bg-white rounded-lg shadow-2xl">
-
-                        <p className='border-4 font-bold border-deepBlue absolute top-4 left-[-35px] bg-yeelow py-1 px-8 text-lg rounded-3xl '>Settings</p>
-
+            <div className="mx-[10%] h-max-700:mt-[35vh] mt-[25vh] w-[80vw] text-deepBlue">
+                  <div className="relative p-8 bg-white rounded-2xl shadow-2xl h-[600px] flex flex-col justify-between">
+                        <p className="border-4 font-bold border-deepBlue absolute top-4 left-[-35px] bg-yeelow py-1 px-8 text-lg rounded-3xl">
+                              Settings
+                        </p>
 
                         {/* Step Indicator */}
                         <div className="flex font-bold text-2xl mt-8 justify-center mb-8 space-x-4">
                               {stepLabels.map((label, index) => (
                                     <div key={index} className="flex flex-col items-center space-y-2">
-                                          <div className={`animate-bounce w-8 h-8 flex items-center justify-center rounded-full text-white ${index < currentStep ? 'bg-blue-600' : 'bg-gray-300'}`}>
+                                          <div
+                                                className={`animate-bounce w-8 h-8 flex items-center justify-center rounded-full text-white ${index < currentStep ? 'bg-deepBlue' : 'bg-gray-300'
+                                                      }`}
+                                          >
                                                 {index + 1}
                                           </div>
-                                          <span className={`${index < currentStep ? 'text-blue-600' : 'text-gray-400'} text-xs`}>
+                                          <span
+                                                className={`${index < currentStep ? 'text-blue-600' : 'text-gray-400'
+                                                      } text-xs`}
+                                          >
                                                 {label}
                                           </span>
                                     </div>
@@ -118,7 +124,7 @@ const Settings = () => {
                         {formError && <p className="text-red-500 text-center mb-4">{formError}</p>}
 
                         {/* Form Steps */}
-                        <div className="space-y-6">
+                        <div className="flex-grow space-y-6">
                               {currentStep === 1 && (
                                     <div className="space-y-6 text-center">
                                           <div className="relative flex justify-center">
@@ -145,23 +151,6 @@ const Settings = () => {
                                                 className="text-center text-xl font-bold w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
                                                 required
                                           />
-                                          <div className="flex justify-between space-x-4">
-                                                <button
-                                                      type="button"
-                                                      className="w-full bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-700 focus:outline-none transition-colors"
-                                                      onClick={handlePreviousStep}
-                                                      disabled={currentStep === 1}
-                                                >
-                                                      Back
-                                                </button>
-                                                <button
-                                                      type="button"
-                                                      className="w-full bg-blue-600 font-bold text-white py-3 rounded-lg hover:bg-blue-700 focus:outline-none transition-colors"
-                                                      onClick={handleNextStep}
-                                                >
-                                                      Next
-                                                </button>
-                                          </div>
                                     </div>
                               )}
 
@@ -176,22 +165,6 @@ const Settings = () => {
                                                 rows="6"
                                                 required
                                           />
-                                          <div className="flex justify-between space-x-4">
-                                                <button
-                                                      type="button"
-                                                      className="w-full bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-700 focus:outline-none transition-colors"
-                                                      onClick={handlePreviousStep}
-                                                >
-                                                      Back
-                                                </button>
-                                                <button
-                                                      type="button"
-                                                      className="w-full font-bold bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 focus:outline-none transition-colors"
-                                                      onClick={handleNextStep}
-                                                >
-                                                      Next
-                                                </button>
-                                          </div>
                                     </div>
                               )}
 
@@ -218,22 +191,6 @@ const Settings = () => {
                                                       required
                                                 />
                                           </div>
-                                          <div className="flex justify-between space-x-4">
-                                                <button
-                                                      type="button"
-                                                      className="w-full bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-700 focus:outline-none transition-colors"
-                                                      onClick={handlePreviousStep}
-                                                >
-                                                      Back
-                                                </button>
-                                                <button
-                                                      type="button"
-                                                      className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 focus:outline-none transition-colors"
-                                                      onClick={handleNextStep}
-                                                >
-                                                      Next
-                                                </button>
-                                          </div>
                                     </div>
                               )}
 
@@ -249,29 +206,14 @@ const Settings = () => {
                                                 className="w-full text-center p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
                                                 required
                                           />
-                                          <div className="flex justify-between space-x-4">
-                                                <button
-                                                      type="button"
-                                                      className="w-full bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-700 focus:outline-none transition-colors"
-                                                      onClick={handlePreviousStep}
-                                                >
-                                                      Back
-                                                </button>
-                                                <button
-                                                      type="button"
-                                                      className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 focus:outline-none transition-colors"
-                                                      onClick={handleNextStep}
-                                                >
-                                                      Next
-                                                </button>
-                                          </div>
                                     </div>
                               )}
 
                               {currentStep === 5 && (
                                     <div className="space-y-6">
-
-                                          <h3 className="text-xl text-center font-semibold text-gray-700">(Optional) Hours Limit. You can type 0 if none</h3>
+                                          <h3 className="text-xl text-center font-semibold text-gray-700">
+                                                (Optional) Hours Limit. You can type 0 if none
+                                          </h3>
                                           <input
                                                 type="number"
                                                 name="hoursLimit"
@@ -279,30 +221,15 @@ const Settings = () => {
                                                 onChange={handleChange}
                                                 placeholder="Hours Limit"
                                                 className="w-full text-center p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-
                                           />
-                                          <div className="flex justify-between space-x-4">
-                                                <button
-                                                      type="button"
-                                                      className="w-full bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-700 focus:outline-none transition-colors"
-                                                      onClick={handlePreviousStep}
-                                                >
-                                                      Back
-                                                </button>
-                                                <button
-                                                      type="button"
-                                                      className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 focus:outline-none transition-colors"
-                                                      onClick={handleNextStep}
-                                                >
-                                                      Next
-                                                </button>
-                                          </div>
                                     </div>
                               )}
 
                               {currentStep === 6 && (
                                     <div className="space-y-6">
-                                          <h3 className="text-xl text-center font-semibold text-gray-700">(Optional) Overtime Fees. You can type 0 if none</h3>
+                                          <h3 className="text-xl text-center font-semibold text-gray-700">
+                                                (Optional) Overtime Fees. You can type 0 if none
+                                          </h3>
                                           <input
                                                 type="number"
                                                 name="overTimeFees"
@@ -310,30 +237,33 @@ const Settings = () => {
                                                 onChange={handleChange}
                                                 placeholder="Overtime Fees (PHP)"
                                                 className="w-full p-4 text-center border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-
                                           />
-                                          <div className="flex justify-between space-x-4">
-                                                <button
-                                                      type="button"
-                                                      className="w-full bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-700 focus:outline-none transition-colors"
-                                                      onClick={handlePreviousStep}
-                                                >
-                                                      Back
-                                                </button>
-                                                <button
-                                                      type="submit"
-                                                      className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 focus:outline-none transition-colors"
-                                                      onClick={handleSubmit}
-                                                >
-                                                      Save Changes
-                                                </button>
-                                          </div>
                                     </div>
                               )}
+                        </div>
+
+                        {/* Navigation Buttons */}
+                        <div className="flex justify-between space-x-4 mt-4">
+                              <button
+                                    type="button"
+                                    className="w-full bg-gray-600 hover:scale-95 text-white py-3 rounded-lg hover:bg-gray-700 focus:outline-none transition-colors"
+                                    onClick={handlePreviousStep}
+                                    disabled={currentStep === 1}
+                              >
+                                    Back
+                              </button>
+                              <button
+                                    type="button"
+                                    className="w-full bg-deepBlue text-white py-3 rounded-lg hover:scale-95 focus:outline-none transition-colors"
+                                    onClick={handleNextStep}
+                              >
+                                    {currentStep === 6 ? 'Save Changes' : 'Next'}
+                              </button>
                         </div>
                   </div>
             </div>
       );
+
 
 
 };

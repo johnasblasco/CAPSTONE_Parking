@@ -78,7 +78,7 @@ const Home = () => {
                         text: "Welcome to Parking Management System",
                         imageUrl: `/uploads/` + myImg,
                         width: 700,
-                        imageWidth: 400,
+                        imageWidth: 300,
                         imageHeight: 300,
                         imageAlt: "Custom image",
                         showClass: {

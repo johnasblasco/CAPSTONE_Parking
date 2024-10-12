@@ -14,30 +14,25 @@ const Header = () => {
 
       const logout = () => {
             logoutAlert.fire({
-                  title: "Are you sure you want to logout?",
-                  position: "center",
-                  icon: "question",
+                  title: "Logout?",
+                  position: "top-end",
+                  width: 300,
                   showCancelButton: true,
-                  confirmButtonText: "Yes, Logout!",
-                  cancelButtonText: "No, cancel!",
+                  confirmButtonText: "Yes",
+                  cancelButtonText: "No!",
                   reverseButtons: true
             }).then(async (result) => {
                   if (result.isConfirmed) {
                         logoutAlert.fire({
-                              position: "center",
                               icon: "success",
                               title: "Sucessfully logged out!",
                               showConfirmButton: false,
-                              timer: 1500
+                              timer: 1000
                         });
 
                         navigate("/");
                   } else if (result.dismiss === Swal.DismissReason.cancel) {
-                        logoutAlert.fire({
-                              title: "Cancelled",
-                              text: "You have cancelled the logout.",
-                              icon: "error"
-                        });
+
                   }
             });
       };

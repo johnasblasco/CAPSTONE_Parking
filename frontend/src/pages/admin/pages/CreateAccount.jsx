@@ -65,7 +65,7 @@ const CreateAccount = () => {
                               </div>
 
                               <div className='flex justify-center'>
-                                    <button onClick={handleForm} className='bg-blue-500   hover:scale-90 text-offWhite py-4 px-8 rounded-3xl text-lg font-bold'>Create Account</button>
+                                    <button onClick={handleForm} className='bg-deepBlue  hover:scale-90 text-offWhite py-4 px-8 rounded-3xl text-lg font-bold'>Create Account</button>
                               </div>
                         </div>
 

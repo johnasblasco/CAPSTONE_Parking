@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import Header from './components/Header'
 import Form from './components/Form'
 import About from './components/About'
-import { Routes, Route } from 'react-router-dom'
 const Pages = () => {
 
       const [mySwitch, setMySwitch] = useState(true)
@@ -18,9 +17,6 @@ const Pages = () => {
                                     mySwitch ? (<Form />) : (<About />)
 
                               }
-
-
-
                         </div>
 
                   </div>
