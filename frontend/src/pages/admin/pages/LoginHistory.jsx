@@ -78,12 +78,12 @@ const LoginHistory = () => {
                   <div className="relative pt-12 shadow-2xl border-4 border-bloe bg-white mx-8 rounded-3xl min-h-screen h-auto">
                         <p className='border-4 font-bold border-deepBlue absolute top-4 left-[-35px] bg-yeelow py-1 px-8 text-lg rounded-3xl '>Login History</p>
 
-                        <div className='flex justify-end items-center mx-16'>
-                              <button onClick={handlePrint} className='font-extrabold m-4 h-12 text-end bg-bloe hover:scale-95 rounded-2xl p-2 text-white'>
+                        <div className='m-2 flex justify-end items-center mx-12'>
+                              <button onClick={handlePrint} className='font-extrabold my-4 h-12 text-end bg-bloe hover:scale-95 rounded-2xl p-2 px-4 text-white'>
                                     <MdLocalPrintshop className='inline text-2xl' /> Print Reports
                               </button>
                         </div>
-                        <div ref={tableRef} className='mt-12'>
+                        <div ref={tableRef} >
                               <table className='table-fixed border-collapse w-full'>
                                     <thead>
                                           <tr className='border-b-4 border-bloe'>

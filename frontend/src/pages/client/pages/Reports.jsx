@@ -319,7 +319,7 @@ const Reports = () => {
                         </div>
 
                         {/* flex filter and table */}
-                        <div className='flex font-bold gap-4 w-full'>
+                        <div className='flex font-bold gap-4 w-full mb-14'>
                               {/* filter */}
                               <div className='relative mt-32 border-4 shadow-2xl border-deepBlue bg-offWhite min-w-[14vw] flex flex-col justify-center rounded-3xl h-fit gap-2 p-4 py-10'>
                                     <p className='flex border-4 border-deepBlue absolute left-[-35px] top-2 font-bold bg-yeelow py-1 px-12 text-lg rounded-3xl'><FaFilter />Filter Vehicle</p>

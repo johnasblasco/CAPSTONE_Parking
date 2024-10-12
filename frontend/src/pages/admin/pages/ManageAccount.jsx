@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { IoCloseOutline } from "react-icons/io5";
 import axios from 'axios'
 import etits, { Toaster } from 'react-hot-toast';
+import { MdLocalPrintshop } from "react-icons/md";
+
+import { FaFilter } from "react-icons/fa";
 
 const ManageAccount = () => {
 
@@ -109,14 +112,33 @@ const ManageAccount = () => {
 
                         {/* CONTENT */}
 
-                        <div className="font-bold relative pt-24 pb-8 bg-white border-4 border-bloe w-[80%] mx-auto px-12 rounded-3xl ">
+                        <div className="font-bold w-[96%] relative pt-14 pb-8 bg-white border-4 border-bloe mx-auto px-12 rounded-3xl ">
 
 
                               <p className='border-4 font-bold border-deepBlue absolute top-4 left-[-35px] bg-yeelow py-1 px-8 text-lg rounded-3xl '>Manage Account</p>
 
-                              {/* table */}
+                              <div className='mt-4 flex justify-between items-center gap-4'>
+                                    {/* Left side: Activate and Deactivate buttons */}
+                                    <div className='flex gap-4'>
+                                          <button className='font-extrabold h-12 bg-green-500 hover:scale-95 rounded-2xl p-2 px-4 text-white'>
+                                                <FaFilter className='inline text-2xl' /> Activate Only
+                                          </button>
+                                          <button className='font-extrabold h-12 bg-red-600 hover:scale-95 rounded-2xl p-2  text-white'>
+                                                <FaFilter className='inline text-2xl' /> Deactivate Only
+                                          </button>
+                                    </div>
 
-                              <table className='w-full h-auto '>
+                                    {/* Right side: Print button */}
+                                    <button className='font-extrabold h-12 bg-bloe hover:scale-95 rounded-2xl p-2 px-4 text-white'>
+                                          <MdLocalPrintshop className='inline text-2xl' /> Print Reports
+                                    </button>
+                              </div>
+
+
+
+
+                              {/* table */}
+                              <table className='mt-4 w-full h-auto '>
                                     <thead>
                                           <tr className='border-b-4 border-bloe'>
 
@@ -145,10 +167,10 @@ const ManageAccount = () => {
                                                                   <td className="border-r-4 border-bloe" >{user.name}</td>
                                                                   <td className="border-r-4 border-bloe" >{user.status ? "Active" : "Inactive"}</td>
 
-                                                                  <td className="w-fit">
+                                                                  <td className="w-[30%]">
 
                                                                         <button
-                                                                              className='bg-[#6181D3] py-1 px-8 mx-4 rounded-lg text-white hover:bg-[#425a96] '
+                                                                              className='bg-deepBlue py-1 px-8 mx-4 rounded-lg text-white hover:scale-95 '
                                                                               onClick={() => handleEditButton(user.name, user.username, user.password)}
                                                                         >
                                                                               Edit
@@ -156,12 +178,12 @@ const ManageAccount = () => {
 
                                                                         {user.status ?
                                                                               (
-                                                                                    <button onClick={() => handleAction(user)} className='text-white bg-[#B96F6F] hover:bg-[#a54f4f]  py-1 px-4 rounded-lg'>Deactivate</button>
+                                                                                    <button onClick={() => handleAction(user)} className='text-white bg-[#972222] hover:scale-95  py-1 px-4 rounded-lg'>Deactivate</button>
 
                                                                               )
                                                                               :
                                                                               (
-                                                                                    <button onClick={() => handleAction(user)} className='text-white bg-[#5cc967] hover:bg-[#3c8143]  py-1 px-[25px] rounded-lg'>Activate</button>
+                                                                                    <button onClick={() => handleAction(user)} className='text-white bg-greenWich hover:scale-95  py-1 px-[25px] rounded-lg'>Activate</button>
                                                                               )
                                                                         }</td>
                                                             </tr>

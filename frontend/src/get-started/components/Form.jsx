@@ -54,7 +54,7 @@ const Form = () => {
                         </div>
                   </div>
 
-                  <img src="landing_Car.png" className='z-[-1] mt-[-140px]' />
+                  <img src="landing_Car.png" className='h-[120%] z-[-1] mt-[-170px]' />
             </div>
       );
 }

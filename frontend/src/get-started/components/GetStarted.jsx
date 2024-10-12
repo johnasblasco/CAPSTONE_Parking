@@ -111,7 +111,7 @@ const GetStarted = () => {
                                                       value={formData.name}
                                                       onChange={handleChange}
                                                       placeholder="Admin Name"
-                                                      className="p-3 rounded-2xl w-[70%] border-4 bg-[#D8EFFF] border-[#001858] transition-all duration-300 focus:bg-white focus:border-[#4A90E2] outline-none"
+                                                      className="p-3 rounded-2xl w-[70%] border-4 bg-vanilla border-[#001858] transition-all duration-300  focus:border-bloe outline-none"
                                                       required
                                                 />
                                                 <input
@@ -120,7 +120,7 @@ const GetStarted = () => {
                                                       value={formData.username}
                                                       onChange={handleChange}
                                                       placeholder="Username"
-                                                      className="p-3 rounded-2xl w-[70%] border-4 bg-[#D8EFFF] border-[#001858] transition-all duration-300 focus:bg-white focus:border-[#4A90E2] outline-none"
+                                                      className="p-3 rounded-2xl w-[70%] border-4 bg-vanilla border-[#001858] transition-all duration-300  focus:border-bloe outline-none"
                                                       required
                                                 />
                                                 <input
@@ -129,7 +129,7 @@ const GetStarted = () => {
                                                       value={formData.password}
                                                       onChange={handleChange}
                                                       placeholder="Password"
-                                                      className="p-3 rounded-2xl w-[70%] border-4 bg-[#D8EFFF] border-[#001858] transition-all duration-300 focus:bg-white focus:border-[#4A90E2] outline-none"
+                                                      className="p-3 rounded-2xl w-[70%] border-4 bg-vanilla border-[#001858] transition-all duration-300  focus:border-bloe outline-none"
                                                       required
                                                 />
                                                 <input
@@ -138,7 +138,7 @@ const GetStarted = () => {
                                                       value={formData.confirmPassword}
                                                       onChange={handleChange}
                                                       placeholder="Re-type Password"
-                                                      className="p-3 rounded-2xl w-[70%] border-4 bg-[#D8EFFF] border-[#001858] transition-all duration-300 focus:bg-white focus:border-[#4A90E2] outline-none"
+                                                      className="p-3 rounded-2xl w-[70%] border-4 bg-vanilla border-[#001858] transition-all duration-300  focus:border-bloe outline-none"
                                                       required
                                                 />
                                           </div>
