@@ -14,7 +14,7 @@ const Settings = () => {
             threeAndFourWheels: '',
             pricePerTicket: '',
             hoursLimit: '',
-            overTimeFees: '',
+            overtimeFees: '',
       });
       const [formError, setFormError] = useState('');
       const navigate = useNavigate();
@@ -57,12 +57,10 @@ const Settings = () => {
             });
       };
 
-      const handleSubmit = async (e) => {
-            e.preventDefault();
+      const handleSubmit = async () => {
+            const { companyName, parkingRules, twoWheels, threeAndFourWheels, pricePerTicket, hoursLimit, overtimeFees } = formData;
 
-            const { companyName, parkingRules, twoWheels, threeAndFourWheels, pricePerTicket } = formData;
-
-            if (!companyName || !parkingRules || !twoWheels || !threeAndFourWheels || !pricePerTicket) {
+            if (!companyName || !parkingRules || !twoWheels || !threeAndFourWheels || !pricePerTicket || !hoursLimit || !overtimeFees) {
                   setFormError('Please fill in all the fields.');
                   return;
             }
@@ -81,12 +79,18 @@ const Settings = () => {
             }
       };
 
-      const handleNextStep = () => {
-            setCurrentStep((prev) => prev + 1);
-      };
+
+
       const handlePreviousStep = () => {
             if (currentStep > 1) {
                   setCurrentStep((prev) => prev - 1);
+            }
+      };
+      const handleNextOrSave = () => {
+            if (currentStep === 6) {
+                  handleSubmit();
+            } else {
+                  setCurrentStep((prev) => prev + 1);
             }
       };
 
@@ -97,7 +101,7 @@ const Settings = () => {
             <div className="mx-[10%] h-max-700:mt-[35vh] mt-[25vh] w-[80vw] text-deepBlue">
                   <div className="relative p-8 bg-white rounded-2xl shadow-2xl h-[600px] flex flex-col justify-between">
                         <p className="border-4 font-bold border-deepBlue absolute top-4 left-[-35px] bg-yeelow py-1 px-8 text-lg rounded-3xl">
-                              Settings
+                              Company Settings
                         </p>
 
                         {/* Step Indicator */}
@@ -221,6 +225,7 @@ const Settings = () => {
                                                 onChange={handleChange}
                                                 placeholder="Hours Limit"
                                                 className="w-full text-center p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                                required
                                           />
                                     </div>
                               )}
@@ -232,11 +237,12 @@ const Settings = () => {
                                           </h3>
                                           <input
                                                 type="number"
-                                                name="overTimeFees"
-                                                value={formData.overTimeFees}
+                                                name="overtimeFees"
+                                                value={formData.overtimeFees}
                                                 onChange={handleChange}
                                                 placeholder="Overtime Fees (PHP)"
                                                 className="w-full p-4 text-center border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                                required
                                           />
                                     </div>
                               )}
@@ -255,7 +261,7 @@ const Settings = () => {
                               <button
                                     type="button"
                                     className="w-full bg-deepBlue text-white py-3 rounded-lg hover:scale-95 focus:outline-none transition-colors"
-                                    onClick={handleNextStep}
+                                    onClick={handleNextOrSave}
                               >
                                     {currentStep === 6 ? 'Save Changes' : 'Next'}
                               </button>

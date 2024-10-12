@@ -100,10 +100,10 @@ const GetStarted = () => {
                                           <div className="flex flex-col px-4 w-[35%] gap-7 font-bold text-xl">
                                                 <h2 className="text-4xl tracking-wider text-[#001858] font-extrabold">SETTING UP</h2>
                                                 <p className="text-2xl w-[90%] text-balance text-[#001858]">
-                                                      Welcome to ParKaid! Let's get you started by setting up your account.
+                                                      Welcome to ParKaid! Let's get you started.
                                                 </p>
                                                 <p className="w-[70%] text-balance text-[#001858]">
-                                                      As you Signup. You will be assigned to be the Admin of our System. We'll ask you to provide some basic information to get started.
+                                                      As you Signup. You will be assigned to be the Admin of our System.
                                                 </p>
                                                 <input
                                                       type="text"
@@ -163,8 +163,8 @@ const GetStarted = () => {
                                                       />
                                                 </div>
 
-                                                <button type="submit" className="w-fit py-4 px-8 rounded-full text-2xl font-bold border-4 border-[#001858] bg-[#4A90E2] hover:scale-105 hover:contrast-125 hover:shadow-lg text-white transition-all duration-300">
-                                                      PROCEED
+                                                <button type="submit" className="w-fit py-3 px-12 rounded-full text-2xl font-bold border-4 border-[#001858] bg-greenWich/80 hover:scale-105 hover:contrast-125 hover:shadow-lg text-bloe transition-all duration-300">
+                                                      PROCEED?
                                                 </button>
 
                                                 <div className="w-56 text-wrap">

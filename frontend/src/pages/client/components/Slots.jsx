@@ -20,6 +20,10 @@ const Slots = ({ vehicles, twoWheels, threeAndFourWheels }) => {
                                     vehicles.filter(vehicle => vehicle.category === "4 Wheels" || vehicle.category === "3 Wheels").length === threeAndFourWheels ? "FULL" :
                                           vehicles.filter(vehicle => vehicle.category === "4 Wheels" || vehicle.category === "3 Wheels").length
                               }
+                              /
+                              {
+                                    threeAndFourWheels
+                              }
 
                         </p>
 
@@ -28,6 +32,10 @@ const Slots = ({ vehicles, twoWheels, threeAndFourWheels }) => {
                               vehicles.filter(vehicle => vehicle.category === "2 Wheels").length === twoWheels ? "FULL" :
                                     vehicles.filter(vehicle => vehicle.category === "2 Wheels").length
                         }
+                              /
+                              {
+                                    twoWheels
+                              }
                         </p>
                   </div>
             </div>
