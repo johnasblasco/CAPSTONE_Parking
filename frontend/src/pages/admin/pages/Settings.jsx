@@ -14,7 +14,7 @@ const Settings = () => {
             threeAndFourWheels: '',
             pricePerTicket: '',
             hoursLimit: '',
-            overTimeFees: '',
+            overtimeFees: '',
       });
       const [formError, setFormError] = useState('');
       const navigate = useNavigate();
@@ -57,12 +57,10 @@ const Settings = () => {
             });
       };
 
-      const handleSubmit = async (e) => {
-            e.preventDefault();
+      const handleSubmit = async () => {
+            const { companyName, parkingRules, twoWheels, threeAndFourWheels, pricePerTicket, hoursLimit, overtimeFees } = formData;
 
-            const { companyName, parkingRules, twoWheels, threeAndFourWheels, pricePerTicket } = formData;
-
-            if (!companyName || !parkingRules || !twoWheels || !threeAndFourWheels || !pricePerTicket) {
+            if (!companyName || !parkingRules || !twoWheels || !threeAndFourWheels || !pricePerTicket || !hoursLimit || !overtimeFees) {
                   setFormError('Please fill in all the fields.');
                   return;
             }
@@ -81,12 +79,18 @@ const Settings = () => {
             }
       };
 
-      const handleNextStep = () => {
-            setCurrentStep((prev) => prev + 1);
-      };
+
+
       const handlePreviousStep = () => {
             if (currentStep > 1) {
                   setCurrentStep((prev) => prev - 1);
+            }
+      };
+      const handleNextOrSave = () => {
+            if (currentStep === 6) {
+                  handleSubmit();
+            } else {
+                  setCurrentStep((prev) => prev + 1);
             }
       };
 
@@ -97,7 +101,7 @@ const Settings = () => {
             <div className="mx-[10%] h-max-700:mt-[35vh] mt-[25vh] w-[80vw] text-deepBlue">
                   <div className="relative p-8 bg-white rounded-2xl shadow-2xl h-[600px] flex flex-col justify-between">
                         <p className="border-4 font-bold border-deepBlue absolute top-4 left-[-35px] bg-yeelow py-1 px-8 text-lg rounded-3xl">
-                              Settings
+                              Company Settings
                         </p>
 
                         {/* Step Indicator */}
@@ -105,14 +109,14 @@ const Settings = () => {
                               {stepLabels.map((label, index) => (
                                     <div key={index} className="flex flex-col items-center space-y-2">
                                           <div
-                                                className={`animate-bounce w-8 h-8 flex items-center justify-center rounded-full text-white ${index < currentStep ? 'bg-deepBlue' : 'bg-gray-300'
+                                                className={`animate-bounce w-8 h-8 flex items-center justify-center rounded-full text-white ${index < currentStep ? 'bg-green-400' : 'bg-gray-300'
                                                       }`}
                                           >
                                                 {index + 1}
                                           </div>
                                           <span
-                                                className={`${index < currentStep ? 'text-blue-600' : 'text-gray-400'
-                                                      } text-xs`}
+                                                className={`${index < currentStep ? 'text-green-400' : 'text-gray-400'
+                                                      } text-sm`}
                                           >
                                                 {label}
                                           </span>
@@ -221,6 +225,7 @@ const Settings = () => {
                                                 onChange={handleChange}
                                                 placeholder="Hours Limit"
                                                 className="w-full text-center p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                                required
                                           />
                                     </div>
                               )}
@@ -232,18 +237,19 @@ const Settings = () => {
                                           </h3>
                                           <input
                                                 type="number"
-                                                name="overTimeFees"
-                                                value={formData.overTimeFees}
+                                                name="overtimeFees"
+                                                value={formData.overtimeFees}
                                                 onChange={handleChange}
                                                 placeholder="Overtime Fees (PHP)"
                                                 className="w-full p-4 text-center border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                                required
                                           />
                                     </div>
                               )}
                         </div>
 
                         {/* Navigation Buttons */}
-                        <div className="flex justify-between space-x-4 mt-4">
+                        <div className="flex justify-between text-xl space-x-4 mt-4 font-bold">
                               <button
                                     type="button"
                                     className="w-full bg-gray-600 hover:scale-95 text-white py-3 rounded-lg hover:bg-gray-700 focus:outline-none transition-colors"
@@ -254,11 +260,12 @@ const Settings = () => {
                               </button>
                               <button
                                     type="button"
-                                    className="w-full bg-deepBlue text-white py-3 rounded-lg hover:scale-95 focus:outline-none transition-colors"
-                                    onClick={handleNextStep}
+                                    className={`w-full ${currentStep === 6 ? 'bg-green-500' : 'bg-deepBlue'} text-white py-3 rounded-lg hover:scale-95 focus:outline-none transition-colors`}
+                                    onClick={handleNextOrSave}
                               >
                                     {currentStep === 6 ? 'Save Changes' : 'Next'}
                               </button>
+
                         </div>
                   </div>
             </div>

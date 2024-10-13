@@ -315,7 +315,7 @@ const ManageVehicles = () => {
                                           </div>
                                     </div>
                                     <p className='mt-12 text-center text-2xl font-bold'>By Date</p>
-                                    <button onClick={handleDateSelection} className='m-4 h-12 bg-pink hover:scale-95 rounded-2xl p-2 px-4 text-white' >
+                                    <button onClick={handleDateSelection} className='m-4 h-12 bg-greenWich hover:scale-95 rounded-2xl p-2 px-4 text-white' >
                                           <FaFilter className='inline' /> MM/DD/YYYY
                                     </button>
                               </div>

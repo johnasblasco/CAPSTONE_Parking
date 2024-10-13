@@ -61,7 +61,7 @@ const Reports = () => {
             const pastMinimumDate = new Date('2024-01-01').toISOString().split('T')[0];
 
             const { value: date } = await Swal.fire({
-                  title: "Select Departure Date",
+                  title: "Select Date",
                   input: "date",
                   inputAttributes: {
                         required: true,
@@ -298,7 +298,7 @@ const Reports = () => {
                               </div>
                               {/* today earnings */}
                               <div className='h-max-700:p-16 flex gap-4 items-center pt-10 justify-center relative border-4 border-deepBlue shadow-2xl rounded-3xl bg-offWhite p-2 w-[30%]'>
-                                    <p className='border-4 border-deepBlue font-bold absolute left-[-35px] top-2 bg-yeelow py-1 px-4 text-lg rounded-3xl'>Total Earnings</p>
+                                    <p className='border-4 border-deepBlue font-bold absolute left-[-35px] top-2 bg-yeelow py-1 px-4 text-lg rounded-3xl'>Today's Earnings</p>
                                     <p className='h-max-700:text-3xl text-5xl font-bold text-deepBlue'>PHP</p>
                                     <p className='h-max-700:text-4xl text-6xl font-bold text-deepBlue'>{todaysEarnings}.00</p>
                               </div>
@@ -308,8 +308,8 @@ const Reports = () => {
                                     <p className='border-4 border-deepBlue font-bold absolute left-[-40px] top-2 bg-yeelow py-1 px-4 text-lg rounded-3xl'>Filter Earnings</p>
                                     <p className='text-3xl font-bold text-deepBlue'>By Date</p>
                                     <div className='flex'>
-                                          <button onClick={handleDateSelection} className='m-4 h-12 bg-pink hover:scale-95 rounded-2xl p-2 px-4 text-white' >
-                                                <FaFilter className='inline' /> MM/DD
+                                          <button onClick={handleDateSelection} className='m-4 h-12 bg-greenWich hover:scale-95 rounded-2xl p-2 px-4 text-white' >
+                                                <FaFilter className='inline mr-2' /> MM/DD
                                           </button>
                                           <button onClick={earningsPrint} className='font-extrabold m-4 h-12 bg-bloe hover:scale-95 rounded-2xl p-2 text-white'>
                                                 <MdLocalPrintshop className='inline text-2xl' /> Print Reports
@@ -371,7 +371,7 @@ const Reports = () => {
                               </div>
 
                               {/* Table */}
-                              <div className=' relative border-4 border-deepBlue shadow-2xl max-h-[68vh] overflow-y-auto rounded-3xl bg-offWhite p-6 min-w-[70vw] mt-32'>
+                              <div className=' relative border-4 border-deepBlue shadow-2xl max-h-[68vh] overflow-y-auto rounded-3xl bg-offWhite p-6 max-w-[63vw] mt-32'>
 
                                     <div ref={invoiceRef} className='mt-12'>
                                           <table className='table-fixed border-collapse w-full'>
@@ -416,7 +416,7 @@ const Reports = () => {
                                                                                     dayDifference > 0 ? `${dayDifference} days ${hoursDifference} hours ${minutesDifference} mins` : hoursDifference > 0 ? `${hoursDifference} hours  ${minutesDifference} mins` : `${minutesDifference} mins`
                                                                               }
                                                                         </td>
-                                                                        <td className='border-2 border-deepBlue p-2'>{hoursDifference > hoursLimit ? `+${overTimeFees}.00` : '0.00'}</td>
+                                                                        <td className='border-2 border-deepBlue p-2'>{hoursDifference > hoursLimit && hoursLimit != 0 ? `+${overTimeFees}.00` : '0.00'}</td>
                                                                   </tr>
                                                             )
                                                       })
