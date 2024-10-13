@@ -109,14 +109,14 @@ const Settings = () => {
                               {stepLabels.map((label, index) => (
                                     <div key={index} className="flex flex-col items-center space-y-2">
                                           <div
-                                                className={`animate-bounce w-8 h-8 flex items-center justify-center rounded-full text-white ${index < currentStep ? 'bg-deepBlue' : 'bg-gray-300'
+                                                className={`animate-bounce w-8 h-8 flex items-center justify-center rounded-full text-white ${index < currentStep ? 'bg-green-400' : 'bg-gray-300'
                                                       }`}
                                           >
                                                 {index + 1}
                                           </div>
                                           <span
-                                                className={`${index < currentStep ? 'text-blue-600' : 'text-gray-400'
-                                                      } text-xs`}
+                                                className={`${index < currentStep ? 'text-green-400' : 'text-gray-400'
+                                                      } text-sm`}
                                           >
                                                 {label}
                                           </span>
@@ -249,7 +249,7 @@ const Settings = () => {
                         </div>
 
                         {/* Navigation Buttons */}
-                        <div className="flex justify-between space-x-4 mt-4">
+                        <div className="flex justify-between text-xl space-x-4 mt-4 font-bold">
                               <button
                                     type="button"
                                     className="w-full bg-gray-600 hover:scale-95 text-white py-3 rounded-lg hover:bg-gray-700 focus:outline-none transition-colors"
@@ -260,11 +260,12 @@ const Settings = () => {
                               </button>
                               <button
                                     type="button"
-                                    className="w-full bg-deepBlue text-white py-3 rounded-lg hover:scale-95 focus:outline-none transition-colors"
+                                    className={`w-full ${currentStep === 6 ? 'bg-green-500' : 'bg-deepBlue'} text-white py-3 rounded-lg hover:scale-95 focus:outline-none transition-colors`}
                                     onClick={handleNextOrSave}
                               >
                                     {currentStep === 6 ? 'Save Changes' : 'Next'}
                               </button>
+
                         </div>
                   </div>
             </div>

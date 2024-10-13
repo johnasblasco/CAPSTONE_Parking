@@ -1,9 +1,12 @@
 import { useRef, useEffect, useState } from 'react';
 import { Doughnut, Line } from 'react-chartjs-2';
-import { FaMotorcycle, FaBicycle, FaCar } from 'react-icons/fa';
+import { FaMotorcycle, FaBicycle, FaCar, FaFilter } from 'react-icons/fa';
+import { FaRegCalendar } from "react-icons/fa6";
+
 import { FaUser } from "react-icons/fa";
 import { MdLocalPrintshop } from "react-icons/md";
 import { GiMoneyStack } from "react-icons/gi";
+
 
 import {
       Chart as ChartJS,
@@ -161,39 +164,72 @@ const Reports = () => {
                         </div>
                         {/* END OF TOTALS REPORTS */}
                         {/* -------------------------------------------------------------- */}
+                        <div className='flex gap-4'>
 
-                        <div className="mt-12 flex relative pt-24 p-12 shadow-2xl border-4 min-w-[70%] border-bloe bg-white rounded-3xl">
-                              <p className='border-4 border-deepBlue font-bold absolute left-[-35px] top-2 bg-yeelow py-1 px-8 text-lg rounded-3xl'>Total Vehicle Reports</p>
+                              <div className="max-h-[700px] flex relative pt-24 p-12 shadow-2xl border-4 min-w-[70%] border-bloe bg-white rounded-3xl">
+                                    <p className='border-4 border-deepBlue font-bold absolute left-[-35px] top-2 bg-yeelow py-1 px-8 text-lg rounded-3xl'>Total Vehicle Reports</p>
 
-                              <div className="flex flex-row items-center justify-evenly w-full">
-                                    {TwoWheels + ThreeWheels + FourWheels > 0 ? (
-                                          <>
-                                                <Doughnut className='w-96 h-96' ref={chartRef} data={data} />
+                                    <div className="flex flex-row items-center justify-evenly w-full">
+                                          {TwoWheels + ThreeWheels + FourWheels > 0 ? (
+                                                <>
+                                                      <Doughnut className='w-96 h-96' ref={chartRef} data={data} />
 
-                                                {/* Right Side Text Section with Icons */}
-                                                <div className="flex flex-col gap-8 ml-4">
-                                                      <div className="flex items-center text-xl font-semibold text-gray-800 mb-2">
-                                                            <img src="/motorcycle.png" className='w-32 h-32' alt="" />
-                                                            <p>Total Two-Wheel Vehicles: <span className="font-bold text-6xl text-red-600">{TwoWheels}</span></p>
+
+                                                      {/* Right Side Text Section with Icons */}
+                                                      <div className=" flex flex-col gap-8 ml-4">
+                                                            <p className='border-4 border-deepBlue font-bold w-fit bg-yeelow py-1 px-12 text-lg rounded-2xl'>Filter By Date</p>
+
+                                                            <button className='border-2 border-green-500 h-12 text-xl font-bold bg-greenWich hover:scale-95 rounded-2xl p-2 px-4 text-white' >
+                                                                  <FaFilter className='inline ' />  MM / DD / YYYY <FaRegCalendar className='ml-36 inline text-2xl' />
+                                                            </button>
+
+
+                                                            <div className="flex items-center text-xl font-semibold text-gray-800 mb-2">
+                                                                  <img src="/motorcycle.png" className='w-32 h-32' alt="" />
+                                                                  <p>Total Two-Wheel Vehicles: <span className="font-bold text-6xl text-red-600">{TwoWheels}</span></p>
+                                                            </div>
+                                                            <div className="flex items-center text-xl font-semibold text-gray-800 mb-2">
+                                                                  <img src="/tricycle.png" className='w-32 h-32' alt="" />
+                                                                  <p>Total Three-Wheel Vehicles: <span className="font-bold text-6xl text-greenWich">{ThreeWheels}</span></p>
+                                                            </div>
+                                                            <div className="flex items-center text-xl font-semibold text-gray-800 mb-2">
+                                                                  <img src="/car.png" className='w-32 h-32' alt="" />
+                                                                  <p>Total Four-Wheel Vehicles: <span className="font-bold text-6xl text-bloe">{FourWheels}</span></p>
+                                                            </div>
                                                       </div>
-                                                      <div className="flex items-center text-xl font-semibold text-gray-800 mb-2">
-                                                            <img src="/tricycle.png" className='w-32 h-32' alt="" />
-                                                            <p>Total Three-Wheel Vehicles: <span className="font-bold text-6xl text-greenWich">{ThreeWheels}</span></p>
-                                                      </div>
-                                                      <div className="flex items-center text-xl font-semibold text-gray-800 mb-2">
-                                                            <img src="/car.png" className='w-32 h-32' alt="" />
-                                                            <p>Total Four-Wheel Vehicles: <span className="font-bold text-6xl text-bloe">{FourWheels}</span></p>
-                                                      </div>
-                                                </div>
-                                          </>
-                                    ) : (
-                                          <p className="text-center text-lg font-semibold text-gray-700">No data available</p>
-                                    )}
+                                                </>
+                                          ) : (
+                                                <p className="text-center text-lg font-semibold text-gray-700">No data available</p>
+                                          )}
+                                    </div>
                               </div>
+
+                              {/* EMPLOYEE TABLE */}
+                              <div className="text-xl max-h-[700px] relative w-[40%] shadow-2xl border-4 border-bloe bg-white rounded-3xl overflow-y-auto p-4">
+                                    <p className='border-4 border-deepBlue font-bold mx-auto w-fit my-4 bg-yeelow py-1 px-8 text-lg rounded-3xl'>Employee Accounts</p>
+
+                                    <table className="w-full border-collapse bg-white shadow-lg rounded-lg overflow-hidden">
+                                          <thead className="bg-deepBlue text-white text-center">
+                                                <tr>
+                                                      <th className="px-6 py-4 text-sm font-semibold">Name</th>
+                                                      <th className="px-6 py-4 text-sm font-semibold">Status</th>
+                                                </tr>
+                                          </thead>
+                                          <tbody className='text-center'>
+                                                {users.map((user, index) => (
+                                                      <tr key={index} className={`transition-transform duration-300 hover:scale-105 ${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'} border-b border-gray-200 hover:bg-gray-200`}>
+                                                            <td className="px-6 py-4 text-deepBlue font-semibold">{user.name}</td>
+                                                            <td className={`px-6 py-4 font-semibold ${user.status ? 'text-green-600' : 'text-red-600'}`}>
+                                                                  {user.status ? "ACTIVATED" : "DEACTIVATED"}
+                                                            </td>
+                                                      </tr>
+                                                ))}
+                                          </tbody>
+                                    </table>
+                              </div>
+
+
                         </div>
-
-
-
 
 
 
@@ -211,7 +247,7 @@ const Reports = () => {
 
                               {/* FILTER */}
                               <div className="text-2xl relative p-6 w-[40%] shadow-2xl border-4 border-bloe bg-white rounded-3xl overflow-y-auto">
-                                    <p className=' border-4 border-deepBlue font-bold mx-auto w-fit bg-yeelow py-1 px-4 text-lg rounded-3xl'>Filter by Date</p>
+                                    <p className=' border-4 border-deepBlue font-bold mx-auto w-fit bg-yeelow py-1 px-8 text-lg rounded-3xl'>Filter By Date</p>
                                     <div className="flex flex-col gap-4">
                                           <label className='flex flex-col'>
                                                 <span className="font-semibold text-deepBlue">Start Date:</span>
@@ -233,7 +269,7 @@ const Reports = () => {
                                           </label>
                                           <button
                                                 onClick={handleFilter}
-                                                className="bg-bloe text-white font-semibold py-2 mt-2 rounded transition-transform duration-400 hover:scale-95 hover:bg-deepBlue"
+                                                className="bg-greenWich/90 text-white font-semibold py-2 mt-2 rounded-xl transition-transform duration-400 hover:scale-95 "
                                           >
                                                 Apply Filter
                                           </button>
@@ -243,7 +279,7 @@ const Reports = () => {
                                                       setEndDate('');
                                                       setFilteredData(earningsData); // Reset the filtered data to the original data
                                                 }}
-                                                className="bg-gray-200 text-bloe font-semibold py-2 mt-2 rounded transition-transform duration-400 hover:scale-95 hover:bg-gray-300"
+                                                className="bg-gray-200 text-bloe font-semibold py-2 mt-2 rounded-xl border-4 border-gray-200 transition-transform duration-400 hover:scale-95 hover:bg-gray-300"
                                           >
                                                 Reset Filter
                                           </button>
@@ -251,10 +287,6 @@ const Reports = () => {
                               </div>
 
                         </div>
-
-                        {/* END OF CHARTS AND TABLE */}
-
-
 
                         {/* END OF CHARTS AND TABLE */}
 

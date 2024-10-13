@@ -71,7 +71,7 @@ const ParkOut = () => {
                                                             <td>{selectedVehicle.ticketNumber}</td>
                                                             <td>{moment(new Date(selectedVehicle.startDate)).format('DD-MM-YY')}</td>
                                                             <td>{selectedVehicle.plateNumber}</td>
-                                                            <td><button onClick={handleView} className='bg-greenWich hover:scale-95 p-4 text-darkBloe border-4 border-black py-1 px-6 rounded-2xl'>Select</button></td>
+                                                            <td><button onClick={handleView} className='bg-green-500 hover:scale-95 p-4 border-4 border-bloe text-white py-1 px-6 rounded-xl'>Select</button></td>
                                                       </tr>
                                                 </tbody>
                                           </table>
