@@ -1,0 +1,13 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+            {
+                  "type": "npm",
+                  "script": "dev",
+                  "path": "backend",
+                  "problemMatcher": [],
+                  "label": "npm: dev - backend",
+                  "detail": "nodemon index.js"
+            }
+      ]
+}

@@ -7,6 +7,7 @@ import { FaUser } from "react-icons/fa";
 import { MdLocalPrintshop } from "react-icons/md";
 import { GiMoneyStack } from "react-icons/gi";
 
+import Swal from 'sweetalert2';
 
 import {
       Chart as ChartJS,
@@ -126,6 +127,26 @@ const Reports = () => {
             }
       };
 
+      const handleDateSelection = async () => {
+            const pastMinimumDate = new Date('2024-01-01').toISOString().split('T')[0];
+
+            const { value: date } = await Swal.fire({
+                  title: "Select Date",
+                  input: "date",
+                  inputAttributes: {
+                        required: true,
+                        min: pastMinimumDate,
+                  },
+                  showCancelButton: true,
+                  confirmButtonText: "Submit",
+            });
+
+            if (date) {
+                  console.log(date);
+            }
+
+      };
+
       return (
             <>
                   <div className='mx-[10%] pb-12 h-max-700:mt-[35vh] mt-[25vh] w-[80vw] text-deepBlue'>
@@ -179,7 +200,7 @@ const Reports = () => {
                                                       <div className=" flex flex-col gap-8 ml-4">
                                                             <p className='border-4 border-deepBlue font-bold w-fit bg-yeelow py-1 px-12 text-lg rounded-2xl'>Filter By Date</p>
 
-                                                            <button className='border-2 border-green-500 h-12 text-xl font-bold bg-greenWich hover:scale-95 rounded-2xl p-2 px-4 text-white' >
+                                                            <button onClick={handleDateSelection} className='border-2 border-green-500 h-12 text-xl font-bold bg-greenWich hover:scale-95 rounded-2xl p-2 px-4 text-white' >
                                                                   <FaFilter className='inline ' />  MM / DD / YYYY <FaRegCalendar className='ml-36 inline text-2xl' />
                                                             </button>
 

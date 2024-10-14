@@ -230,7 +230,7 @@ const ParkIn = ({ companyName, parkingRules, pricePerTicket, twoWheels, threeAnd
                   </div>
           
                   <div class="footer">
-                    <p>Paunawa.</p>
+                  </br>
                     <p>${formattedParkingRules}</p>
                   </div>
                   <hr />

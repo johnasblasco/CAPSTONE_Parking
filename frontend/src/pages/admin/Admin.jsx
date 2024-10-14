@@ -17,7 +17,7 @@ const Admin = () => {
                               if (admin.username === username && admin.password === password) {
                                     setIsLogin(true);
                                     console.log("ok na")
-                                    navigate('/admin/home/settings');
+                                    navigate('/admin/home/reports');
                                     Swal.fire({
                                           position: "center",
                                           icon: "success",

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
 const CreateAccount = () => {
       const [name, setName] = useState("")
@@ -26,6 +27,14 @@ const CreateAccount = () => {
                   setUsername("")
                   setPassword("")
 
+
+                  Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: name + " has been created",
+                        showConfirmButton: false,
+                        timer: 1500
+                  });
                   navigate("/admin/home/manage-account")
 
 
