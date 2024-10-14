@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState, createContext } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import ManageVehicles from './pages/ManageVehicles';
@@ -7,7 +8,6 @@ import PropagateLoader from 'react-spinners/PropagateLoader';
 import Header from './components/Header';
 import Navbar from './components/Navbar';
 import io from 'socket.io-client';
-import { useEffect, useState, createContext } from 'react';
 import Swal from 'sweetalert2';
 import 'animate.css';
 
@@ -15,7 +15,6 @@ export const myContext = createContext();
 const socket = io('http://localhost:8000');
 
 const Home = () => {
-      // SETTINGS
       const [companyName, setCompanyName] = useState('');
       const [parkingRules, setParkingRules] = useState('');
       const [twoWheels, setTwoWheels] = useState(0);
@@ -23,12 +22,13 @@ const Home = () => {
       const [pricePerTicket, setPricePerTicket] = useState(0);
       const [hoursLimit, setHoursLimit] = useState(0);
       const [overTimeFees, setOverTimeFees] = useState(0);
-
       const [vehicles, setVehicles] = useState([]);
       const [allVehicles, setAllVehicles] = useState([]);
       const [loading, setLoading] = useState(true);
+      const [myImg, setMyImg] = useState(null);
 
-      // Fetch Settings data
+      const audioRef = useRef(null); // Ref for audio element
+
       useEffect(() => {
             const fetchSettings = async () => {
                   try {
@@ -50,7 +50,6 @@ const Home = () => {
             fetchSettings();
       }, []);
 
-      // Fetch Vehicle Data
       useEffect(() => {
             const fetchVehicles = async () => {
                   try {
@@ -67,11 +66,9 @@ const Home = () => {
             fetchVehicles();
       }, []);
 
-      // SweetAlert only when companyName is available
-      const [myImg, setMyImg] = useState(null);
       useEffect(() => {
             axios.get('http://localhost:8000/upload')
-                  .then(response => setMyImg(response.data))
+                  .then(response => setMyImg(response.data));
             if (companyName) {
                   Swal.fire({
                         title: `${companyName}`,
@@ -91,7 +88,6 @@ const Home = () => {
             }
       }, [companyName]);
 
-      // Socket handling for vehicle data
       useEffect(() => {
             socket.on('vehicles', (vehicles) => {
                   setAllVehicles(vehicles);
@@ -113,6 +109,15 @@ const Home = () => {
                   socket.off('newVehicle');
                   socket.off('updateVehicle');
             };
+      }, []);
+
+      // Start the audio playback when the component mounts
+      useEffect(() => {
+            if (audioRef.current) {
+                  audioRef.current.play().catch(error => {
+                        console.error('Error playing audio:', error);
+                  });
+            }
       }, []);
 
       const myContextValue = [
@@ -139,7 +144,9 @@ const Home = () => {
       }
 
       return (
-            <div className=' bg-no-repeat bg-bottom bg-[url("/BG.png")] bg-cover w-full fixed overflow-auto'>
+            <div className='bg-no-repeat bg-bottom bg-[url("/BG.png")] bg-cover w-full fixed overflow-auto'>
+                  <audio ref={audioRef} src="/getStarted.mp3" loop hidden></audio>
+
                   <myContext.Provider value={myContextValue}>
                         <Header />
                         <div className='h-screen overflow-y-auto overflow-x-hidden'>

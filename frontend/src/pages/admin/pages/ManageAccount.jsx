@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { IoCloseOutline } from "react-icons/io5";
 import axios from 'axios'
 import etits, { Toaster } from 'react-hot-toast';
 import { MdLocalPrintshop } from "react-icons/md";
-
+import Swal from 'sweetalert2';
 import { FaFilter } from "react-icons/fa";
 
 const ManageAccount = () => {
@@ -19,7 +18,6 @@ const ManageAccount = () => {
       const [showDeact, setShowDeact] = useState(false);
       const [showAct, setShowAct] = useState(false);
 
-      const [editShow, setEditShow] = useState(false);
 
 
       // Filter Function
@@ -38,51 +36,52 @@ const ManageAccount = () => {
       }
 
 
-
-
-
-
-
-      const handleEditButton = (name, username, password) => {
-            setEditName(name)
-            setEditUsername(username)
-            setEditPassword(password)
-            setEditShow(!editShow)
-
-      }
-
       // newData
       let id;
       const [newName, setNewName] = useState("")
       const [newUsername, setNewUserName] = useState("")
       const [newPassword, setNewPassword] = useState("")
 
-      const handleSaveButton = async () => {
+      const handleSaveButton = async (user) => {
             try {
-                  await axios.put(`http://localhost:8000/user/${id}`, {
-                        name: newName,
-                        username: newUsername,
-                        password: newPassword
-                  })
-                  etits.success("Edit success")
-                  // clear value
-                  setNewName("")
-                  setNewUserName("")
-                  setNewPassword("")
+                  // Prompt for name, username, and password using SweetAlert
+                  const { value: formValues } = await Swal.fire({
+                        title: "Edit Name, Username, and Password",
+                        html:
+                              `<input id="swal-input1" class="swal2-input" placeholder="Name" value="${user.name}">` +
+                              `<input id="swal-input2" class="swal2-input" placeholder="Username" value="${user.username}">` +
+                              '<input id="swal-input3" type="password" class="swal2-input" placeholder="New Password">',
+                        focusConfirm: false,
+                        preConfirm: () => {
+                              const name = document.getElementById("swal-input1").value;
+                              const username = document.getElementById("swal-input2").value;
+                              const password = document.getElementById("swal-input3").value;
+                              if (!name || !username || !password) {
+                                    Swal.showValidationMessage("All fields are required!");
+                                    return null;
+                              }
+                              return { name, username, password };
+                        }
+                  });
 
-                  // palitan ng laman placeholder
-                  setEditName(newName)
-                  setEditUsername(newUsername)
-                  setEditPassword(newPassword)
+                  if (formValues) {
+                        // Proceed to update user details
+                        await axios.put(`http://localhost:8000/user/${user._id}`, {
+                              name: formValues.name,  // Updated name
+                              username: formValues.username,  // Updated username
+                              password: formValues.password  // Updated password
+                        });
 
-                  // render
-                  setOyGalaw(!oyGalaw)
+                        Swal.fire("Edit success");
 
+                        // Optionally, update the state after a successful edit
+                        setOyGalaw(!oyGalaw);
+                  }
             } catch (error) {
-                  console.log(error)
+                  console.log(error);
             }
+      };
 
-      }
 
 
       const [oyGalaw, setOyGalaw] = useState(false);
@@ -121,12 +120,7 @@ const ManageAccount = () => {
 
 
       }
-      const clearDataWhenEx = () => {
-            setNewName("")
-            setNewUserName("")
-            setNewPassword("")
-            setEditShow(!editShow)
-      }
+
 
       console.log("nag rendered")
       console.log("SHOW ACTIVATE ONLY", showAct)
@@ -214,8 +208,8 @@ const ManageAccount = () => {
                                                 <tr className='border-b-4 border-bloe'>
 
                                                       <th className="border-r-4 border-bloe" >Number</th>
-                                                      <th className="border-r-4 border-bloe" >Username</th>
                                                       <th className="border-r-4 border-bloe" >Name</th>
+                                                      <th className="border-r-4 border-bloe" >Username</th>
                                                       <th className="border-r-4 border-bloe" >Status</th>
                                                       <th className='no-print'>Action</th>
 
@@ -234,15 +228,15 @@ const ManageAccount = () => {
 
 
                                                                         <td className="border-r-4 border-bloe" >{index + 1}</td>
-                                                                        <td className="border-r-4 border-bloe" >{user.username}</td>
                                                                         <td className="border-r-4 border-bloe" >{user.name}</td>
+                                                                        <td className="border-r-4 border-bloe" >{user.username}</td>
                                                                         <td className="border-r-4 border-bloe" >{user.status ? "Active" : "Inactive"}</td>
 
                                                                         <td className="w-[30%] no-print">
 
                                                                               <button
                                                                                     className='bg-deepBlue py-1 px-8 mx-4 rounded-lg text-white hover:scale-95 '
-                                                                                    onClick={() => handleEditButton(user.name, user.username, user.password)}
+                                                                                    onClick={() => handleSaveButton(user)}
                                                                               >
                                                                                     Edit
                                                                               </button>
