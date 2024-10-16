@@ -42,7 +42,9 @@ const Home = () => {
                   } catch (err) {
                         console.error(err);
                   } finally {
-                        setLoading(false);
+                        setTimeout(() => {
+                              setLoading(false);
+                        }, 1000);
                   }
             };
 
@@ -58,7 +60,9 @@ const Home = () => {
                   } catch (error) {
                         console.error(error);
                   } finally {
-                        setLoading(false);
+                        setTimeout(() => {
+                              setLoading(false);
+                        }, 1000);
                   }
             };
 
@@ -69,21 +73,24 @@ const Home = () => {
             axios.get('http://localhost:8000/upload')
                   .then(response => setMyImg(response.data));
             if (companyName) {
-                  Swal.fire({
-                        title: `${companyName}`,
-                        text: "Welcome to Parking Management System",
-                        imageUrl: `/uploads/` + myImg,
-                        width: 700,
-                        imageWidth: 300,
-                        imageHeight: 300,
-                        imageAlt: "Custom image",
-                        showClass: {
-                              popup: 'animate__animated animate__fadeInUp animate__faster'
-                        },
-                        hideClass: {
-                              popup: 'animate__animated animate__fadeOutDown animate__faster'
-                        }
-                  });
+                  setTimeout(() => {
+                        Swal.fire({
+                              title: `${companyName}`,
+                              text: "Welcome to Parking Management System",
+                              imageUrl: `/uploads/` + myImg,
+                              width: 700,
+                              imageWidth: 300,
+                              imageHeight: 300,
+                              imageAlt: "Custom image",
+                              showClass: {
+                                    popup: 'animate__animated animate__fadeInUp animate__faster'
+                              },
+                              hideClass: {
+                                    popup: 'animate__animated animate__fadeOutDown animate__faster'
+                              }
+                        });
+                  }, 1500)
+
             }
       }, [companyName]);
 
@@ -91,7 +98,9 @@ const Home = () => {
             socket.on('vehicles', (vehicles) => {
                   setAllVehicles(vehicles);
                   setVehicles(vehicles.filter(vehicle => vehicle.status === true));
-                  setLoading(false);
+                  setTimeout(() => {
+                        setLoading(false);
+                  }, 1000);
             });
 
             socket.on('newVehicle', (newVehicle) => {
@@ -129,8 +138,9 @@ const Home = () => {
 
       if (loading) {
             return (
-                  <div className="flex justify-center items-center h-screen">
-                        <PropagateLoader color="#ff5400" size={30} />
+                  <div className="bg-[url('/BG.png')] bg-cover flex justify-center items-center h-screen">
+                        {/* <PropagateLoader color="#ff5400" size={30} /> */}
+                        <img src="/moving-car.gif" alt="" />
                   </div>
             );
       }
