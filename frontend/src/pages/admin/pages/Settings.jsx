@@ -99,7 +99,7 @@ const Settings = () => {
 
       return (
             <div className="mx-[10%] h-max-700:mt-[35vh] mt-[25vh] w-[80vw] text-deepBlue">
-                  <div className="relative p-8 bg-white rounded-2xl shadow-2xl h-[600px] flex flex-col justify-between">
+                  <div className="border-4 border-bloe relative p-8 bg-white rounded-2xl shadow-2xl h-[600px] flex flex-col justify-between">
                         <p className="border-4 font-bold border-deepBlue absolute top-4 left-[-35px] bg-yeelow py-1 px-8 text-lg rounded-3xl">
                               Company Settings
                         </p>

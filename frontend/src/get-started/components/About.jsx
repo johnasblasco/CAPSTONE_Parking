@@ -34,7 +34,7 @@ const About = () => {
                   </div>
 
                   <div className='w-full'>
-                        <img className='hover:scale-105 h-[120%]' src="about.png" alt="About Us" />
+                        <img className='hover:scale-105 h-[100%]' src="about.png" alt="About Us" />
                   </div>
             </div>
       );

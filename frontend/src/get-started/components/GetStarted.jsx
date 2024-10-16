@@ -94,7 +94,13 @@ const GetStarted = () => {
       return (
             <>
                   <div className="min-h-screen pb-20 bg-[url('/BG.png')] bg-cover bg-bottom bg-no-repeat flex justify-center">
-                        <div className="transition-transform duration-300 hover:scale-105 h-max-700:w-screen h-max-700:px-30 py-20 h-max-700:ml-10 h-min-1080:ml-40 ml-16 mt-16 bg-[url('/Polygon.png')] h-max-700:h-auto h-[90vh] w-[70vw] h-max-700:bg-cover bg-contain bg-no-repeat">
+
+                        {/* back button */}
+                        <div data-aos="fade-down" className='absolute w-48 h-48 left-12 cursor-pointer top-[-30px] hover:scale-y-90 '>
+                              <img onClick={() => navigate("/")} src="/BACK.png" alt="" className='absolute w-48 h-48 left-12 cursor-pointer top-[-30px] hover:scale-y-90 ' />
+                        </div>
+
+                        <div className="transition-transform duration-300 hover:scale-105 h-max-700:w-screen ml-40 h-max-700:px-30 py-20 h-max-700:ml-10  mt-16 bg-[url('/Polygon.png')] h-max-700:h-auto h-[90vh] w-[70vw] h-max-700:bg-cover bg-contain bg-no-repeat">
                               <form onSubmit={handleSubmit}>
                                     <div className="flex ml-[-200px] justify-center h-full">
                                           <div className="flex flex-col px-4 w-[35%] gap-7 font-bold text-xl">

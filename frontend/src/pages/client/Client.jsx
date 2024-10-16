@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { FaAngleLeft } from "react-icons/fa6";
+
 import Swal from 'sweetalert2';
 const Client = () => {
 
@@ -54,11 +56,18 @@ const Client = () => {
       return (
             <div className="h-screen bg-[url('/BG.png')] bg-cover bg-bottom bg-no-repeat">
 
+
                   <div className="flex items-center justify-center h-screen">
 
 
-                        <div className="flex flex-col items-center pr-24 gap-2 pt-28  pb-8 bg-[url('/polygon1.png')] w-[650px] h-[650px] h-max-700:h-[550px] h-max-700:w-[550px] bg-contain bg-no-repeat rounded-xl "
+                        <div className=" relative flex flex-col items-center pr-24 gap-2 pt-28  pb-8 bg-[url('/polygon1.png')] w-[650px] h-[650px] h-max-700:h-[550px] h-max-700:w-[550px] bg-contain bg-no-repeat rounded-xl "
                         >
+                              <div onClick={() => navigate("/login")} className='hover:scale-90 absolute top-8 left-8 cursor-pointer flex items-center'>
+                                    <FaAngleLeft className='text-4xl' />
+                                    <p className='text-darkBloe font-bold  text-2xl'>Back </p>
+                              </div>
+
+
                               <p className='text-6xl text-darkBloe font-extrabold'>SIGN IN</p>
                               <p className='text-xl text-darkBloe font-bold'>TO PARKAID</p>
 

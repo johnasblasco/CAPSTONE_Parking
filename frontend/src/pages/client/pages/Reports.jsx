@@ -223,7 +223,7 @@ const Reports = () => {
             // Structure the earnings and vehicle information
             const earningsDetails = `
         <div style="padding: 20px; font-family: Arial, sans-serif;">
-          <h1 style="text-align: center;">Earnings Report</h1>
+          <h1 style="text-align: center;">Daily Reports</h1>
           <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
             <tr>
               <th style="border: 1px solid black; padding: 8px; text-align: left;">Total Earnings</th>
@@ -321,7 +321,7 @@ const Reports = () => {
                         {/* flex filter and table */}
                         <div className='flex font-bold gap-4 w-full mb-14'>
                               {/* filter */}
-                              <div className='relative mt-32 border-4 shadow-2xl border-deepBlue bg-offWhite min-w-[14vw] flex flex-col justify-center rounded-3xl h-fit gap-2 p-4 py-10'>
+                              <div className='relative mt-16 border-4 shadow-2xl border-deepBlue bg-offWhite min-w-[14vw] flex flex-col justify-center rounded-3xl h-fit gap-2 p-4 py-10'>
                                     <p className='flex border-4 border-deepBlue absolute left-[-35px] top-2 font-bold bg-yeelow py-1 px-12 text-lg rounded-3xl'><FaFilter />Filter Vehicle</p>
 
                                     <p className='mt-12 text-center text-2xl font-bold'>By Wheels</p>
@@ -371,13 +371,14 @@ const Reports = () => {
                               </div>
 
                               {/* Table */}
-                              <div className=' relative border-4 border-deepBlue shadow-2xl max-h-[68vh] overflow-y-auto rounded-3xl bg-offWhite p-6 max-w-[63vw] mt-32'>
+                              <div className=' relative border-4 border-deepBlue shadow-2xl max-h-[68vh] overflow-y-auto rounded-3xl bg-offWhite p-6 max-w-[63vw] mt-16'>
 
                                     <div ref={invoiceRef} className='mt-12'>
                                           <table className='table-fixed border-collapse w-full'>
                                                 <thead>
                                                       <tr>
                                                             <th className='border-2 border-deepBlue p-2'>Ticket Number</th>
+                                                            <th className='border-2 border-deepBlue p-2'>Plate Number</th>
                                                             <th className='border-2 border-deepBlue p-2'>Category</th>
                                                             <th className='border-2 border-deepBlue p-2'>Status</th>
                                                             <th className='border-2 border-deepBlue p-2'>In Time</th>
@@ -406,13 +407,13 @@ const Reports = () => {
                                                             return (
                                                                   <tr key={index} className='text-center'>
                                                                         <td className='border-2 border-deepBlue p-2'>{vehicle.ticketNumber}</td>
+                                                                        <td className='border-2 border-deepBlue p-2'>{vehicle.plateNumber}</td>
                                                                         <td className='border-2 border-deepBlue p-2'>{vehicle.category}</td>
                                                                         <td className='border-2 border-deepBlue p-2'>{vehicle.status ? "In" : "Out"}</td>
                                                                         <td className='border-2 border-deepBlue p-2'>{moment(vehicle.startDate).format(' hh:mm A')}</td>
-                                                                        <td className='border-2 border-deepBlue p-2'>{vehicle.endDate ? moment(vehicle.outTime).format(' hh:mm A') : '-'}</td>
+                                                                        <td className='border-2 border-deepBlue p-2'>{vehicle.endDate ? moment(vehicle.endDate).format(' hh:mm A') : '-'}</td>
                                                                         <td className='border-2 border-deepBlue p-2'>
                                                                               {
-
                                                                                     dayDifference > 0 ? `${dayDifference} days ${hoursDifference} hours ${minutesDifference} mins` : hoursDifference > 0 ? `${hoursDifference} hours  ${minutesDifference} mins` : `${minutesDifference} mins`
                                                                               }
                                                                         </td>

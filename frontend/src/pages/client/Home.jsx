@@ -27,7 +27,6 @@ const Home = () => {
       const [loading, setLoading] = useState(true);
       const [myImg, setMyImg] = useState(null);
 
-      const audioRef = useRef(null); // Ref for audio element
 
       useEffect(() => {
             const fetchSettings = async () => {
@@ -111,14 +110,7 @@ const Home = () => {
             };
       }, []);
 
-      // Start the audio playback when the component mounts
-      useEffect(() => {
-            if (audioRef.current) {
-                  audioRef.current.play().catch(error => {
-                        console.error('Error playing audio:', error);
-                  });
-            }
-      }, []);
+
 
       const myContextValue = [
             socket,
@@ -145,7 +137,6 @@ const Home = () => {
 
       return (
             <div className='bg-no-repeat bg-bottom bg-[url("/BG.png")] bg-cover w-full fixed overflow-auto'>
-                  <audio ref={audioRef} src="/getStarted.mp3" loop hidden></audio>
 
                   <myContext.Provider value={myContextValue}>
                         <Header />
