@@ -16,7 +16,7 @@ export const myContext = createContext();
 const Home = () => {
 
       const [employee, setEmployee] = useState([])
-
+      const [loading, setLoading] = useState(true)
 
       const myContextValue = [employee]
 
@@ -32,6 +32,23 @@ const Home = () => {
                         console.log(err)
                   })
       }, [])
+
+
+      useEffect(() => {
+            setTimeout(() => {
+                  setLoading(false);
+            }, 1000);
+      }, []);
+
+      if (loading) {
+            return (
+                  <div className="bg-[url('/BG.png')] bg-cover flex justify-center items-center h-screen">
+                        {/* <PropagateLoader color="#ff5400" size={30} /> */}
+                        <img src="/moving-car.gif" alt="" />
+                  </div>
+            );
+      }
+
       return (
             <div className='bg-no-repeat bg-bottom bg-[url("/BG.png")] bg-cover w-full fixed overflow-auto'>
 

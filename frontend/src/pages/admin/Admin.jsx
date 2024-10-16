@@ -19,13 +19,23 @@ const Admin = () => {
                               if (admin.username === username && admin.password === password) {
                                     setIsLogin(true);
                                     console.log("ok na")
+
                                     navigate('/admin/home/reports');
+                                    setTimeout(() => {
+                                          Swal.fire({
+                                                position: "center",
+                                                icon: "success",
+                                                title: "Sucessfully logged in!",
+                                                showConfirmButton: false,
+                                                timer: 1500
+                                          });
+                                    }, 1500);
+                              }
+                              else {
                                     Swal.fire({
-                                          position: "center",
-                                          icon: "success",
-                                          title: "Sucessfully logged in!",
-                                          showConfirmButton: false,
-                                          timer: 1500
+                                          title: "LOGIN FAILED!",
+                                          text: "Please check your username and password.",
+                                          icon: "error"
                                     });
                               }
                         })
@@ -35,11 +45,7 @@ const Admin = () => {
                         console.log(err)
                   })
 
-            Swal.fire({
-                  title: "LOGIN FAILED!",
-                  text: "Please check your username and password.",
-                  icon: "error"
-            });
+
       }
 
       return (
