@@ -48,13 +48,10 @@ const Form = () => {
                               </Link>
                         </div>
 
-                        <div className='mt-48 flex justify-start items-center'>
-                              <img src="/cict.png" alt="" />
-                              <img src="/bulsu.png" alt="" />
-                        </div>
+
                   </div>
 
-                  <img src="landing_Car.png" className='h-[120%] z-[-1] mt-[-170px]' />
+                  <img src="landing_Car.png" className='h-[120%] z-[-1] mt-[-200px]' />
             </div>
       );
 }

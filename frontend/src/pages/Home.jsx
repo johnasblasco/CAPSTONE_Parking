@@ -24,8 +24,12 @@ const Home = () => {
       return (
             <div className="h-screen bg-[url('/BG.png')] bg-cover bg-bottom bg-no-repeat">
 
-                  <div className="flex items-center justify-center h-screen">
+                  {/* back button */}
+                  <div data-aos="fade-down" className='absolute w-48 h-48 left-12 cursor-pointer top-[-30px] hover:scale-y-90 '>
+                        <img onClick={() => navigate("/")} src="/BACK.png" alt="" className='absolute w-48 h-48 left-12 cursor-pointer top-[-30px] hover:scale-y-90 ' />
+                  </div>
 
+                  <div className="flex items-center justify-center h-screen">
 
                         <div className="flex flex-col items-center gap-2 pt-12 pr-24 pb-8 bg-[url('/polygon1.png')] w-[650px] h-[650px] bg-contain bg-no-repeat rounded-xl "
                         >

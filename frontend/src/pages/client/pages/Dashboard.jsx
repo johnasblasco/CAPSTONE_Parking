@@ -85,7 +85,7 @@ const Dashboard = () => {
                                     {/* IN AND OUT */}
                                     <div className='flex gap-8 justify-center bg-[#FEF6E4] p-6 rounded-3xl border-4 border-deepBlue'>
 
-                                          <button onClick={handleParkIn} className=' w-[40%] h-[280px] border-4 border-deepBlue rounded-2xl hover:scale-95 bg-greenWich/60 hover:backdrop-brightness-200 contrast-200 p-10 flex flex-col items-center justify-center  '>
+                                          <button onClick={handleParkIn} className=' w-[40%] h-[280px] border-4 border-deepBlue rounded-2xl hover:scale-95 bg-greenWich/70 hover:backdrop-brightness-200 contrast-200 p-10 flex flex-col items-center justify-center  '>
                                                 <div className='flex gap-2'>
                                                       <FaCarSide className='text-7xl' />
                                                       <FaArrowRightToBracket className='text-7xl' />

@@ -225,15 +225,17 @@ const ParkIn = ({ companyName, parkingRules, pricePerTicket, twoWheels, threeAnd
                   </div>
           
                   <div class="plate">
-                    <p>Plate:</p>
+                    <p>Plate Number:</p>
                     <p class="mejo-malaki">${vehicleData.plateNumber}</p>
                   </div>
           
                   <div class="footer">
-                  </br>
+                    <h6>Parking Rules:</h6>
                     <p>${formattedParkingRules}</p>
                   </div>
                   <hr />
+                  <footer>
+                  </footer>
                 </body>
                 </html>
               `);

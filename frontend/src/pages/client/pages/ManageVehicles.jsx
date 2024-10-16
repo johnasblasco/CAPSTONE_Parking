@@ -35,7 +35,7 @@ const ManageVehicles = () => {
       const [twoWheelsRadio, setTwoWheelsRadio] = useState(false);
       const [threeWheelsRadio, setThreeWheelsRadio] = useState(false);
       const [fourWheelsRadio, setFourWheelsRadio] = useState(false);
-      const [IN, setIN] = useState(false);
+      const [IN, setIN] = useState(true);
       const [OUT, setOUT] = useState(false);
 
       const handleIN = () => {
@@ -106,37 +106,70 @@ const ManageVehicles = () => {
             });
 
             if (date) {
-                  const filteredEarnings = allEarnings.filter(earning =>
-                        earning.currentDate.startsWith(date)
-                  );
-
-
-                  // Fetch vehicles for the selected date
-                  await fetchSelectedVehicles(date);
-
-                  Swal.fire("PRINT DATE", date);
-            }
-      }
-
-      const fetchSelectedVehicles = async (date) => {
-            try {
-                  const res = await axios.get('http://localhost:8000/vehicle');
-                  // Check if vehicles have startDate and filter them
-                  const filteredVehicles = res.data.filter(vehicle => {
-                        if (vehicle.startDate) {
-                              const vehicleDate = new Date(vehicle.startDate).toISOString().split('T')[0]; // Extract the date part
-
-                              return vehicleDate === date; // Compare with selected date
-                        }
-                        return false; // Skip if startDate is missing
+                  // Filter by the selected date
+                  const filteredVehicles = allVehicles.filter(vehicle => {
+                        const vehicleDate = new Date(vehicle.startDate).toISOString().split('T')[0];
+                        return vehicleDate === date;
                   });
 
-                  // Set today's vehicles state based on the selected date
-                  setDisplayVehicles(filteredVehicles); // Keep the filtered vehicles for the selected date
-            } catch (error) {
-                  console.error('Error fetching vehicles:', error);
+                  setDisplayVehicles(filteredVehicles); // Set the filtered vehicles to display
+                  Swal.fire("Vehicles filtered by date", date);
             }
       };
+
+
+      const handleEditPlateNumber = async (vehicle) => {
+
+            const { value: newPlateNumber } = await Swal.fire({
+                  title: 'Edit Plate Number',
+                  input: 'text',
+                  inputLabel: 'Enter new plate number',
+                  inputPlaceholder: 'New Plate Number',
+                  showCancelButton: true,
+                  confirmButtonText: 'Save',
+                  cancelButtonText: 'Cancel',
+                  inputValidator: (value) => {
+                        if (!value) {
+                              return 'You need to enter a plate number!';
+                        }
+                  }
+            });
+
+            if (newPlateNumber) {
+                  try {
+                        // Validate the vehicle ID and new plate number
+                        if (!vehicle._id || typeof newPlateNumber !== 'string') {
+                              throw new Error('Invalid vehicle ID or plate number');
+                        }
+
+                        // Prepare the updated vehicle data
+                        const updatedVehicle = { plateNumber: newPlateNumber };
+
+                        // Send the update request to the server
+                        const response = await axios.put(`http://localhost:8000/vehicle/${vehicle._id}`, updatedVehicle);
+                        console.log('Plate number updated successfully:', response.data);
+
+                        // Update displayVehicles to reflect the changes
+                        setDisplayVehicles(prevVehicles =>
+                              prevVehicles.map(v => (v._id === vehicle._id ? { ...v, plateNumber: newPlateNumber } : v))
+                        );
+
+                        Swal.fire({
+                              title: 'Success!',
+                              text: 'Plate number updated successfully!',
+                              icon: 'success',
+                        });
+                  } catch (error) {
+                        console.error('Error updating plate number:', error.message || error);
+                        Swal.fire({
+                              title: 'Error!',
+                              text: 'Failed to update plate number. Please try again.',
+                              icon: 'error',
+                        });
+                  }
+            }
+      };
+
 
       // STEP1: make a refference
       const invoiceRef = useRef();
@@ -152,9 +185,8 @@ const ManageVehicles = () => {
             return { hours, minutes };
       };
 
-      useEffect(() => {
-            setDisplayVehicles(allVehicles)
-      }, [allVehicles])
+
+
 
       // Update timers every minute
       useEffect(() => {
@@ -178,10 +210,10 @@ const ManageVehicles = () => {
 
       };
 
-      const manageParkout = (allVehicles) => {
-            setSelectedVehicle(allVehicles);
+      const manageParkout = (tt) => {
+            setSelectedVehicle(tt);
             setShowPopup(true);
-            setStartDate(allVehicles.startDate)
+            setStartDate(tt.startDate)
       };
 
 
@@ -230,6 +262,13 @@ const ManageVehicles = () => {
                   parkOutAlert()
 
 
+                  // Render the updates
+                  setDisplayVehicles(prevVehicles =>
+                        prevVehicles.map(vehicle =>
+                              vehicle._id === selectedVehicle._id ? vehicleUpdateData : vehicle
+                        )
+                  );
+
             } catch (error) {
                   console.log(error)
             }
@@ -262,11 +301,11 @@ const ManageVehicles = () => {
       const minutesDifference = duration.minutes();
 
 
-      const [search, setSearch] = useState(0);
+      const [search, setSearch] = useState("");
 
       const handleSearch = () => {
-            let filteredVehicles = vehicles;
-            search > 0 ? setDisplayVehicles(filteredVehicles.filter(vehicle => vehicle.ticketNumber == search)) : setDisplayVehicles(vehicles)
+            let filteredVehicles = allVehicles;
+            search != "" ? setDisplayVehicles(filteredVehicles.filter(vehicle => vehicle.plateNumber == search.toUpperCase())) : setDisplayVehicles(allVehicles)
 
       }
 
@@ -320,12 +359,12 @@ const ManageVehicles = () => {
                                     </button>
                               </div>
 
-                              <div className="border-4 overflow-y-auto max-h-[760px] mb-12  border-bloe w-[99%] relative bg-white mx-8 rounded-3xl  flex flex-col px-8 py-4 gap-6 items-center">
+                              <div className="border-4 overflow-y-auto min-h-[760px] max-h-[760px] mb-12  border-bloe w-[99%] relative bg-white mx-8 rounded-3xl  flex flex-col px-8 py-4 gap-6 items-center">
 
                                     <div className='flex items-center justify-center w-full'>
                                           {/* SEARCH */}
                                           <div className='flex items-center gap-4'>
-                                                <input onChange={e => setSearch(e.target.value)} className=" w-[25vw] border-gray-500 py-2 px-4 rounded-2xl  font-bold text-xl text-center border-4 outline-8 outline-bloe placeholder-deepBlue/50" type="text" placeholder='Search by ticket Number' />
+                                                <input onChange={e => setSearch(e.target.value)} className=" w-[25vw] border-gray-500 py-2 px-4 rounded-2xl  font-bold text-xl text-center border-4 outline-8 outline-bloe placeholder-deepBlue/50" type="text" placeholder='Search by Plate Number' />
                                                 <button onClick={handleSearch} className='bg-bloe hover:scale-95 hover:brightness-125 text-white text-xl  font-bold py-2 px-8 rounded-2xl border-2 border-bloe shadow-xl'>Search</button>
                                           </div>
                                     </div>
@@ -362,9 +401,13 @@ const ManageVehicles = () => {
                                                                               {`${hours}:${minutes} hours`}
                                                                         </td>
                                                                         <td >
-                                                                              {vehicle.status ? (<button onClick={() => manageParkout(vehicle)} className='bg-pink py-2 px-3 hover:scale-95 hover:bg-red-500 hover:brightness-90 text-deepBlue rounded-2xl border-4 font-bold border-deepBlue'>Park out</button>) : ("--")}
+                                                                              <button onClick={() => handleEditPlateNumber(vehicle)} className='bg-blue-700 py-2 mr-2 px-8 hover:scale-95 text-white hover:brightness-90  rounded-2xl border-4 font-bold border-white'>Edit</button>
+                                                                              {vehicle.status ? (<button onClick={() => manageParkout(vehicle)} className='bg-pink py-2 px-3 hover:scale-95 hover:bg-red-500 hover:brightness-90 text-offWhite rounded-2xl border-4 font-bold border-offWhite'>Park Out</button>)
+                                                                                    : <span className='bg-pink/30 w-fit py-2 px-3  text-black rounded-2xl border-4 font-bold border-white'><del>Park Out</del></span>
+                                                                              }
 
                                                                         </td>
+
                                                                   </tr>
                                                             )
                                                       })
