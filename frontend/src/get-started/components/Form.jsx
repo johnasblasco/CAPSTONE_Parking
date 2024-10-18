@@ -2,41 +2,58 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 const Form = () => {
-      return (
-            <div className='w-full flex-col '>
-                  <div>
-                        <h2 className='text-8xl tracking-wide text-[#DFBD4E] font-extrabold'>PARK-AID</h2>
-                        <h2 className='text-8xl tracking-widest text-[#001858] font-extrabold'>SYSTEM</h2>
+      const parkAid = "PARK-AID";
+      const system = "SYSTEM";
+      const paragraph = "A Parking system that will help you to park your vehicle in a safe and secure way, right at your fingertips";
 
-                        <p className='mt-10 w-[30%] text-wrap text-lg text-[#001858]'> Lorem ipsum dolor sit amet consectetur adipisicing elit. <br />
-                              Rerum, eaque. Ratione quidem, ipsam reprehenderit ipsum delectus est odio! <br />
-                              Rerum, eaque. Ratione quidem, ipsam reprehenderit ipsum delectus <br />
+      return (
+            <div className=' grid grid-cols-2 grid-rows-1'>
+                  <div>
+                        <h2 className='text-8xl tracking-wide animate-color-change font-extrabold'>
+                              {parkAid.split("").map((letter, index) => (
+                                    <span
+                                          key={index}
+                                          className={`inline-block animate-color-change transition-transform duration-400 hover:animate-scale-text ${letter === " " ? "w-4" : ""}`}
+                                    >
+                                          {letter}
+                                    </span>
+                              ))}
+                        </h2>
+
+                        <h2 className='text-8xl tracking-widest text-offWhite font-extrabold'>
+                              {system.split("").map((letter, index) => (
+                                    <span
+                                          key={index}
+                                          className={`inline-block transition-transform duration-400 hover:scale-125 ${letter === " " ? "w-4" : ""}`}
+                                    >
+                                          {letter}
+                                    </span>
+                              ))}
+                        </h2>
+
+                        <p className='mt-10 w-[60%] text-wrap text-2xl text-white'>
+                              {paragraph.split(" ").map((word, index) => (
+                                    <span
+                                          key={index}
+                                          className="inline-block font-bold  hover:animate-color-change transition-transform duration-400 hover:scale-125 mr-4"
+                                    >
+                                          {word}
+                                    </span>
+                              ))}
                         </p>
 
-
-                        <div className='mt-10 flex gap-4 text-center items-center font-bold'>
-                              <Link to={'/get-started'} className="p-3 rounded-3xl border-[#001858] border-4 bg-[#f582ae] text-[#001858] hover:bg-[#eb518c] hover:text-[#fffeee]">
+                        <div className='mt-12 flex gap-4 text-center items-center font-bold'>
+                              <Link to={'/get-started'} className="hover:scale-90 py-3 px-8 rounded-3xl border-white border-4 bg-yeelow text-darkBloe hover:bg-darkBloe hover:text-yeelow">
                                     GET STARTED
                               </Link>
-
-                              <Link className="p-3 rounded-3xl border-[#001858] border-4 text-[#001858] hover:bg-[#001858] hover:text-white">
-                                    PLAY DEMO
-                              </Link>
                         </div>
 
-                        <div className='mt-10 flex justify-start items-center h-full gap-12'>
-                              <img src="/cict.png" alt="" />
-                              <img src="/parkaid.png" />
-                              <img src="/bulsu.png" alt="" />
-                        </div>
-                  </div>
-
-                  <div>
 
                   </div>
 
+                  <img src="landing_Car.png" className='h-[120%] z-[-1] mt-[-200px]' />
             </div>
-      )
+      );
 }
 
-export default Form
+export default Form;

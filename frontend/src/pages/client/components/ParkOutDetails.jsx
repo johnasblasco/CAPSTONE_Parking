@@ -3,16 +3,13 @@ import { useEffect, useState, useContext } from 'react';
 import { innerContext } from '../pages/Dashboard';
 import moment from 'moment';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
-// PRINT? 
-import React, { useRef } from 'react';
 
-const ParkOutDetails = () => {
+const ParkOutDetails = ({ pricePerTicket, overTimeFees, hoursLimit }) => {
 
-      // STEP1: make a refference
-      const invoiceRef = useRef();
 
-      const [socket, vehicles, setVehicles, showToast, setShowToast, setShowParkIn, setShowParkOut, setDisplayTicket, setShowVehicleData, setSelectedVehicle, selectedVehicle, todayEarn, setTodayEarn, totalEarnings, setTotalEarnings, earnings, setEarnings] = useContext(innerContext)
+      const [socket, vehicles, setVehicles, setShowParkIn, setShowParkOut, setDisplayTicket, setShowVehicleData, setSelectedVehicle, selectedVehicle] = useContext(innerContext)
 
       const startDate = moment(selectedVehicle.startDate);
       const currentDate = moment();
@@ -23,14 +20,45 @@ const ParkOutDetails = () => {
       const dayDifference = duration.days();
       const hoursDifference = duration.hours();
       const minutesDifference = duration.minutes();
+      const [ifOverStay, setIfOverStay] = useState(false)
 
       const handleRemove = async () => {
-            const vehicleUpdateData = {
-                  ...selectedVehicle,
-                  endDate: moment(),
-                  status: false
+            let vehicleUpdateData = {
+
             };
-            console.log("newvehicle here:", vehicleUpdateData)
+
+            // if overstay logic.
+            if ((dayDifference > 0 || hoursDifference > hoursLimit) && hoursLimit != 0) {
+                  setIfOverStay(true)
+                  console.log("overstay to boy")
+                  vehicleUpdateData = {
+                        ...selectedVehicle,
+                        extraCharges: overTimeFees,
+                        endDate: moment(),
+                        status: false
+                  };
+
+
+                  await axios.post("http://localhost:8000/earnings", {
+                        currentDate: new Date().toISOString(),
+                        earnings: overTimeFees
+                  })
+
+                  console.log("newvehicle here:", vehicleUpdateData)
+
+            }
+            else {
+                  setIfOverStay(false)
+                  console.log("not overstay to boy")
+                  vehicleUpdateData = {
+                        ...selectedVehicle,
+                        endDate: moment(),
+                        status: false
+                  };
+                  console.log("newvehicle here:", vehicleUpdateData)
+
+            }
+
 
 
             try {
@@ -48,8 +76,7 @@ const ParkOutDetails = () => {
 
 
                   setShowVehicleData(false)
-                  setShowToast("out")
-
+                  parkOutAlert()
 
 
             } catch (error) {
@@ -58,18 +85,34 @@ const ParkOutDetails = () => {
 
 
       }
+      const parkOutAlert = () => {
+            Swal.fire({
+                  title: "Parkout successful!",
+                  width: 600,
+                  padding: "3em",
+                  color: "#716add",
+                  background: "#fff",
+                  backdrop: `
+                    rgba(0,0,123,0.4)
+                    url("/moving-car.gif")
+                    left top
+                    no-repeat
+                  `
+            });
+      }
 
       return (
             <>
                   <div className='fixed w-screen h-screen bg-black/40 z-50'>
-                        <div className='fixed inset-0 flex items-center justify-center bg-black/40'>
+                        <div className='fixed inset-0 flex items-center justify-center bg-deepBlue/40'>
 
-                              <div className={`relative lg:min-w-[45vw] md:max-w-[20vw] sm:max-w-[10vw] bg-[#D9D9D9] shadow-lg rounded-2xl flex flex-col gap-8  p-8 w-full h-5/6`}>
-                                    <IoMdClose onClick={() => setShowVehicleData(false)} className='text-3xl absolute top-2 right-2 cursor-pointer' />
+                              {/* FORM */}
+                              <div className={`relative bg-offWhite shadow-lg rounded-3xl flex flex-col gap-8 items-center p-20 `}>
+                                    <IoMdClose onClick={() => setShowVehicleData(false)} className='text-5xl absolute top-4 right-4 cursor-pointer' />
 
-                                    <h2 className='text-3xl font-bold mb-4 text-center '>Parking Out</h2>
+                                    <h2 className='text-6xl text-bloe font-bold text-center '>Parking Out</h2>
 
-                                    <div className='bg-[#D1D0CA] w-full rounded-2xl flex justify-between px-10 font-bold'>
+                                    <div className='bg-[#EEE4E4] w-full rounded-2xl gap-8 flex justify-between p-8 font-bold'>
                                           <div>
                                                 <p>Ticket Number</p>
                                                 <p>Date</p>
@@ -80,7 +123,7 @@ const ParkOutDetails = () => {
 
                                           <div className='border border-[#0000004F] my-2'></div>
 
-                                          <div className=''>
+                                          <div className='text-right'>
                                                 <p>{selectedVehicle.ticketNumber}</p>
                                                 <p>{moment(new Date(selectedVehicle.startDate)).format("DD-MM-YY")}</p>
                                                 <p>{selectedVehicle.category}</p>
@@ -97,11 +140,11 @@ const ParkOutDetails = () => {
 
                                     <div className='flex my-auto items-center gap-6 '>
                                           <div>
-                                                <p>Total Charge: <b> Php.20.00</b> </p>
-                                                {hoursDifference >= 3 && <p className='ml-24 font-bold'>(+ overstay)</p>}
+                                                <p>Total Charge: <b> Php.{pricePerTicket}.00</b> </p>
+                                                {(hoursDifference >= hoursLimit && hoursLimit != 0) && <p className='ml-24 font-bold'>(+ overstay)</p>}
                                           </div>
 
-                                          <button onClick={handleRemove} className='bg-[#B96F6F] hover:bg-[#c73838] py-2 px-8 text-2xl font-bold rounded-2xl text-white'>Remove</button>
+                                          <button onClick={handleRemove} className='bg-pink border-4 border-bloe hover:bg-[#c73838] py-2 px-8 text-2xl font-bold rounded-2xl text-white'>Remove</button>
                                     </div>
 
 

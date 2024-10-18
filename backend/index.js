@@ -1,23 +1,18 @@
 import { PORT, DATABASE } from './config.js';
 import axios from 'axios';
-// server imports
 import express from 'express';
 import { Server } from 'socket.io';
 import cors from 'cors';
-
-// database imports
 import mongoose from 'mongoose';
+import path from 'path';  // Import path for absolute directory
 
 // import routes
 import userR from './routes/userR.js';
 import adminR from './routes/adminR.js';
 import vehicleR, { vehicleInit } from './routes/vehicleR.js';
 import earningsR, { earningsInit } from './routes/earningsR.js';
-
-// Multer for handling file uploads
-import multer from 'multer';
-import path from 'path';
-import fs from 'fs';
+import settingsR from './routes/settingsR.js';
+import uploadR from './routes/uploadR.js';
 
 // use express
 const app = express();
@@ -26,48 +21,19 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Static folder for serving uploaded files
-app.use(express.static('public'));
+// Serve static files from frontend/public/uploads
+const __dirname = path.resolve();
+app.use('/uploads', express.static(path.join(__dirname, '../frontend/public/uploads')));
 
 // Routes
 app.use('/admin', adminR);
 app.use('/user', userR);
 app.use('/vehicle', vehicleR);
 app.use('/earnings', earningsR);
+app.use('/settings', settingsR);
+app.use('/upload', uploadR);
 
-// Setup Multer for storing files in the public/uploads folder
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const dir = './public/uploads';
-    
-    // Create the uploads folder if it doesn't exist
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
-
-    cb(null, dir); // Files will be saved in 'public/uploads'
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, uniqueSuffix + path.extname(file.originalname)); // Append the original file extension
-  }
-});
-
-// Multer middleware
-const upload = multer({ storage });
-
-// File upload route
-app.post('/upload', upload.single('image'), (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ error: 'No file uploaded' });
-  }
-
-  // Send back the file path to the client
-  const filePath = `/uploads/${req.file.filename}`;
-  res.json({ message: 'File uploaded successfully', filePath });
-});
-
-// Database/Mongo
+// Database/Mongo connection
 const Connection = async () => {
   try {
     await mongoose.connect(DATABASE);
@@ -91,7 +57,7 @@ const io = new Server(expressServer, { cors: { origin: '*' } });
 io.on('connection', socket => {
   console.log(`User ${socket.id} connected boss`);
 
-  // Send this to all
+  // Send this to all kupal
   const initialData = async () => {
     const vehicle = await axios.get('http://localhost:8000/vehicle');
     socket.emit('vehicles', vehicle.data);

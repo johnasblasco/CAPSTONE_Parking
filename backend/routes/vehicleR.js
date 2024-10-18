@@ -30,7 +30,8 @@ router.post('/', async(req,res) => {
                   plateNumber : req.body.plateNumber,
                   category : req.body.category,
                   endDate : null,
-                  status : true
+                  status : true,
+                  extraCharges: 0,
             }
 
             const vehicle = await VEHICLE.create(newVehicle);

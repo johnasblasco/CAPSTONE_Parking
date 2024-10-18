@@ -20,3 +20,37 @@
     text-stroke-color: #000000;
   }
 }
+
+/* index.css */
+
+/* Customize the SweetAlert2 popup */
+.swal2-popup {
+      font-family: 'Inter', 'Arial', sans-serif; /* Change font */
+      border-radius: 0.5rem; /* Rounded corners */
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+  }
+  
+  .swal2-title {
+      @apply text-2xl font-semibold text-gray-800; /* Tailwind utility classes */
+  }
+  
+  .swal2-content {
+      @apply text-gray-600; /* Tailwind utility classes */
+  }
+  
+  .swal2-confirm {
+      @apply bg-green-500 m-2 text-white text-xl font-bold py-2 px-4 rounded-lg hover:bg-green-700; /* Confirm button styles */
+  }
+  
+  .swal2-cancel {
+      @apply bg-pink m-2 text-white font-bold text-xl py-2 px-4 rounded-lg hover:bg-red-600; /* Cancel button styles */
+  }
+  
+
+  @layer base {
+      * {
+        transition-duration: 400ms;
+        transition-timing-function: ease;
+      }
+    }
+    

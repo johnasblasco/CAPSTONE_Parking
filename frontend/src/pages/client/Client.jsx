@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { FaAngleLeft } from "react-icons/fa6";
 
+import Swal from 'sweetalert2';
 const Client = () => {
 
       const navigate = useNavigate();
@@ -11,17 +11,6 @@ const Client = () => {
       const [password, setPassword] = useState('');
       const [isLogin, setIsLogin] = useState(false);
       const [error, setError] = useState(null);
-
-      //solution if may hindi nakapag log out
-      // axios.get("http://localhost:8000/user")
-      //       .then((user) => {
-      //             const isLogin = user.data.find((user) => user.login)
-      //             if (isLogin) navigate('/user/dashboard', { replace: true });
-
-      //       })
-      //       .catch(err => console.log(err))
-      // console.log("wala")
-
 
       const handleLogin = async () => {
             try {
@@ -31,12 +20,16 @@ const Client = () => {
                   const user = response.data.find((user) => user.username === username && user.password === password && user.status === true);
                   if (!user) {
 
-                        toast.error('User Not Found!');
+                        Swal.fire({
+                              title: "LOGIN FAILED!",
+                              text: "Please check your username and password.",
+                              icon: "error"
+                        });
                         return
                   }
                   setIsLogin(true);
                   console.log("Login successful");
-                  navigate('/user/dashboard', { replace: true });
+                  navigate('/user/home/dashboard', { replace: true });
 
                   // Make a log of the data
                   const now = new Date();
@@ -61,17 +54,27 @@ const Client = () => {
       };
 
       return (
-            <div className="h-screen bg-[#F3D2C1] ">
+            <div className="h-screen bg-[url('/BG.png')] bg-cover bg-bottom bg-no-repeat">
+
 
                   <div className="flex items-center justify-center h-screen">
 
+                        {/* back button */}
+                        <div data-aos="fade-up" data-aos-duration="500" className='absolute w-48 h-48 left-12 cursor-pointer top-[-160px] hover:scale-y-90 '>
+                              <img onClick={() => navigate("/")} src="/BACK.png" alt="" className='absolute w-48 h-48 left-12 cursor-pointer top-[-30px] hover:scale-y-90 ' />
+                        </div>
 
-                        <div className="flex flex-col items-center gap-2 pt-28  pb-8 bg-[url('polygon1.png')] w-[650px] h-[650px] bg-contain bg-no-repeat rounded-xl "
+                        <div className=" relative flex flex-col items-center pr-24 gap-2 pt-28  pb-8 bg-[url('/polygon1.png')] w-[650px] h-[650px] h-max-700:h-[550px] h-max-700:w-[550px] bg-contain bg-no-repeat rounded-xl "
                         >
-                              <div className="text-center text-[#001858]">
-                                    <h3 className="text-6xl font-extrabold">SIGN IN</h3>
-                                    <p className="text-2xl">TO PARKAID</p>
+                              <div onClick={() => navigate("/login")} className='hover:scale-90 absolute top-8 left-8 cursor-pointer flex items-center'>
+                                    <FaAngleLeft className='text-4xl' />
+                                    <p className='text-darkBloe font-bold  text-2xl'>Back </p>
                               </div>
+
+
+                              <p className='text-6xl text-darkBloe font-extrabold'>SIGN IN</p>
+                              <p className='text-xl text-darkBloe font-bold'>TO PARKAID</p>
+
 
                               <div className="flex flex-col gap-4 pt-12 font-bold">
                                     <input
@@ -94,26 +97,13 @@ const Client = () => {
 
 
                                     <button
-                                          className="self-center bg-[#8ED8A9] py-3 px-12 mt-4 w-fit text-2xl border-4 border-[#001858]  text-[#001858] rounded-3xl  hover:bg-[#72c791]"
+                                          className="self-center bg-yeelow hover:scale-90 py-3 px-12 mt-4 w-fit text-2xl border-4 border-bloe text-bloe rounded-3xl"
                                           onClick={handleLogin}
                                     >
                                           CONTINUE
                                     </button>
                               </div>
                         </div>
-                        <ToastContainer
-                              position="bottom-right"
-                              autoClose={2000}
-                              hideProgressBar={false}
-                              newestOnTop={false}
-                              closeOnClick
-                              rtl={false}
-                              pauseOnFocusLoss
-                              draggable
-                              pauseOnHover
-                              theme="light"
-                              transition:Bounce
-                        />
                   </div>
 
 

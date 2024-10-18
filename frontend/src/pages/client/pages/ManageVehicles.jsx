@@ -1,168 +1,336 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
+import { MdCheckBoxOutlineBlank, MdCheckBox } from "react-icons/md";
+import { FaFilter } from "react-icons/fa";
 import { myContext } from '../Home';
 import moment from 'moment';
 import { IoMdClose } from 'react-icons/io';
 import axios from 'axios';
-import Toast from '../components/Toast';
-
+import Swal from 'sweetalert2';
 
 const ManageVehicles = () => {
       const [timers, setTimers] = useState({});
       const [showPopup, setShowPopup] = useState(false);
       const [selectedVehicle, setSelectedVehicle] = useState(null);
-      const [showToast, setShowToast] = useState('');
+      const [displayVehicles, setDisplayVehicles] = useState([]);
+      const [search, setSearch] = useState("");
 
-      const [socket, allVehicles, totalEarnings, todayEarn, setTodayEarn, yesterdayEarnings, vehicles, setVehicles, setTotalEarnings, earnings, setEarnings] = useContext(myContext)
+      const [
+            socket,
+            allVehicles,
+            setAllVehicles,
+            vehicles,
+            setVehicles,
+            companyName,
+            parkingRules,
+            twoWheels,
+            threeAndFourWheels,
+            pricePerTicket,
+            hoursLimit,
+            overTimeFees,
+      ] = useContext(myContext);
 
+      // Radio button states
+      const [twoWheelsRadio, setTwoWheelsRadio] = useState(false);
+      const [threeWheelsRadio, setThreeWheelsRadio] = useState(false);
+      const [fourWheelsRadio, setFourWheelsRadio] = useState(false);
+      const [IN, setIN] = useState(true);
+      const [OUT, setOUT] = useState(false);
 
+      // Handle radio button clicks
+      const handleIN = () => { setIN(true); setOUT(false); }
+      const handleOUT = () => { setIN(false); setOUT(true); }
+      const handleTwo = () => { setTwoWheelsRadio(true); setThreeWheelsRadio(false); setFourWheelsRadio(false); };
+      const handleThree = () => { setTwoWheelsRadio(false); setThreeWheelsRadio(true); setFourWheelsRadio(false); };
+      const handleFour = () => { setTwoWheelsRadio(false); setThreeWheelsRadio(false); setFourWheelsRadio(true); };
 
-      // STEP1: make a refference
-      const invoiceRef = useRef();
+      // Update table based on radio button selection
+      useEffect(() => {
+            let filteredVehicles = allVehicles;
 
-      // Format duration into hours and minutes
+            // Filter by category
+            if (twoWheelsRadio) {
+                  filteredVehicles = filteredVehicles.filter(vehicle => vehicle.category === '2 Wheels');
+            } else if (threeWheelsRadio) {
+                  filteredVehicles = filteredVehicles.filter(vehicle => vehicle.category === '3 Wheels');
+            } else if (fourWheelsRadio) {
+                  filteredVehicles = filteredVehicles.filter(vehicle => vehicle.category === '4 Wheels');
+            }
+
+            // Filter by status
+            if (IN) {
+                  filteredVehicles = filteredVehicles.filter(vehicle => vehicle.status === true);
+            } else if (OUT) {
+                  filteredVehicles = filteredVehicles.filter(vehicle => vehicle.status === false);
+            }
+
+            // Filter by search term
+            if (search) {
+                  filteredVehicles = filteredVehicles.filter(vehicle => vehicle.plateNumber.toUpperCase().includes(search.toUpperCase()));
+            }
+
+            setDisplayVehicles(filteredVehicles);
+      }, [twoWheelsRadio, threeWheelsRadio, fourWheelsRadio, allVehicles, IN, OUT, search]);
+
+      // Handle Date Selection
+      const handleDateSelection = async () => {
+            const pastMinimumDate = new Date('2024-01-01').toISOString().split('T')[0];
+            const { value: date } = await Swal.fire({
+                  title: "Select Departure Date",
+                  input: "date",
+                  inputAttributes: { required: true, min: pastMinimumDate },
+                  showCancelButton: true,
+                  confirmButtonText: "Submit",
+            });
+
+            if (date) {
+                  const filteredVehicles = allVehicles.filter(vehicle => {
+                        const vehicleDate = new Date(vehicle.startDate).toISOString().split('T')[0];
+                        return vehicleDate === date;
+                  });
+
+                  setDisplayVehicles(filteredVehicles);
+                  Swal.fire("Vehicles filtered by date", date);
+            }
+      };
+
+      const handleEditPlateNumber = async (vehicle) => {
+            const { value: newPlateNumber } = await Swal.fire({
+                  title: 'Edit Plate Number',
+                  input: 'text',
+                  inputLabel: 'Enter new plate number',
+                  inputPlaceholder: 'New Plate Number',
+                  showCancelButton: true,
+                  confirmButtonText: 'Save',
+                  cancelButtonText: 'Cancel',
+                  inputValidator: (value) => {
+                        if (!value) {
+                              return 'You need to enter a plate number!';
+                        }
+                  }
+            });
+
+            if (newPlateNumber) {
+                  try {
+                        const updatedVehicle = { plateNumber: newPlateNumber };
+                        const response = await axios.put(`http://localhost:8000/vehicle/${vehicle._id}`, updatedVehicle);
+                        console.log('Plate number updated successfully:', response.data);
+
+                        setDisplayVehicles(prevVehicles =>
+                              prevVehicles.map(v => (v._id === vehicle._id ? { ...v, plateNumber: newPlateNumber } : v))
+                        );
+
+                        Swal.fire({
+                              title: 'Success!',
+                              text: 'Plate number updated successfully!',
+                              icon: 'success',
+                        });
+                  } catch (error) {
+                        console.error('Error updating plate number:', error.message || error);
+                        Swal.fire({
+                              title: 'Error!',
+                              text: 'Failed to update plate number. Please try again.',
+                              icon: 'error',
+                        });
+                  }
+            }
+      };
+
+      const manageParkout = (tt) => {
+            setSelectedVehicle(tt);
+            setShowPopup(true);
+      };
+
+      const [ifOverStay, setIfOverStay] = useState(false);
+
+      const handleRemove = async () => {
+            let vehicleUpdateData = {};
+
+            if ((dayDifference > 0 || hoursDifference > hoursLimit) && hoursLimit != 0) {
+                  setIfOverStay(true);
+                  vehicleUpdateData = {
+                        ...selectedVehicle,
+                        extraCharges: overTimeFees,
+                        endDate: moment(),
+                        status: false
+                  };
+
+                  await axios.post("http://localhost:8000/earnings", {
+                        currentDate: new Date().toISOString(),
+                        earnings: overTimeFees
+                  });
+
+                  console.log("newvehicle here:", vehicleUpdateData);
+            } else {
+                  setIfOverStay(false);
+                  vehicleUpdateData = {
+                        ...selectedVehicle,
+                        endDate: moment(),
+                        status: false
+                  };
+                  console.log("newvehicle here:", vehicleUpdateData);
+            }
+
+            try {
+                  await axios.put(`http://localhost:8000/vehicle/${selectedVehicle._id}`, vehicleUpdateData);
+                  setShowPopup(false);
+                  parkOutAlert();
+
+                  setDisplayVehicles(prevVehicles =>
+                        prevVehicles.map(vehicle =>
+                              vehicle._id === selectedVehicle._id ? vehicleUpdateData : vehicle
+                        )
+                  );
+            } catch (error) {
+                  console.log(error);
+            }
+      };
+
+      const parkOutAlert = () => {
+            Swal.fire({
+                  title: "Parkout successful!",
+                  width: 600,
+                  padding: "3em",
+                  color: "#716add",
+                  background: "#fff",
+                  backdrop: `
+                rgba(0,0,123,0.4)
+                url("/moving-car.gif")
+                left top
+                no-repeat
+            `
+            });
+      };
+
+      const [startDate, setStartDate] = useState(new Date());
+      const currentDate = moment();
+
+      const duration = moment.duration(currentDate.diff(startDate));
+      const dayDifference = duration.days();
+      const hoursDifference = duration.hours();
+      const minutesDifference = duration.minutes();
+
       const formatTime = (startDate) => {
             const startTime = moment(startDate);
-            const endTime = moment(); // Assuming current time is end time
+            const endTime = moment();
             const duration = moment.duration(endTime.diff(startTime));
 
             const hours = Math.floor(duration.asHours());
-            const minutes = duration.minutes() > 9 ? duration.minutes() : "0" + duration.minutes()
+            const minutes = duration.minutes() > 9 ? duration.minutes() : "0" + duration.minutes();
             return { hours, minutes };
       };
 
-      // Update timers every minute
+      const invoiceRef = useRef();
+
       useEffect(() => {
             const intervalId = setInterval(() => {
-                  // Create new timers object with updated durations
                   const updatedTimers = {};
                   vehicles.forEach((vehicle, index) => {
                         const { hours, minutes } = formatTime(vehicle.startDate);
                         updatedTimers[index] = { hours, minutes };
                   });
                   setTimers(updatedTimers);
-            }, 60000); // Update every minute (60000 milliseconds)
+            }, 60000);
 
-            // Clear interval on component unmount
             return () => clearInterval(intervalId);
-      }, [vehicles]);
+      }, [allVehicles]);
 
-      // Determine if vehicle is overtime
       const isOvertime = (hours) => {
-            return hours >= 3;
+            return hours >= hoursLimit && hoursLimit != 0;
       };
-
-      const manageParkout = (vehicle) => {
-            setSelectedVehicle(vehicle);
-            setShowPopup(true);
-            setStartDate(vehicle.startDate)
-      };
-
-      const handleRemove = async () => {
-
-            const vehicleUpdateData = {
-                  ...selectedVehicle,
-                  endDate: moment(),
-                  status: false
-            };
-
-            try {
-                  await axios.put(`http://localhost:8000/vehicle/${selectedVehicle._id}`, vehicleUpdateData)
-                  setShowPopup(false)
-                  setShowToast("out")
-
-
-            } catch (error) {
-                  console.log(error)
-            }
-      }
-
-      const [startDate, setStartDate] = useState(new Date())
-      const currentDate = moment();
-
-
-      // Calculate the difference in hours and minutes
-      const duration = moment.duration(currentDate.diff(startDate));
-
-      const dayDifference = duration.days();
-      const hoursDifference = duration.hours();
-      const minutesDifference = duration.minutes();
-
-
-
-      // search
-      const [getVehicles, getSetVehicles] = useState(vehicles)
-      const [search, setSearch] = useState(0);
-      console.log(search)
-      const handleSearch = () => {
-            let filteredVehicles = vehicles;
-            search > 0 ? setVehicles(filteredVehicles.filter(vehicle => vehicle.ticketNumber == search)) : setVehicles(getVehicles)
-
-      }
-
 
       return (
             <>
-                  <div className='mx-[10%] mt-[20vh] w-[80vw] text-deepBlue'>
-                        <div className="title flex justify-center">
-                              <h2 className='text-5xl my-8 font-extrabold' >Manage Vehicles</h2>
-                        </div>
+                  <div className='mx-[9%] h-max-700:mt-[35vh] mt-[25vh] w-[80vw] text-deepBlue'>
+                        <div className='flex font-bold gap-4 w-full'>
+                              <div className='relative mt-32 border-4 shadow-2xl border-deepBlue bg-offWhite min-w-[14vw] flex flex-col justify-center rounded-3xl h-fit gap-2 p-4 py-10'>
+                                    <p className='flex border-4 border-deepBlue absolute left-[-35px] top-2 font-bold bg-yeelow py-1 px-12 text-lg rounded-3xl'><FaFilter />Filter</p>
 
-                        {/* CONTENT */}
-                        <div className=" w-full relative bg-offWhite mx-8 rounded-3xl min-h-screen h-auto flex flex-col px-8 py-4 gap-6 items-center">
-                              <p className='border-4 border-deepBlue absolute left-[-35px] bg-yeelow py-1 px-4 text-lg rounded-3xl '>Currently Parked</p>
+                                    <p className='mt-12 text-center text-2xl font-bold'>By Wheels</p>
 
+                                    <div className='flex justify-center gap-4 my-4'>
+                                          <div className='flex justify-center items-center gap-3'>
+                                                {twoWheelsRadio ? (<MdCheckBox onClick={() => setTwoWheelsRadio(!twoWheelsRadio)} className='text-4xl' />) : (<MdCheckBoxOutlineBlank onClick={handleTwo} className='text-4xl' />)}
+                                                <label>2</label>
+                                          </div>
 
-                              <div className='flex items-center justify-center w-full'>
-                                    {/* SEARCH */}
-                                    <div className='flex items-center gap-4'>
-                                          <input onChange={e => setSearch(e.target.value)} className=" w-[25vw] bg-lightBlue py-1 px-4 rounded-3xl  font-bold text-xl text-center border-4 border-deepBlue outline-none placeholder-black/50" type="text" placeholder='Search' />
-                                          <button onClick={handleSearch} className='bg-greenWich text-deepBlue font-bold py-1 px-4 rounded-3xl border-4 border-deepBlue'>Search</button>
+                                          <div className='flex justify-center items-center gap-3'>
+                                                {threeWheelsRadio ? (<MdCheckBox onClick={() => setThreeWheelsRadio(!threeWheelsRadio)} className='text-4xl' />) : (<MdCheckBoxOutlineBlank onClick={handleThree} className='text-4xl' />)}
+                                                <p>3</p>
+                                          </div>
+
+                                          <div className='flex justify-center items-center gap-3'>
+                                                {fourWheelsRadio ? (<MdCheckBox onClick={() => setFourWheelsRadio(!fourWheelsRadio)} className='text-4xl' />) : (<MdCheckBoxOutlineBlank onClick={handleFour} className='text-4xl' />)}
+                                                <p>4</p>
+                                          </div>
                                     </div>
 
+                                    <p className='mt-12 text-center text-2xl font-bold'>By Status</p>
+                                    <div className='flex justify-center gap-4 my-4'>
+                                          <div className='flex justify-center items-center gap-3'>
+                                                {IN ? (<MdCheckBox onClick={() => setIN(!IN)} className='text-4xl' />) : (<MdCheckBoxOutlineBlank onClick={handleIN} className='text-4xl' />)}
+                                                <label>In</label>
+                                          </div>
+                                          <div className='flex justify-center items-center gap-3'>
+                                                {OUT ? (<MdCheckBox onClick={() => setOUT(!OUT)} className='text-4xl' />) : (<MdCheckBoxOutlineBlank onClick={handleOUT} className='text-4xl' />)}
+                                                <p>Out</p>
+                                          </div>
+                                    </div>
 
+                                    <p className='mt-12 text-center text-2xl font-bold'>By Date</p>
+                                    <button onClick={handleDateSelection} className='m-4 h-12 bg-greenWich hover:scale-95 rounded-2xl p-2 px-4 text-white' >
+                                          <FaFilter className='inline' /> MM/DD/YYYY
+                                    </button>
                               </div>
 
+                              <div className="border-4 overflow-y-auto min-h-[760px] max-h-[760px] mb-12  border-bloe w-[99%] relative bg-white mx-8 rounded-3xl  flex flex-col px-8 py-4 gap-6 items-center">
 
+                                    <div className='flex items-center justify-center w-full'>
+                                          <div className='flex items-center gap-4'>
+                                                <input onChange={e => setSearch(e.target.value)} className=" w-[25vw] border-gray-500 py-2 px-4 rounded-2xl  font-bold text-xl text-center border-4 outline-8 outline-bloe placeholder-deepBlue/50" type="text" placeholder='Search by Plate Number' />
+                                                <button onClick={() => { }} className='bg-bloe hover:scale-95 hover:brightness-125 text-white text-xl  font-bold py-2 px-8 rounded-2xl border-2 border-bloe shadow-xl'>Search</button>
+                                          </div>
+                                    </div>
 
+                                    <table className='w-full text-center mt-16'>
+                                          <thead>
+                                                <tr className='border-b-4 border-deepBlue'>
+                                                      <th className='border-r-4 border-deepBlue'>Ticket No.</th>
+                                                      <th className='border-r-4 border-deepBlue'>Date</th>
+                                                      <th className='border-r-4 border-deepBlue'>Plate No.</th>
+                                                      <th className='border-r-4 border-deepBlue'>Category</th>
+                                                      <th className='border-r-4 border-deepBlue'>Total Time</th>
+                                                      <th >Action</th>
+                                                </tr>
+                                          </thead>
 
-
-                              <table className='w-full text-center mt-16'>
-                                    <thead>
-                                          <tr className='border-b-4 border-deepBlue'>
-                                                <th className='border-r-4 border-deepBlue'>Ticket No.</th>
-                                                <th className='border-r-4 border-deepBlue'>Date</th>
-                                                <th className='border-r-4 border-deepBlue'>Plate No.</th>
-                                                <th className='border-r-4 border-deepBlue'>Category</th>
-                                                <th className='border-r-4 border-deepBlue'>Total Time</th>
-                                                <th className='border-r-4 border-deepBlue'>Action</th>
-                                          </tr>
-                                    </thead>
-
-                                    <tbody>
-                                          {
-
-                                                vehicles.map((vehicle, index) => {
+                                          <tbody>
+                                                {displayVehicles.map((vehicle, index) => {
                                                       const { hours, minutes } = timers[index] || formatTime(vehicle.startDate);
                                                       const overtime = isOvertime(hours);
                                                       return (
-
-
                                                             <tr key={index} className={`text-center h-10 ${overtime ? '' : ''}  `}>
                                                                   <td className='border-r-4 border-deepBlue'>{vehicle.ticketNumber}</td>
-                                                                  <td className='border-r-4 border-deepBlue'>{moment(new Date(vehicle.startDate)).format('DD-MM-YY')}</td>
+                                                                  < td className='border-r-4 border-deepBlue'>{moment(new Date(vehicle.startDate)).format('DD-MM-YY')}</td>
                                                                   <td className='border-r-4 border-deepBlue'>{vehicle.plateNumber}</td>
                                                                   <td className='border-r-4 border-deepBlue'>{vehicle.category}</td>
                                                                   <td className={` border-r-4 border-deepBlue ${overtime ? 'text-[#892121]' : ''}`}>
                                                                         {`${hours}:${minutes} hours`}
                                                                   </td>
-                                                                  <td className='border-r-4 border-deepBlue'><button onClick={() => manageParkout(vehicle)} className='bg-pink py-1 px-2 text-deepBlue rounded-2xl border-4 font-bold border-deepBlue'>Park out</button></td>
+                                                                  <td >
+                                                                        <button onClick={() => handleEditPlateNumber(vehicle)} className='bg-blue-700 py-2 mr-2 px-8 hover:scale-95 text-white hover:brightness-90  rounded-2xl border-4 font-bold border-white'>Edit</button>
+                                                                        {vehicle.status ? (<button onClick={() => manageParkout(vehicle)} className='bg-pink py-2 px-3 hover:scale-95 hover:bg-red-500 hover:brightness-90 text-offWhite rounded-2xl border-4 font-bold border-offWhite'>Park Out</button>)
+                                                                              : <span className='bg-pink/30 w-fit py-2 px-3  text-black rounded-2xl border-4 font-bold border-white'><del>Park Out</del></span>
+                                                                        }
+
+                                                                  </td>
+
                                                             </tr>
                                                       )
-                                                })
-                                          }
-                                    </tbody>
-                              </table>
+                                                })}
+                                          </tbody>
+                                    </table>
 
+                              </div>
                         </div>
 
                   </div>
@@ -170,14 +338,14 @@ const ManageVehicles = () => {
                   {
                         showPopup && (
                               <div className='fixed w-screen h-screen bg-black/40 z-50'>
-                                    <div className='fixed inset-0 flex items-center justify-center bg-black/40'>
+                                    <div className='fixed inset-0 flex items-center justify-center bg-deepBlue/40'>
 
-                                          <div className={`relative lg:min-w-[45vw] md:max-w-[20vw] sm:max-w-[10vw] bg-[#D9D9D9] shadow-lg rounded-2xl flex flex-col gap-8  p-8 w-full h-5/6`}>
-                                                <IoMdClose onClick={() => { setShowPopup(false) }} className='text-3xl absolute top-2 right-2 cursor-pointer' />
+                                          <div className={`relative bg-offWhite shadow-lg rounded-3xl flex flex-col gap-8 items-center p-20 `}>
+                                                <IoMdClose onClick={() => setShowPopup(false)} className='text-5xl absolute top-4 right-4 cursor-pointer' />
 
-                                                <h2 className='text-3xl font-bold mb-4 text-center '>Parking Out</h2>
+                                                <h2 className='text-6xl text-bloe font-bold text-center '>Parking Out</h2>
 
-                                                <div className='bg-[#D1D0CA] w-full rounded-2xl flex justify-between px-10 font-bold'>
+                                                <div className='bg-[#EEE4E4] w-full rounded-2xl gap-8 flex justify-between p-8 font-bold'>
                                                       <div>
                                                             <p>Ticket Number</p>
                                                             <p>Date</p>
@@ -186,8 +354,9 @@ const ManageVehicles = () => {
                                                             <p>Status</p>
                                                       </div>
 
+                                                      <div className='border border-[#0000004F] my-2'></div>
 
-                                                      <div className=''>
+                                                      <div className='text-right'>
                                                             <p>{selectedVehicle.ticketNumber}</p>
                                                             <p>{moment(new Date(selectedVehicle.startDate)).format("DD-MM-YY")}</p>
                                                             <p>{selectedVehicle.category}</p>
@@ -204,11 +373,11 @@ const ManageVehicles = () => {
 
                                                 <div className='flex my-auto items-center gap-6 '>
                                                       <div>
-                                                            <p>Total Charge: <b> Php.20.00</b> </p>
-                                                            {hoursDifference >= 3 && <p className='ml-24 font-bold'>(+ overstay)</p>}
+                                                            <p>Total Charge: <b> Php.{pricePerTicket}.00</b> </p>
+                                                            {(hoursDifference >= hoursLimit && hoursLimit != 0) && <p className='ml-24 font-bold'>(+ overstay)</p>}
                                                       </div>
 
-                                                      <button onClick={handleRemove} className='bg-[#B96F6F] hover:bg-[#c73838] py-2 px-8 text-2xl font-bold rounded-2xl text-white'>Remove</button>
+                                                      <button onClick={handleRemove} className='bg-pink border-4 border-bloe hover:bg-[#c73838] py-2 px-8 text-2xl font-bold rounded-2xl text-white'>Remove</button>
                                                 </div>
 
 
@@ -217,15 +386,6 @@ const ManageVehicles = () => {
                               </div>
                         )
                   }
-                  {/* TOAST */}
-                  {
-                        showToast == "out" && <Toast setShowToast={setShowToast} title={"Vehicle removed!"} disc={"Vehicle has been removed to the database."} />
-                  }
-
-                  {/*STEP 3: RECEIPT HERE HIDDEN */}
-                  < div ref={invoiceRef} className="mt-4 hidden" >
-                        <h1>Thank you kufal</h1>
-                  </div >
             </>
       )
 }

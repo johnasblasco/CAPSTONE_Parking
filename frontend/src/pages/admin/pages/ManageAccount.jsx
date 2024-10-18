@@ -1,234 +1,247 @@
-import React, { useEffect, useState } from 'react'
-import { IoCloseOutline } from "react-icons/io5";
-import axios from 'axios'
+import React, { useEffect, useState, useRef, useCallback } from 'react';
+import axios from 'axios';
 import etits, { Toaster } from 'react-hot-toast';
-import Navbar from '../components/Navbar';
-import Header from '../components/Header';
+import { MdLocalPrintshop } from "react-icons/md";
+import Swal from 'sweetalert2';
+import { FaFilter } from "react-icons/fa";
 
 const ManageAccount = () => {
+      const invoiceRef = useRef(null);
 
       const [users, setUsers] = useState([]);
       const [editName, setEditName] = useState("");
       const [editUsername, setEditUsername] = useState("");
       const [editPassword, setEditPassword] = useState("");
-
-      const [editShow, setEditShow] = useState(false);
-
-
-      // Cleanup function to clear all toasts when component unmounts
-      useEffect(() => {
-            return () => {
-                  etits.dismiss(); // Dismiss all toasts
-            };
-      }, []);
-
-
-      const handleEditButton = (name, username, password) => {
-            setEditName(name)
-            setEditUsername(username)
-            setEditPassword(password)
-            setEditShow(!editShow)
-
-      }
-
-      // newData
-      let id;
-      const [newName, setNewName] = useState("")
-      const [newUsername, setNewUserName] = useState("")
-      const [newPassword, setNewPassword] = useState("")
-
-      const handleSaveButton = async () => {
-            try {
-                  await axios.put(`http://localhost:8000/user/${id}`, {
-                        name: newName,
-                        username: newUsername,
-                        password: newPassword
-                  })
-                  etits.success("Edit success")
-                  // clear value
-                  setNewName("")
-                  setNewUserName("")
-                  setNewPassword("")
-
-                  // palitan ng laman placeholder
-                  setEditName(newName)
-                  setEditUsername(newUsername)
-                  setEditPassword(newPassword)
-
-                  // render
-                  setOyGalaw(!oyGalaw)
-
-            } catch (error) {
-                  console.log(error)
-            }
-
-      }
-
-
+      const [showDeact, setShowDeact] = useState(false);
+      const [showAct, setShowAct] = useState(false);
+      const [search, setSearch] = useState("");
       const [oyGalaw, setOyGalaw] = useState(false);
+
+      // Debounce function for search
+      const debounce = (func, wait) => {
+            let timeout;
+            return (...args) => {
+                  clearTimeout(timeout);
+                  timeout = setTimeout(() => {
+                        func.apply(this, args);
+                  }, wait);
+            };
+      };
+
+      const handleSearch = useCallback(
+            debounce((searchTerm) => {
+                  setSearch(searchTerm);
+            }, 500),
+            []
+      );
+
       useEffect(() => {
             axios.get("http://localhost:8000/user")
                   .then(response => {
-                        setUsers(response.data)
+                        if (!showAct && !showDeact) {
+                              setUsers(response.data);
+                        } else if (showAct) {
+                              setUsers(response.data.filter(user => user.status === true));
+                        } else if (showDeact) {
+                              setUsers(response.data.filter(user => user.status === false));
+                        }
                   })
-                  .catch(err => console.log(err))
-
-      }, [oyGalaw])
+                  .catch(err => console.log(err));
+      }, [oyGalaw, showAct, showDeact]);
 
       const handleAction = async (currentObject) => {
-
             if (currentObject.status) {
-                  await axios.put(`http://localhost:8000/user/${currentObject._id}`, { ...currentObject, status: false })
-                  etits.error("DEACTIVATED")
-
-            }
-
-            else {
-                  await axios.put(`http://localhost:8000/user/${currentObject._id}`, { ...currentObject, status: true })
-                  etits.success("ACTIVATED")
+                  await axios.put(`http://localhost:8000/user/${currentObject._id}`, { ...currentObject, status: false });
+                  etits.error("DEACTIVATED");
+            } else {
+                  await axios.put(`http://localhost:8000/user/${currentObject._id}`, { ...currentObject, status: true });
+                  etits.success("ACTIVATED");
             }
             setOyGalaw(!oyGalaw);
+      };
 
+      const handleSaveButton = async (user) => {
+            try {
+                  const { value: formValues } = await Swal.fire({
+                        title: "Edit Name, Username, and Password",
+                        html: `
+                    <input id="swal-input1" class="swal2-input" placeholder="Name" value="${user.name}">
+                    <input id="swal-input2" class="swal2-input" placeholder="Username" value="${user.username}">
+                    <input id="swal-input3" type="password" class="swal2-input" placeholder="New Password">`,
+                        focusConfirm: false,
+                        preConfirm: () => {
+                              const name = document.getElementById("swal-input1").value;
+                              const username = document.getElementById("swal-input2").value;
+                              const password = document.getElementById("swal-input3").value;
+                              if (!name || !username || !password) {
+                                    Swal.showValidationMessage("All fields are required!");
+                                    return null;
+                              }
+                              return { name, username, password };
+                        }
+                  });
 
-      }
-      const clearDataWhenEx = () => {
-            setNewName("")
-            setNewUserName("")
-            setNewPassword("")
-            setEditShow(!editShow)
-      }
+                  if (formValues) {
+                        await axios.put(`http://localhost:8000/user/${user._id}`, {
+                              name: formValues.name,
+                              username: formValues.username,
+                              password: formValues.password
+                        });
 
-      console.log("manage-user here")
-      console.log(users)
+                        Swal.fire("Edit success");
+                        setOyGalaw(!oyGalaw);
+                  }
+            } catch (error) {
+                  console.log(error);
+            }
+      };
 
+      const handlePrint = () => {
+            if (!invoiceRef.current) {
+                  console.error("Invoice reference is missing");
+                  return;
+            }
+
+            const printWindow = window.open('', '', 'height=842,width=595');
+            const invoiceContent = invoiceRef.current.innerHTML;
+
+            if (!printWindow) {
+                  console.error("Failed to open print window");
+                  return;
+            }
+
+            const printContent = `
+            <html>
+                <head>
+                    <title>Print Employees Account</title>
+                    <style>
+                        @media print {
+                            @page { size: A4; margin: 20mm; }
+                            body { font-family: Arial, sans-serif ; margin: 0; }
+                            table { width: 100%; border-collapse: collapse; }
+                            th, td { border: 1px solid black; padding: 8px; text-align: center; }
+                            th { background-color: #f2f2f2; }
+                            .no-print { display: none; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h2>Employees Accounts</h2>
+                    ${invoiceContent}
+                </body>
+            </html>
+        `;
+
+            printWindow.document.open();
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print();
+      };
+
+      const handleAct = () => {
+            setShowAct(!showAct);
+            setShowDeact(false);
+            setOyGalaw(!oyGalaw);
+      };
+
+      const handleDeact = () => {
+            setShowDeact(!showDeact);
+            setShowAct(false);
+            setOyGalaw(!oyGalaw);
+      };
 
       return (
             <>
-                  <Header />
 
-                  <div className='absolute left-[200px] top-[100px] overflow-x-hidden max-lg:hidden'>
-                        <div className="ml-4 bg-[#D9D9D9] min-h-screen rounded-3xl" style={{ width: 'calc(100vw - 250px)' }}>
-                              <div className="title flex justify-center">
-                                    <h2 className='text-5xl my-8 font-extrabold' >Manage Account</h2>
-                              </div>
+                  <div className='mx-[10%] h-max-700:mt-[35vh] mt-[25vh] w-[80vw] text-deepBlue'>
 
-                              {/* CONTENT */}
+                        {/* CONTENT */}
 
-                              <div className="bg-[#D6D0C4] mx-8 rounded-3xl min-h-screen h-auto ">
+                        <div className="font-bold w-[96%] relative pt-14 pb-8 bg-white border-4 border-bloe mx-auto px-12 rounded-3xl ">
 
-                                    <div className="flex justify-center">
-                                          <span className='bg-[#94AB95] px-4 py-1 m-4 rounded-2xl '>List</span>
+                              <p className='border-4 font-bold border-deepBlue absolute top-4 left-[-35px] bg-yeelow py-1 px-8 text-lg rounded-3xl '>Manage Account</p>
+
+                              <div className='mt-4 mb-12 flex justify-between items-center gap-4'>
+                                    {/* Left side: Activate and Deactivate buttons */}
+                                    <div className='flex gap-4'>
+                                          <button onClick={handleAct} className='font-extrabold h-12 bg-green-500 hover:scale-95 rounded-2xl p-2 px-4 text-white'>
+                                                <FaFilter className='inline text-2xl' /> Activate Only
+                                          </button>
+                                          <button onClick={handleDeact} className='font-extrabold h-12 bg-red-600 hover:scale-95 rounded-2xl p-2  text-white'>
+                                                <FaFilter className='inline text-2xl' /> Deactivate Only
+                                          </button>
                                     </div>
 
-                                    {/* table */}
+                                    {/* SEARCH */}
+                                    <div className='flex items-center gap-4'>
+                                          <input onChange={(e) => handleSearch(e.target.value)} className=" w-[25vw] border-gray-500 py-2 px-4 rounded-2xl  font-bold text-xl text-center border-4 outline-8 outline-bloe placeholder-deepBlue/50" type="text" placeholder='Search by Account Name' />
+                                          <button className='bg-bloe hover:scale-95 hover:brightness-125 text-white text-xl  font-bold py-2 px-8 rounded-2xl border-2 border-bloe shadow-xl'>Search</button>
+                                    </div>
 
-                                    <table className='w-5/6 mx-auto h-auto'>
+                                    {/* Right side: Print button */}
+                                    <button onClick={handlePrint} className='font-extrabold h-12 bg-bloe hover:scale-95 rounded-2xl p-2 px-4 text-white'>
+                                          <MdLocalPrintshop className='inline text-2xl' /> Print Reports
+                                    </button>
+                              </div>
+
+                              {/* table */}
+                              <div ref={invoiceRef}>
+                                    <table className='mt-4 w-full h-auto '>
                                           <thead>
-                                                <tr>
-                                                      <th className=''></th>
-                                                      <th>Number</th>
-                                                      <th>Username</th>
-                                                      <th>Name</th>
-                                                      <th>Status</th>
-                                                      <th>Action</th>
-
-
-                                                </tr>
-                                                <tr>
-                                                      <td className='bg-gray-900 p-[0.1px]' colSpan="6" />
-                                                </tr>
-                                                <tr>
-                                                      <td><br /></td>
+                                                <tr className='border-b-4 border-bloe'>
+                                                      <th className="border-r-4 border-bloe" >Number</th>
+                                                      <th className="border-r-4 border-bloe" >Name</th>
+                                                      <th className="border-r-4 border-bloe" >Username</th>
+                                                      <th className="border-r-4 border-bloe" >Status</th>
+                                                      <th className='no-print'>Action</th>
                                                 </tr>
                                           </thead>
                                           <tbody className='text-center'>
                                                 {
-                                                      users.map((user, index) => {
-
-                                                            id = user._id;
-
-                                                            return (
-                                                                  <tr className='h-12 hover:bg-[#C9B7B7] rounded-3xl' key={index}>
-
-                                                                        <td><button
-                                                                              className='bg-[#6181D3] py-1 px-4 rounded-lg text-white hover:bg-[#425a96] '
-                                                                              onClick={() => handleEditButton(user.name, user.username, user.password)}
-                                                                        >Edit</button></td>
-                                                                        <td className='w-2'>{index + 1}</td>
-                                                                        <td>{user.username}</td>
-                                                                        <td>{user.name}</td>
-                                                                        <td>{user.status ? "Active" : "Inactive"}</td>
-
-                                                                        <td>{user.status ?
-                                                                              (
-                                                                                    <button onClick={() => handleAction(user)} className='text-white bg-[#B96F6F] hover:bg-[#a54f4f]  py-1 px-4 rounded-lg'>Deactivate</button>
-
-                                                                              )
-                                                                              :
-                                                                              (
-                                                                                    <button onClick={() => handleAction(user)} className='text-white bg-[#5cc967] hover:bg-[#3c8143]  py-1 px-[25px] rounded-lg'>Activate</button>
-                                                                              )
-                                                                        }</td>
-                                                                  </tr>
-
+                                                      users
+                                                            .filter((user) =>
+                                                                  user.name.toUpperCase().includes(search.toUpperCase())
                                                             )
-                                                      })
+                                                            .map((user, index) => {
+                                                                  return (
+                                                                        <tr className='h-12 rounded-3xl' key={index}>
+                                                                              <td className="border-r-4 border-bloe" >{index + 1}</td>
+                                                                              <td className="border-r-4 border-bloe" >{user.name}</td>
+                                                                              <td className="border-r-4 border-bloe" >{user.username}</td>
+                                                                              <td className="border-r-4 border-bloe" >{user.status ? "Active" : "Inactive"}</td>
+                                                                              <td className="w-[30%] no-print">
+                                                                                    <button
+                                                                                          className='bg-deepBlue py-1 px-8 mx-4 rounded-lg text-white hover:scale-95 '
+                                                                                          onClick={() => handleSaveButton(user)}
+                                                                                    >
+                                                                                          Edit
+                                                                                    </button>
+                                                                                    {user.status ?
+                                                                                          (
+                                                                                                <button onClick={() => handleAction(user)} className='text-white bg-greenWich hover:scale-95  py-1 px-[25px]  rounded-lg'>Activated</button>
+                                                                                          )
+                                                                                          :
+                                                                                          (
+                                                                                                <button onClick={() => handleAction(user)} className='text-white bg-[#972222] hover:scale-95  py-1  px-4 rounded-lg'>Deactivated</button>
+                                                                                          )
+                                                                                    }
+                                                                              </td>
+                                                                        </tr>
+                                                                  )
+                                                            })
                                                 }
-
                                           </tbody>
                                     </table>
-
                               </div>
 
                         </div>
-                  </div >
+
+                  </div>
                   {/* TOASTER */}
-                  <Toaster
-                  />
-
-                  {/* POP UP */}
-                  {
-                        editShow &&
-                        // background
-                        <div className='bg-black/40 fixed z-50 w-screen h-screen z-100 flex items-center justify-center'>
-
-                              <div className='bg-[#D9D9D9] w-[60vw] absolute left-[25vw] top-[20%] rounded-3xl '>
-
-                                    {/* EKIS */}
-                                    <IoCloseOutline className='absolute text-4xl right-5 top-5 cursor-pointer' onClick={clearDataWhenEx} />
-
-                                    {/* content */}
-                                    <div className=' overflow-auto mt-16 mx-32  p-10 flex flex-col gap-6'>
-
-                                          <div className='flex items-center gap-16'>
-                                                <label htmlFor="">Full Name</label>
-                                                <input className='py-4 px-8 rounded-xl flex-1 bg-[#C4B9A9] placeholder-black/50 ' placeholder={editName} value={newName} onChange={e => setNewName(e.target.value)} type="text" />
-                                          </div>
-
-                                          <div className='flex items-center gap-6'>
-                                                <label htmlFor="">New Username</label>
-                                                <input className='py-4 px-8 rounded-xl flex-1 bg-[#C4B9A9] placeholder-black/50 ' placeholder={editUsername} value={newUsername} onChange={e => setNewUserName(e.target.value)} type="text" />
-                                          </div>
-
-                                          <div className='flex items-center gap-8'>
-                                                <label htmlFor="">New Password</label>
-                                                <input className='py-4 px-8 rounded-xl flex-1 bg-[#C4B9A9] placeholder-black/50 ' placeholder={editPassword} value={newPassword} onChange={e => setNewPassword(e.target.value)} type="password" />
-                                          </div>
-
-                                          <div className='flex justify-center w-full' >
-                                                <button className=' hover:bg-[#56945c] bg-[#75B37B] text-white py-4 px-8 w-fit mt-6 rounded-2xl text-lg font-bold' onClick={handleSaveButton}>Save</button>
-                                          </div>
-                                    </div>
-
-
-                              </div>
-                        </div>
-                  }
-                  {/* NAV */}
-                  <Navbar />
+                  <Toaster />
             </>
+      );
+};
 
-      )
-}
-
-export default ManageAccount
+export default ManageAccount;

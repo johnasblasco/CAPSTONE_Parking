@@ -26,6 +26,10 @@ const vehicleScheme = mongoose.Schema(
             status : {
                   type : Boolean,
                   required : false
+            },
+            extraCharges: {
+                  type : Number,
+                  required : false
             }
            
       },
