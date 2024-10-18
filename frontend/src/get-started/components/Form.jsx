@@ -7,7 +7,7 @@ const Form = () => {
       const paragraph = "A Parking system that will help you to park your vehicle in a safe and secure way, right at your fingertips";
 
       return (
-            <div className='grid grid-cols-2 grid-rows-1'>
+            <div className=' grid grid-cols-2 grid-rows-1'>
                   <div>
                         <h2 className='text-8xl tracking-wide animate-color-change font-extrabold'>
                               {parkAid.split("").map((letter, index) => (

@@ -1,11 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Header = () => {
+      const [currentUser, setCurrentUser] = useState({});
       const [user, setUser] = useState({});
       const navigate = useNavigate();
+
+
+      useEffect(() => {
+            const fetchData = async () => {
+                  try {
+                        const response = await axios.get("http://localhost:8000/user");
+                        const foundUser = response.data.find(user => user.login === true);
+                        if (foundUser) {
+                              setCurrentUser(foundUser);
+                        }
+                  } catch (error) {
+                        console.error("Error fetching user data:", error);
+                  }
+            }
+            fetchData();
+
+      }, [])
 
       const loginHistory = async () => {
             try {
@@ -66,7 +84,11 @@ const Header = () => {
       return (
             <header className='bg-white py-4 px-12 mb-4 flex items-center justify-between fixed top-0 rounded-b-3xl w-full z-10'>
                   <img src="/logo2.png" className='w-[200px] mx-4' alt="Logo" />
-                  <img onClick={logout} src="/logout.png" className='w-10 hover:cursor-pointer' alt="Logout" />
+
+                  <div className='flex items-center gap-4'>
+                        <p className='text-slate-800 text-2xl font-bold'>Howdy, {currentUser.name}</p>
+                        <img onClick={logout} src="/logout.png" className='w-10 hover:cursor-pointer' alt="Logout" />
+                  </div>
             </header>
       );
 };
