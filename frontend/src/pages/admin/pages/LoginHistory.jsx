@@ -1,11 +1,32 @@
-import React, { useContext, useRef } from 'react';
+import React, { useState, useEffect, useContext, useRef, useCallback } from 'react';
 import { myContext } from '../Home';
 import { MdLocalPrintshop } from "react-icons/md";
 import moment from 'moment';
 
 const LoginHistory = () => {
       const [employee] = useContext(myContext);
+      const [displayEmployee, setDisplayEmployee] = useState(employee);
       const tableRef = useRef(null);
+
+      // handle Search
+      const [search, setSearch] = useState("");
+      // Debounce function for search
+      const debounce = (func, wait) => {
+            let timeout;
+            return (...args) => {
+                  clearTimeout(timeout);
+                  timeout = setTimeout(() => {
+                        func.apply(this, args);
+                  }, wait);
+            };
+      };
+
+      const handleSearch = useCallback(
+            debounce((searchTerm) => {
+                  setSearch(searchTerm);
+            }, 500),
+            []
+      );
 
       const handlePrint = () => {
             if (!tableRef.current) {
@@ -50,7 +71,7 @@ const LoginHistory = () => {
                                       </tr>
                                   </thead>
                                   <tbody>
-                                      ${employee.map((emp, index) => `
+                                      ${displayEmployee.map((emp, index) => `
                                           <tr>
                                               <td>${index + 1}</td>
                                               <td>${emp.name}</td>
@@ -75,16 +96,24 @@ const LoginHistory = () => {
 
       return (
             <div className='mx-[10%] h-max-700:mt-[35vh] mt-[25vh] w-[80vw] text-deepBlue'>
-                  <div className="relative pt-12 shadow-2xl border-4 border-bloe bg-white mx-8 rounded-3xl min-h-screen h-auto">
+                  <div className="font-bold w-[96%] relative pt-14 pb-8 bg-white border-4 border-bloe mx-auto px-12 rounded-3xl ">
+
                         <p className='border-4 font-bold border-deepBlue absolute top-4 left-[-35px] bg-yeelow py-1 px-8 text-lg rounded-3xl '>Login History</p>
 
-                        <div className='m-2 flex justify-end items-center mx-12'>
+                        <div className='mb-12 flex gap-36 justify-end items-center'>
+                              {/* SEARCH */}
+                              <div className='flex items-center gap-4'>
+                                    <input onChange={e => setSearch(e.target.value)} className=" w-[25vw] border-gray-500 py-2 px-4 rounded-2xl  font-bold text-xl text-center border-4 outline-8 outline-bloe placeholder-deepBlue/50" type="text" placeholder='Search by Employee Name' />
+                                    <button onClick={handleSearch} className='bg-bloe hover:scale-95 hover:brightness-125 text-white text-xl  font-bold py-2 px-8 rounded-2xl border-2 border-bloe shadow-xl'>Search</button>
+                              </div>
+
                               <button onClick={handlePrint} className='font-extrabold my-4 h-12 text-end bg-bloe hover:scale-95 rounded-2xl p-2 px-4 text-white'>
                                     <MdLocalPrintshop className='inline text-2xl' /> Print Reports
                               </button>
                         </div>
+
                         <div ref={tableRef} >
-                              <table className='table-fixed border-collapse w-full'>
+                              <table className='mt-4 table-fixed border-collapse w-full'>
                                     <thead>
                                           <tr className='border-b-4 border-bloe'>
                                                 <th className='border-r-4 border-bloe'>Number</th>
@@ -95,7 +124,7 @@ const LoginHistory = () => {
                                           </tr>
                                     </thead>
                                     <tbody className='mt-4'>
-                                          {employee.map((emp, index) => (
+                                          {employee.filter(emp => emp.name.toLowerCase().includes(search.toLowerCase())).map((emp, index) => (
                                                 <tr key={index} className='hover:bg-[#C9B7B7] rounded-3xl'>
                                                       <td className='text-center border-r-4 border-bloe'>{index + 1}</td>
                                                       <td className='text-center border-r-4 border-bloe'>{emp.name}</td>

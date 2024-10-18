@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios';
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom';
 const Header = () => {
+
+
+      const [currentAdmin, setCurrentAdmin] = useState({});
 
       const navigate = useNavigate();
       const logoutAlert = Swal.mixin({
@@ -11,6 +15,19 @@ const Header = () => {
             },
             buttonsStyling: false
       });
+
+      useEffect(() => {
+            const fetchData = async () => {
+                  try {
+                        const response = await axios.get("http://localhost:8000/admin");
+                        setCurrentAdmin(response.data[0]);
+                  } catch (error) {
+                        console.error("Error fetching user data:", error);
+                  }
+            }
+            fetchData();
+
+      }, [])
 
       const logout = () => {
             logoutAlert.fire({
@@ -39,7 +56,10 @@ const Header = () => {
       return (
             <header className='bg-white py-4 px-12 mb-4 flex items-center justify-between fixed top-0 rounded-b-3xl w-full z-10'>
                   <img src="/logo2.png" className='w-[200px] mx-4' />
-                  <img onClick={logout} src="/logout.png" className='w-10 hover:cursor-pointer' />
+                  <div className='flex items-center gap-4'>
+                        <p className='text-slate-800 text-2xl font-bold'>Howdy, Admin</p>
+                        <img onClick={logout} src="/logout.png" className='w-10 hover:cursor-pointer' alt="Logout" />
+                  </div>
             </header>
       )
 }
