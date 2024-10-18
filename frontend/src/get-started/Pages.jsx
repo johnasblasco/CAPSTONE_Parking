@@ -38,7 +38,6 @@ const Pages = () => {
                   </div>
 
 
-
             </div>
       )
 }

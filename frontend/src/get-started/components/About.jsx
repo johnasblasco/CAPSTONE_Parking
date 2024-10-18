@@ -6,7 +6,9 @@ const About = () => {
 
       return (
             <div className='flex justify-between'>
-                  <div>
+                  <div data-aos="fade-right"
+                        data-aos-offset="300"
+                        data-aos-easing="ease-in-sine" >
                         <h2 className='text-8xl tracking-wider text-white font-extrabold'>
                               {title.split("").map((letter, index) => (
                                     <span
@@ -20,7 +22,7 @@ const About = () => {
 
 
 
-                        <p className='mt-10 w-[60%] text-wrap text-2xl text-white'>
+                        <p className='mt-10 w-[60%] text-wrap text-2xl text-white mb-12'>
                               {paragraph.split(" ").map((word, index) => (
                                     <span
                                           key={index}
@@ -33,8 +35,10 @@ const About = () => {
 
                   </div>
 
-                  <div className='w-full'>
-                        <img className='hover:scale-105 h-[100%]' src="about.png" alt="About Us" />
+                  <div data-aos="fade-left"
+                        data-aos-offset="300"
+                        data-aos-easing="ease-in-sine">
+                        <img className='hover:scale-105 w-[1800px]' src="about.png" alt="About Us" />
                   </div>
             </div>
       );

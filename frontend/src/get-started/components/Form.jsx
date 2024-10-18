@@ -8,7 +8,11 @@ const Form = () => {
 
       return (
             <div className=' grid grid-cols-2 grid-rows-1'>
-                  <div>
+
+                  <div data-aos="fade-right"
+                        data-aos-offset="300"
+                        data-aos-easing="ease-in-sine">
+
                         <h2 className='text-8xl tracking-wide animate-color-change font-extrabold'>
                               {parkAid.split("").map((letter, index) => (
                                     <span
@@ -51,8 +55,13 @@ const Form = () => {
 
                   </div>
 
-                  <img src="landing_Car.png" className='h-[120%] z-[-1] mt-[-200px]' />
-            </div>
+                  <div data-aos="fade-left"
+                        data-aos-offset="300"
+                        data-aos-easing="ease-in-sine">
+
+                        <img src="landing_Car.png" className='h-[120%] z-[-1] mt-[-200px]' />
+                  </div>
+            </div >
       );
 }
 
