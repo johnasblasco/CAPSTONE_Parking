@@ -60,17 +60,17 @@ const CreateAccount = () => {
                               <h2 className='mt-6 ml-8 text-3xl'> <span className='text-pink'>Create User Account </span> (Employees Parking Attendant)</h2>
                               <div className='flex mt-4 items-center gap-16 w-[50vw]'>
                                     <label htmlFor="name">Full Name</label>
-                                    <input id='name' className='py-4 px-8 rounded-3xl flex-1 border-4 border-bloe hover:bg-bloe/10 placeholder-black/50' value={name} placeholder='Please input your name here' type="text" onChange={e => setName(e.target.value)} />
+                                    <input id='name' className='py-4 px-8 rounded-3xl flex-1 border-4 border-bloe focus:bg-vanilla hover:bg-vanilla placeholder-black/50' value={name} placeholder='Please input your name here' type="text" onChange={e => setName(e.target.value)} />
                               </div>
 
                               <div className='flex items-center gap-6 w-[50vw]'>
                                     <label htmlFor="username">New Username</label>
-                                    <input id="username" className='py-4 px-8 rounded-3xl flex-1 border-4 border-bloe hover:bg-bloe/10 placeholder-black/50 ' value={username} placeholder='Please input your desired username here' type="text" onChange={e => setUsername(e.target.value)} />
+                                    <input id="username" className='py-4 px-8 rounded-3xl flex-1 border-4 border-bloe focus:bg-vanilla hover:bg-vanilla placeholder-black/50 ' value={username} placeholder='Please input your desired username here' type="text" onChange={e => setUsername(e.target.value)} />
                               </div>
 
                               <div className='flex items-center gap-8 w-[50vw]'>
                                     <label htmlFor="password">New Password</label>
-                                    <input id="password" className='py-4 px-8 rounded-3xl flex-1 border-4 border-bloe hover:bg-bloe/10 placeholder-black/50 ' value={password} placeholder='Please input your desired password here' type="password" onChange={e => setPassword(e.target.value)} />
+                                    <input id="password" className='py-4 px-8 rounded-3xl flex-1 border-4 border-bloe focus:bg-vanilla hover:bg-vanilla placeholder-black/50 ' value={password} placeholder='Please input your desired password here' type="password" onChange={e => setPassword(e.target.value)} />
                               </div>
 
                               <div className='flex justify-center'>

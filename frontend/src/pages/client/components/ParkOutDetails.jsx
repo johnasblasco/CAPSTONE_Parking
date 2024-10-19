@@ -23,6 +23,7 @@ const ParkOutDetails = ({ pricePerTicket, overTimeFees, hoursLimit }) => {
       const [ifOverStay, setIfOverStay] = useState(false)
 
       const handleRemove = async () => {
+            console.log(hoursLimit)
             let vehicleUpdateData = {
 
             };

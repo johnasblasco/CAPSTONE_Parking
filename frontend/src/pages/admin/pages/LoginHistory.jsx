@@ -125,7 +125,7 @@ const LoginHistory = () => {
                                     </thead>
                                     <tbody className='mt-4'>
                                           {employee.filter(emp => emp.name.toLowerCase().includes(search.toLowerCase())).map((emp, index) => (
-                                                <tr key={index} className='hover:bg-[#C9B7B7] rounded-3xl'>
+                                                <tr key={index} className='hover:bg-vanilla rounded-3xl'>
                                                       <td className='text-center border-r-4 border-bloe'>{index + 1}</td>
                                                       <td className='text-center border-r-4 border-bloe'>{emp.name}</td>
                                                       <td className='text-center border-r-4 border-bloe'>{moment(emp.timeIn).format('h:mm a')}</td>

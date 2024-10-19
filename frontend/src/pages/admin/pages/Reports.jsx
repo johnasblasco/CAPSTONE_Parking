@@ -2,13 +2,10 @@ import { useRef, useEffect, useState } from 'react';
 import { Doughnut, Line } from 'react-chartjs-2';
 import { FaMotorcycle, FaBicycle, FaCar, FaFilter } from 'react-icons/fa';
 import { FaRegCalendar } from "react-icons/fa6";
-
 import { FaUser } from "react-icons/fa";
 import { MdLocalPrintshop } from "react-icons/md";
 import { GiMoneyStack } from "react-icons/gi";
-
 import Swal from 'sweetalert2';
-
 import {
       Chart as ChartJS,
       ArcElement,
@@ -29,7 +26,8 @@ const Reports = () => {
       const [users, setUsers] = useState([]);
       const [earningsData, setEarningsData] = useState([]);
       const [filteredData, setFilteredData] = useState([]);
-
+      const [vehicles, setVehicles] = useState([]);
+      const [filteredVehicles, setFilteredVehicles] = useState([]);
       const [startDate, setStartDate] = useState('');
       const [endDate, setEndDate] = useState('');
 
@@ -72,12 +70,13 @@ const Reports = () => {
       };
 
       useEffect(() => {
+            // Fetch all vehicles and users on component mount
             axios.get("http://localhost:8000/vehicle")
                   .then(response => {
+                        setVehicles(response.data);
+                        setFilteredVehicles(response.data); // Initially, show all vehicles
+                        updateVehicleCounts(response.data); // Update counts initially
                         setTotalVehicles(response.data.length);
-                        setTwoWheels(response.data.filter(vehicle => vehicle.category === '2 Wheels').length);
-                        setThreeWheels(response.data.filter(vehicle => vehicle.category === '3 Wheels').length);
-                        setFourWheels(response.data.filter(vehicle => vehicle.category === '4 Wheels').length);
                   });
 
             axios.get("http://localhost:8000/user")
@@ -88,14 +87,12 @@ const Reports = () => {
             axios.get("http://localhost:8000/earnings")
                   .then(response => {
                         const earningsByDate = {};
-
                         response.data.forEach(item => {
                               const date = new Date(item.currentDate).toLocaleDateString('en-US', {
                                     year: 'numeric',
                                     month: '2-digit',
                                     day: '2-digit'
                               });
-
                               if (!earningsByDate[date]) {
                                     earningsByDate[date] = 0;
                               }
@@ -115,6 +112,16 @@ const Reports = () => {
                   });
       }, []);
 
+      const updateVehicleCounts = (vehicles) => {
+            const twoWheelsCount = vehicles.filter(vehicle => vehicle.category === '2 Wheels').length;
+            const threeWheelsCount = vehicles.filter(vehicle => vehicle.category === '3 Wheels').length;
+            const fourWheelsCount = vehicles.filter(vehicle => vehicle.category === '4 Wheels').length;
+
+            setTwoWheels(twoWheelsCount);
+            setThreeWheels(threeWheelsCount);
+            setFourWheels(fourWheelsCount);
+      };
+
       const handleFilter = () => {
             if (startDate && endDate) {
                   const filtered = earningsData.filter(entry => {
@@ -128,24 +135,35 @@ const Reports = () => {
       };
 
       const handleDateSelection = async () => {
-            const pastMinimumDate = new Date('2024-01-01').toISOString().split('T')[0];
-
             const { value: date } = await Swal.fire({
                   title: "Select Date",
-                  input: "date",
-                  inputAttributes: {
-                        required: true,
-                        min: pastMinimumDate,
+                  html: `<input type="date" id="startDate" required>`,
+                  focusConfirm: true,
+                  width: 500,
+                  preConfirm: () => {
+                        const start = document.getElementById('startDate').value;
+                        return { start };
                   },
                   showCancelButton: true,
                   confirmButtonText: "Submit",
             });
 
             if (date) {
-                  console.log(date);
+                  const { start } = date;
+                  setStartDate(start);
+                  filterVehiclesByStartDate(start);
             }
-
       };
+
+      const filterVehiclesByStartDate = (start) => {
+            const filtered = vehicles.filter(vehicle => {
+                  const vehicleStartDate = new Date(vehicle.startDate);
+                  return vehicleStartDate >= new Date(start); // Compare dates
+            });
+            setFilteredVehicles(filtered);
+            updateVehicleCounts(filtered); // Update counts based on filtered vehicles
+      };
+
 
       return (
             <>
@@ -205,6 +223,7 @@ const Reports = () => {
                                                             </button>
 
 
+
                                                             <div className="flex items-center text-xl font-semibold text-gray-800 mb-2">
                                                                   <img src="/motorcycle.png" className='w-32 h-32' alt="" />
                                                                   <p>Total Two-Wheel Vehicles: <span className="font-bold text-6xl text-red-600">{TwoWheels}</span></p>
@@ -220,7 +239,22 @@ const Reports = () => {
                                                       </div>
                                                 </>
                                           ) : (
-                                                <p className="text-center text-lg font-semibold text-gray-700">No data available</p>
+                                                <div>
+                                                      <button
+                                                            onClick={() => {
+                                                                  setStartDate(''); // Clear the start date
+                                                                  setEndDate('');   // Clear the end date
+                                                                  setFilteredVehicles(vehicles); // Reset the filtered vehicles to the original data
+                                                                  updateVehicleCounts(vehicles); // Optionally update counts based on original vehicles
+                                                            }}
+                                                            className="text-2xl bg-gray-200 text-bloe font-semibold py-2 mt-2 rounded-xl border-4 border-gray-200 transition-transform duration-400 hover:scale-95 hover:bg-gray-300"
+                                                      >
+                                                            Reset Filter
+                                                      </button>
+                                                      {filteredVehicles.length === 0 && (
+                                                            <p className="text-center text-lg font-semibold text-gray-700">No data available</p>
+                                                      )}
+                                                </div>
                                           )}
                                     </div>
                               </div>

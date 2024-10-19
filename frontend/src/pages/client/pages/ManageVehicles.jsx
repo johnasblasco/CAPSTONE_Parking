@@ -159,7 +159,6 @@ const ManageVehicles = () => {
                         earnings: overTimeFees
                   });
 
-                  console.log("newvehicle here:", vehicleUpdateData);
             } else {
                   setIfOverStay(false);
                   vehicleUpdateData = {
@@ -167,23 +166,26 @@ const ManageVehicles = () => {
                         endDate: moment(),
                         status: false
                   };
-                  console.log("newvehicle here:", vehicleUpdateData);
             }
+
+            console.log("newvehicle here:", vehicleUpdateData);
 
             try {
                   await axios.put(`http://localhost:8000/vehicle/${selectedVehicle._id}`, vehicleUpdateData);
                   setShowPopup(false);
                   parkOutAlert();
 
-                  setDisplayVehicles(prevVehicles =>
+                  setAllVehicles(prevVehicles =>
                         prevVehicles.map(vehicle =>
                               vehicle._id === selectedVehicle._id ? vehicleUpdateData : vehicle
                         )
                   );
+
             } catch (error) {
                   console.log(error);
             }
       };
+
 
       const parkOutAlert = () => {
             Swal.fire({

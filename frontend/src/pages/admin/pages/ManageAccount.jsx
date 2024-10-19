@@ -197,7 +197,7 @@ const ManageAccount = () => {
                                                       <th className='no-print'>Action</th>
                                                 </tr>
                                           </thead>
-                                          <tbody className='text-center'>
+                                          <tbody className='text-center '>
                                                 {
                                                       users
                                                             .filter((user) =>
@@ -205,7 +205,7 @@ const ManageAccount = () => {
                                                             )
                                                             .map((user, index) => {
                                                                   return (
-                                                                        <tr className='h-12 rounded-3xl' key={index}>
+                                                                        <tr className='hover:bg-vanilla h-12 rounded-3xl' key={index}>
                                                                               <td className="border-r-4 border-bloe" >{index + 1}</td>
                                                                               <td className="border-r-4 border-bloe" >{user.name}</td>
                                                                               <td className="border-r-4 border-bloe" >{user.username}</td>

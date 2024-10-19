@@ -79,11 +79,7 @@ const GetStarted = () => {
                         password,
                   });
 
-                  Swal.fire({
-                        title: "WELCOME TO PARKAID!",
-                        text: "Your Account has been created successfully!",
-                        icon: "success",
-                  });
+
                   navigate('/admin/home/settings');
             } catch (error) {
                   setFormError('Error updating admin details. Please try again.');
@@ -102,7 +98,7 @@ const GetStarted = () => {
       if (loading) {
             return (
                   <div className="bg-[url('/BG.png')] bg-cover flex justify-center items-center h-screen">
-                        {/* <PropagateLoader color="#ff5400" size={30} /> */}
+
                         <img src="/moving-car.gif" alt="" />
                   </div>
             );
@@ -113,7 +109,7 @@ const GetStarted = () => {
                   <div className="min-h-screen pb-20 bg-[url('/BG.png')] bg-cover bg-bottom bg-no-repeat flex justify-center">
 
                         {/* back button */}
-                        <div data-aos="fade-down" className='absolute w-48 h-48 left-12 cursor-pointer top-[-30px] hover:scale-y-90 '>
+                        <div data-aos="fade-down" className='z-20 absolute w-48 h-48 left-12 cursor-pointer top-[-30px] hover:scale-y-90 '>
                               <img onClick={() => navigate("/")} src="/BACK.png" alt="" className='absolute w-48 h-48 left-12 cursor-pointer top-[-30px] hover:scale-y-90 ' />
                         </div>
 

@@ -152,7 +152,7 @@ const Settings = () => {
                                                 value={formData.companyName}
                                                 onChange={handleChange}
                                                 placeholder="Company Name"
-                                                className="text-center text-xl font-bold w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                                className="text-center text-xl font-bold w-full p-4 border-4 border-bloe rounded-lg focus:outline-none focus:ring-2 focus:ring-darkBloe"
                                                 required
                                           />
                                     </div>
@@ -165,7 +165,7 @@ const Settings = () => {
                                                 value={formData.parkingRules}
                                                 onChange={handleChange}
                                                 placeholder="Parking Rules"
-                                                className="w-full text-center text-xl font-bold p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                                className="w-full text-center text-xl font-bold p-4 border-4 border-bloe rounded-lg focus:outline-none focus:ring-2 focus:ring-darkBloe"
                                                 rows="6"
                                                 required
                                           />
@@ -182,7 +182,7 @@ const Settings = () => {
                                                       value={formData.twoWheels}
                                                       onChange={handleChange}
                                                       placeholder="2-Wheel Vehicles"
-                                                      className="text-center w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                                      className="text-center w-full p-4 border-4 border-bloe rounded-lg focus:outline-none focus:ring-2 focus:ring-darkBloe"
                                                       required
                                                 />
                                                 <input
@@ -191,7 +191,7 @@ const Settings = () => {
                                                       value={formData.threeAndFourWheels}
                                                       onChange={handleChange}
                                                       placeholder="3/4-Wheel Vehicles"
-                                                      className="text-center w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                                      className="text-center w-full p-4 border-4 border-bloe rounded-lg focus:outline-none focus:ring-2 focus:ring-darkBloe"
                                                       required
                                                 />
                                           </div>
@@ -207,7 +207,7 @@ const Settings = () => {
                                                 value={formData.pricePerTicket}
                                                 onChange={handleChange}
                                                 placeholder="Ticket Price (PHP)"
-                                                className="w-full text-center p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                                className="w-full text-center p-4 border-4 border-bloe rounded-lg focus:outline-none focus:ring-2 focus:ring-darkBloe"
                                                 required
                                           />
                                     </div>
@@ -224,7 +224,7 @@ const Settings = () => {
                                                 value={formData.hoursLimit}
                                                 onChange={handleChange}
                                                 placeholder="Hours Limit"
-                                                className="w-full text-center p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                                className="w-full text-center p-4 border-4 border-bloe rounded-lg focus:outline-none focus:ring-2 focus:ring-darkBloe"
                                                 required
                                           />
                                     </div>
@@ -241,7 +241,7 @@ const Settings = () => {
                                                 value={formData.overtimeFees}
                                                 onChange={handleChange}
                                                 placeholder="Overtime Fees (PHP)"
-                                                className="w-full p-4 text-center border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                                className="w-full p-4 text-center border-4 border-bloe rounded-lg focus:outline-none focus:ring-2 focus:ring-darkBloe"
                                                 required
                                           />
                                     </div>
