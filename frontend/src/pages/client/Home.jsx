@@ -4,7 +4,6 @@ import Dashboard from './pages/Dashboard';
 import ManageVehicles from './pages/ManageVehicles';
 import Reports from './pages/Reports';
 import axios from 'axios';
-import PropagateLoader from 'react-spinners/PropagateLoader';
 import Header from './components/Header';
 import Navbar from './components/Navbar';
 import io from 'socket.io-client';

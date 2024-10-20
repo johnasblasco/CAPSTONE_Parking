@@ -1,3 +1,4 @@
+
 import { useRef, useEffect, useState } from 'react';
 import { Doughnut, Line } from 'react-chartjs-2';
 import { FaMotorcycle, FaBicycle, FaCar, FaFilter } from 'react-icons/fa';
@@ -6,6 +7,7 @@ import { FaUser } from "react-icons/fa";
 import { MdLocalPrintshop } from "react-icons/md";
 import { GiMoneyStack } from "react-icons/gi";
 import Swal from 'sweetalert2';
+import Print from '../components/Print';
 import {
       Chart as ChartJS,
       ArcElement,
@@ -30,6 +32,9 @@ const Reports = () => {
       const [filteredVehicles, setFilteredVehicles] = useState([]);
       const [startDate, setStartDate] = useState('');
       const [endDate, setEndDate] = useState('');
+      const [showPrint, setShowPrint] = useState(false);
+
+
 
       const CHART_COLORS = {
             red: 'rgb(220 38 38)',
@@ -193,7 +198,7 @@ const Reports = () => {
                               </div>
 
                               <div className=' h-max-700:p-16 flex gap-4 items-center  justify-center relative border-4 border-deepBlue shadow-2xl rounded-3xl bg-offWhite w-[20%]'>
-                                    <button className='font-extrabold text-end bg-bloe hover:scale-95 rounded-2xl p-2 text-2xl text-white'>
+                                    <button onClick={() => setShowPrint(!showPrint)} className='font-extrabold text-end bg-bloe hover:scale-95 rounded-2xl p-2 text-2xl text-white'>
                                           <MdLocalPrintshop className='inline text-7xl' />
                                     </button>
 
@@ -345,6 +350,12 @@ const Reports = () => {
 
                         {/* END OF CHARTS AND TABLE */}
 
+
+                        {/* Show Print */}
+                        {
+                              showPrint && <Print setShowPrint={setShowPrint} showPrint={showPrint} />
+
+                        }
                   </div>
 
 
