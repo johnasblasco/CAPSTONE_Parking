@@ -59,7 +59,7 @@ const Form = () => {
                         data-aos-offset="300"
                         data-aos-easing="ease-in-sine">
 
-                        <img src="landing_Car.png" className='h-[120%] z-[-1] mt-[-200px]' />
+                        <img src="landing_Car.png" className='h-[120%] z-[-1] mt-[-150px]' />
                   </div>
             </div >
       );

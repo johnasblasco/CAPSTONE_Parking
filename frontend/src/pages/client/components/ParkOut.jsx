@@ -40,9 +40,10 @@ const ParkOut = () => {
       console.log(selectedVehicle)
 
       return (
-            <div className='fixed w-screen h-screen bg-black/40 z-50'>
+            <div onClick={() => setShowParkOut(false)} className='fixed w-screen h-screen bg-black/40 z-50'>
                   <div className='fixed inset-0 flex items-center justify-center bg-deepBlue/40'>
-                        <div className={`relative text-bloe border-4 border-darkBloe bg-offWhite shadow-lg rounded-2xl flex flex-col gap-8 items-center p-16 w-[600px]`}>
+
+                        <div onClick={e => e.stopPropagation()} className={`relative text-bloe border-4 border-darkBloe bg-offWhite shadow-lg rounded-2xl flex flex-col gap-8 items-center p-16 w-[600px]`}>
                               <IoMdClose onClick={() => setShowParkOut(false)} className='text-5xl absolute top-4 right-4 cursor-pointer' />
 
                               <h2 className='text-3xl font-bold mb-4 '>Parking Out</h2>

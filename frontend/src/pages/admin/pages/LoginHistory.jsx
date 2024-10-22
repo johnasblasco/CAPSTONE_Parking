@@ -104,7 +104,7 @@ const LoginHistory = () => {
                               {/* SEARCH */}
                               <div className='flex items-center gap-4'>
                                     <input onChange={e => setSearch(e.target.value)} className=" w-[25vw] border-gray-500 py-2 px-4 rounded-2xl  font-bold text-xl text-center border-4 outline-8 outline-bloe placeholder-deepBlue/50" type="text" placeholder='Search by Employee Name' />
-                                    <button onClick={handleSearch} className='bg-bloe hover:scale-95 hover:brightness-125 text-white text-xl  font-bold py-2 px-8 rounded-2xl border-2 border-bloe shadow-xl'>Search</button>
+                                    <button className='bg-bloe hover:scale-95 hover:brightness-125 text-white text-xl  font-bold py-2 px-8 rounded-2xl border-2 border-bloe shadow-xl'>Search</button>
                               </div>
 
                               <button onClick={handlePrint} className='font-extrabold my-4 h-12 text-end bg-bloe hover:scale-95 rounded-2xl p-2 px-4 text-white'>

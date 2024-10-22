@@ -250,9 +250,9 @@ const ParkIn = ({ companyName, parkingRules, pricePerTicket, twoWheels, threeAnd
 
       return (
             <>
-                  <div className='fixed w-screen h-screen bg-black/40 z-10'>
+                  <div onClick={() => setShowParkIn(false)} className='fixed w-screen h-screen bg-black/40 z-10'>
                         <div className='fixed inset-0 flex items-center justify-center bg-deepBlue/40'>
-                              <div className={`relative text-bloe border-4 border-darkBloe bg-offWhite shadow-lg rounded-2xl flex flex-col gap-8 items-center p-16 w-fit`}>
+                              <div onClick={e => e.stopPropagation()} className={`relative text-bloe border-4 border-darkBloe bg-offWhite shadow-lg rounded-2xl flex flex-col gap-8 items-center p-16 w-fit`}>
                                     <IoMdClose onClick={() => setShowParkIn(false)} className='text-5xl absolute top-4 right-4 cursor-pointer' />
                                     <h2 className='text-3xl font-bold mb-4 '>Parking in</h2>
 

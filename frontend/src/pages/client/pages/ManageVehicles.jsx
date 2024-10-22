@@ -75,7 +75,7 @@ const ManageVehicles = () => {
       const handleDateSelection = async () => {
             const pastMinimumDate = new Date('2024-01-01').toISOString().split('T')[0];
             const { value: date } = await Swal.fire({
-                  title: "Select Departure Date",
+                  title: "Select Date",
                   input: "date",
                   inputAttributes: { required: true, min: pastMinimumDate },
                   showCancelButton: true,
@@ -339,10 +339,10 @@ const ManageVehicles = () => {
 
                   {
                         showPopup && (
-                              <div className='fixed w-screen h-screen bg-black/40 z-50'>
+                              <div onClick={() => setShowPopup(false)} className='fixed w-screen h-screen bg-black/40 z-50'>
                                     <div className='fixed inset-0 flex items-center justify-center bg-deepBlue/40'>
 
-                                          <div className={`relative bg-offWhite shadow-lg rounded-3xl flex flex-col gap-8 items-center p-20 `}>
+                                          <div onClick={e => e.stopPropagation()} className={`relative bg-offWhite shadow-lg rounded-3xl flex flex-col gap-8 items-center p-20 `}>
                                                 <IoMdClose onClick={() => setShowPopup(false)} className='text-5xl absolute top-4 right-4 cursor-pointer' />
 
                                                 <h2 className='text-6xl text-bloe font-bold text-center '>Parking Out</h2>

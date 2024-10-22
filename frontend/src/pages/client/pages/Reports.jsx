@@ -204,7 +204,7 @@ const Reports = () => {
                   />
             );
       }
-      // Earnings Print function
+
       // Earnings Print function
       const earningsPrint = () => {
             if (!invoiceRef.current) {

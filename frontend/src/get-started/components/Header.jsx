@@ -10,7 +10,7 @@ const Header = ({ setMySwitch }) => {
                         <button onClick={() => setMySwitch(false)} className="hover:scale-105 border-b-2 border-transparent focus:border-white">ABOUT US</button>
 
                   </nav>
-                  <Link to={'/login'} className=' hover:scale-90 text-bloe font-bold bg-yeelow hover:bg-bloe hover:border-white border-4 hover:text-yeelow py-4 text-xl px-8 rounded-3xl'>LOG IN</Link>
+                  <Link to={'/login'} className=' hover:scale-90 text-bloe font-bold bg-yeelow hover:bg-bloe hover:border-white border-4 hover:text-yeelow py-3 text-xl px-8 rounded-3xl'>LOG IN</Link>
             </header>
       )
 }
