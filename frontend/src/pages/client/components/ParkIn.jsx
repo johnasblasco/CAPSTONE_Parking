@@ -156,7 +156,6 @@ const ParkIn = ({ companyName, parkingRules, pricePerTicket, twoWheels, threeAnd
                     .heading img {
                       width: 50px;
                       height: 50px;
-                      border: 1px solid black;
                     }
                     .leeg {
                       margin-top: 40px;
@@ -191,6 +190,7 @@ const ParkIn = ({ companyName, parkingRules, pricePerTicket, twoWheels, threeAnd
                       font-weight: bold;
                     }
                     .footer {
+                      padding : 10px;
                       margin-top: 20px;
                       text-align: center;
                     }
@@ -233,9 +233,15 @@ const ParkIn = ({ companyName, parkingRules, pricePerTicket, twoWheels, threeAnd
                     <h6>Parking Rules:</h6>
                     <p>${formattedParkingRules}</p>
                   </div>
-                  <hr />
-                  <footer>
+                  <br/>
+                       <p style='margin-left:5px;'>  ------------------------------------------------------------------- </p>
+             
+                  <footer class="footer">
+                  <h4>Thank You for Parking with us!</p>
+                  <p>We look forward to seeing you again!</p>
                   </footer>
+                              
+                              <hr/>
                 </body>
                 </html>
               `);

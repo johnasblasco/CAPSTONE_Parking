@@ -279,7 +279,7 @@ const Reports = () => {
                                                 {users.map((user, index) => (
                                                       <tr key={index} className={`transition-transform duration-300 hover:scale-105 ${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'} border-b border-gray-200 hover:bg-gray-200`}>
                                                             <td className="px-6 py-4 text-deepBlue font-semibold">{user.name}</td>
-                                                            <td className={`px-6 py-4 font-semibold ${user.status ? 'text-green-600' : 'text-red-600'}`}>
+                                                            <td className={`px-6 py-4 font-semibold ${user.status ? 'text-green-600' : 'text-pink'}`}>
                                                                   {user.status ? "ACTIVATED" : "DEACTIVATED"}
                                                             </td>
                                                       </tr>

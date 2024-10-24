@@ -168,7 +168,7 @@ const ManageAccount = () => {
                                           <button onClick={handleAct} className='font-extrabold h-12 bg-green-500 hover:scale-95 rounded-2xl p-2 px-4 text-white'>
                                                 <FaFilter className='inline text-2xl' /> Activate Only
                                           </button>
-                                          <button onClick={handleDeact} className='font-extrabold h-12 bg-red-600 hover:scale-95 rounded-2xl p-2  text-white'>
+                                          <button onClick={handleDeact} className='font-extrabold h-12 bg-pink hover:scale-95 rounded-2xl p-2  text-white'>
                                                 <FaFilter className='inline text-2xl' /> Deactivate Only
                                           </button>
                                     </div>
@@ -223,7 +223,7 @@ const ManageAccount = () => {
                                                                                           )
                                                                                           :
                                                                                           (
-                                                                                                <button onClick={() => handleAction(user)} className='text-white bg-[#972222] hover:scale-95  py-1  px-4 rounded-lg'>Deactivated</button>
+                                                                                                <button onClick={() => handleAction(user)} className='text-white bg-pink hover:scale-95  py-1  px-4 rounded-lg'>Deactivated</button>
                                                                                           )
                                                                                     }
                                                                               </td>
