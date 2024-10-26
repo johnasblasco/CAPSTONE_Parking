@@ -1,4 +1,3 @@
-
 import { useRef, useEffect, useState } from 'react';
 import { Doughnut, Line } from 'react-chartjs-2';
 import { FaMotorcycle, FaBicycle, FaCar, FaFilter } from 'react-icons/fa';
@@ -30,11 +29,9 @@ const Reports = () => {
       const [filteredData, setFilteredData] = useState([]);
       const [vehicles, setVehicles] = useState([]);
       const [filteredVehicles, setFilteredVehicles] = useState([]);
-      const [startDate, setStartDate] = useState('');
-      const [endDate, setEndDate] = useState('');
+      const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]); // Set today as default
+      const [endDate, setEndDate] = useState(new Date().toISOString().split('T')[0]); // Set today as default for endDate
       const [showPrint, setShowPrint] = useState(false);
-
-
 
       const CHART_COLORS = {
             red: 'rgb(220 38 38)',
@@ -75,24 +72,24 @@ const Reports = () => {
       };
 
       useEffect(() => {
-            // Fetch all vehicles and users on component mount
-            axios.get("http://localhost:8000/vehicle")
-                  .then(response => {
-                        setVehicles(response.data);
-                        setFilteredVehicles(response.data); // Initially, show all vehicles
-                        updateVehicleCounts(response.data); // Update counts initially
-                        setTotalVehicles(response.data.length);
-                  });
+            // Fetch all vehicles, users, and earnings on component mount
+            const fetchData = async () => {
+                  try {
+                        const vehiclesResponse = await axios.get("http://localhost:8000/vehicle");
 
-            axios.get("http://localhost:8000/user")
-                  .then(response => {
-                        setUsers(response.data);
-                  });
+                        setVehicles(vehiclesResponse.data);
+                        setFilteredVehicles(vehiclesResponse.data);
+                        updateVehicleCounts(vehiclesResponse.data);
+                        setTotalVehicles(vehiclesResponse.data.length);
 
-            axios.get("http://localhost:8000/earnings")
-                  .then(response => {
+                        const usersResponse = await axios.get("http://localhost:8000/user");
+
+                        setUsers(usersResponse.data);
+
+                        const earningsResponse = await axios.get("http://localhost:8000/earnings");
+
                         const earningsByDate = {};
-                        response.data.forEach(item => {
+                        earningsResponse.data.forEach(item => {
                               const date = new Date(item.currentDate).toLocaleDateString('en-US', {
                                     year: 'numeric',
                                     month: '2-digit',
@@ -110,11 +107,16 @@ const Reports = () => {
                         }));
 
                         setEarningsData(earningsArray);
-                        setFilteredData(earningsArray); // Initially, filtered data is the same as all earnings data
+                        setFilteredData(earningsArray);
 
                         const sumOfTotal = earningsArray.reduce((acc, item) => acc + item.totalEarnings, 0);
                         setTotalEarnings(sumOfTotal);
-                  });
+                  } catch (error) {
+                        console.error("Error fetching data:", error);
+                  }
+            };
+
+            fetchData();
       }, []);
 
       const updateVehicleCounts = (vehicles) => {
@@ -158,6 +160,7 @@ const Reports = () => {
                   setStartDate(start);
                   filterVehiclesByStartDate(start);
             }
+
       };
 
       const filterVehiclesByStartDate = (start) => {
@@ -168,7 +171,6 @@ const Reports = () => {
             setFilteredVehicles(filtered);
             updateVehicleCounts(filtered); // Update counts based on filtered vehicles
       };
-
 
       return (
             <>
@@ -245,19 +247,18 @@ const Reports = () => {
                                                 </>
                                           ) : (
                                                 <div>
-                                                      <button
-                                                            onClick={() => {
-                                                                  setStartDate(''); // Clear the start date
-                                                                  setEndDate('');   // Clear the end date
-                                                                  setFilteredVehicles(vehicles); // Reset the filtered vehicles to the original data
-                                                                  updateVehicleCounts(vehicles); // Optionally update counts based on original vehicles
-                                                            }}
-                                                            className="text-2xl bg-gray-200 text-bloe font-semibold py-2 mt-2 rounded-xl border-4 border-gray-200 transition-transform duration-400 hover:scale-95 hover:bg-gray-300"
-                                                      >
-                                                            Reset Filter
-                                                      </button>
-                                                      {filteredVehicles.length === 0 && (
-                                                            <p className="text-center text-lg font-semibold text-gray-700">No data available</p>
+                                                      {filteredVehicles.length > 0 ? (
+                                                            filteredVehicles.map(vehicle => (
+                                                                  <div key={vehicle._id}>
+                                                                        <p>Plate Number: {vehicle.plateNumber}</p>
+                                                                        <p>Category: {vehicle.category}</p>
+                                                                        <p>Start Date: {new Date(vehicle.startDate).toLocaleDateString()}</p>
+                                                                        <p>Status: {vehicle.status ? "Active" : "Inactive"}</p>
+                                                                        <p>Charges: ₱{vehicle.charges}</p>
+                                                                  </div>
+                                                            ))
+                                                      ) : (
+                                                            <p>No vehicles available.</p>
                                                       )}
                                                 </div>
                                           )}

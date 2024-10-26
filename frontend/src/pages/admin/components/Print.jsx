@@ -3,6 +3,7 @@ import axios from 'axios';
 import { FaFilter } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import Swal from 'sweetalert2';
+import moment from 'moment';
 
 const Print = ({ setShowPrint, showPrint }) => {
       const [selectedOption, setSelectedOption] = useState('');
@@ -12,20 +13,21 @@ const Print = ({ setShowPrint, showPrint }) => {
 
       const handleSelectChange = (e) => {
             setSelectedOption(e.target.value);
+            setData([]); // Clear data when changing option
       };
 
       useEffect(() => {
-            if (selectedOption && selectedDate) {
+            if (selectedOption) {
                   let url = '';
                   switch (selectedOption) {
                         case 'vehicles':
-                              url = `http://localhost:8000/vehicle?date=${selectedDate}`;
+                              url = `http://localhost:8000/vehicle`; // Fetch all vehicles
                               break;
                         case 'earnings':
-                              url = `http://localhost:8000/earnings?date=${selectedDate}`;
+                              url = `http://localhost:8000/earnings`; // Fetch all earnings
                               break;
                         case 'employeeAccounts':
-                              url = `http://localhost:8000/user`;
+                              url = `http://localhost:8000/user`; // Fetch all user accounts
                               break;
                         default:
                               return;
@@ -41,7 +43,7 @@ const Print = ({ setShowPrint, showPrint }) => {
                               setError('Failed to fetch data. Please try again.');
                         });
             }
-      }, [selectedOption, selectedDate]);
+      }, [selectedOption]);
 
       const handleDateSelection = async () => {
             const pastMinimumDate = new Date('2024-01-01').toISOString().split('T')[0];
@@ -64,6 +66,11 @@ const Print = ({ setShowPrint, showPrint }) => {
       };
 
       const handlePrint = () => {
+            if (!data.length) {
+                  Swal.fire('No Data', 'Please ensure data is available before printing.', 'warning');
+                  return;
+            }
+
             const printContent = document.getElementById('printableContent').innerHTML;
             const originalContent = document.body.innerHTML;
 
@@ -76,25 +83,56 @@ const Print = ({ setShowPrint, showPrint }) => {
       const renderTable = () => {
             if (error) return <p>{error}</p>; // Display error message
 
+            // Filter data based on the selected date
+            const filteredData = data.filter(item => {
+                  if (selectedOption === 'vehicles') {
+                        return new Date(item.startDate).toLocaleDateString() === new Date(selectedDate).toLocaleDateString();
+                  } else if (selectedOption === 'earnings') {
+                        return new Date(item.currentDate).toLocaleDateString() === new Date(selectedDate).toLocaleDateString();
+                  }
+                  return true; // For employee accounts, no date filter
+            });
+
+            if (!filteredData.length) return <p>No data available for the selected date.</p>; // Check if data is empty
+
             switch (selectedOption) {
                   case 'vehicles':
                         return (
-                              <table className='hidden min-w-full table-auto'>
+                              <table className='text-center min-w-full table-auto'>
                                     <thead>
                                           <tr>
-                                                <th className='border px-4 py-2'>Ticket Number</th>
-                                                <th className='border px-4 py-2'>Plate Number</th>
-                                                <th className='border px-4 py-2'>Category</th>
-                                                <th className='border px-4 py-2'>Status</th>
+                                                <th className='border-2 border-deepBlue p-2'>Ticket Number</th>
+                                                <th className='border-2 border-deepBlue p-2'>Plate Number</th>
+                                                <th className='border-2 border-deepBlue p-2'>Category</th>
+                                                <th className='border-2 border-deepBlue p-2'>Status</th>
+                                                <th className='border-2 border-deepBlue p-2'>In Time</th>
+                                                <th className='border-2 border-deepBlue p-2'>Out Time</th>
+                                                <th className='border-2 border-deepBlue p-2'>Duration</th>
+                                                <th className='border-2 border-deepBlue p-2'>Charges</th>
+                                                <th className='border-2 border-deepBlue p-2'>Extra Charges</th>
                                           </tr>
                                     </thead>
                                     <tbody>
-                                          {data.map(vehicle => (
+                                          {filteredData.map((vehicle, index) => (
                                                 <tr key={vehicle._id}>
-                                                      <td className='border px-4 py-2'>{vehicle.ticketNumber}</td>
-                                                      <td className='border px-4 py-2'>{vehicle.plateNumber}</td>
-                                                      <td className='border px-4 py-2'>{vehicle.category}</td>
-                                                      <td className='border px-4 py-2'>{vehicle.status ? 'In' : 'Out'}</td>
+                                                      <td className='border-2 border-deepBlue p-2'>{vehicle.ticketNumber}</td>
+                                                      <td className='border-2 border-deepBlue p-2'>{vehicle.plateNumber}</td>
+                                                      <td className='border-2 border-deepBlue p-2'>{vehicle.category}</td>
+                                                      <td className='border-2 border-deepBlue p-2'>{vehicle.status ? "In" : "Out"}</td>
+                                                      <td className='border-2 border-deepBlue p-2'>{moment(vehicle.startDate).format('hh:mm A')}</td>
+                                                      <td className='border-2 border-deepBlue p-2'>{vehicle.endDate ? moment(vehicle.endDate).format('hh:mm A') : '-'}</td>
+                                                      <td className='border-2 border-deepBlue p-2'>
+                                                            {(() => {
+                                                                  const startDate = new Date(vehicle.startDate);
+                                                                  const endDate = vehicle.endDate ? new Date(vehicle.endDate) : new Date();
+                                                                  const duration = endDate - startDate;
+                                                                  const hours = Math.floor(duration / 3600000);
+                                                                  const minutes = Math.floor((duration % 3600000) / 60000);
+                                                                  return hours > 0 ? `${hours} hours ${minutes} mins` : `${minutes} mins`;
+                                                            })()}
+                                                      </td>
+                                                      <td className='border-2 border-deepBlue p-2'>{vehicle.charges}</td>
+                                                      <td className='border-2 border-deepBlue p-2'>{vehicle.extraCharges}</td>
                                                 </tr>
                                           ))}
                                     </tbody>
@@ -102,18 +140,18 @@ const Print = ({ setShowPrint, showPrint }) => {
                         );
                   case 'earnings':
                         return (
-                              <table className='min-w-full table-auto'>
+                              <table className='text-center min-w-full table-auto'>
                                     <thead>
                                           <tr>
-                                                <th className='border px-4 py-2'>Date</th>
-                                                <th className='border px-4 py-2'>Earnings</th>
+                                                <th className='border-2 border-deepBlue p-2'>Date</th>
+                                                <th className='border-2 border-deepBlue p-2'>Total Earnings</th>
                                           </tr>
                                     </thead>
                                     <tbody>
-                                          {data.map(earning => (
+                                          {filteredData.map((earning, index) => (
                                                 <tr key={earning._id}>
-                                                      <td className='border px-4 py-2'>{new Date(earning.currentDate).toLocaleDateString()}</td>
-                                                      <td className='border px-4 py-2'>{earning.earnings}</td>
+                                                      <td className='border-2 border-deepBlue p-2'>{moment(earning.currentDate).format('YYYY-MM-DD')}</td>
+                                                      <td className='border-2 border-deepBlue p-2'>{earning.totalEarnings}</td>
                                                 </tr>
                                           ))}
                                     </tbody>
@@ -121,31 +159,31 @@ const Print = ({ setShowPrint, showPrint }) => {
                         );
                   case 'employeeAccounts':
                         return (
-                              <table className='min-w-full table-auto'>
+                              <table className='text-center min-w-full table-auto'>
                                     <thead>
                                           <tr>
-                                                <th className='border px-4 py-2'>Name</th>
-                                                <th className='border px-4 py-2'>Username</th>
-                                                <th className='border px-4 py-2'>Status</th>
+                                                <th className='border-2 border-deepBlue p-2'>Employee ID</th>
+                                                <th className='border-2 border-deepBlue p-2'>Name</th>
+                                                <th className='border-2 border-deepBlue p-2'>Email</th>
+                                                <th className='border-2 border-deepBlue p-2'>Role</th>
                                           </tr>
                                     </thead>
                                     <tbody>
-                                          {data.map(account => (
-                                                <tr key={account._id}>
-                                                      <td className='border px-4 py-2'>{account.name}</td>
-                                                      <td className='border px-4 py-2'>{account.username}</td>
-                                                      <td className='border px-4 py-2'>{account.status ? 'Active' : 'Inactive'}</td>
+                                          {filteredData.map((employee, index) => (
+                                                <tr key={employee._id}>
+                                                      <td className='border-2 border-deepBlue p-2'>{employee.employeeId}</td>
+                                                      <td className='border-2 border-deepBlue p-2'>{employee.name}</td>
+                                                      <td className='border-2 border-deepBlue p-2'>{employee.email}</td>
+                                                      <td className='border-2 border-deepBlue p-2'>{employee.role}</td>
                                                 </tr>
                                           ))}
                                     </tbody>
                               </table>
                         );
                   default:
-                        return <p>No data available. Please select a category and date.</p>;
+                        return null;
             }
       };
-
-
       return (
             <div onClick={() => setShowPrint(!showPrint)} className='z-1 fixed bg-black/50 inset-0 flex items-center justify-center z-50'>
                   <div data-aos="zoom-out" data-aos-duration="200">
