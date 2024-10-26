@@ -115,9 +115,13 @@ const ManageVehicles = () => {
                         const response = await axios.put(`http://localhost:8000/vehicle/${vehicle._id}`, updatedVehicle);
                         console.log('Plate number updated successfully:', response.data);
 
-                        setDisplayVehicles(prevVehicles =>
-                              prevVehicles.map(v => (v._id === vehicle._id ? { ...v, plateNumber: newPlateNumber } : v))
-                        );
+                        // Update allVehicles and displayVehicles
+                        setAllVehicles(prevVehicles => {
+                              const updatedVehicles = prevVehicles.map(v => (v._id === vehicle._id ? { ...v, plateNumber: newPlateNumber } : v));
+                              // Update displayVehicles based on the current filters
+                              setDisplayVehicles(updatedVehicles);
+                              return updatedVehicles; // Return updated vehicles for the state
+                        });
 
                         Swal.fire({
                               title: 'Success!',
@@ -144,13 +148,20 @@ const ManageVehicles = () => {
 
       const handleRemove = async () => {
             let vehicleUpdateData = {};
+            const startDate = moment(selectedVehicle.startDate); // Get the start date from the selected vehicle
+            const endDate = moment(); // Current time
+            const duration = moment.duration(endDate.diff(startDate));
 
-            if ((dayDifference > 0 || hoursDifference > hoursLimit) && hoursLimit != 0) {
+            const dayDifference = duration.days();
+            const hoursDifference = duration.hours();
+            const minutesDifference = duration.minutes();
+
+            if ((dayDifference > 0 || hoursDifference > hoursLimit) && hoursLimit !== 0) {
                   setIfOverStay(true);
                   vehicleUpdateData = {
                         ...selectedVehicle,
                         extraCharges: overTimeFees,
-                        endDate: moment(),
+                        endDate: endDate,
                         status: false
                   };
 
@@ -158,12 +169,11 @@ const ManageVehicles = () => {
                         currentDate: new Date().toISOString(),
                         earnings: overTimeFees
                   });
-
             } else {
                   setIfOverStay(false);
                   vehicleUpdateData = {
                         ...selectedVehicle,
-                        endDate: moment(),
+                        endDate: endDate,
                         status: false
                   };
             }
@@ -184,6 +194,20 @@ const ManageVehicles = () => {
             } catch (error) {
                   console.log(error);
             }
+      };
+
+      const durationDisplay = () => {
+            const startDate = moment(selectedVehicle.startDate);
+            const endDate = moment();
+            const duration = moment.duration(endDate.diff(startDate));
+
+            const dayDifference = duration.days();
+            const hoursDifference = duration.hours();
+            const minutesDifference = duration.minutes();
+
+            return dayDifference !== 0
+                  ? `${dayDifference} days ${hoursDifference} hours and ${minutesDifference} mins`
+                  : `${hoursDifference} hours and ${minutesDifference} mins`;
       };
 
 
@@ -362,12 +386,7 @@ const ManageVehicles = () => {
                                                             <p>{selectedVehicle.ticketNumber}</p>
                                                             <p>{moment(new Date(selectedVehicle.startDate)).format("DD-MM-YY")}</p>
                                                             <p>{selectedVehicle.category}</p>
-                                                            <p>{
-                                                                  dayDifference != 0 ?
-                                                                        `${dayDifference} days ${hoursDifference} hours and ${minutesDifference} mins`
-                                                                        :
-                                                                        `${hoursDifference} hours and ${minutesDifference} mins`
-                                                            }</p>
+                                                            <p>{durationDisplay()}</p>
                                                             <p>{selectedVehicle.status ? "Parked In" : "Parked Out"}</p>
                                                       </div>
 

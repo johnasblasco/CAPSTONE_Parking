@@ -31,6 +31,7 @@ router.post('/', async(req,res) => {
                   category : req.body.category,
                   endDate : null,
                   status : true,
+                  charges: req.body.charges,
                   extraCharges: 0,
             }
 
@@ -71,17 +72,19 @@ router.put("/:id", async (req, res) => {
       try {
           const { id } = req.params;
   
-          const result = await VEHICLE.findByIdAndUpdate(id, req.body);
+          // Update the vehicle in the database and return the updated document
+          const updatedVehicle = await VEHICLE.findByIdAndUpdate(id, req.body, { new: true });
   
-          if (!result) {
+          if (!updatedVehicle) {
               return res.status(404).json({ message: 'Vehicle not found' });
           }
   
-          io.emit('updateVehicle', result);
-            console.log('Emitted updated vehicle:', result);
+          // Emit the updated vehicle
+          io.emit('updateVehicle', updatedVehicle);
+          console.log('Emitted updated vehicle:', updatedVehicle);
   
           // Send the updated vehicle data and status in one response
-          return res.status(200).json(result);
+          return res.status(200).json(updatedVehicle);
   
       } catch (error) {
           console.log("Error updating vehicle:", error);

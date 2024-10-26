@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 
 const Reports = () => {
 
+      const [currentUser, setCurrentUser] = useState("eyy");
       const [todaysEarnings, setTodaysEarnings] = useState(0);
       const [allEarnings, setAllEarnings] = useState([]);
       const [selectedDateEarnings, setSelectedDateEarnings] = useState(0);
@@ -55,6 +56,18 @@ const Reports = () => {
                   console.error('Error fetching vehicles:', error);
             }
       };
+
+      useEffect(() => {
+            axios.get('http://localhost:8000/user')
+                  .then(response => {
+                        const currentUser = response.data.find(user => user.login === true);
+                        setCurrentUser(currentUser.name);
+                  })
+                  .catch(error => {
+                        console.error('Error fetching user:', error);
+                  });
+      }, []);
+
 
 
       const handleDateSelection = async () => {
@@ -225,6 +238,10 @@ const Reports = () => {
         <div style="padding: 20px; font-family: Arial, sans-serif;">
           <h1 style="text-align: center;">Daily Reports</h1>
           <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+          <tr>
+              <th style="border: 1px solid black; padding: 8px; text-align: left;">Printed By</th>
+              <td style="border: 1px solid black; padding: 8px;">${currentUser}</td>
+            </tr>
             <tr>
               <th style="border: 1px solid black; padding: 8px; text-align: left;">Total Earnings</th>
               <td style="border: 1px solid black; padding: 8px;">PHP ${todaysEarnings}.00</td>
@@ -232,7 +249,7 @@ const Reports = () => {
             
             <tr>
               <th style="border: 1px solid black; padding: 8px; text-align: left;">Selected Date (${selectedDate || 'N/A'})</th>
-              <td style="border: 1px solid black; padding: 8px;">PHP ${selectedDateEarnings || '0'}.00</td>
+              <td style="border: 1px solid black; padding: 8px;">${moment(selectedDate).format('MMMM Do YYYY') || 'Today'}</td>
             </tr>
           </table>
     
@@ -384,6 +401,7 @@ const Reports = () => {
                                                             <th className='border-2 border-deepBlue p-2'>In Time</th>
                                                             <th className='border-2 border-deepBlue p-2'>Out Time</th>
                                                             <th className='border-2 border-deepBlue p-2'>Duration</th>
+                                                            <th className='border-2 border-deepBlue p-2'>Charges</th>
                                                             <th className='border-2 border-deepBlue p-2'>Extra Charges</th>
                                                       </tr>
                                                 </thead>
@@ -417,6 +435,8 @@ const Reports = () => {
                                                                                     dayDifference > 0 ? `${dayDifference} days ${hoursDifference} hours ${minutesDifference} mins` : hoursDifference > 0 ? `${hoursDifference} hours  ${minutesDifference} mins` : `${minutesDifference} mins`
                                                                               }
                                                                         </td>
+
+                                                                        <td className='border-2 border-deepBlue p-2'>{vehicle.charges}</td>
                                                                         <td className='border-2 border-deepBlue p-2'>{hoursDifference > hoursLimit && hoursLimit != 0 ? `+${overTimeFees}.00` : '0.00'}</td>
                                                                   </tr>
                                                             )

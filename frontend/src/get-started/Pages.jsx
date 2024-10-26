@@ -19,18 +19,18 @@ const Pages = () => {
                               }
                         </div>
 
-                        <footer class="fixed w-[99%] bottom-0 left-0  text-white py-6">
-                              <div class="container mx-auto px-4">
-                                    <div class="flex justify-between items-center">
+                        <footer className="fixed w-[99%] bottom-0 left-0  text-white py-6">
+                              <div className="container mx-auto px-4">
+                                    <div className="flex justify-between items-center">
 
-                                          <div class="text-sm">
+                                          <div className="text-sm">
                                                 <p>&copy; {new Date().getFullYear()}ParkAid System. All rights reserved.</p>
                                           </div>
 
-                                          <div class="space-x-4">
-                                                <a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a>
-                                                <a href="#" class="text-gray-400 hover:text-white">Terms of Service</a>
-                                                <a href="#" class="text-gray-400 hover:text-white">Contact Us</a>
+                                          <div className="space-x-4">
+                                                <a href="#" className="text-gray-400 hover:text-white">Privacy Policy</a>
+                                                <a href="#" className="text-gray-400 hover:text-white">Terms of Service</a>
+                                                <a href="#" className="text-gray-400 hover:text-white">Contact Us</a>
                                           </div>
                                     </div>
                               </div>

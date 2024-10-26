@@ -62,6 +62,7 @@ const ParkIn = ({ companyName, parkingRules, pricePerTicket, twoWheels, threeAnd
                         category: selectedOption,
                         endDate: null,
                         status: true,
+                        charges: pricePerTicket,
                         extraCharges: 0
                   };
 

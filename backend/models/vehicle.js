@@ -27,6 +27,10 @@ const vehicleScheme = mongoose.Schema(
                   type : Boolean,
                   required : false
             },
+            charges: {
+                  type : Number,
+                  required : false
+            },
             extraCharges: {
                   type : Number,
                   required : false

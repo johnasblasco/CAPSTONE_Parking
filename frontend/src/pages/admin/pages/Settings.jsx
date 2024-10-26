@@ -212,7 +212,7 @@ const Settings = () => {
                               )}
 
                               {currentStep === 4 && (
-                                    <div className="space-y-4 flex flex-col items-center">
+                                    <div className=" flex flex-col items-center">
                                           <h3 className="text-2xl text-center font-semibold text-gray-700">Parking Prices Per Ticket</h3>
                                           <img src="/parkingPrices.png" className='w-72 h-72' alt="" />
                                           <input

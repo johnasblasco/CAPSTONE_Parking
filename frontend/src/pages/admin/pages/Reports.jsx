@@ -178,26 +178,26 @@ const Reports = () => {
                         {/* TOTALS REPORTS */}
                         <div className='flex  mb-12 gap-5 justify-start w-full h-[20vh]'>
                               {/* Total Vehicles */}
-                              <div className='h-max-700:p-16 flex gap-4 items-center pt-10 justify-center relative border-4 border-deepBlue shadow-2xl rounded-3xl bg-offWhite p-2 w-[30%]'>
+                              <div className='h-max-700:p-16 flex gap-4 items-center pt-10 justify-center relative border-4 border-deepBlue shadow-2xl rounded-3xl bg-white p-2 w-[30%]'>
                                     <p className='border-4 border-deepBlue font-bold absolute left-[-35px] top-2 bg-yeelow py-1 px-4 text-lg rounded-3xl'>Total Parked Vehicles</p>
                                     <FaCar className='text-7xl ' />
                                     <p className='h-max-700:text-4xl text-6xl font-bold text-deepBlue'> {totalVehicles}</p>
                               </div>
                               {/* Total Earnings */}
-                              <div className='h-max-700:p-16 flex gap-4 items-center pt-10 justify-center relative border-4 border-deepBlue shadow-2xl rounded-3xl bg-offWhite p-2 w-[30%]'>
+                              <div className='h-max-700:p-16 flex gap-4 items-center pt-10 justify-center relative border-4 border-deepBlue shadow-2xl rounded-3xl bg-white p-2 w-[30%]'>
                                     <p className='border-4 border-deepBlue font-bold absolute left-[-35px] top-2 bg-yeelow py-1 px-4 text-lg rounded-3xl'>Total Earnings</p>
                                     <GiMoneyStack className='text-7xl' />
 
                                     <p className='h-max-700:text-4xl text-6xl font-bold text-deepBlue'>₱{totalEarnings}.00</p>
                               </div>
                               {/* Total Employees */}
-                              <div className='h-max-700:p-16 flex gap-4 items-center pt-10 justify-center relative border-4 border-deepBlue shadow-2xl rounded-3xl bg-offWhite p-2 w-[30%]'>
+                              <div className='h-max-700:p-16 flex gap-4 items-center pt-10 justify-center relative border-4 border-deepBlue shadow-2xl rounded-3xl bg-white p-2 w-[30%]'>
                                     <p className='border-4 border-deepBlue font-bold absolute left-[-35px] top-2 bg-yeelow py-1 px-4 text-lg rounded-3xl'>Total Employees</p>
                                     <FaUser className='text-6xl' />
                                     <p className='h-max-700:text-4xl text-6xl font-bold text-deepBlue'>{users.length}</p>
                               </div>
 
-                              <div className=' h-max-700:p-16 flex gap-4 items-center  justify-center relative border-4 border-deepBlue shadow-2xl rounded-3xl bg-offWhite w-[20%]'>
+                              <div className=' h-max-700:p-16 flex gap-4 items-center  justify-center relative border-4 border-deepBlue shadow-2xl rounded-3xl bg-white w-[20%]'>
                                     <button onClick={() => setShowPrint(!showPrint)} className='font-extrabold text-end bg-bloe hover:scale-95 rounded-2xl p-2 text-2xl text-white'>
                                           <MdLocalPrintshop className='inline text-7xl' />
                                     </button>
@@ -279,7 +279,7 @@ const Reports = () => {
                                                 {users.map((user, index) => (
                                                       <tr key={index} className={`transition-transform duration-300 hover:scale-105 ${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'} border-b border-gray-200 hover:bg-gray-200`}>
                                                             <td className="px-6 py-4 text-deepBlue font-semibold">{user.name}</td>
-                                                            <td className={`px-6 py-4 font-semibold ${user.status ? 'text-green-600' : 'text-pink'}`}>
+                                                            <td className={`px-6 py-4 font-semibold ${user.status ? 'text-green-600' : 'text-red-600'}`}>
                                                                   {user.status ? "ACTIVATED" : "DEACTIVATED"}
                                                             </td>
                                                       </tr>

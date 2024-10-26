@@ -97,9 +97,7 @@ const Home = () => {
             socket.on('vehicles', (vehicles) => {
                   setAllVehicles(vehicles);
                   setVehicles(vehicles.filter(vehicle => vehicle.status === true));
-                  setTimeout(() => {
-                        setLoading(false);
-                  }, 1000);
+                  setLoading(false);
             });
 
             socket.on('newVehicle', (newVehicle) => {
@@ -108,9 +106,13 @@ const Home = () => {
             });
 
             socket.on('updateVehicle', (updatedVehicle) => {
-                  setVehicles(prevVehicles => prevVehicles.filter(v => v.ticketNumber !== updatedVehicle.ticketNumber));
-                  setAllVehicles(prevVehicles => prevVehicles.filter(v => v.ticketNumber !== updatedVehicle.ticketNumber));
-
+                  // Update the vehicles list without filtering out the updated vehicle
+                  setVehicles(prevVehicles =>
+                        prevVehicles.map(v => v.ticketNumber === updatedVehicle.ticketNumber ? updatedVehicle : v)
+                  );
+                  setAllVehicles(prevVehicles =>
+                        prevVehicles.map(v => v.ticketNumber === updatedVehicle.ticketNumber ? updatedVehicle : v)
+                  );
             });
 
             return () => {
