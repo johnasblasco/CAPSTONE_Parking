@@ -96,11 +96,11 @@ const LoginHistory = () => {
 
       return (
             <div className='mx-[10%] h-max-700:mt-[35vh] mt-[25vh] w-[80vw] text-deepBlue'>
-                  <div className="font-bold w-[96%] relative pt-14 pb-8 bg-white border-4 border-bloe mx-auto px-12 rounded-3xl ">
+                  <div className="font-bold relative pt-14 pb-8 min-h-screen  bg-white border-4 border-bloe mx-auto px-12 rounded-2xl ">
 
                         <p className='border-4 font-bold border-deepBlue absolute top-4 left-[-35px] bg-yeelow py-1 px-8 text-lg rounded-3xl '>Login History</p>
 
-                        <div className='mb-12 flex gap-36 justify-end items-center'>
+                        <div className='mb-12 flex gap-80 justify-end items-center'>
                               {/* SEARCH */}
                               <div className='flex items-center gap-4'>
                                     <input onChange={e => setSearch(e.target.value)} className=" w-[25vw] border-gray-500 py-2 px-4 rounded-2xl  font-bold text-xl text-center border-4 outline-8 outline-bloe placeholder-deepBlue/50" type="text" placeholder='Search by Employee Name' />
@@ -108,7 +108,7 @@ const LoginHistory = () => {
                               </div>
 
                               <button onClick={handlePrint} className='font-extrabold my-4 h-12 text-end bg-bloe hover:scale-95 rounded-2xl p-2 px-4 text-white'>
-                                    <MdLocalPrintshop className='inline text-2xl' /> Print Reports
+                                    <MdLocalPrintshop className='inline text-2xl' /> Print
                               </button>
                         </div>
 

@@ -8,7 +8,6 @@ const Header = () => {
       const [user, setUser] = useState({});
       const navigate = useNavigate();
 
-
       useEffect(() => {
             const fetchData = async () => {
                   try {
@@ -22,23 +21,27 @@ const Header = () => {
                   }
             }
             fetchData();
-
-      }, [])
+      }, []);
 
       const loginHistory = async () => {
             try {
-                  // Fetch the login history
                   const response = await axios.get("http://localhost:8000/admin/loginhistory");
                   const foundUser = response.data.find(user => user.timeOut === null);
 
                   if (foundUser) {
-                        setUser(foundUser); // Set the user if found
-                        let currentTime = new Date();
+                        setUser(foundUser);
+                        const currentTime = new Date();
 
-                        // Update the user with the timeOut
+                        // Update the login history record with timeOut
                         await axios.put(`http://localhost:8000/admin/loginhistory/${foundUser._id}`, {
                               ...foundUser,
                               timeOut: currentTime.toISOString()
+                        });
+
+                        // Update current user's login status to false
+                        await axios.put(`http://localhost:8000/user/${currentUser._id}`, {
+                              ...currentUser,
+                              login: false
                         });
 
                         console.log("Logout successful.");
@@ -67,16 +70,14 @@ const Header = () => {
                   reverseButtons: true
             }).then(async (result) => {
                   if (result.isConfirmed) {
-                        await loginHistory(); // Call loginHistory before navigating
+                        await loginHistory();
                         logoutAlert.fire({
                               icon: "success",
-                              title: "Sucessfully logged out!",
+                              title: "Successfully logged out!",
                               showConfirmButton: false,
                               timer: 1000
                         });
                         navigate("/");
-                  } else if (result.dismiss === Swal.DismissReason.cancel) {
-
                   }
             });
       };

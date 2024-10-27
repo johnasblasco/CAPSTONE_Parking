@@ -158,7 +158,7 @@ const ManageAccount = () => {
 
                         {/* CONTENT */}
 
-                        <div className="font-bold w-[96%] relative pt-14 pb-8 bg-white border-4 border-bloe mx-auto px-12 rounded-3xl ">
+                        <div className="font-bold  relative pt-14 pb-8 bg-white border-4 border-bloe mx-auto px-12 rounded-2xl ">
 
                               <p className='border-4 font-bold border-deepBlue absolute top-4 left-[-35px] bg-yeelow py-1 px-8 text-lg rounded-3xl '>Manage Account</p>
 
@@ -181,7 +181,7 @@ const ManageAccount = () => {
 
                                     {/* Right side: Print button */}
                                     <button onClick={handlePrint} className='font-extrabold h-12 bg-bloe hover:scale-95 rounded-2xl p-2 px-4 text-white'>
-                                          <MdLocalPrintshop className='inline text-2xl' /> Print Reports
+                                          <MdLocalPrintshop className='inline text-2xl' /> Print
                                     </button>
                               </div>
 

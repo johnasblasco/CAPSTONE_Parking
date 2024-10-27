@@ -162,19 +162,17 @@ const Print = ({ setShowPrint, showPrint }) => {
                               <table className='text-center min-w-full table-auto'>
                                     <thead>
                                           <tr>
-                                                <th className='border-2 border-deepBlue p-2'>Employee ID</th>
                                                 <th className='border-2 border-deepBlue p-2'>Name</th>
-                                                <th className='border-2 border-deepBlue p-2'>Email</th>
-                                                <th className='border-2 border-deepBlue p-2'>Role</th>
+                                                <th className='border-2 border-deepBlue p-2'>username</th>
+                                                <th className='border-2 border-deepBlue p-2'>status</th>
                                           </tr>
                                     </thead>
                                     <tbody>
                                           {filteredData.map((employee, index) => (
                                                 <tr key={employee._id}>
-                                                      <td className='border-2 border-deepBlue p-2'>{employee.employeeId}</td>
                                                       <td className='border-2 border-deepBlue p-2'>{employee.name}</td>
-                                                      <td className='border-2 border-deepBlue p-2'>{employee.email}</td>
-                                                      <td className='border-2 border-deepBlue p-2'>{employee.role}</td>
+                                                      <td className='border-2 border-deepBlue p-2'>{employee.username}</td>
+                                                      <td className='border-2 border-deepBlue p-2'>{employee.status ? "Activated" : "Deactivated"}</td>
                                                 </tr>
                                           ))}
                                     </tbody>

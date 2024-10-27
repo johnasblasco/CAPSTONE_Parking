@@ -28,9 +28,9 @@ const Pages = () => {
                                           </div>
 
                                           <div className="space-x-4">
-                                                <a href="#" className="text-gray-400 hover:text-white">Privacy Policy</a>
-                                                <a href="#" className="text-gray-400 hover:text-white">Terms of Service</a>
-                                                <a href="#" className="text-gray-400 hover:text-white">Contact Us</a>
+                                                <a href="https://www.freeprivacypolicy.com/live/2a280f3a-2cca-45c5-91b5-dfd9ecdf44e7" target='_blank' className="text-gray-400 hover:text-white">Privacy Policy</a>
+                                                <a href="https://www.freeprivacypolicy.com/live/46184dc6-6fe9-48cd-957d-4007bf1b378d" target='_blank' className="text-gray-400 hover:text-white">Terms of Service</a>
+                                                <a href="https://www.facebook.com/J.blasco20/" target='_blank' className="text-gray-400 hover:text-white">Contact Us</a>
                                           </div>
                                     </div>
                               </div>
