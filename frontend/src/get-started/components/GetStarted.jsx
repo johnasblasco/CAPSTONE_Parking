@@ -109,8 +109,8 @@ const GetStarted = () => {
                   <div className="min-h-screen pb-20 bg-[url('/BG.png')] bg-cover bg-bottom bg-no-repeat flex justify-center">
 
                         {/* back button */}
-                        <div data-aos="fade-down" className='z-20 absolute w-48 h-48 left-12 cursor-pointer top-[-30px] hover:scale-y-90 '>
-                              <img onClick={() => navigate("/")} src="/BACK.png" alt="" className='absolute w-48 h-48 left-12 cursor-pointer top-[-30px] hover:scale-y-90 ' />
+                        <div data-aos="fade-down" className='z-20 absolute left-12 w-40 h-32 cursor-pointer top-2 hover:scale-y-90 '>
+                              <img onClick={() => navigate("/")} src="/BACK.png" alt="" className='absolute left-12 cursor-pointer top-[-30px] hover:scale-y-90 ' />
                         </div>
 
                         <div data-aos="zoom-in">

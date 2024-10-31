@@ -25,8 +25,8 @@ const Home = () => {
             <div className="h-screen bg-[url('/BG.png')] bg-cover bg-bottom bg-no-repeat">
 
                   {/* back button */}
-                  <div data-aos="fade-down" className='absolute w-48 h-48 left-12 cursor-pointer top-[-30px] hover:scale-y-90 '>
-                        <img onClick={() => navigate("/")} src="/BACK.png" alt="" className='absolute w-48 h-48 left-12 cursor-pointer top-[-30px] hover:scale-y-90 ' />
+                  <div data-aos="fade-down" className='absolute w-40 h-32 left-12 cursor-pointer top-2 hover:scale-y-90 '>
+                        <img onClick={() => navigate("/")} src="/BACK.png" alt="" className='absolute  left-12 cursor-pointer top-[-30px] hover:scale-y-90 ' />
                   </div>
 
                   <div className="flex items-center justify-center h-screen">

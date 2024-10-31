@@ -55,8 +55,8 @@ const Admin = () => {
                   <div className="flex items-center justify-center h-screen">
 
                         {/* back button */}
-                        <div data-aos="fade-up" data-aos-duration="500" className='absolute w-48 h-48 left-12 cursor-pointer top-[-160px] hover:scale-y-90 '>
-                              <img onClick={() => navigate("/")} src="/BACK.png" alt="" className='absolute w-48 h-48 left-12 cursor-pointer top-[-30px] hover:scale-y-90 ' />
+                        <div data-aos="fade-up" data-aos-duration="500" className='absolute w-40 h-32 left-12 cursor-pointer top-[-94px]  hover:scale-y-90 '>
+                              <img onClick={() => navigate("/")} src="/BACK.png" alt="" className='absolute left-12 cursor-pointer top-[-30px] hover:scale-y-90 ' />
                         </div>
 
                         <div className="relative flex flex-col items-center pr-24 gap-2 pt-28  pb-8 bg-[url('/polygon1.png')] w-[650px] h-[650px] h-max-700:h-[550px] h-max-700:w-[550px]  bg-contain bg-no-repeat rounded-xl "
