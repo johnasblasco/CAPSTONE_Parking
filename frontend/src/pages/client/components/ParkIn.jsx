@@ -5,11 +5,11 @@ import moment from 'moment';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
-const ParkIn = ({ companyName, parkingRules, pricePerTicket, twoWheels, threeAndFourWheels }) => {
+const ParkIn = ({ companyName, parkingRules, ticket2, ticket34, twoWheels, threeAndFourWheels }) => {
 
       const invoiceRef = useRef();
       const [socket, vehicles, setVehicles, setShowParkIn, setShowParkOut, setDisplayTicket, setShowVehicleData, setSelectedVehicle, selectedVehicle] = useContext(innerContext);
-
+      let pricePerTicket = 0;
       const [plateNo, setPlateNo] = useState("");
       const [selectedOption, setSelectedOption] = useState('');
       const [newVehicle, setNewVehicle] = useState({});
@@ -26,12 +26,26 @@ const ParkIn = ({ companyName, parkingRules, pricePerTicket, twoWheels, threeAnd
       }, [])
 
       const handleButton = async () => {
+            // Regular expression to check if plate number contains both letters and numbers
+            const plateNumberRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d-_]+$/;
+
+
+            // Check if the plate number is valid
+            if (!plateNumberRegex.test(plateNo)) {
+                  Swal.fire("Plate number must contain both letters and numbers. \n\n Example: ABC123");
+                  setPlateNo("");
+                  setShowParkIn(false);
+                  return;
+            }
+
+            // Check if parking spots are full for selected category
             if (vehicles.filter((v) => v.category === "3 Wheels" || v.category === "4 Wheels").length >= threeAndFourWheels && (selectedOption === "3 Wheels" || selectedOption === "4 Wheels")) {
                   Swal.fire("Three and Four Wheels are full!");
                   setPlateNo("");
                   setShowParkIn(false);
                   return;
             }
+
             if (vehicles.filter((v) => v.category === "2 Wheels").length >= twoWheels && (selectedOption === "2 Wheels")) {
                   Swal.fire("Two Wheels are full!");
                   setPlateNo("");
@@ -39,7 +53,6 @@ const ParkIn = ({ companyName, parkingRules, pricePerTicket, twoWheels, threeAnd
                   return;
             }
 
-            console.log("ibbig sabihin meron pa?");
             const now = new Date();
             let randomNumber = Math.floor(Math.random() * 900000) + 100000;
 
@@ -53,7 +66,12 @@ const ParkIn = ({ companyName, parkingRules, pricePerTicket, twoWheels, threeAnd
             }
 
             try {
-
+                  if (selectedOption === "2 Wheels") {
+                        pricePerTicket = ticket2;
+                  }
+                  else if (selectedOption === "3 Wheels" || selectedOption === "4 Wheels") {
+                        pricePerTicket = ticket34;
+                  }
 
                   const vehicleData = {
                         ticketNumber: randomNumber,
@@ -69,15 +87,10 @@ const ParkIn = ({ companyName, parkingRules, pricePerTicket, twoWheels, threeAnd
                   // Post the new vehicle to the server
                   await axios.post("http://localhost:8000/vehicle", vehicleData);
 
-
                   await axios.post("http://localhost:8000/earnings", {
                         currentDate: new Date().toISOString(),
                         earnings: pricePerTicket
-                  })
-
-
-
-
+                  });
 
                   // Set the new vehicle data in state
                   setNewVehicle(vehicleData);
@@ -98,6 +111,7 @@ const ParkIn = ({ companyName, parkingRules, pricePerTicket, twoWheels, threeAnd
                   console.error("Error posting new vehicle:", error);
             }
       };
+
 
       const handlePrint = (vehicleData) => {
             if (!vehicleData || !vehicleData.ticketNumber || !vehicleData.startDate || !vehicleData.plateNumber) {

@@ -116,7 +116,8 @@ const Reports = () => {
             parkingRules,
             twoWheels,
             threeAndFourWheels,
-            pricePerTicket,
+            ticket34,
+            ticket2,
             hoursLimit,
             overTimeFees,
       ] = useContext(myContext);
@@ -233,69 +234,70 @@ const Reports = () => {
                   return;
             }
 
+            // Determine the display date
+            const displayDate = selectedDate ? moment(selectedDate).format('MMMM Do YYYY') : 'Today';
+
             // Structure the earnings and vehicle information
             const earningsDetails = `
-        <div style="padding: 20px; font-family: Arial, sans-serif;">
-          <h1 style="text-align: center;">Daily Reports</h1>
-          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
-          <tr>
-              <th style="border: 1px solid black; padding: 8px; text-align: left;">Printed By</th>
-              <td style="border: 1px solid black; padding: 8px;">${currentUser}</td>
-            </tr>
-            <tr>
-              <th style="border: 1px solid black; padding: 8px; text-align: left;">Total Earnings</th>
-              <td style="border: 1px solid black; padding: 8px;">PHP ${todaysEarnings}.00</td>
-            </tr>
-            
-            <tr>
-              <th style="border: 1px solid black; padding: 8px; text-align: left;">Selected Date (${selectedDate || 'N/A'})</th>
-              <td style="border: 1px solid black; padding: 8px;">${moment(selectedDate).format('MMMM Do YYYY') || 'Today'}</td>
-            </tr>
-          </table>
-    
-          ${invoiceContent}
-        </div>
+          <div style="padding: 20px; font-family: Arial, sans-serif;">
+            <h1 style="text-align: center;">Daily Reports</h1>
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+              <tr>
+                <th style="border: 1px solid black; padding: 8px; text-align: left;">Printed By</th>
+                <td style="border: 1px solid black; padding: 8px;">${currentUser}</td>
+              </tr>
+              <tr>
+                <th style="border: 1px solid black; padding: 8px; text-align: left;">Total Earnings</th>
+                <td style="border: 1px solid black; padding: 8px;">PHP ${todaysEarnings}.00</td>
+              </tr>
+              <tr>
+                <th style="border: 1px solid black; padding: 8px; text-align: left;">Selected Date</th>
+                <td style="border: 1px solid black; padding: 8px;">${displayDate}</td>
+              </tr>
+            </table>
+            ${invoiceContent}
+          </div>
       `;
 
             printWindow.document.open();
             printWindow.document.write(`
-        <html>
-          <head>
-            <title>Print Earnings Report</title>
-            <style>
-              @media print {
-                @page {
-                  size: A4;
-                  margin: 20mm;
+          <html>
+            <head>
+              <title>Print Earnings Report</title>
+              <style>
+                @media print {
+                  @page {
+                    size: A4;
+                    margin: 20mm;
+                  }
+                  body {
+                    font-family: Arial, sans-serif;
+                    margin: 0;
+                  }
+                  table {
+                    width: 100%;
+                    border-collapse: collapse;
+                  }
+                  th, td {
+                    border: 1px solid black;
+                    padding: 8px;
+                    text-align: center;
+                  }
+                  th {
+                    background-color: #f2f2f2;
+                  }
                 }
-                body {
-                  font-family: Arial, sans-serif;
-                  margin: 0;
-                }
-                table {
-                  width: 100%;
-                  border-collapse: collapse;
-                }
-                th, td {
-                  border: 1px solid black;
-                  padding: 8px;
-                  text-align: center;
-                }
-                th {
-                  background-color: #f2f2f2;
-                }
-              }
-            </style>
-          </head>
-          <body>
-            ${earningsDetails}
-            <script>
-              window.onload = function() {
-                window.print();
-              };
-            </script>
-          </body>
-        </html>
+              </style>
+            </head>
+            <body>
+              ${earningsDetails}
+              <script>
+                window.onload = function() {
+                  window.print();
+                };
+              </script>
+            </body>
+          </html>
       `);
             printWindow.document.close();
             printWindow.focus();

@@ -8,7 +8,7 @@ import Header from './components/Header';
 import Navbar from './components/Navbar';
 import io from 'socket.io-client';
 import Swal from 'sweetalert2';
-import 'animate.css';
+import 'animate.css'
 
 export const myContext = createContext();
 const socket = io('http://localhost:8000');
@@ -18,9 +18,10 @@ const Home = () => {
       const [parkingRules, setParkingRules] = useState('');
       const [twoWheels, setTwoWheels] = useState(0);
       const [threeAndFourWheels, setThreeAndFourWheels] = useState(0);
-      const [pricePerTicket, setPricePerTicket] = useState(0);
       const [hoursLimit, setHoursLimit] = useState(0);
       const [overTimeFees, setOverTimeFees] = useState(0);
+      const [ticket2, setTicket2] = useState(0);
+      const [ticket34, setTicket34] = useState(0);
       const [vehicles, setVehicles] = useState([]);
       const [allVehicles, setAllVehicles] = useState([]);
       const [loading, setLoading] = useState(true);
@@ -34,8 +35,9 @@ const Home = () => {
                         setCompanyName(response.data.companyName);
                         setParkingRules(response.data.parkingRules);
                         setTwoWheels(response.data.twoWheels);
+                        setTicket34(response.data.ticket34);
+                        setTicket2(response.data.ticket2);
                         setThreeAndFourWheels(response.data.threeAndFourWheels);
-                        setPricePerTicket(response.data.pricePerTicket);
                         setHoursLimit(response.data.hoursLimit);
                         setOverTimeFees(response.data.overtimeFees);
                   } catch (err) {
@@ -134,7 +136,8 @@ const Home = () => {
             parkingRules,
             twoWheels,
             threeAndFourWheels,
-            pricePerTicket,
+            ticket34,
+            ticket2,
             hoursLimit,
             overTimeFees,
       ];

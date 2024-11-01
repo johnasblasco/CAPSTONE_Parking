@@ -6,7 +6,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 
-const ParkOutDetails = ({ pricePerTicket, overTimeFees, hoursLimit }) => {
+const ParkOutDetails = ({ ticket2, ticket34, overTimeFees, hoursLimit }) => {
 
 
       const [socket, vehicles, setVehicles, setShowParkIn, setShowParkOut, setDisplayTicket, setShowVehicleData, setSelectedVehicle, selectedVehicle] = useContext(innerContext)
@@ -141,8 +141,17 @@ const ParkOutDetails = ({ pricePerTicket, overTimeFees, hoursLimit }) => {
 
                                     <div className='flex my-auto items-center gap-6 '>
                                           <div>
-                                                <p>Total Charge: <b> Php.{pricePerTicket}.00</b> </p>
-                                                {(hoursDifference >= hoursLimit && hoursLimit != 0) && <p className='ml-24 font-bold'>(+ overstay)</p>}
+
+                                                {(hoursDifference >= hoursLimit && hoursLimit != 0) ?
+                                                      (<div>
+                                                            <p>Total Charge: <b> Php.{overTimeFees}.00</b> </p>
+                                                            <p className='ml-24 font-bold'>(+ overstay)</p>
+                                                      </div>
+                                                      )
+                                                      :
+                                                      ""
+                                                }
+
                                           </div>
 
                                           <button onClick={handleRemove} className='bg-pink border-4 border-bloe hover:bg-[#c73838] py-2 px-8 text-2xl font-bold rounded-2xl text-white'>Remove</button>

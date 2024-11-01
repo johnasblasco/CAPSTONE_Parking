@@ -58,7 +58,7 @@ const CreateAccount = () => {
 
 
                               <h2 className=' text-3xl'> <span className='text-pink'>Create User Account </span> (Employees Parking Attendant)</h2>
-                              <img src="/user.png" className='w-72 h-56' alt="" />
+                              <img src="/user.png" className='w-72 h-60' alt="" />
                               <div className='flex mt-4 items-center gap-16 w-[50vw]'>
                                     <label htmlFor="name">Full Name</label>
                                     <input id='name' className='py-4 px-8 rounded-3xl flex-1 border-4 border-bloe focus:bg-bloe/10 hover:bg-bloe/10 placeholder-black/50 outline-indigo-900' value={name} placeholder='Please input your name here' type="text" onChange={e => setName(e.target.value)} />

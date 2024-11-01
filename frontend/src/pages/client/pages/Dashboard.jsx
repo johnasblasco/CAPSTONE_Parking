@@ -5,7 +5,6 @@ import { FaCarSide } from "react-icons/fa6";
 import CurrentlyParked from '../components/CurrentlyParked';
 import Slots from '../components/Slots';
 
-import { ToastContainer } from 'react-toastify';
 import Swal from 'sweetalert2';
 // in
 import ParkIn from '../components/ParkIn'
@@ -32,7 +31,8 @@ const Dashboard = () => {
             parkingRules,
             twoWheels,
             threeAndFourWheels,
-            pricePerTicket,
+            ticket34,
+            ticket2,
             hoursLimit,
             overTimeFees,
       ] = useContext(myContext)
@@ -133,32 +133,20 @@ const Dashboard = () => {
 
 
                   </div>
-                  <ToastContainer
-                        position="bottom-right"
-                        autoClose={2000}
-                        hideProgressBar={false}
-                        newestOnTop={false}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover
-                        theme="light"
-                        transition:Bounce
-                  />
+
 
 
                   {/* CONDITIONAL RENDERING HERE */}
 
                   <innerContext.Provider value={innerContextValue}>
                         {
-                              showParkIn && <ParkIn companyName={companyName} parkingRules={parkingRules} pricePerTicket={pricePerTicket} twoWheels={twoWheels} threeAndFourWheels={threeAndFourWheels} />
+                              showParkIn && <ParkIn companyName={companyName} parkingRules={parkingRules} ticket2={ticket2} ticket34={ticket34} twoWheels={twoWheels} threeAndFourWheels={threeAndFourWheels} />
                         }
                         {
                               showParkOut && <ParkOut />
                         }
                         {
-                              showVehicleData && <ParkOutDetails pricePerTicket={pricePerTicket} overTimeFees={overTimeFees} hoursLimit={hoursLimit} />
+                              showVehicleData && <ParkOutDetails ticket2={ticket2} ticket34={ticket34} overTimeFees={overTimeFees} hoursLimit={hoursLimit} />
                         }
 
                   </innerContext.Provider>

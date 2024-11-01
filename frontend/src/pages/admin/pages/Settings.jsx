@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
-
 const Settings = () => {
       const fileInputRef = useRef(null);
       const [selectedImage, setSelectedImage] = useState('/capture1.png'); // Default image
@@ -12,7 +11,8 @@ const Settings = () => {
             parkingRules: '',
             twoWheels: '',
             threeAndFourWheels: '',
-            pricePerTicket: '',
+            ticket34: '',
+            ticket2: '',
             hoursLimit: '',
             overtimeFees: '',
       });
@@ -38,7 +38,6 @@ const Settings = () => {
                               },
                         });
 
-                        // Add a timestamp as a query parameter to the image URL to prevent caching
                         const timestamp = new Date().getTime();
                         const imageUrl = `http://localhost:8000${response.data.filePath}?t=${timestamp}`;
                         setSelectedImage(imageUrl);
@@ -47,7 +46,6 @@ const Settings = () => {
                   }
             }
       };
-
 
       const handleChange = (e) => {
             const { name, value } = e.target;
@@ -58,9 +56,9 @@ const Settings = () => {
       };
 
       const handleSubmit = async () => {
-            const { companyName, parkingRules, twoWheels, threeAndFourWheels, pricePerTicket, hoursLimit, overtimeFees } = formData;
+            const { companyName, parkingRules, twoWheels, threeAndFourWheels, ticket34, ticket2, hoursLimit, overtimeFees } = formData;
 
-            if (!companyName || !parkingRules || !twoWheels || !threeAndFourWheels || !pricePerTicket || !hoursLimit || !overtimeFees) {
+            if (!companyName || !parkingRules || !twoWheels || !threeAndFourWheels || !ticket34 || !ticket2 || !hoursLimit || !overtimeFees) {
                   setFormError('Please fill in all the fields.');
                   return;
             }
@@ -79,13 +77,12 @@ const Settings = () => {
             }
       };
 
-
-
       const handlePreviousStep = () => {
             if (currentStep > 1) {
                   setCurrentStep((prev) => prev - 1);
             }
       };
+
       const handleNextOrSave = () => {
             if (currentStep === 6) {
                   handleSubmit();
@@ -93,7 +90,6 @@ const Settings = () => {
                   setCurrentStep((prev) => prev + 1);
             }
       };
-
 
       const stepLabels = ['Company Info', 'Parking Rules', 'Wheels Data', 'Pricing', 'Time Limit', 'Overtime Fees'];
 
@@ -109,15 +105,11 @@ const Settings = () => {
                               {stepLabels.map((label, index) => (
                                     <div key={index} className="flex flex-col items-center space-y-2">
                                           <div
-                                                className={`animate-bounce w-8 h-8 flex items-center justify-center rounded-full text-white ${index < currentStep ? 'bg-green-400' : 'bg-gray-300'
-                                                      }`}
+                                                className={`animate-bounce w-8 h-8 flex items-center justify-center rounded-full text-white ${index < currentStep ? 'bg-green-400' : 'bg-gray-300'}`}
                                           >
                                                 {index + 1}
                                           </div>
-                                          <span
-                                                className={`${index < currentStep ? 'text-green-400' : 'text-gray-400'
-                                                      } text-sm`}
-                                          >
+                                          <span className={`${index < currentStep ? 'text-green-400' : 'text-gray-400'} text-sm`}>
                                                 {label}
                                           </span>
                                     </div>
@@ -159,7 +151,7 @@ const Settings = () => {
                               )}
 
                               {currentStep === 2 && (
-                                    <div className=" flex flex-col items-center">
+                                    <div className="flex flex-col items-center">
                                           <h3 className="text-2xl font-semibold text-gray-700">Parking Rules (<span className='text-pink'>Visible in Ticket</span>)</h3>
                                           <img src="/parkingRules.gif" className='w-56 h-56' alt="" />
                                           <textarea
@@ -193,7 +185,6 @@ const Settings = () => {
 
                                                 <div className='flex flex-col items-center'>
                                                       <div className='flex gap-4 items-center'>
-
                                                             <img src="/carICON.png" className='w-56 h-56' alt="" />
                                                             <img src="/tricyICON.png" className='w-48 h-44' alt="" />
                                                       </div>
@@ -212,16 +203,29 @@ const Settings = () => {
                               )}
 
                               {currentStep === 4 && (
-                                    <div className=" flex flex-col items-center">
+                                    <div className="flex flex-col items-center">
                                           <h3 className="text-2xl text-center font-semibold text-gray-700">Parking Prices Per Ticket</h3>
-                                          <img src="/parkingPrices.png" className='w-72 h-72' alt="" />
+                                          <img src="/parkingPrices.png" className='w-56 h-56' alt="" />
+
+                                          <h3 className="text-xl mb-2 text-center font-semibold text-gray-700">Price for 3 and 4 wheeler(PHP)</h3>
                                           <input
                                                 type="number"
-                                                name="pricePerTicket"
-                                                value={formData.pricePerTicket}
+                                                name="ticket34"
+                                                value={formData.ticket34}
                                                 onChange={handleChange}
                                                 placeholder="Ticket Price (PHP)"
-                                                className="w-full text-center p-4 border-4 border-bloe rounded-lg focus:outline-none focus:ring-2 focus:ring-darkBloe"
+                                                className="w-[600px] text-center p-4 border-4 border-bloe rounded-lg focus:outline-none focus:ring-2 focus:ring-darkBloe"
+                                                required
+                                          />
+
+                                          <h3 className="text-xl mt-4 mb-2 text-center font-semibold text-gray-700">Price for 2 wheeler(PHP)</h3>
+                                          <input
+                                                type="number"
+                                                name="ticket2"
+                                                value={formData.ticket2}
+                                                onChange={handleChange}
+                                                placeholder="Ticket Price (PHP)"
+                                                className="w-[600px] text-center p-4 border-4 border-bloe rounded-lg focus:outline-none focus:ring-2 focus:ring-darkBloe"
                                                 required
                                           />
                                     </div>
@@ -241,7 +245,6 @@ const Settings = () => {
                                                 onChange={handleChange}
                                                 placeholder="Hours Limit"
                                                 className="w-full text-center p-4 border-4 border-bloe rounded-lg focus:outline-none focus:ring-2 focus:ring-darkBloe"
-                                                required
                                           />
                                     </div>
                               )}
@@ -259,7 +262,6 @@ const Settings = () => {
                                                 onChange={handleChange}
                                                 placeholder="Overtime Fees (PHP)"
                                                 className="w-full p-4 text-center border-4 border-bloe rounded-lg focus:outline-none focus:ring-2 focus:ring-darkBloe"
-                                                required
                                           />
                                     </div>
                               )}
@@ -282,14 +284,10 @@ const Settings = () => {
                               >
                                     {currentStep === 6 ? 'Save Changes' : 'Next'}
                               </button>
-
                         </div>
                   </div>
             </div>
       );
-
-
-
 };
 
 export default Settings;

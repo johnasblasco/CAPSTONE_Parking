@@ -158,7 +158,7 @@ const ManageAccount = () => {
 
                         {/* CONTENT */}
 
-                        <div className="font-bold  relative pt-14 pb-8 bg-white border-4 border-bloe mx-auto px-12 rounded-2xl ">
+                        <div className="font-bold min-h-[700px]  relative pt-14 pb-8 bg-white border-4 border-bloe mx-auto px-12 rounded-2xl ">
 
                               <p className='border-4 font-bold border-deepBlue absolute top-4 left-[-35px] bg-yeelow py-1 px-8 text-lg rounded-3xl '>Manage Account</p>
 
