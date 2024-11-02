@@ -186,17 +186,16 @@ const ManageVehicles = () => {
                   setShowPopup(false);
                   parkOutAlert();
 
-
                   // render the updates
-                  setAllVehicles(prevVehicles =>
-                        prevVehicles.map(vehicle =>
-                              vehicle._id === selectedVehicle._id ? vehicleUpdateData : vehicle
-                        )
-                  );
                   setVehicles(prevVehicles =>
                         prevVehicles.filter(vehicle =>
                               vehicle._id != selectedVehicle._id
 
+                        )
+                  );
+                  setAllVehicles(prevVehicles =>
+                        prevVehicles.map(vehicle =>
+                              vehicle._id === selectedVehicle._id ? vehicleUpdateData : vehicle
                         )
                   );
 
