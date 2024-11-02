@@ -20,7 +20,7 @@ const CreateAccount = () => {
                         login: false,
                   }
                   await axios.post("http://localhost:8000/user", newUser)
-                  setShowToast(true)
+
 
                   // clear info
                   setName("")
@@ -44,7 +44,6 @@ const CreateAccount = () => {
 
       }
 
-      const [showToast, setShowToast] = useState(false)
 
       return (
             <>
