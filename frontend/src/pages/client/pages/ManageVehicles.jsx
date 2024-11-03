@@ -95,6 +95,7 @@ const ManageVehicles = () => {
       };
 
       const handleEditPlateNumber = async (vehicle) => {
+
             const { value: newPlateNumber } = await Swal.fire({
                   title: 'Edit Plate Number',
                   input: 'text',
@@ -111,6 +112,15 @@ const ManageVehicles = () => {
             });
 
             if (newPlateNumber) {
+                  const plateNumberRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d-_]+$/;
+
+
+                  // Check if the plate number is valid
+                  if (!plateNumberRegex.test(newPlateNumber)) {
+                        Swal.fire("Plate number must contain both letters and numbers. \n\n Example: ABC123");
+
+                        return;
+                  }
                   try {
                         const updatedVehicle = { plateNumber: newPlateNumber };
                         const response = await axios.put(`http://localhost:8000/vehicle/${vehicle._id}`, updatedVehicle);

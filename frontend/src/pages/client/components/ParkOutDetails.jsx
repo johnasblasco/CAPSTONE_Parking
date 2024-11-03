@@ -63,25 +63,22 @@ const ParkOutDetails = ({ ticket2, ticket34, overTimeFees, hoursLimit }) => {
 
 
             try {
-                  await axios.put(`http://localhost:8000/vehicle/${selectedVehicle._id}`, vehicleUpdateData)
+                  // Update the vehicle in the database
+                  await axios.put(`http://localhost:8000/vehicle/${selectedVehicle._id}`, vehicleUpdateData);
 
+                  // Emit the updated vehicle via socket
+                  socket.emit('updateVehicle', vehicleUpdateData);
 
-                  // render the updates
+                  // Update vehicles state
                   setVehicles(prevVehicles =>
-                        prevVehicles.filter(vehicle =>
-                              vehicle._id != selectedVehicle._id
-
-                        )
+                        prevVehicles.filter(vehicle => vehicle._id !== selectedVehicle._id)
                   );
 
-
-
-                  setShowVehicleData(false)
-                  parkOutAlert()
-
+                  setShowVehicleData(false);
+                  parkOutAlert();
 
             } catch (error) {
-                  console.log(error)
+                  console.error("Error updating vehicle:", error.response ? error.response.data : error.message);
             }
 
 

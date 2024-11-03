@@ -96,6 +96,8 @@ const Home = () => {
       }, [companyName]);
 
       useEffect(() => {
+            console.log('Socket connected:', socket.connected);
+
             socket.on('vehicles', (vehicles) => {
                   setAllVehicles(vehicles);
                   setVehicles(vehicles.filter(vehicle => vehicle.status === true));
@@ -108,14 +110,9 @@ const Home = () => {
             });
 
             socket.on('updateVehicle', (updatedVehicle) => {
-                  // Update the vehicles list without filtering out the updated vehicle
-                  setVehicles(prevVehicles =>
-                        prevVehicles.map(v => v.ticketNumber === updatedVehicle.ticketNumber ? updatedVehicle : v)
-                  );
-                  setAllVehicles(prevVehicles =>
-                        prevVehicles.map(v => v.ticketNumber === updatedVehicle.ticketNumber ? updatedVehicle : v)
-                  );
+                  setVehicles(prevVehicle => prevVehicle.filter(V => V.ticketNumber !== updatedVehicle.ticketNumber));
             });
+
 
             return () => {
                   socket.off('vehicles');
@@ -123,6 +120,8 @@ const Home = () => {
                   socket.off('updateVehicle');
             };
       }, []);
+
+
 
 
 
