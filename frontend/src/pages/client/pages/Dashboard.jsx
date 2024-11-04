@@ -77,7 +77,7 @@ const Dashboard = () => {
 
                   <div className='mx-[10%] h-max-700:mt-[35vh] mt-[25vh] w-[80vw] text-deepBlue'>
                         {/* CONTENT GRID LEFT AND RIGHT */}
-                        <div className='py-1 px-4 grid grid-cols-2 gap-10'>
+                        <div className='spy-1 px-4 grid grid-cols-2 gap-10'>
 
                               {/* LEFT */}
                               <div className="left max-[1150px]:hidden flex flex-col gap-4">
