@@ -4,12 +4,17 @@ const path = require('path');
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1200,  // Set your desired width
+    height: 1000, // Set your desired height
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
     },
+  });
+
+  // Ensure the window size is applied before loading the Vite app
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show();
   });
 
   // Load your Vite app

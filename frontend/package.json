@@ -4,13 +4,14 @@
   "version": "0.0.0",
   "type": "module",
   "main": "main.cjs",
-    
   "scripts": {
+      "start": "react-scripts start",
+      "build": "react-scripts build",
       "electron": "electron .",
-      "dev": "vite",
-      "build": "vite build",
-      "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-      "preview": "vite preview"
+      "package": "electron-builder",
+    "dev": "vite",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
   },
   "dependencies": {
     "animate.css": "^4.1.1",
@@ -36,6 +37,8 @@
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.19",
+    "electron": "^33.1.0",
+    "electron-builder": "^25.1.8",
     "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.34.2",
     "eslint-plugin-react-hooks": "^4.6.2",
@@ -43,5 +46,19 @@
     "postcss": "^8.4.39",
     "tailwindcss": "^3.4.4",
     "vite": "^5.3.1"
+  },
+  "build": {
+  "appId": "com.yourapp.name",
+  "productName": "YourApp",
+  "files": [
+    "build/**/*",
+    "main.cjs",
+    "node_modules/**/*"
+  ],
+  "win": {
+    "target": "nsis",
+    "icon": "public/icons/icon.ico"
   }
+}
+
 }
