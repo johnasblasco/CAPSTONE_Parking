@@ -18,7 +18,7 @@ function createWindow() {
   });
 
   // Load your Vite app
-  mainWindow.loadURL('http://localhost:5173'); // Ensure this matches your Vite server port
+  mainWindow.loadURL('https://capstone-parking.vercel.app'); // Ensure this matches your Vite server port
 }
 
 app.whenReady().then(createWindow);
