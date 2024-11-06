@@ -429,7 +429,7 @@ const ManageVehicles = () => {
                                                             }
                                                       </div>
 
-                                                      <button onClick={handleRemove} className='bg-pink border-4 border-bloe hover:bg-[#c73838] py-2 px-8 text-2xl font-bold rounded-2xl text-white'>Remove</button>
+                                                      <button onClick={handleRemove} className='bg-pink hover:scale-95 border-4 border-bloe hover:bg-[#c73838] py-2 px-8 text-2xl font-bold rounded-2xl text-white'>Remove</button>
                                                 </div>
 
 

@@ -164,7 +164,7 @@ const ManageAccount = () => {
 
                               <div className='mt-4 mb-12 flex justify-between items-center gap-4'>
                                     {/* Left side: Activate and Deactivate buttons */}
-                                    <div className='flex gap-4'>
+                                    <div className='flex gap-4 shadow-xl border-2 rounded-3xl p-4'>
                                           <button onClick={handleAct} className='font-extrabold h-12 bg-green-500 hover:scale-95 rounded-2xl p-2 px-4 text-white'>
                                                 <FaFilter className='inline text-2xl' /> Activate Only
                                           </button>

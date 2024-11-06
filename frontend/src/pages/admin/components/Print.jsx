@@ -140,22 +140,33 @@ const Print = ({ setShowPrint, showPrint }) => {
                         );
                   case 'earnings':
                         return (
-                              <table className='text-center min-w-full table-auto'>
-                                    <thead>
-                                          <tr>
-                                                <th className='border-2 border-deepBlue p-2'>Date</th>
-                                                <th className='border-2 border-deepBlue p-2'>Total Earnings</th>
-                                          </tr>
-                                    </thead>
-                                    <tbody>
-                                          {filteredData.map((earning, index) => (
-                                                <tr key={earning._id}>
-                                                      <td className='border-2 border-deepBlue p-2'>{moment(earning.currentDate).format('YYYY-MM-DD')}</td>
-                                                      <td className='border-2 border-deepBlue p-2'>{earning.totalEarnings}</td>
+                              <>
+                                    <table className='text-center min-w-full table-auto mb-10'>
+                                          <thead>
+                                                <tr>
+                                                      <th className='border-2 border-deepBlue p-2'>Total Earnings</th>
+                                                      <th className='border-2 border-deepBlue p-2'>PHP {filteredData.reduce((sum, item) => sum + item.earnings, 0)}</th>
                                                 </tr>
-                                          ))}
-                                    </tbody>
-                              </table>
+                                          </thead>
+                                    </table>
+                                    <table className='text-center min-w-full table-auto'>
+                                          <thead>
+
+                                                <tr>
+                                                      <th className='border-2 border-deepBlue p-2'>Date</th>
+                                                      <th className='border-2 border-deepBlue p-2'>Earnings Per Vehicle</th>
+                                                </tr>
+                                          </thead>
+                                          <tbody>
+                                                {filteredData.map((earning, index) => (
+                                                      <tr key={earning._id}>
+                                                            <td className='border-2 border-deepBlue p-2'>{moment(earning.currentDate).format('YYYY-MM-DD')}</td>
+                                                            <td className='border-2 border-deepBlue p-2'>{earning.earnings}</td>
+                                                      </tr>
+                                                ))}
+                                          </tbody>
+                                    </table >
+                              </>
                         );
                   case 'employeeAccounts':
                         return (
@@ -191,7 +202,7 @@ const Print = ({ setShowPrint, showPrint }) => {
                               <IoMdClose onClick={() => setShowPrint(!showPrint)} className='text-3xl absolute top-4 right-4 cursor-pointer hover:text-red-600' />
 
                               <div className='mb-8'>
-                                    <div className='bg-gray-100 p-6 rounded-lg mb-8'>
+                                    <div className='bg-gray-300 p-6 rounded-lg mb-8'>
                                           <p className='text-xl font-semibold mb-4'>Overview</p>
                                           <p className='text-md'>Selected Date: <span className='font-bold'>{selectedDate || 'Not selected'}</span></p>
                                           <p className='text-md'>Category: <span className='font-bold'>{selectedOption ? selectedOption.charAt(0).toUpperCase() + selectedOption.slice(1) : 'None'}</span></p>
@@ -206,7 +217,7 @@ const Print = ({ setShowPrint, showPrint }) => {
 
                                           <div className='mt-4'>
                                                 <label htmlFor="dropdown" className="block text-md font-medium mb-2">Choose a category:</label>
-                                                <select id="dropdown" value={selectedOption} onChange={handleSelectChange} className="w-full p-3 border rounded-md focus:border-blue-400 transition">
+                                                <select id="dropdown" value={selectedOption} onChange={handleSelectChange} className="w-full p-3 bg-gray-100 border rounded-md focus:border-blue-400 transition">
                                                       <option value="">--Select an option--</option>
                                                       <option value="employeeAccounts">Accounts Reports</option>
                                                       <option value="vehicles">Vehicles Reports</option>
