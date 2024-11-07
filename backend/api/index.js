@@ -1,5 +1,5 @@
 import express from 'express';
-import mongoose from 'mongoose';
+import connectDB from './database.js';  // Import the singleton connection function
 import cors from 'cors';
 
 // Import routes
@@ -9,9 +9,6 @@ import vehicleR from '../routes/vehicleR.js';
 import earningsR from '../routes/earningsR.js';
 import settingsR from '../routes/settingsR.js';
 import uploadR from '../routes/uploadR.js';
-
-// Import database connection details
-import { DATABASE } from '../config.js';
 
 const app = express();
 
@@ -27,23 +24,10 @@ app.use('/earnings', earningsR);
 app.use('/settings', settingsR);
 app.use('/upload', uploadR);
 
-// MongoDB connection (used per request for serverless)
-const Connection = async () => {
-  try {
-    await mongoose.connect(DATABASE, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log('Connected to MongoDB');
-  } catch (error) {
-    console.log('MongoDB connection failed', error);
-  }
-};
-
 // Serverless function handler
 const handler = async (req, res) => {
   // Ensure MongoDB connection per request
-  await Connection();
+  await connectDB();
 
   // Express request handler
   app(req, res);
