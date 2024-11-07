@@ -2,46 +2,12 @@
       "version": 2,
       "builds": [
         {
-          "src": "frontend/package.json",
-          "use": "@vercel/static-build",
-          "config": {
-            "distDir": "frontend/dist"
-          }
-        },
-        {
-          "src": "backend/api/index.js", 
+          "src": "api/index.js",
           "use": "@vercel/node"
         }
       ],
       "routes": [
-        {
-          "src": "/api/admin(.*)",
-          "dest": "/backend/routes/adminR.js"
-        },
-        {
-          "src": "/api/settings(.*)",
-          "dest": "/backend/routes/settingsR.js"
-        },
-        {
-          "src": "/api/upload(.*)",
-          "dest": "/backend/routes/uploadR.js"
-        },
-        {
-          "src": "/api/earnings(.*)",
-          "dest": "/backend/routes/earningsR.js"
-        },
-        {
-          "src": "/api/user(.*)",
-          "dest": "/backend/routes/userR.js"
-        },
-        {
-          "src": "/api/vehicle(.*)",
-          "dest": "/backend/routes/vehicleR.js"
-        },
-        {
-          "src": "/(.*)",
-          "dest": "/frontend/dist/$1"
-        }
+        { "src": "/api/(.*)", "dest": "/api/index.js" }
       ]
     }
     
