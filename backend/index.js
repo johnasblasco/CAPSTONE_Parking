@@ -59,7 +59,7 @@ io.on('connection', socket => {
 
   // Send this to all kupal
   const initialData = async () => {
-    const vehicle = await axios.get('http://localhost:8000/vehicle');
+    const vehicle = await axios.get('https://capstone-parking.onrender.com/vehicle');
     socket.emit('vehicles', vehicle.data);
   };
   initialData();

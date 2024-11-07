@@ -20,7 +20,7 @@ const ParkIn = ({ companyName, parkingRules, ticket2, ticket34, twoWheels, three
       };
 
       useEffect(() => {
-            axios.get("http://localhost:8000/upload")
+            axios.get("https://capstone-parking.onrender.com/upload")
                   .then(response => setMyImg(response.data))
 
       }, [])
@@ -85,9 +85,9 @@ const ParkIn = ({ companyName, parkingRules, ticket2, ticket34, twoWheels, three
                   };
 
                   // Post the new vehicle to the server
-                  await axios.post("http://localhost:8000/vehicle", vehicleData);
+                  await axios.post("https://capstone-parking.onrender.com/vehicle", vehicleData);
 
-                  await axios.post("http://localhost:8000/earnings", {
+                  await axios.post("https://capstone-parking.onrender.com/earnings", {
                         currentDate: new Date().toISOString(),
                         earnings: pricePerTicket
                   });

@@ -19,7 +19,7 @@ const CreateAccount = () => {
                         status: true,
                         login: false,
                   }
-                  await axios.post("http://localhost:8000/user", newUser)
+                  await axios.post("https://capstone-parking.onrender.com/user", newUser)
 
 
                   // clear info

@@ -32,14 +32,14 @@ const Settings = () => {
                   formData.append('image', file);
 
                   try {
-                        const response = await axios.post('http://localhost:8000/upload', formData, {
+                        const response = await axios.post('https://capstone-parking.onrender.com/upload', formData, {
                               headers: {
                                     'Content-Type': 'multipart/form-data',
                               },
                         });
 
                         const timestamp = new Date().getTime();
-                        const imageUrl = `http://localhost:8000${response.data.filePath}?t=${timestamp}`;
+                        const imageUrl = `https://capstone-parking.onrender.com${response.data.filePath}?t=${timestamp}`;
                         setSelectedImage(imageUrl);
                   } catch (error) {
                         setFormError('Error uploading file. Please try again.');
@@ -64,7 +64,7 @@ const Settings = () => {
             }
 
             try {
-                  await axios.put('http://localhost:8000/settings', formData);
+                  await axios.put('https://capstone-parking.onrender.com/settings', formData);
 
                   Swal.fire({
                         title: 'Settings Updated!',

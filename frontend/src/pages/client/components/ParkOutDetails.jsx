@@ -40,7 +40,7 @@ const ParkOutDetails = ({ ticket2, ticket34, overTimeFees, hoursLimit, setAllVeh
                   };
 
 
-                  await axios.post("http://localhost:8000/earnings", {
+                  await axios.post("https://capstone-parking.onrender.com/earnings", {
                         currentDate: new Date().toISOString(),
                         earnings: overTimeFees
                   })
@@ -64,7 +64,7 @@ const ParkOutDetails = ({ ticket2, ticket34, overTimeFees, hoursLimit, setAllVeh
 
             try {
                   // Update the vehicle in the database
-                  await axios.put(`http://localhost:8000/vehicle/${selectedVehicle._id}`, vehicleUpdateData);
+                  await axios.put(`https://capstone-parking.onrender.com/vehicle/${selectedVehicle._id}`, vehicleUpdateData);
 
                   // Emit the updated vehicle via socket
                   socket.emit('updateVehicle', vehicleUpdateData);

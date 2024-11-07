@@ -21,13 +21,13 @@ const Print = ({ setShowPrint, showPrint }) => {
                   let url = '';
                   switch (selectedOption) {
                         case 'vehicles':
-                              url = `http://localhost:8000/vehicle`; // Fetch all vehicles
+                              url = `https://capstone-parking.onrender.com/vehicle`; // Fetch all vehicles
                               break;
                         case 'earnings':
-                              url = `http://localhost:8000/earnings`; // Fetch all earnings
+                              url = `https://capstone-parking.onrender.com/earnings`; // Fetch all earnings
                               break;
                         case 'employeeAccounts':
-                              url = `http://localhost:8000/user`; // Fetch all user accounts
+                              url = `https://capstone-parking.onrender.com/user`; // Fetch all user accounts
                               break;
                         default:
                               return;

@@ -28,13 +28,13 @@ const GetStarted = () => {
                   formData.append('image', file);
 
                   try {
-                        const response = await axios.post('http://localhost:8000/upload', formData, {
+                        const response = await axios.post('https://capstone-parking.onrender.com/upload', formData, {
                               headers: {
                                     'Content-Type': 'multipart/form-data',
                               },
                         });
 
-                        const imageUrl = `http://localhost:8000${response.data.filePath}`;
+                        const imageUrl = `https://capstone-parking.onrender.com${response.data.filePath}`;
                         setSelectedImage(imageUrl);
                         console.log('File uploaded:', imageUrl);
                   } catch (error) {
@@ -73,7 +73,7 @@ const GetStarted = () => {
             }
 
             try {
-                  await axios.put('http://localhost:8000/admin', {
+                  await axios.put('https://capstone-parking.onrender.com/admin', {
                         name,
                         username,
                         password,

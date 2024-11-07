@@ -11,7 +11,7 @@ const Header = () => {
       useEffect(() => {
             const fetchData = async () => {
                   try {
-                        const response = await axios.get("http://localhost:8000/user");
+                        const response = await axios.get("https://capstone-parking.onrender.com/user");
                         const foundUser = response.data.find(user => user.login === true);
                         if (foundUser) {
                               setCurrentUser(foundUser);
@@ -25,7 +25,7 @@ const Header = () => {
 
       const loginHistory = async () => {
             try {
-                  const response = await axios.get("http://localhost:8000/admin/loginhistory");
+                  const response = await axios.get("https://capstone-parking.onrender.com/admin/loginhistory");
                   const foundUser = response.data.find(user => user.timeOut === null);
 
                   if (foundUser) {
@@ -33,13 +33,13 @@ const Header = () => {
                         const currentTime = new Date();
 
                         // Update the login history record with timeOut
-                        await axios.put(`http://localhost:8000/admin/loginhistory/${foundUser._id}`, {
+                        await axios.put(`https://capstone-parking.onrender.com/admin/loginhistory/${foundUser._id}`, {
                               ...foundUser,
                               timeOut: currentTime.toISOString()
                         });
 
                         // Update current user's login status to false
-                        await axios.put(`http://localhost:8000/user/${currentUser._id}`, {
+                        await axios.put(`https://capstone-parking.onrender.com/user/${currentUser._id}`, {
                               ...currentUser,
                               login: false
                         });

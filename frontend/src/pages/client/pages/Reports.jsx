@@ -21,7 +21,7 @@ const Reports = () => {
 
       useEffect(() => {
             const fetchEarnings = async () => {
-                  const res = await axios.get('http://localhost:8000/earnings');
+                  const res = await axios.get('https://capstone-parking.onrender.com/earnings');
                   setAllEarnings(res.data);
 
                   // Calculate today's earnings
@@ -37,7 +37,7 @@ const Reports = () => {
 
       const fetchSelectedVehicles = async (date) => {
             try {
-                  const res = await axios.get('http://localhost:8000/vehicle');
+                  const res = await axios.get('https://capstone-parking.onrender.com/vehicle');
                   // Check if vehicles have startDate and filter them
                   const filteredVehicles = res.data.filter(vehicle => {
                         if (vehicle.startDate) {
@@ -58,7 +58,7 @@ const Reports = () => {
       };
 
       useEffect(() => {
-            axios.get('http://localhost:8000/user')
+            axios.get('https://capstone-parking.onrender.com/user')
                   .then(response => {
                         const currentUser = response.data.find(user => user.login === true);
                         setCurrentUser(currentUser.name);

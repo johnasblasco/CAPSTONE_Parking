@@ -12,7 +12,7 @@ const Home = () => {
             navigate('/user');
       };
       const ifnotLoggedOut = () => {
-            axios.get('http://localhost:8000/admin/loginhistory')
+            axios.get('https://capstone-parking.onrender.com/admin/loginhistory')
                   .then(response => {
                         const found = response.data.find(user => user.timeOut === null)
                         if (found) {

@@ -13,7 +13,7 @@ const Admin = () => {
       const [error, setError] = useState(null);
 
       const handleLogin = () => {
-            axios.get("http://localhost:8000/admin")
+            axios.get("https://capstone-parking.onrender.com/admin")
                   .then(response => {
                         response.data.forEach(admin => {
                               if (admin.username === username && admin.password === password) {

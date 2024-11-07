@@ -14,7 +14,7 @@ const Client = () => {
 
       const handleLogin = async () => {
             try {
-                  const response = await axios.get("http://localhost:8000/user");
+                  const response = await axios.get("https://capstone-parking.onrender.com/user");
 
                   // main logic here
                   const user = response.data.find((user) => user.username === username && user.password === password && user.status === true);
@@ -38,10 +38,10 @@ const Client = () => {
                         timeIn: now,
                         timeOut: null
                   };
-                  await axios.post("http://localhost:8000/admin/loginHistory", logData);
+                  await axios.post("https://capstone-parking.onrender.com/admin/loginHistory", logData);
 
                   // Proceed to update the data on the server
-                  await axios.put(`http://localhost:8000/user/${user._id}`, { ...user, login: true });
+                  await axios.put(`https://capstone-parking.onrender.com/user/${user._id}`, { ...user, login: true });
                   console.log('Data updated successfully:');
 
 

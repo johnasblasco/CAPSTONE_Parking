@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 import 'animate.css'
 
 export const myContext = createContext();
-const socket = io('http://localhost:8000');
+const socket = io('https://capstone-parking.onrender.com');
 
 const Home = () => {
       const [companyName, setCompanyName] = useState('');
@@ -31,7 +31,7 @@ const Home = () => {
       useEffect(() => {
             const fetchSettings = async () => {
                   try {
-                        const response = await axios.get('http://localhost:8000/settings');
+                        const response = await axios.get('https://capstone-parking.onrender.com/settings');
                         setCompanyName(response.data.companyName);
                         setParkingRules(response.data.parkingRules);
                         setTwoWheels(response.data.twoWheels);
@@ -55,7 +55,7 @@ const Home = () => {
       useEffect(() => {
             const fetchVehicles = async () => {
                   try {
-                        const response = await axios.get('http://localhost:8000/vehicle');
+                        const response = await axios.get('https://capstone-parking.onrender.com/vehicle');
                         setAllVehicles(response.data);
                         setVehicles(response.data.filter(vehicle => vehicle.status === true));
                   } catch (error) {
@@ -71,7 +71,7 @@ const Home = () => {
       }, []);
 
       useEffect(() => {
-            axios.get('http://localhost:8000/upload')
+            axios.get('https://capstone-parking.onrender.com/upload')
                   .then(response => setMyImg(response.data));
             if (companyName) {
                   setTimeout(() => {
