@@ -155,11 +155,15 @@ const Settings = () => {
                                           <h3 className="text-2xl font-semibold text-gray-700">Parking Rules (<span className='text-pink'>Visible in Ticket</span>)</h3>
                                           <img src="/parkingRules.gif" className='w-56 h-56' alt="" />
                                           <textarea
+
                                                 name="parkingRules"
                                                 value={formData.parkingRules}
                                                 onChange={handleChange}
-                                                placeholder="PARKING RULES&#10;Park Within Lines – Ensure your vehicle is parked within the designated space.&#10;Handicapped Spaces – Reserved for vehicles with valid permits.&#10;Reserved Spaces – For employees or specific users. Towing enforced.&#10;Pedestrian Safety – Yield to pedestrians at all times.&#10;Overnight Parking – Not allowed.&#10;Large Vehicle Parking – Park in designated spots for larger vehicles.&#10;Failure to comply may result in fines."
-
+                                                placeholder=" Parking Rules
+                                                
+            Park Within Lines – Ensure your vehicle is parked within the designated space. Handicapped Spaces – Reserved for vehicles with valid 
+            permits. Reserved Spaces – For employees or specific users. Towing enforced. Pedestrian Safety – Yield to pedestrians at all times. 
+            Overnight Parking – Not allowed. Large Vehicle Parking – Park in designated spots for larger vehicles. Failure to comply may result in fines."
                                                 className="w-full text-center text-xl font-bold p-4 border-4 border-bloe rounded-lg focus:outline-none focus:ring-2 focus:ring-darkBloe"
                                                 rows="5"
                                                 required
