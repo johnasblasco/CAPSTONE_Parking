@@ -1,11 +1,19 @@
 import React from 'react';
 
 const About = () => {
-      const title = "ABOUT  US";
-      const paragraph = "We are Group 4, 3F-G1 from the College of Information and Communications Technology at Bulacan State University. Our team is dedicated to developing the Parking System Management Application, designed to enhance parking efficiency and user experience. All rights reserved."
+      const title = "ABOUT US";
+      const lines = [
+            "We Are Group 4, from Section 4F-G1",
+            "College of Information and Communications Technology",
+            "Bulacan State University",
+            "",
+            "Our team is committed to developing the Parking System Management Application, designed to improve parking efficiency and enhance the user experience.",
+            "",
+            "All rights reserved."
+      ];
 
       return (
-            <div className=' flex justify-center'>
+            <div className='flex justify-center'>
                   <div data-aos="fade-right"
                         data-aos-offset="300"
                         data-aos-easing="ease-in-sine" >
@@ -20,26 +28,27 @@ const About = () => {
                               ))}
                         </h2>
 
-
-
-                        <p className='mt-10 w-[80%] text-wrap text-2xl text-white mb-12'>
-                              {paragraph.split(" ").map((word, index) => (
-                                    <span
-                                          key={index}
-                                          className="inline-block font-bold  hover:animate-color-change transition-transform duration-400 hover:scale-125 mr-4"
-                                    >
-                                          {word}
-                                    </span>
+                        <div className='mt-10 w-[80%] text-wrap text-2xl text-white mb-12'>
+                              {lines.map((line, index) => (
+                                    <p key={index} className={`${line ? "mb-4" : "mb-8"}`}>
+                                          {line.split(" ").map((word, wordIndex) => (
+                                                <span
+                                                      key={wordIndex}
+                                                      className="inline-block font-bold transition-transform duration-400 hover:scale-125 hover:animate-color-change mr-2"
+                                                >
+                                                      {word}
+                                                </span>
+                                          ))}
+                                    </p>
                               ))}
-                        </p>
-
+                        </div>
                   </div>
 
                   <div className='mr-16'
                         data-aos="fade-left"
                         data-aos-offset="300"
                         data-aos-easing="ease-in-sine">
-                        <img className='hover:scale-105  w-[3000px]' src="about.png" alt="About Us" />
+                        <img className='hover:scale-105 w-[2000px]' src="about.png" alt="About Us" />
                   </div>
             </div>
       );

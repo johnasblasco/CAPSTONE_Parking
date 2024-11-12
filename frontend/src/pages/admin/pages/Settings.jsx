@@ -158,8 +158,8 @@ const Settings = () => {
                                                 name="parkingRules"
                                                 value={formData.parkingRules}
                                                 onChange={handleChange}
-                                                placeholder=" Parking Rules
-Parking is not allowed on roads with No Parking signs. On streets without these signs, you may park as long as the road isn’t private and you follow these rules: avoid intersections, crosswalks, footbridges, overpasses, and major roads. Do not block driveways or double park. Keep a distance of at least 4 meters from fire hydrants and fire station entrances, and stay 6 meters from curb intersections."
+                                                placeholder="PARKING RULES&#10;Park Within Lines – Ensure your vehicle is parked within the designated space.&#10;Handicapped Spaces – Reserved for vehicles with valid permits.&#10;Reserved Spaces – For employees or specific users. Towing enforced.&#10;Pedestrian Safety – Yield to pedestrians at all times.&#10;Overnight Parking – Not allowed.&#10;Large Vehicle Parking – Park in designated spots for larger vehicles.&#10;Failure to comply may result in fines."
+
                                                 className="w-full text-center text-xl font-bold p-4 border-4 border-bloe rounded-lg focus:outline-none focus:ring-2 focus:ring-darkBloe"
                                                 rows="5"
                                                 required
