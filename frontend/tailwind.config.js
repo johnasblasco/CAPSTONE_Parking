@@ -23,9 +23,13 @@ export default {
             '400': '400ms',
           },
 
-            screens: {
-                  'h-max-700': { 'raw': '(max-height: 700px)' },
-            },
+          screens: {
+            // Custom screen breakpoints
+            'h-max-700': { 'raw': '(max-height: 700px)' },
+            'cp': { 'raw': '(max-width: 480px)' },  // Custom breakpoint for small mobile (cell phone)
+            'laptop': { 'raw': '(max-width: 1366px)' }, // Custom breakpoint for laptops (1366px width)
+            // You can add more as needed
+          },
             fontFamily: {
                   sans: ['Inter', 'sans-serif'], // Set Inter as the default sans font
             },

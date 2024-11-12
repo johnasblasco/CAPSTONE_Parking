@@ -71,14 +71,38 @@ const Print = ({ setShowPrint, showPrint }) => {
                   return;
             }
 
+            // Get the printable content's HTML
             const printContent = document.getElementById('printableContent').innerHTML;
-            const originalContent = document.body.innerHTML;
 
-            document.body.innerHTML = printContent;
-            window.print();
-            document.body.innerHTML = originalContent;
-            window.location.reload(); // Reload the page to restore the original content
+            // Open a new window and write the content for printing
+            const printWindow = window.open('', '_blank');
+            printWindow.document.open();
+            printWindow.document.write(`
+                  <html>
+                        <head>
+                              <title>Print</title>
+                              <style>
+                                    body { font-family: Arial, sans-serif; }
+                                    table { width: 100%; border-collapse: collapse; }
+                                    th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+                                    th { background-color: #f2f2f2; }
+                              </style>
+                        </head>
+                        <body>
+                              ${printContent}
+                        </body>
+                  </html>
+            `);
+            printWindow.document.close();
+
+            // Trigger the print
+            printWindow.print();
+
+            // Close the print window after printing
+            printWindow.onafterprint = () => printWindow.close();
       };
+
+
 
       const renderTable = () => {
             if (error) return <p>{error}</p>; // Display error message
