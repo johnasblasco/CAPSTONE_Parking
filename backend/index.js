@@ -5,6 +5,8 @@ import { Server } from 'socket.io';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import path from 'path';  // Import path for absolute directory
+import dotenv from 'dotenv';
+dotenv.config();
 
 // import routes
 import userR from './routes/userR.js';

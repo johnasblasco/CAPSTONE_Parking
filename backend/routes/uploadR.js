@@ -50,26 +50,26 @@ router.get('/', (req, res) => {
 
 // Updated route to handle file uploads with Cloudinary
 router.post('/', async (req, res) => {
-  const { image } = req.body;
-
-  if (!image) {
-    return res.status(400).json({ error: 'No file provided' });
-  }
-
-  try {
-    // Upload image to Cloudinary
-    const result = await cloudinary.uploader.upload(image, {
-      folder: 'uploads', // Optional: Cloudinary folder to store images
-      public_id: 'uploaded-image', // Overwrite with the same name
-      overwrite: true,
+      const { image } = req.body; // Ensure image is passed in the request body
+    
+      if (!image) {
+        return res.status(400).json({ error: 'No file provided' });
+      }
+    
+      try {
+        const result = await cloudinary.uploader.upload(image, {
+          folder: 'uploads', // Optional: Cloudinary folder
+          public_id: 'uploaded-image', // Optional: Set the public ID for the uploaded image
+          overwrite: true, // Optional: Overwrite the existing image with the same public_id
+        });
+    
+        // Send back the Cloudinary URL
+        res.json({ message: 'File uploaded successfully', filePath: result.secure_url });
+      } catch (error) {
+        console.error('Cloudinary upload error:', error); // Log error details
+        res.status(500).json({ error: 'Failed to upload image' });
+      }
     });
-
-    // Send back the Cloudinary URL
-    res.json({ message: 'File uploaded successfully', filePath: result.secure_url });
-  } catch (error) {
-    console.error('Cloudinary upload error:', error);
-    res.status(500).json({ error: 'Failed to upload image' });
-  }
-});
+    
 
 export default router;
