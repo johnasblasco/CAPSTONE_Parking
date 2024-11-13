@@ -28,24 +28,20 @@ const Settings = () => {
             const file = e.target.files[0];
 
             if (file) {
-                  const formData = new FormData();
-                  formData.append('image', file);
+                  const reader = new FileReader();
+                  reader.readAsDataURL(file);
+                  reader.onloadend = async () => {
+                        try {
+                              const response = await axios.post('https://capstone-parking.onrender.com/upload', { image: reader.result });
 
-                  try {
-                        const response = await axios.post('https://capstone-parking.onrender.com/upload', formData, {
-                              headers: {
-                                    'Content-Type': 'multipart/form-data',
-                              },
-                        });
-
-                        const timestamp = new Date().getTime();
-                        const imageUrl = `https://capstone-parking.onrender.com${response.data.filePath}?t=${timestamp}`;
-                        setSelectedImage(imageUrl);
-                  } catch (error) {
-                        setFormError('Error uploading file. Please try again.');
-                  }
+                              setSelectedImage(response.data.filePath); // Use Cloudinary URL directly from the response
+                        } catch (error) {
+                              setFormError('Error uploading file. Please try again.');
+                        }
+                  };
             }
       };
+
 
       const handleChange = (e) => {
             const { name, value } = e.target;
