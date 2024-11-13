@@ -29,25 +29,29 @@ const Settings = () => {
 
             if (file) {
                   const formData = new FormData();
-                  formData.append('image', file);
+                  formData.append('file', file);
+                  formData.append('upload_preset', 'ml_default'); // Use this preset name from Cloudinary
 
                   try {
-                        const response = await axios.post('https://capstone-parking.onrender.com/upload', formData, {
-                              headers: {
-                                    'Content-Type': 'multipart/form-data', // Important for file uploads
-                              },
-                        });
+                        const response = await axios.post(
+                              `https://api.cloudinary.com/v1_1/ddjabt4dc/image/upload`,
+                              formData,
+                              {
+                                    headers: { 'Content-Type': 'multipart/form-data' },
+                              }
+                        );
 
-                        const timestamp = new Date().getTime();
-                        const imageUrl = `https://capstone-parking.onrender.com${response.data.filePath}?t=${timestamp}`;
-                        setSelectedImage(imageUrl);
+                        if (response.data.secure_url) {
+                              setSelectedImage(response.data.secure_url);
+                              console.log('Upload successful:', response.data);
+                        } else {
+                              console.error('Upload failed: Missing URL in response');
+                        }
                   } catch (error) {
-                        console.error("Error uploading file:", error);
-                        setFormError('Error uploading file. Please try again.');
+                        console.error("Error uploading file:", error.response?.data || error.message);
                   }
             }
       };
-
 
 
       const handleChange = (e) => {

@@ -25,7 +25,9 @@ const Home = () => {
       const [vehicles, setVehicles] = useState([]);
       const [allVehicles, setAllVehicles] = useState([]);
       const [loading, setLoading] = useState(true);
-      const [myImg, setMyImg] = useState(null);
+
+      // Directly use the Cloudinary image URL
+      const [myImg, setMyImg] = useState("https://res.cloudinary.com/ddjabt4dc/image/upload/v1731500602/SACRED_o3tkoq.png");
 
       useEffect(() => {
             const fetchSettings = async () => {
@@ -39,9 +41,6 @@ const Home = () => {
                         setThreeAndFourWheels(response.data.threeAndFourWheels);
                         setHoursLimit(response.data.hoursLimit);
                         setOverTimeFees(response.data.overtimeFees);
-
-                        // Fetch image after fetching settings
-                        fetchImage();
                   } catch (err) {
                         console.error(err);
                   } finally {
@@ -52,33 +51,17 @@ const Home = () => {
             fetchSettings();
       }, []);
 
-      // Fetch image URL from Cloudinary
-      const fetchImage = async () => {
-            try {
-                  const response = await axios.get('https://capstone-parking.onrender.com/upload');
-                  setMyImg(response.data); // Store the Cloudinary URL directly
-            } catch (error) {
-                  console.error("Error fetching image:", error);
-            }
-      };
-
       // Display welcome modal
       useEffect(() => {
             if (companyName && myImg) {
                   Swal.fire({
-                        title: `${companyName}`,
+                        title: companyName,
                         text: "Welcome to Parking Management System",
-                        imageUrl: myImg, // Use the Cloudinary URL here
+                        imageUrl: myImg,
                         width: 700,
                         imageWidth: 300,
                         imageHeight: 300,
                         imageAlt: "Welcome image",
-                        showClass: {
-                              popup: 'animate__animated animate__fadeInUp animate__faster'
-                        },
-                        hideClass: {
-                              popup: 'animate__animated animate__fadeOutDown animate__faster'
-                        }
                   });
             }
       }, [companyName, myImg]);
