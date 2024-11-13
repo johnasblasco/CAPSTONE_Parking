@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, createContext } from 'react';
+import { useEffect, useState, createContext } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import ManageVehicles from './pages/ManageVehicles';
@@ -8,7 +8,7 @@ import Header from './components/Header';
 import Navbar from './components/Navbar';
 import io from 'socket.io-client';
 import Swal from 'sweetalert2';
-import 'animate.css'
+import 'animate.css';
 
 export const myContext = createContext();
 const socket = io('https://capstone-parking.onrender.com');
@@ -27,7 +27,6 @@ const Home = () => {
       const [loading, setLoading] = useState(true);
       const [myImg, setMyImg] = useState(null);
 
-
       useEffect(() => {
             const fetchSettings = async () => {
                   try {
@@ -40,17 +39,49 @@ const Home = () => {
                         setThreeAndFourWheels(response.data.threeAndFourWheels);
                         setHoursLimit(response.data.hoursLimit);
                         setOverTimeFees(response.data.overtimeFees);
+
+                        // Fetch image after fetching settings
+                        fetchImage();
                   } catch (err) {
                         console.error(err);
                   } finally {
-                        setTimeout(() => {
-                              setLoading(false);
-                        }, 1000);
+                        setLoading(false);
                   }
             };
 
             fetchSettings();
       }, []);
+
+      // Fetch image URL from Cloudinary
+      const fetchImage = async () => {
+            try {
+                  const response = await axios.get('https://capstone-parking.onrender.com/upload');
+                  setMyImg(response.data); // Store the Cloudinary URL directly
+            } catch (error) {
+                  console.error("Error fetching image:", error);
+            }
+      };
+
+      // Display welcome modal
+      useEffect(() => {
+            if (companyName && myImg) {
+                  Swal.fire({
+                        title: `${companyName}`,
+                        text: "Welcome to Parking Management System",
+                        imageUrl: myImg, // Use the Cloudinary URL here
+                        width: 700,
+                        imageWidth: 300,
+                        imageHeight: 300,
+                        imageAlt: "Welcome image",
+                        showClass: {
+                              popup: 'animate__animated animate__fadeInUp animate__faster'
+                        },
+                        hideClass: {
+                              popup: 'animate__animated animate__fadeOutDown animate__faster'
+                        }
+                  });
+            }
+      }, [companyName, myImg]);
 
       useEffect(() => {
             const fetchVehicles = async () => {
@@ -71,31 +102,6 @@ const Home = () => {
       }, []);
 
       useEffect(() => {
-            axios.get('https://capstone-parking.onrender.com/upload')
-                  .then(response => setMyImg(response.data));
-            if (companyName) {
-                  setTimeout(() => {
-                        Swal.fire({
-                              title: `${companyName}`,
-                              text: "Welcome to Parking Management System",
-                              imageUrl: `/uploads/` + myImg,
-                              width: 700,
-                              imageWidth: 300,
-                              imageHeight: 300,
-                              imageAlt: "Custom image",
-                              showClass: {
-                                    popup: 'animate__animated animate__fadeInUp animate__faster'
-                              },
-                              hideClass: {
-                                    popup: 'animate__animated animate__fadeOutDown animate__faster'
-                              }
-                        });
-                  }, 1500)
-
-            }
-      }, [companyName]);
-
-      useEffect(() => {
             console.log('Socket connected:', socket.connected);
 
             socket.on('vehicles', (vehicles) => {
@@ -113,17 +119,12 @@ const Home = () => {
                   setVehicles(prevVehicle => prevVehicle.filter(V => V.ticketNumber !== updatedVehicle.ticketNumber));
             });
 
-
             return () => {
                   socket.off('vehicles');
                   socket.off('newVehicle');
                   socket.off('updateVehicle');
             };
       }, []);
-
-
-
-
 
       const myContextValue = [
             socket,
@@ -144,15 +145,13 @@ const Home = () => {
       if (loading) {
             return (
                   <div className="bg-[url('/BG.png')] bg-cover flex justify-center items-center h-screen">
-                        {/* <PropagateLoader color="#ff5400" size={30} /> */}
-                        <img src="/moving-car.gif" alt="" />
+                        <img src="/moving-car.gif" alt="Loading animation" />
                   </div>
             );
       }
 
       return (
             <div className='bg-no-repeat bg-bottom bg-[url("/BG.png")] bg-cover w-full fixed overflow-auto'>
-
                   <myContext.Provider value={myContextValue}>
                         <Header />
                         <div className='h-screen overflow-y-auto overflow-x-hidden'>
