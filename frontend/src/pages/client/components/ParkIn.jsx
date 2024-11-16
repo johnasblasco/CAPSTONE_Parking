@@ -18,12 +18,25 @@ const ParkIn = ({ companyName, parkingRules, ticket2, ticket34, twoWheels, three
       const handleOptionChange = (event) => {
             setSelectedOption(event.target.value);
       };
-
       useEffect(() => {
-            axios.get("https://capstone-parking.onrender.com/upload")
-                  .then(response => setMyImg(response.data))
+            const fetchLatestImage = async () => {
+                  try {
+                        const response = await axios.get('https://capstone-parking.onrender.com/latest-image');
+                        const latestImageUrl = response.data.imageUrl;
 
-      }, [])
+                        if (latestImageUrl) {
+                              setMyImg(latestImageUrl); // Update state with the fetched image URL
+                        } else {
+                              console.warn("No latest image found.");
+                        }
+                  } catch (err) {
+                        console.error("Error fetching latest image:", err);
+                  }
+            };
+
+            fetchLatestImage();
+      }, []);
+
 
       const handleButton = async () => {
             // Regular expression to check if plate number contains both letters and numbers
@@ -126,140 +139,141 @@ const ParkIn = ({ companyName, parkingRules, ticket2, ticket34, twoWheels, three
                   if (printWindow) {
                         printWindow.document.open();
                         printWindow.document.write(`
-                <html>
-                <head>
-                  <title>Parking Receipt</title>
-                  <style>
-                    * {
-                      margin: 0;
-                      padding: 0;
-                    }
-                    body {
-                      text-wrap: balance;
-                      border: 1px solid black;
-                      font-family: Arial, sans-serif;
-                      width: 3in;
-                      overflow: hidden;
-                      box-sizing: border-box;
-                    }
-                    p {
-                      font-size: 12px;
-                    }
-                    @media print {
-                      body {
-                        width: 3in;
+                  <html>
+                  <head>
+                    <title>Parking Receipt</title>
+                    <style>
+                      * {
                         margin: 0;
+                        padding: 0;
                       }
-                    }
-                    hr {
-                      border: 1px solid gray;
-                      margin: 22px 5px 5px;
-                    }
-                    .heading {
-                      gap: 10px;
-                      display: flex;
-                      align-items: center;
-                      justify-content: center;
-                      margin: 0 4vw;
-                      margin-bottom: 20px;
-                    }
-                    .heading p {
-                      text-align: center;
-                      font-size: 15px;
-                      text-wrap: balance;
-                    }
-                    .heading img {
-                      width: 50px;
-                      height: 50px;
-                    }
-                    .leeg {
-                      margin-top: 40px;
-                    }
-                    .leeg p {
-                      margin-left: 20px;
-                    }
-                    .leeg .big {
-                      margin-left: 20px;
-                      font-size: 60px;
-                      font-weight: bold;
-                      letter-spacing: 10px;
-                    }
-                    .grid {
-                      margin: 0px 20px;
-                      text-align: center;
-                      display: flex;
-                      justify-content: space-evenly;
-                    }
-                    .plate {
-                      display: flex;
-                      flex-direction: column;
-                      align-items: center;
-                    }
-                    .plate p {
-                      margin-top: 20px;
-                    }
-                    .plate .mejo-malaki {
-                      margin: 0;
-                      padding: 0;
-                      font-size: 25px;
-                      font-weight: bold;
-                    }
-                    .footer {
-                      padding : 10px;
-                      margin-top: 20px;
-                      text-align: center;
-                    }
-                  </style>
-                </head>
-                <body>
-                  <hr />
-                  <div class="heading">
-                    <img src="/uploads/${myImg}"    alt="" />
-                    <p>${companyName}</p>
-                  </div>
-          
-                  <div class="leeg">
-                    <p>Ticket No.</p>
-                    <p class="big">${vehicleData.ticketNumber}</p>
-                  </div>
-          
-                  <div class="grid">
-                    <div class="left">
-                      <p>Park in: <br />
-                        <b>Php.${pricePerTicket}.00</b> <br />
-                        <b>Paid</b>
-                      </p>
+                      body {
+                        text-wrap: balance;
+                        border: 1px solid black;
+                        font-family: Arial, sans-serif;
+                        width: 3in;
+                        overflow: hidden;
+                        box-sizing: border-box;
+                      }
+                      p {
+                        font-size: 12px;
+                      }
+                      @media print {
+                        body {
+                          width: 3in;
+                          margin: 0;
+                        }
+                      }
+                      hr {
+                        border: 1px solid gray;
+                        margin: 22px 5px 5px;
+                      }
+                      .heading {
+                        gap: 10px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin: 0 4vw;
+                        margin-bottom: 20px;
+                      }
+                      .heading p {
+                        text-align: center;
+                        font-size: 15px;
+                        text-wrap: balance;
+                      }
+                      .heading img {
+                        width: 50px;
+                        height: 50px;
+                      }
+                      .leeg {
+                        margin-top: 40px;
+                      }
+                      .leeg p {
+                        margin-left: 20px;
+                      }
+                      .leeg .big {
+                        margin-left: 20px;
+                        font-size: 60px;
+                        font-weight: bold;
+                        letter-spacing: 10px;
+                      }
+                      .grid {
+                        margin: 0px 20px;
+                        text-align: center;
+                        display: flex;
+                        justify-content: space-evenly;
+                      }
+                      .plate {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                      }
+                      .plate p {
+                        margin-top: 20px;
+                      }
+                      .plate .mejo-malaki {
+                        margin: 0;
+                        padding: 0;
+                        font-size: 25px;
+                        font-weight: bold;
+                      }
+                      .footer {
+                        padding : 10px;
+                        margin-top: 20px;
+                        text-align: center;
+                      }
+                    </style>
+                  </head>
+                  <body>
+                    <hr />
+                    <div class="heading">
+                      <!-- Use the full image URL if myImg contains it -->
+                      <img src="${myImg}" alt="Company Logo" />
+                      <p>${companyName}</p>
                     </div>
-          
-                    <div class="right">
-                      <p>Date: <br />
-                        <b>${moment(vehicleData.startDate).format('MM / DD / YY')}</b> <br />
-                        ${moment(vehicleData.startDate).format('h:mm A')}
-                      </p>
+            
+                    <div class="leeg">
+                      <p>Ticket No.</p>
+                      <p class="big">${vehicleData.ticketNumber}</p>
                     </div>
-                  </div>
-          
-                  <div class="plate">
-                    <p>Plate Number:</p>
-                    <p class="mejo-malaki">${vehicleData.plateNumber}</p>
-                  </div>
-          
-                  <div class="footer">
-                    <h6>Parking Rules:</h6>
-                    <p>${formattedParkingRules}</p>
-                  </div>
-                  <br/>
-                       <p style='margin-left:5px;'>  ------------------------------------------------------------------- </p>
-             
-                  <footer class="footer">
-                  <h4>Thank You for Parking with us!</p>
-                  <p>We look forward to seeing you again!</p>
-                  </footer>
-                              
-                              <hr/>
-                </body>
-                </html>
-              `);
+            
+                    <div class="grid">
+                      <div class="left">
+                        <p>Park in: <br />
+                          <b>Php.${pricePerTicket}.00</b> <br />
+                          <b>Paid</b>
+                        </p>
+                      </div>
+            
+                      <div class="right">
+                        <p>Date: <br />
+                          <b>${moment(vehicleData.startDate).format('MM / DD / YY')}</b> <br />
+                          ${moment(vehicleData.startDate).format('h:mm A')}
+                        </p>
+                      </div>
+                    </div>
+            
+                    <div class="plate">
+                      <p>Plate Number:</p>
+                      <p class="mejo-malaki">${vehicleData.plateNumber}</p>
+                    </div>
+            
+                    <div class="footer">
+                      <h6>Parking Rules:</h6>
+                      <p>${formattedParkingRules}</p>
+                    </div>
+                    <br/>
+                    <p style='margin-left:5px;'>  ------------------------------------------------------------------- </p>
+            
+                    <footer class="footer">
+                      <h4>Thank You for Parking with us!</h4>
+                      <p>We look forward to seeing you again!</p>
+                    </footer>
+            
+                    <hr/>
+                  </body>
+                  </html>
+                `);
                         printWindow.document.close();
                         printWindow.focus();
                         printWindow.print();
@@ -268,6 +282,7 @@ const ParkIn = ({ companyName, parkingRules, ticket2, ticket34, twoWheels, three
                   }
             }
       };
+
 
       return (
             <>

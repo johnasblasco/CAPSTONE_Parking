@@ -15,6 +15,7 @@ import vehicleR, { vehicleInit } from './routes/vehicleR.js';
 import earningsR, { earningsInit } from './routes/earningsR.js';
 import settingsR from './routes/settingsR.js';
 import uploadR from './routes/uploadR.js';
+import latestimageroute from './routes/latestImageRoute.js';
 
 // use express
 const app = express();
@@ -34,6 +35,7 @@ app.use('/vehicle', vehicleR);
 app.use('/earnings', earningsR);
 app.use('/settings', settingsR);
 app.use('/upload', uploadR);
+app.use('/latest-image', latestimageroute);
 
 // Database/Mongo connection
 const Connection = async () => {

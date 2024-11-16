@@ -26,8 +26,30 @@ const Home = () => {
       const [allVehicles, setAllVehicles] = useState([]);
       const [loading, setLoading] = useState(true);
 
-      // Directly use the Cloudinary image URL
-      const [myImg, setMyImg] = useState("https://res.cloudinary.com/ddjabt4dc/image/upload/v1731500602/SACRED_o3tkoq.png");
+
+      const [myImg, setMyImg] = useState('');
+
+      useEffect(() => {
+            const fetchLatestImage = async () => {
+                  try {
+                        const response = await axios.get('https://capstone-parking.onrender.com/latest-image');
+                        const latestImageUrl = response.data.imageUrl;
+
+                        if (latestImageUrl) {
+                              setMyImg(latestImageUrl); // Update state with the fetched image URL
+                        } else {
+                              console.warn("No latest image found.");
+                        }
+                  } catch (err) {
+                        console.error("Error fetching latest image:", err);
+                  }
+            };
+
+
+
+            fetchLatestImage();
+      }, []);
+
 
       useEffect(() => {
             const fetchSettings = async () => {
@@ -53,6 +75,7 @@ const Home = () => {
 
       // Display welcome modal
       useEffect(() => {
+            console.log("myImg value in Home.jsx:", myImg);
             if (companyName && myImg) {
                   Swal.fire({
                         title: companyName,
@@ -65,6 +88,7 @@ const Home = () => {
                   });
             }
       }, [companyName, myImg]);
+
 
       useEffect(() => {
             const fetchVehicles = async () => {
