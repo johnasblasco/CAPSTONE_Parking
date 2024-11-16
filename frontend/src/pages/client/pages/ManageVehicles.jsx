@@ -123,7 +123,7 @@ const ManageVehicles = () => {
                   }
                   try {
                         const updatedVehicle = { plateNumber: newPlateNumber };
-                        const response = await axios.put(`http://localhost:8000/vehicle/${vehicle._id}`, updatedVehicle);
+                        const response = await axios.put(`https://capstone-parking.onrender.com/vehicle/${vehicle._id}`, updatedVehicle);
                         console.log('Plate number updated successfully:', response.data);
 
                         // Update allVehicles and displayVehicles
@@ -176,7 +176,7 @@ const ManageVehicles = () => {
                         status: false
                   };
 
-                  await axios.post("http://localhost:8000/earnings", {
+                  await axios.post("https://capstone-parking.onrender.com/earnings", {
                         currentDate: new Date().toISOString(),
                         earnings: overTimeFees
                   });
@@ -192,7 +192,7 @@ const ManageVehicles = () => {
             console.log("newvehicle here:", vehicleUpdateData);
 
             try {
-                  await axios.put(`http://localhost:8000/vehicle/${selectedVehicle._id}`, vehicleUpdateData);
+                  await axios.put(`https://capstone-parking.onrender.com/vehicle/${selectedVehicle._id}`, vehicleUpdateData);
                   setShowPopup(false);
                   parkOutAlert();
 
@@ -429,7 +429,7 @@ const ManageVehicles = () => {
                                                             }
                                                       </div>
 
-                                                      <button onClick={handleRemove} className='bg-pink border-4 border-bloe hover:bg-[#c73838] py-2 px-8 text-2xl font-bold rounded-2xl text-white'>Remove</button>
+                                                      <button onClick={handleRemove} className='bg-pink hover:scale-95 border-4 border-bloe hover:bg-[#c73838] py-2 px-8 text-2xl font-bold rounded-2xl text-white'>Remove</button>
                                                 </div>
 
 

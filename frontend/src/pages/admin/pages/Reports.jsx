@@ -75,18 +75,18 @@ const Reports = () => {
             // Fetch all vehicles, users, and earnings on component mount
             const fetchData = async () => {
                   try {
-                        const vehiclesResponse = await axios.get("http://localhost:8000/vehicle");
+                        const vehiclesResponse = await axios.get("https://capstone-parking.onrender.com/vehicle");
 
                         setVehicles(vehiclesResponse.data);
                         setFilteredVehicles(vehiclesResponse.data);
                         updateVehicleCounts(vehiclesResponse.data);
                         setTotalVehicles(vehiclesResponse.data.length);
 
-                        const usersResponse = await axios.get("http://localhost:8000/user");
+                        const usersResponse = await axios.get("https://capstone-parking.onrender.com/user");
 
                         setUsers(usersResponse.data);
 
-                        const earningsResponse = await axios.get("http://localhost:8000/earnings");
+                        const earningsResponse = await axios.get("https://capstone-parking.onrender.com/earnings");
 
                         const earningsByDate = {};
                         earningsResponse.data.forEach(item => {

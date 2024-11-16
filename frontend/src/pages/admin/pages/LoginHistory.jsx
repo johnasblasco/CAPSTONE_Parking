@@ -100,7 +100,7 @@ const LoginHistory = () => {
 
                         <p className='border-4 font-bold border-deepBlue absolute top-4 left-[-35px] bg-yeelow py-1 px-8 text-lg rounded-3xl '>Login History</p>
 
-                        <div className='mb-12 flex gap-80 justify-end items-center'>
+                        <div className='mb-12 mt-4 flex gap-60 justify-end items-center'>
                               {/* SEARCH */}
                               <div className='flex items-center gap-4'>
                                     <input onChange={e => setSearch(e.target.value)} className=" w-[25vw] border-gray-500 py-2 px-4 rounded-2xl  font-bold text-xl text-center border-4 outline-8 outline-bloe placeholder-deepBlue/50" type="text" placeholder='Search by Employee Name' />

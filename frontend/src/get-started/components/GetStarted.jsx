@@ -28,13 +28,13 @@ const GetStarted = () => {
                   formData.append('image', file);
 
                   try {
-                        const response = await axios.post('http://localhost:8000/upload', formData, {
+                        const response = await axios.post('https://capstone-parking.onrender.com/upload', formData, {
                               headers: {
                                     'Content-Type': 'multipart/form-data',
                               },
                         });
 
-                        const imageUrl = `http://localhost:8000${response.data.filePath}`;
+                        const imageUrl = `https://capstone-parking.onrender.com${response.data.filePath}`;
                         setSelectedImage(imageUrl);
                         console.log('File uploaded:', imageUrl);
                   } catch (error) {
@@ -73,7 +73,7 @@ const GetStarted = () => {
             }
 
             try {
-                  await axios.put('http://localhost:8000/admin', {
+                  await axios.put('https://capstone-parking.onrender.com/admin', {
                         name,
                         username,
                         password,
@@ -114,7 +114,7 @@ const GetStarted = () => {
                         </div>
 
                         <div data-aos="zoom-in">
-                              <div className=" md:mt-[15vh] transition-transform duration-300 hover:scale-105 ml-40 h-max-700:px-30 py-20 h-max-700:ml-10  mt-16 bg-[url('/Polygon.png')] h-max-700:h-auto h-[750px] w-[1400px] h-max-700:bg-cover bg-contain bg-no-repeat">
+                              <div className="md:mt-[15vh] transition-transform duration-300 hover:scale-105 ml-40 h-max-700:px-30 py-20 h-max-700:ml-10  mt-16 bg-[url('/Polygon.png')] h-max-700:h-auto h-[750px] w-[1400px] h-max-700:bg-cover bg-contain bg-no-repeat">
                                     <form onSubmit={handleSubmit}>
                                           <div className="flex ml-[-200px] justify-center h-full">
                                                 <div className="flex flex-col px-4 w-[35%] gap-7 font-bold text-xl">

@@ -19,7 +19,7 @@ const Header = () => {
       useEffect(() => {
             const fetchData = async () => {
                   try {
-                        const response = await axios.get("http://localhost:8000/admin");
+                        const response = await axios.get("https://capstone-parking.onrender.com/admin");
                         setCurrentAdmin(response.data[0]);
                   } catch (error) {
                         console.error("Error fetching user data:", error);
