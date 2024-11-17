@@ -1,30 +1,44 @@
-import axios from 'axios';
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
+      const [activeLink, setActiveLink] = useState('');
 
+      const handleLinkClick = (link) => {
+            setActiveLink(link);
+      };
 
       return (
             <>
-
-                  <nav className='fixed top-[100px] left-[10%] font-bold '>
-
-                        <div className=" w-[80vw] bg-white border-4 border-[#001858] p-1 rounded-full text-center">
-                              <div className='flex justify-center gap-4 '>
-                                    <Link to="/user/home/dashboard" className='focus:bg-darkYeelow rounded-full w-[200px] border-4 border-[#001858] py-2 px-4'>Dashboard</Link>
-                                    <Link to="/user/home/manage-vehicles" className='focus:bg-darkYeelow rounded-full border-4 border-[#001858] w-[200px] py-2 px-4'>Manage Vehicles</Link>
-                                    <Link to="/user/home/reports" className='focus:bg-darkYeelow rounded-full w-[200px] border-4 border-[#001858] py-2 px-4'>Reports</Link>
+                  <nav className='fixed top-[100px] left-[10%] font-bold'>
+                        <div className="w-[80vw] bg-white border-4 border-[#001858] p-1 rounded-full text-center">
+                              <div className='flex justify-center gap-4'>
+                                    <Link
+                                          to="/user/home/dashboard"
+                                          onClick={() => handleLinkClick('dashboard')}
+                                          className={`rounded-full w-[200px] border-4 border-[#001858] py-2 px-4 ${activeLink === 'dashboard' ? 'bg-darkYellow' : ''}`}
+                                    >
+                                          Dashboard
+                                    </Link>
+                                    <Link
+                                          to="/user/home/manage-vehicles"
+                                          onClick={() => handleLinkClick('manage-vehicles')}
+                                          className={`rounded-full border-4 border-[#001858] w-[200px] py-2 px-4 ${activeLink === 'manage-vehicles' ? 'bg-darkYellow' : ''}`}
+                                    >
+                                          Manage Vehicles
+                                    </Link>
+                                    <Link
+                                          to="/user/home/reports"
+                                          onClick={() => handleLinkClick('reports')}
+                                          className={`rounded-full w-[200px] border-4 border-[#001858] py-2 px-4 ${activeLink === 'reports' ? 'bg-darkYellow' : ''}`}
+                                    >
+                                          Reports
+                                    </Link>
                               </div>
-
-
                         </div>
-
-                  </nav >
-
-
+                  </nav>
             </>
-      )
-}
+      );
+};
 
-export default Navbar
+export default Navbar;

@@ -15,7 +15,7 @@ export default {
             blak: '#000814',
             darkBloe: '#001d3d',
             bloe: '#003566',
-            darkYeelow: '#FFC300',
+            darkYellow: '#FFC300',
             yeelow: '#FFD60A',
             vanilla: '#FFEFBA',
           },

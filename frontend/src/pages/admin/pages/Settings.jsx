@@ -168,9 +168,9 @@ const Settings = () => {
                                                 onChange={handleChange}
                                                 placeholder=" Parking Rules
                                                 
-            Park Within Lines – Ensure your vehicle is parked within the designated space. Handicapped Spaces – Reserved for vehicles with valid 
-            permits. Reserved Spaces – For employees or specific users. Towing enforced. Pedestrian Safety – Yield to pedestrians at all times. 
-            Overnight Parking – Not allowed. Large Vehicle Parking – Park in designated spots for larger vehicles. Failure to comply may result in fines."
+      Park Within Lines – Ensure your vehicle is parked within the designated space. Handicapped Spaces – Reserved for vehicles with valid 
+      permits. Reserved Spaces – For employees or specific users. Towing enforced. Pedestrian Safety – Yield to pedestrians at all times. 
+      Overnight Parking – Not allowed. Large Vehicle Parking – Park in designated spots for larger vehicles. Failure to comply may result in fines."
                                                 className="w-full text-center text-xl font-bold p-4 border-4 border-bloe rounded-lg focus:outline-none focus:ring-2 focus:ring-darkBloe"
                                                 rows="5"
                                                 required
