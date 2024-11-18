@@ -1,11 +1,10 @@
 import { useRef, useEffect, useState } from 'react';
 import { Doughnut, Line } from 'react-chartjs-2';
 import { FaMotorcycle, FaBicycle, FaCar, FaFilter } from 'react-icons/fa';
-import { FaRegCalendar } from "react-icons/fa6";
 import { FaUser } from "react-icons/fa";
 import { MdLocalPrintshop } from "react-icons/md";
 import { GiMoneyStack } from "react-icons/gi";
-import Swal from 'sweetalert2';
+import DoughnutComponents from '../components/DoughnutComponents';
 import Print from '../components/Print';
 import {
       Chart as ChartJS,
@@ -18,7 +17,6 @@ import axios from 'axios';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Reports = () => {
-      const chartRef = useRef(null);
       const [totalEarnings, setTotalEarnings] = useState(0);
       const [totalVehicles, setTotalVehicles] = useState(0);
       const [TwoWheels, setTwoWheels] = useState(0);
@@ -33,26 +31,7 @@ const Reports = () => {
       const [endDate, setEndDate] = useState(new Date().toISOString().split('T')[0]); // Set today as default for endDate
       const [showPrint, setShowPrint] = useState(false);
 
-      const CHART_COLORS = {
-            red: 'rgb(220 38 38)',
-            green: 'rgb(34 197 94)',
-            blue: 'rgb(0 53 102)',
-      };
 
-      const data = {
-            labels: ['TwoWheels', 'ThreeWheels', 'FourWheels'],
-            datasets: [
-                  {
-                        label: 'Vehicle Categories',
-                        data: [TwoWheels, ThreeWheels, FourWheels],
-                        backgroundColor: [
-                              CHART_COLORS.red,
-                              CHART_COLORS.green,
-                              CHART_COLORS.blue,
-                        ],
-                  },
-            ],
-      };
 
       const earningsChartData = {
             labels: filteredData.map(entry => entry.date),
@@ -141,36 +120,6 @@ const Reports = () => {
             }
       };
 
-      const handleDateSelection = async () => {
-            const { value: date } = await Swal.fire({
-                  title: "Select Date",
-                  html: `<input type="date" id="startDate" required>`,
-                  focusConfirm: true,
-                  width: 500,
-                  preConfirm: () => {
-                        const start = document.getElementById('startDate').value;
-                        return { start };
-                  },
-                  showCancelButton: true,
-                  confirmButtonText: "Submit",
-            });
-
-            if (date) {
-                  const { start } = date;
-                  setStartDate(start);
-                  filterVehiclesByStartDate(start);
-            }
-
-      };
-
-      const filterVehiclesByStartDate = (start) => {
-            const filtered = vehicles.filter(vehicle => {
-                  const vehicleStartDate = new Date(vehicle.startDate);
-                  return vehicleStartDate >= new Date(start); // Compare dates
-            });
-            setFilteredVehicles(filtered);
-            updateVehicleCounts(filtered); // Update counts based on filtered vehicles
-      };
 
       return (
             <>
@@ -212,59 +161,8 @@ const Reports = () => {
                         {/* -------------------------------------------------------------- */}
                         <div className='flex gap-4'>
 
-                              <div className="max-h-[700px] flex relative pt-24 p-12 shadow-2xl border-4 min-w-[70%] border-bloe bg-white rounded-3xl">
-                                    <p className='border-4 border-deepBlue font-bold absolute left-[-35px] top-2 bg-yeelow py-1 px-8 text-lg rounded-3xl'>Total Vehicle Reports</p>
-
-                                    <div className="flex flex-row items-center justify-evenly w-full">
-                                          {TwoWheels + ThreeWheels + FourWheels > 0 ? (
-                                                <>
-                                                      <Doughnut className='w-96 h-96' ref={chartRef} data={data} />
-
-
-                                                      {/* Right Side Text Section with Icons */}
-                                                      <div className=" flex flex-col gap-8 ml-4">
-                                                            <p className='border-4 border-deepBlue font-bold w-fit bg-yeelow py-1 px-12 text-lg rounded-2xl'>Filter By Date</p>
-
-                                                            <button onClick={handleDateSelection} className='border-2 border-green-500 h-12 text-xl font-bold bg-greenWich hover:scale-95 rounded-2xl p-2 px-4 text-white' >
-                                                                  <FaFilter className='inline ' />  MM / DD / YYYY <FaRegCalendar className='ml-36 inline text-2xl' />
-                                                            </button>
-
-
-
-                                                            <div className="flex items-center text-xl font-semibold text-gray-800 mb-2">
-                                                                  <img src="/motorcycle.png" className='w-32 h-32' alt="" />
-                                                                  <p>Total Two-Wheel Vehicles: <span className="font-bold text-6xl text-red-600">{TwoWheels}</span></p>
-                                                            </div>
-                                                            <div className="flex items-center text-xl font-semibold text-gray-800 mb-2">
-                                                                  <img src="/tricycle.png" className='w-32 h-32' alt="" />
-                                                                  <p>Total Three-Wheel Vehicles: <span className="font-bold text-6xl text-greenWich">{ThreeWheels}</span></p>
-                                                            </div>
-                                                            <div className="flex items-center text-xl font-semibold text-gray-800 mb-2">
-                                                                  <img src="/car.png" className='w-32 h-32' alt="" />
-                                                                  <p>Total Four-Wheel Vehicles: <span className="font-bold text-6xl text-bloe">{FourWheels}</span></p>
-                                                            </div>
-                                                      </div>
-                                                </>
-                                          ) : (
-                                                <div>
-                                                      {filteredVehicles.length > 0 ? (
-                                                            filteredVehicles.map(vehicle => (
-                                                                  <div key={vehicle._id}>
-                                                                        <p>Plate Number: {vehicle.plateNumber}</p>
-                                                                        <p>Category: {vehicle.category}</p>
-                                                                        <p>Start Date: {new Date(vehicle.startDate).toLocaleDateString()}</p>
-                                                                        <p>Status: {vehicle.status ? "Active" : "Inactive"}</p>
-                                                                        <p>Charges: ₱{vehicle.charges}</p>
-                                                                  </div>
-                                                            ))
-                                                      ) : (
-                                                            <p>No vehicles available.</p>
-                                                      )}
-                                                </div>
-                                          )}
-                                    </div>
-                              </div>
-
+                              {/* DOUGHNUT CHART */}
+                              <DoughnutComponents TwoWheels={TwoWheels} ThreeWheels={ThreeWheels} FourWheels={FourWheels} vehicles={vehicles} filteredVehicles={filteredVehicles} setFilteredVehicles={setFilteredVehicles} />
                               {/* EMPLOYEE TABLE */}
                               <div className="text-xl max-h-[700px] relative w-[40%] shadow-2xl border-4 border-bloe bg-white rounded-3xl overflow-y-auto p-4">
                                     <p className='border-4 border-deepBlue font-bold mx-auto w-fit my-4 bg-yeelow py-1 px-8 text-lg rounded-3xl'>Employee Accounts</p>

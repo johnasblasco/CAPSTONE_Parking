@@ -241,7 +241,7 @@ const Reports = () => {
             const earningsDetails = `
           <div style="padding: 20px; font-family: Arial, sans-serif;">
             <h1 style="text-align: center;">Daily Reports</h1>
-            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; margin-left:10px">
               <tr>
                 <th style="border: 1px solid black; padding: 8px; text-align: left;">Printed By</th>
                 <td style="border: 1px solid black; padding: 8px;">${currentUser}</td>
