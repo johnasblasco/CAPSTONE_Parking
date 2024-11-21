@@ -97,5 +97,5 @@ const Header = () => {
             </header>
       );
 };
-// parang
+
 export default Header;
