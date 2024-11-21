@@ -6,7 +6,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 
-const ParkOutDetails = ({ ticket2, ticket34, overTimeFees, hoursLimit }) => {
+const ParkOutDetails = ({ ticket2, ticket34, overTimeFees, hoursLimit, setAllVehicles }) => {
 
 
       const [socket, vehicles, setVehicles, setShowParkIn, setShowParkOut, setDisplayTicket, setShowVehicleData, setSelectedVehicle, selectedVehicle] = useContext(innerContext)
@@ -40,7 +40,7 @@ const ParkOutDetails = ({ ticket2, ticket34, overTimeFees, hoursLimit }) => {
                   };
 
 
-                  await axios.post("http://localhost:8000/earnings", {
+                  await axios.post("https://capstone-parking.onrender.com/earnings", {
                         currentDate: new Date().toISOString(),
                         earnings: overTimeFees
                   })
@@ -64,7 +64,7 @@ const ParkOutDetails = ({ ticket2, ticket34, overTimeFees, hoursLimit }) => {
 
             try {
                   // Update the vehicle in the database
-                  await axios.put(`http://localhost:8000/vehicle/${selectedVehicle._id}`, vehicleUpdateData);
+                  await axios.put(`https://capstone-parking.onrender.com/vehicle/${selectedVehicle._id}`, vehicleUpdateData);
 
                   // Emit the updated vehicle via socket
                   socket.emit('updateVehicle', vehicleUpdateData);
@@ -72,6 +72,12 @@ const ParkOutDetails = ({ ticket2, ticket34, overTimeFees, hoursLimit }) => {
                   // Update vehicles state
                   setVehicles(prevVehicles =>
                         prevVehicles.filter(vehicle => vehicle._id !== selectedVehicle._id)
+                  );
+
+                  setAllVehicles(prevVehicles =>
+                        prevVehicles.map(vehicle =>
+                              vehicle._id === selectedVehicle._id ? vehicleUpdateData : vehicle
+                        )
                   );
 
                   setShowVehicleData(false);
@@ -101,11 +107,11 @@ const ParkOutDetails = ({ ticket2, ticket34, overTimeFees, hoursLimit }) => {
 
       return (
             <>
-                  <div className='fixed w-screen h-screen bg-black/40 z-50'>
+                  <div onClick={() => setShowVehicleData(false)} className='fixed w-screen h-screen bg-black/40 z-50'>
                         <div className='fixed inset-0 flex items-center justify-center bg-deepBlue/40'>
 
                               {/* FORM */}
-                              <div className={`relative bg-offWhite shadow-lg rounded-3xl flex flex-col gap-8 items-center p-20 `}>
+                              <div onClick={e => e.stopPropagation()} className={`relative bg-offWhite shadow-lg rounded-3xl flex flex-col gap-8 items-center p-20 `}>
                                     <IoMdClose onClick={() => setShowVehicleData(false)} className='text-5xl absolute top-4 right-4 cursor-pointer' />
 
                                     <h2 className='text-6xl text-bloe font-bold text-center '>Parking Out</h2>
@@ -151,7 +157,7 @@ const ParkOutDetails = ({ ticket2, ticket34, overTimeFees, hoursLimit }) => {
 
                                           </div>
 
-                                          <button onClick={handleRemove} className='bg-pink border-4 border-bloe hover:bg-[#c73838] py-2 px-8 text-2xl font-bold rounded-2xl text-white'>Remove</button>
+                                          <button onClick={handleRemove} className='bg-pink border-4 border-bloe hover:bg-[#c73838] hover:scale-95 py-2 px-8 text-2xl font-bold rounded-2xl text-white'>Remove</button>
                                     </div>
 
 

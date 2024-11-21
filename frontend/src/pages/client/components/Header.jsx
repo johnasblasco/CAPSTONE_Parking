@@ -1,31 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 const Header = () => {
       const [currentUser, setCurrentUser] = useState({});
       const [user, setUser] = useState({});
       const navigate = useNavigate();
+      const { state } = useLocation(); // Access the state passed during navigation
 
       useEffect(() => {
             const fetchData = async () => {
                   try {
-                        const response = await axios.get("http://localhost:8000/user");
-                        const foundUser = response.data.find(user => user.login === true);
-                        if (foundUser) {
-                              setCurrentUser(foundUser);
+                        // Fetch the logged-in user's data using the passed userId
+                        if (state?.userId) {
+                              const response = await axios.get(`https://capstone-parking.onrender.com/user/${state.userId}`);
+                              setCurrentUser(response.data);
+                              console.log("Current user set:", response.data);
+                        } else {
+                              console.warn("No user ID found in state.");
                         }
                   } catch (error) {
                         console.error("Error fetching user data:", error);
                   }
-            }
+            };
             fetchData();
-      }, []);
+      }, [state]);
 
       const loginHistory = async () => {
             try {
-                  const response = await axios.get("http://localhost:8000/admin/loginhistory");
+                  const response = await axios.get("https://capstone-parking.onrender.com/admin/loginhistory");
                   const foundUser = response.data.find(user => user.timeOut === null);
 
                   if (foundUser) {
@@ -33,13 +37,13 @@ const Header = () => {
                         const currentTime = new Date();
 
                         // Update the login history record with timeOut
-                        await axios.put(`http://localhost:8000/admin/loginhistory/${foundUser._id}`, {
+                        await axios.put(`https://capstone-parking.onrender.com/admin/loginhistory/${foundUser._id}`, {
                               ...foundUser,
                               timeOut: currentTime.toISOString()
                         });
 
                         // Update current user's login status to false
-                        await axios.put(`http://localhost:8000/user/${currentUser._id}`, {
+                        await axios.put(`https://capstone-parking.onrender.com/user/${currentUser._id}`, {
                               ...currentUser,
                               login: false
                         });
@@ -87,7 +91,7 @@ const Header = () => {
                   <img src="/logo2.png" className='w-[200px] mx-4' alt="Logo" />
 
                   <div className='flex items-center gap-4'>
-                        <p className='text-slate-800 text-2xl font-bold'>Howdy, {currentUser.name}</p>
+                        <p className='text-slate-800 text-2xl font-bold'>Howdy, {currentUser.name || "Guest"}</p>
                         <img onClick={logout} src="/logout.png" className='w-10 hover:cursor-pointer' alt="Logout" />
                   </div>
             </header>

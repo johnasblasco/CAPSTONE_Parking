@@ -36,7 +36,7 @@ const ManageAccount = () => {
       );
 
       useEffect(() => {
-            axios.get("http://localhost:8000/user")
+            axios.get("https://capstone-parking.onrender.com/user")
                   .then(response => {
                         if (!showAct && !showDeact) {
                               setUsers(response.data);
@@ -51,10 +51,10 @@ const ManageAccount = () => {
 
       const handleAction = async (currentObject) => {
             if (currentObject.status) {
-                  await axios.put(`http://localhost:8000/user/${currentObject._id}`, { ...currentObject, status: false });
+                  await axios.put(`https://capstone-parking.onrender.com/user/${currentObject._id}`, { ...currentObject, status: false });
                   etits.error("DEACTIVATED");
             } else {
-                  await axios.put(`http://localhost:8000/user/${currentObject._id}`, { ...currentObject, status: true });
+                  await axios.put(`https://capstone-parking.onrender.com/user/${currentObject._id}`, { ...currentObject, status: true });
                   etits.success("ACTIVATED");
             }
             setOyGalaw(!oyGalaw);
@@ -82,7 +82,7 @@ const ManageAccount = () => {
                   });
 
                   if (formValues) {
-                        await axios.put(`http://localhost:8000/user/${user._id}`, {
+                        await axios.put(`https://capstone-parking.onrender.com/user/${user._id}`, {
                               name: formValues.name,
                               username: formValues.username,
                               password: formValues.password
@@ -164,7 +164,7 @@ const ManageAccount = () => {
 
                               <div className='mt-4 mb-12 flex justify-between items-center gap-4'>
                                     {/* Left side: Activate and Deactivate buttons */}
-                                    <div className='flex gap-4'>
+                                    <div className='flex gap-4 shadow-xl border-2 rounded-3xl p-4'>
                                           <button onClick={handleAct} className='font-extrabold h-12 bg-green-500 hover:scale-95 rounded-2xl p-2 px-4 text-white'>
                                                 <FaFilter className='inline text-2xl' /> Activate Only
                                           </button>

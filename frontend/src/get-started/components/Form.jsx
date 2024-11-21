@@ -7,7 +7,7 @@ const Form = () => {
       const paragraph = "A Parking system that will help you to park your vehicle in a safe and secure way, right at your fingertips";
 
       return (
-            <div className=' grid grid-cols-2 grid-rows-1'>
+            <div className='grid grid-cols-2 grid-rows-1'>
 
                   <div data-aos="fade-right"
                         data-aos-offset="300"
@@ -59,7 +59,7 @@ const Form = () => {
                         data-aos-offset="300"
                         data-aos-easing="ease-in-sine">
 
-                        <img src="landing_Car.png" className='h-[120%] z-[-1] mt-[-150px]' />
+                        <img src="landing_Car.png" className='cp:hidden h-[120%] z-[-1] mt-[-150px]' />
                   </div>
             </div >
       );

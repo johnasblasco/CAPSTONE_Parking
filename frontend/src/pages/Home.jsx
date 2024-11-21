@@ -8,19 +8,19 @@ const Home = () => {
       };
       const handleButtonUser = () => {
 
-            ifnotLoggedOut();
+            // ifnotLoggedOut();
             navigate('/user');
       };
-      const ifnotLoggedOut = () => {
-            axios.get('http://localhost:8000/admin/loginhistory')
-                  .then(response => {
-                        const found = response.data.find(user => user.timeOut === null)
-                        if (found) {
-                              navigate('/user/home/dashboard')
-                              return;
-                        }
-                  })
-      };
+      // const ifnotLoggedOut = () => {
+      //       axios.get('https://capstone-parking.onrender.com/admin/loginhistory')
+      //             .then(response => {
+      //                   const found = response.data.find(user => user.timeOut === null)
+      //                   if (found) {
+      //                         navigate('/user/home/dashboard')
+      //                         return;
+      //                   }
+      //             })
+      // };
       return (
             <div className="h-screen bg-[url('/BG.png')] bg-cover bg-bottom bg-no-repeat">
 
@@ -31,11 +31,11 @@ const Home = () => {
 
                   <div className="flex items-center justify-center h-screen">
 
-                        <div className="flex flex-col items-center gap-2 pt-12 pr-24 pb-8 bg-[url('/polygon1.png')] w-[650px] h-[650px] bg-contain bg-no-repeat rounded-xl "
+                        <div className="flex flex-col items-center gap-2 pt-12 pr-24 pb-8 bg-[url('/polygon1.png')] w-[650px] h-[650px] laptop:h-[550px] laptop:w-[550px] bg-contain bg-no-repeat rounded-xl "
                         >
                               <p className='text-6xl text-darkBloe font-extrabold'>SIGN IN</p>
                               <p className='text-xl text-darkBloe font-bold'>TO PARKAID</p>
-                              <img src="ei_user.png" className="pt-4 object-cover opacity-1" />
+                              <img src="ei_user.png" className="laptop:w-[170px] pt-4 object-cover opacity-1" />
 
 
                               <div className='flex flex-col items-center gap-4'>

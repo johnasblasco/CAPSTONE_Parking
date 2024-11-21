@@ -22,7 +22,7 @@ const Home = () => {
 
 
       useEffect(() => {
-            axios.get("http://localhost:8000/admin/loginHistory")
+            axios.get("https://capstone-parking.onrender.com/admin/loginHistory")
                   .then(response => {
                         const updatedEmployees = response.data
                         setEmployee(updatedEmployees);

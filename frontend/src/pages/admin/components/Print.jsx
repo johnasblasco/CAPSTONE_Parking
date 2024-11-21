@@ -21,13 +21,13 @@ const Print = ({ setShowPrint, showPrint }) => {
                   let url = '';
                   switch (selectedOption) {
                         case 'vehicles':
-                              url = `http://localhost:8000/vehicle`; // Fetch all vehicles
+                              url = `https://capstone-parking.onrender.com/vehicle`; // Fetch all vehicles
                               break;
                         case 'earnings':
-                              url = `http://localhost:8000/earnings`; // Fetch all earnings
+                              url = `https://capstone-parking.onrender.com/earnings`; // Fetch all earnings
                               break;
                         case 'employeeAccounts':
-                              url = `http://localhost:8000/user`; // Fetch all user accounts
+                              url = `https://capstone-parking.onrender.com/user`; // Fetch all user accounts
                               break;
                         default:
                               return;
@@ -71,26 +71,83 @@ const Print = ({ setShowPrint, showPrint }) => {
                   return;
             }
 
+            // Get the printable content's HTML
             const printContent = document.getElementById('printableContent').innerHTML;
-            const originalContent = document.body.innerHTML;
 
-            document.body.innerHTML = printContent;
-            window.print();
-            document.body.innerHTML = originalContent;
-            window.location.reload(); // Reload the page to restore the original content
+            // Open a new window and write the content for printing
+            const printWindow = window.open('', '_blank');
+            printWindow.document.open();
+            printWindow.document.write(`
+                  <html>
+                        <head>
+                              <title>Print</title>
+                              <style>
+                                    body { font-family: Arial, sans-serif; }
+                                    table { width: 100%; border-collapse: collapse; }
+                                    th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+                                    th { background-color: #f2f2f2; }
+                              </style>
+                        </head>
+                        <body>
+                              ${printContent}
+                        </body>
+                  </html>
+            `);
+            printWindow.document.close();
+
+            // Trigger the print
+            printWindow.print();
+
+            // Close the print window after printing
+            printWindow.onafterprint = () => printWindow.close();
       };
+
+
 
       const renderTable = () => {
             if (error) return <p>{error}</p>; // Display error message
 
+            // Log the selectedDate and vehicle startDate for debugging
+            console.log("Selected Date: ", selectedDate);
+
             // Filter data based on the selected date
             const filteredData = data.filter(item => {
                   if (selectedOption === 'vehicles') {
-                        return new Date(item.startDate).toLocaleDateString() === new Date(selectedDate).toLocaleDateString();
+                        const vehicleStartDate = moment.utc(item.startDate).format('YYYY-MM-DD');
+                        console.log("Vehicle Start Date: ", vehicleStartDate);
+
+                        // Daily filter
+                        if (selectedDate === 'daily') {
+                              return vehicleStartDate === moment().format('YYYY-MM-DD');
+                        }
+
+                        // Weekly filter
+                        if (selectedDate === 'weekly') {
+                              const startOfWeek = moment().startOf('week').format('YYYY-MM-DD');
+                              const endOfWeek = moment().endOf('week').format('YYYY-MM-DD');
+                              return moment(vehicleStartDate).isBetween(startOfWeek, endOfWeek, null, '[]');
+                        }
+
+                        // Monthly filter
+                        if (selectedDate === 'monthly') {
+                              const startOfMonth = moment().startOf('month').format('YYYY-MM-DD');
+                              const endOfMonth = moment().endOf('month').format('YYYY-MM-DD');
+                              return moment(vehicleStartDate).isBetween(startOfMonth, endOfMonth, null, '[]');
+                        }
+
+                        // Yearly filter
+                        if (selectedDate === 'yearly') {
+                              const startOfYear = moment().startOf('year').format('YYYY-MM-DD');
+                              const endOfYear = moment().endOf('year').format('YYYY-MM-DD');
+                              return moment(vehicleStartDate).isBetween(startOfYear, endOfYear, null, '[]');
+                        }
+
+                        // Default case: specific date filter
+                        return vehicleStartDate === selectedDate;
                   } else if (selectedOption === 'earnings') {
-                        return new Date(item.currentDate).toLocaleDateString() === new Date(selectedDate).toLocaleDateString();
+                        return moment.utc(item.currentDate).isSame(moment.utc(selectedDate), 'day');
                   }
-                  return true; // For employee accounts, no date filter
+                  return true;
             });
 
             if (!filteredData.length) return <p>No data available for the selected date.</p>; // Check if data is empty
@@ -140,22 +197,32 @@ const Print = ({ setShowPrint, showPrint }) => {
                         );
                   case 'earnings':
                         return (
-                              <table className='text-center min-w-full table-auto'>
-                                    <thead>
-                                          <tr>
-                                                <th className='border-2 border-deepBlue p-2'>Date</th>
-                                                <th className='border-2 border-deepBlue p-2'>Total Earnings</th>
-                                          </tr>
-                                    </thead>
-                                    <tbody>
-                                          {filteredData.map((earning, index) => (
-                                                <tr key={earning._id}>
-                                                      <td className='border-2 border-deepBlue p-2'>{moment(earning.currentDate).format('YYYY-MM-DD')}</td>
-                                                      <td className='border-2 border-deepBlue p-2'>{earning.totalEarnings}</td>
+                              <>
+                                    <table className='text-center min-w-full table-auto mb-10'>
+                                          <thead>
+                                                <tr>
+                                                      <th className='border-2 border-deepBlue p-2'>Total Earnings</th>
+                                                      <th className='border-2 border-deepBlue p-2'>PHP {filteredData.reduce((sum, item) => sum + item.earnings, 0)}</th>
                                                 </tr>
-                                          ))}
-                                    </tbody>
-                              </table>
+                                          </thead>
+                                    </table>
+                                    <table className='text-center min-w-full table-auto'>
+                                          <thead>
+                                                <tr>
+                                                      <th className='border-2 border-deepBlue p-2'>Date</th>
+                                                      <th className='border-2 border-deepBlue p-2'>Earnings Per Vehicle</th>
+                                                </tr>
+                                          </thead>
+                                          <tbody>
+                                                {filteredData.map((earning, index) => (
+                                                      <tr key={earning._id}>
+                                                            <td className='border-2 border-deepBlue p-2'>{moment(earning.currentDate).format('YYYY-MM-DD')}</td>
+                                                            <td className='border-2 border-deepBlue p-2'>{earning.earnings}</td>
+                                                      </tr>
+                                                ))}
+                                          </tbody>
+                                    </table>
+                              </>
                         );
                   case 'employeeAccounts':
                         return (
@@ -163,8 +230,8 @@ const Print = ({ setShowPrint, showPrint }) => {
                                     <thead>
                                           <tr>
                                                 <th className='border-2 border-deepBlue p-2'>Name</th>
-                                                <th className='border-2 border-deepBlue p-2'>username</th>
-                                                <th className='border-2 border-deepBlue p-2'>status</th>
+                                                <th className='border-2 border-deepBlue p-2'>Username</th>
+                                                <th className='border-2 border-deepBlue p-2'>Status</th>
                                           </tr>
                                     </thead>
                                     <tbody>
@@ -182,61 +249,98 @@ const Print = ({ setShowPrint, showPrint }) => {
                         return null;
             }
       };
+
+
       return (
             <div onClick={() => setShowPrint(!showPrint)} className='z-1 fixed bg-black/50 inset-0 flex items-center justify-center z-50'>
                   <div data-aos="zoom-out" data-aos-duration="200">
-                        <div onClick={(e) => e.stopPropagation()} className='relative text-xl z-10 border-4 border-darkBloe bg-white p-10 rounded-2xl shadow-lg max-w-3xl w-[40rem]'>
+                        <div onClick={(e) => e.stopPropagation()} className='relative text-xl z-10 border-4 border-gray-300 bg-white p-8 rounded-2xl shadow-xl max-w-3xl w-[40rem]'>
 
-                              <p className='text-3xl font-bold mb-6'>Print Settings</p>
+                              <p className='text-4xl font-bold text-bloe mb-6'>Print Settings</p>
                               <IoMdClose onClick={() => setShowPrint(!showPrint)} className='text-3xl absolute top-4 right-4 cursor-pointer hover:text-red-600' />
 
                               <div className='mb-8'>
                                     <div className='bg-gray-100 p-6 rounded-lg mb-8'>
-                                          <p className='text-xl font-semibold mb-4'>Overview</p>
-                                          <p className='text-md'>Selected Date: <span className='font-bold'>{selectedDate || 'Not selected'}</span></p>
-                                          <p className='text-md'>Category: <span className='font-bold'>{selectedOption ? selectedOption.charAt(0).toUpperCase() + selectedOption.slice(1) : 'None'}</span></p>
+                                          <p className='text-xl font-semibold text-gray-700 mb-4'>Overview</p>
+                                          <p className='text-md text-gray-600'>Selected Date: <span className='font-bold'>{selectedDate || 'Not selected'}</span></p>
+                                          <p className='text-md text-gray-600'>Category: <span className='font-bold'>{selectedOption ? selectedOption.charAt(0).toUpperCase() + selectedOption.slice(1) : 'None'}</span></p>
                                     </div>
 
                                     <div>
-                                          <p className='font-semibold text-lg'>Filter By Date</p>
-                                          <button onClick={handleDateSelection} className='mt-4 mb-6 w-full h-12 bg-green-500 hover:bg-green-400 transition-all rounded-2xl p-3 text-white flex items-center justify-center relative group'>
-                                                <FaFilter className='inline mr-2' /> MM / DD / YYYY
-                                                <span className="absolute left-full w-40 ml-2 bg-black text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity">Select a date for the report</span>
-                                          </button>
+                                          <p className="font-semibold text-lg text-gray-800">Filter By Date:</p>
+                                          <select
+                                                value={selectedDate}
+                                                onChange={async (e) => {
+                                                      const value = e.target.value;
 
-                                          <div className='mt-4'>
-                                                <label htmlFor="dropdown" className="block text-md font-medium mb-2">Choose a category:</label>
-                                                <select id="dropdown" value={selectedOption} onChange={handleSelectChange} className="w-full p-3 border rounded-md focus:border-blue-400 transition">
-                                                      <option value="">--Select an option--</option>
-                                                      <option value="employeeAccounts">Accounts Reports</option>
-                                                      <option value="vehicles">Vehicles Reports</option>
-                                                      <option value="earnings">Earnings Reports</option>
-                                                </select>
-                                          </div>
+                                                      if (value === "custom") {
+                                                            const pastMinimumDate = new Date('2024-01-01').toISOString().split('T')[0];
 
-                                          {selectedOption && (
-                                                <p className="mt-4 text-sm">
-                                                      You selected: <span className="font-semibold">{selectedOption === 'employeeAccounts' ? 'Employee Accounts' : selectedOption === 'vehicles' ? 'Vehicles' : 'Earnings'}</span>
-                                                </p>
-                                          )}
+                                                            const { value: date } = await Swal.fire({
+                                                                  title: 'Select a Date',
+                                                                  input: 'date',
+                                                                  inputAttributes: { required: true, min: pastMinimumDate },
+                                                                  showCancelButton: true,
+                                                                  confirmButtonText: 'Submit',
+                                                            });
+
+                                                            if (date) {
+                                                                  setSelectedDate(date);
+                                                                  Swal.fire('Date Selected', date, 'success');
+                                                            }
+                                                      } else {
+                                                            setSelectedDate(value);
+                                                      }
+                                                }}
+                                                className="mt-4 mb-6 w-full h-12 text-white font-semibold rounded-lg border-2 border-solid focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-blue-800 transition duration-300 ease-in-out hover:bg-blue-900 bg-deepBlue px-4"
+                                          >
+                                                <option value="daily">Daily</option>
+                                                <option value="weekly">Weekly</option>
+                                                <option value="monthly">Monthly</option>
+                                                <option value="yearly">Yearly</option>
+                                                <option value="custom">Custom</option>
+                                          </select>
+
                                     </div>
 
-                                    {/* Data Table */}
-                                    <div id="printableContent" className='hidden mt-8'>
-                                          <h2 className='text-xl font-bold mb-4'>{selectedOption ? selectedOption.charAt(0).toUpperCase() + selectedOption.slice(1) + ' Report' : ''}</h2>
-                                          {renderTable()}
+                                    <div className='mt-4'>
+                                          <label htmlFor="dropdown" className="block text-md font-medium text-gray-700 mb-2">Choose a category:</label>
+                                          <select id="dropdown" value={selectedOption} onChange={handleSelectChange} className="w-full p-3 bg-gray-200 border rounded-md focus:border-blue-500 transition">
+                                                <option value="">--Select an option--</option>
+                                                <option value="employeeAccounts">Accounts Reports</option>
+                                                <option value="vehicles">Vehicles Reports</option>
+                                                <option value="earnings">Earnings Reports</option>
+                                          </select>
                                     </div>
 
-                                    {/* Action Buttons */}
-                                    <div className='mt-10 flex justify-end gap-4'>
-                                          <button onClick={() => setShowPrint(!showPrint)} className='py-3 px-6 hover:scale-95 bg-pink transition-all rounded-lg text-white'>Cancel</button>
-                                          <button onClick={handlePrint} className='py-3 px-8 rounded-lg bg-bloe hover:scale-95 transition-all text-white'>Print</button>
-                                    </div>
+                                    {selectedOption && (
+                                          <p className="mt-4 text-sm text-gray-600">
+                                                You selected: <span className="font-semibold text-indigo-600">{selectedOption === 'employeeAccounts' ? 'Employee Accounts' : selectedOption === 'vehicles' ? 'Vehicles' : 'Earnings'}</span>
+                                          </p>
+                                    )}
+                              </div>
+
+                              {/* Data Table */}
+                              <div id="printableContent" className='hidden mt-8'>
+                                    <h2 className='text-xl font-bold text-indigo-600 mb-4'>{selectedOption ? selectedOption.charAt(0).toUpperCase() + selectedOption.slice(1) + ' Report' : ''}</h2>
+                                    {renderTable()}
+                              </div>
+
+                              {/* Action Buttons */}
+                              <div className='mt-10 flex justify-end gap-4'>
+                                    <button onClick={() => setShowPrint(!showPrint)} className='py-3 px-6 bg-gray-400 hover:bg-gray-500 text-white rounded-lg transition'>
+                                          Cancel
+                                    </button>
+                                    <button onClick={handlePrint} className='py-3 px-8 bg-bloe hover:brightness-90 text-white rounded-lg transition'>
+                                          Print
+                                    </button>
                               </div>
                         </div>
                   </div>
             </div>
       );
+
+
 }
 
 export default Print;

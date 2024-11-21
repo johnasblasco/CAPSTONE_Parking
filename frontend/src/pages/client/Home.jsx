@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, createContext } from 'react';
+import { useEffect, useState, createContext } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import ManageVehicles from './pages/ManageVehicles';
@@ -8,10 +8,10 @@ import Header from './components/Header';
 import Navbar from './components/Navbar';
 import io from 'socket.io-client';
 import Swal from 'sweetalert2';
-import 'animate.css'
+import 'animate.css';
 
 export const myContext = createContext();
-const socket = io('http://localhost:8000');
+const socket = io('https://capstone-parking.onrender.com');
 
 const Home = () => {
       const [companyName, setCompanyName] = useState('');
@@ -25,13 +25,36 @@ const Home = () => {
       const [vehicles, setVehicles] = useState([]);
       const [allVehicles, setAllVehicles] = useState([]);
       const [loading, setLoading] = useState(true);
-      const [myImg, setMyImg] = useState(null);
+
+
+      const [myImg, setMyImg] = useState('');
+
+      useEffect(() => {
+            const fetchLatestImage = async () => {
+                  try {
+                        const response = await axios.get('https://capstone-parking.onrender.com/latest-image');
+                        const latestImageUrl = response.data.imageUrl;
+
+                        if (latestImageUrl) {
+                              setMyImg(latestImageUrl); // Update state with the fetched image URL
+                        } else {
+                              console.warn("No latest image found.");
+                        }
+                  } catch (err) {
+                        console.error("Error fetching latest image:", err);
+                  }
+            };
+
+
+
+            fetchLatestImage();
+      }, []);
 
 
       useEffect(() => {
             const fetchSettings = async () => {
                   try {
-                        const response = await axios.get('http://localhost:8000/settings');
+                        const response = await axios.get('https://capstone-parking.onrender.com/settings');
                         setCompanyName(response.data.companyName);
                         setParkingRules(response.data.parkingRules);
                         setTwoWheels(response.data.twoWheels);
@@ -43,19 +66,34 @@ const Home = () => {
                   } catch (err) {
                         console.error(err);
                   } finally {
-                        setTimeout(() => {
-                              setLoading(false);
-                        }, 1000);
+                        setLoading(false);
                   }
             };
 
             fetchSettings();
       }, []);
 
+      // Display welcome modal
+      useEffect(() => {
+            console.log("myImg value in Home.jsx:", myImg);
+            if (companyName && myImg) {
+                  Swal.fire({
+                        title: companyName,
+                        text: "Welcome to Parking Management System",
+                        imageUrl: myImg,
+                        width: 700,
+                        imageWidth: 300,
+                        imageHeight: 300,
+                        imageAlt: "Welcome image",
+                  });
+            }
+      }, [companyName, myImg]);
+
+
       useEffect(() => {
             const fetchVehicles = async () => {
                   try {
-                        const response = await axios.get('http://localhost:8000/vehicle');
+                        const response = await axios.get('https://capstone-parking.onrender.com/vehicle');
                         setAllVehicles(response.data);
                         setVehicles(response.data.filter(vehicle => vehicle.status === true));
                   } catch (error) {
@@ -69,31 +107,6 @@ const Home = () => {
 
             fetchVehicles();
       }, []);
-
-      useEffect(() => {
-            axios.get('http://localhost:8000/upload')
-                  .then(response => setMyImg(response.data));
-            if (companyName) {
-                  setTimeout(() => {
-                        Swal.fire({
-                              title: `${companyName}`,
-                              text: "Welcome to Parking Management System",
-                              imageUrl: `/uploads/` + myImg,
-                              width: 700,
-                              imageWidth: 300,
-                              imageHeight: 300,
-                              imageAlt: "Custom image",
-                              showClass: {
-                                    popup: 'animate__animated animate__fadeInUp animate__faster'
-                              },
-                              hideClass: {
-                                    popup: 'animate__animated animate__fadeOutDown animate__faster'
-                              }
-                        });
-                  }, 1500)
-
-            }
-      }, [companyName]);
 
       useEffect(() => {
             console.log('Socket connected:', socket.connected);
@@ -113,17 +126,12 @@ const Home = () => {
                   setVehicles(prevVehicle => prevVehicle.filter(V => V.ticketNumber !== updatedVehicle.ticketNumber));
             });
 
-
             return () => {
                   socket.off('vehicles');
                   socket.off('newVehicle');
                   socket.off('updateVehicle');
             };
       }, []);
-
-
-
-
 
       const myContextValue = [
             socket,
@@ -144,15 +152,13 @@ const Home = () => {
       if (loading) {
             return (
                   <div className="bg-[url('/BG.png')] bg-cover flex justify-center items-center h-screen">
-                        {/* <PropagateLoader color="#ff5400" size={30} /> */}
-                        <img src="/moving-car.gif" alt="" />
+                        <img src="/moving-car.gif" alt="Loading animation" />
                   </div>
             );
       }
 
       return (
             <div className='bg-no-repeat bg-bottom bg-[url("/BG.png")] bg-cover w-full fixed overflow-auto'>
-
                   <myContext.Provider value={myContextValue}>
                         <Header />
                         <div className='h-screen overflow-y-auto overflow-x-hidden'>

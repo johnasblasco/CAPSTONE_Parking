@@ -5,6 +5,8 @@ import { Server } from 'socket.io';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import path from 'path';  // Import path for absolute directory
+import dotenv from 'dotenv';
+dotenv.config();
 
 // import routes
 import userR from './routes/userR.js';
@@ -13,6 +15,7 @@ import vehicleR, { vehicleInit } from './routes/vehicleR.js';
 import earningsR, { earningsInit } from './routes/earningsR.js';
 import settingsR from './routes/settingsR.js';
 import uploadR from './routes/uploadR.js';
+import latestimageroute from './routes/latestImageRoute.js';
 
 // use express
 const app = express();
@@ -32,6 +35,7 @@ app.use('/vehicle', vehicleR);
 app.use('/earnings', earningsR);
 app.use('/settings', settingsR);
 app.use('/upload', uploadR);
+app.use('/latest-image', latestimageroute);
 
 // Database/Mongo connection
 const Connection = async () => {
@@ -59,7 +63,7 @@ io.on('connection', socket => {
 
   // Send this to all kupal
   const initialData = async () => {
-    const vehicle = await axios.get('http://localhost:8000/vehicle');
+    const vehicle = await axios.get('https://capstone-parking.onrender.com/vehicle');
     socket.emit('vehicles', vehicle.data);
   };
   initialData();

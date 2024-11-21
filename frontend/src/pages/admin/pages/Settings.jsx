@@ -29,23 +29,30 @@ const Settings = () => {
 
             if (file) {
                   const formData = new FormData();
-                  formData.append('image', file);
+                  formData.append('file', file);
+                  formData.append('upload_preset', 'ml_default'); // Use this preset name from Cloudinary
 
                   try {
-                        const response = await axios.post('http://localhost:8000/upload', formData, {
-                              headers: {
-                                    'Content-Type': 'multipart/form-data',
-                              },
-                        });
+                        const response = await axios.post(
+                              `https://api.cloudinary.com/v1_1/ddjabt4dc/image/upload`,
+                              formData,
+                              {
+                                    headers: { 'Content-Type': 'multipart/form-data' },
+                              }
+                        );
 
-                        const timestamp = new Date().getTime();
-                        const imageUrl = `http://localhost:8000${response.data.filePath}?t=${timestamp}`;
-                        setSelectedImage(imageUrl);
+                        if (response.data.secure_url) {
+                              setSelectedImage(response.data.secure_url);
+                              console.log('Upload successful:', response.data);
+                        } else {
+                              console.error('Upload failed: Missing URL in response');
+                        }
                   } catch (error) {
-                        setFormError('Error uploading file. Please try again.');
+                        console.error("Error uploading file:", error.response?.data || error.message);
                   }
             }
       };
+
 
       const handleChange = (e) => {
             const { name, value } = e.target;
@@ -64,7 +71,7 @@ const Settings = () => {
             }
 
             try {
-                  await axios.put('http://localhost:8000/settings', formData);
+                  await axios.put('https://capstone-parking.onrender.com/settings', formData);
 
                   Swal.fire({
                         title: 'Settings Updated!',
@@ -97,7 +104,7 @@ const Settings = () => {
             <div className="mx-[10%] font-bold h-max-700:mt-[35vh] mt-[25vh] w-[80vw] text-deepBlue">
                   <div className="border-4 border-bloe relative p-8 bg-white rounded-2xl shadow-2xl h-[750px] flex flex-col justify-between">
                         <p className="border-4 font-bold border-deepBlue absolute top-4 left-[-35px] bg-yeelow py-1 px-8 text-lg rounded-3xl">
-                              Company Settings
+                              Policy Settings
                         </p>
 
                         {/* Step Indicator */}
@@ -155,10 +162,15 @@ const Settings = () => {
                                           <h3 className="text-2xl font-semibold text-gray-700">Parking Rules (<span className='text-pink'>Visible in Ticket</span>)</h3>
                                           <img src="/parkingRules.gif" className='w-56 h-56' alt="" />
                                           <textarea
+
                                                 name="parkingRules"
                                                 value={formData.parkingRules}
                                                 onChange={handleChange}
-                                                placeholder="Parking Rules"
+                                                placeholder=" Parking Rules
+                                                
+      Park Within Lines – Ensure your vehicle is parked within the designated space. Handicapped Spaces – Reserved for vehicles with valid 
+      permits. Reserved Spaces – For employees or specific users. Towing enforced. Pedestrian Safety – Yield to pedestrians at all times. 
+      Overnight Parking – Not allowed. Large Vehicle Parking – Park in designated spots for larger vehicles. Failure to comply may result in fines."
                                                 className="w-full text-center text-xl font-bold p-4 border-4 border-bloe rounded-lg focus:outline-none focus:ring-2 focus:ring-darkBloe"
                                                 rows="5"
                                                 required

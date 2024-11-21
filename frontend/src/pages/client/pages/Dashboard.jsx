@@ -146,7 +146,7 @@ const Dashboard = () => {
                               showParkOut && <ParkOut />
                         }
                         {
-                              showVehicleData && <ParkOutDetails ticket2={ticket2} ticket34={ticket34} overTimeFees={overTimeFees} hoursLimit={hoursLimit} />
+                              showVehicleData && <ParkOutDetails ticket2={ticket2} ticket34={ticket34} overTimeFees={overTimeFees} hoursLimit={hoursLimit} setAllVehicles={setAllVehicles} />
                         }
 
                   </innerContext.Provider>
