@@ -122,13 +122,13 @@ const ManageVehicles = () => {
                         return;
                   }
                   try {
-                        const updatedVehicle = { plateNumber: newPlateNumber };
+                        const updatedVehicle = { plateNumber: newPlateNumber.toUpperCase() };
                         const response = await axios.put(`https://capstone-parking.onrender.com/vehicle/${vehicle._id}`, updatedVehicle);
                         console.log('Plate number updated successfully:', response.data);
 
                         // Update allVehicles and displayVehicles
                         setAllVehicles(prevVehicles => {
-                              const updatedVehicles = prevVehicles.map(v => (v._id === vehicle._id ? { ...v, plateNumber: newPlateNumber } : v));
+                              const updatedVehicles = prevVehicles.map(v => (v._id === vehicle._id ? { ...v, plateNumber: newPlateNumber.toUpperCase() } : v));
                               // Update displayVehicles based on the current filters
                               setDisplayVehicles(updatedVehicles);
                               return updatedVehicles; // Return updated vehicles for the state

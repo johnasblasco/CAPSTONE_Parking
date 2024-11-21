@@ -8,19 +8,19 @@ const Home = () => {
       };
       const handleButtonUser = () => {
 
-            ifnotLoggedOut();
+            // ifnotLoggedOut();
             navigate('/user');
       };
-      const ifnotLoggedOut = () => {
-            axios.get('https://capstone-parking.onrender.com/admin/loginhistory')
-                  .then(response => {
-                        const found = response.data.find(user => user.timeOut === null)
-                        if (found) {
-                              navigate('/user/home/dashboard')
-                              return;
-                        }
-                  })
-      };
+      // const ifnotLoggedOut = () => {
+      //       axios.get('https://capstone-parking.onrender.com/admin/loginhistory')
+      //             .then(response => {
+      //                   const found = response.data.find(user => user.timeOut === null)
+      //                   if (found) {
+      //                         navigate('/user/home/dashboard')
+      //                         return;
+      //                   }
+      //             })
+      // };
       return (
             <div className="h-screen bg-[url('/BG.png')] bg-cover bg-bottom bg-no-repeat">
 
