@@ -29,7 +29,8 @@ const Client = () => {
                   }
                   setIsLogin(true);
                   console.log("Login successful");
-                  navigate('/user/home/dashboard', { replace: true });
+                  navigate('/user/home/dashboard', { replace: true, state: { userId: user._id } });
+
 
                   // Make a log of the data
                   const now = new Date();
