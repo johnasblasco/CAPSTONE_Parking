@@ -12,14 +12,19 @@ const Header = () => {
             const fetchData = async () => {
                   try {
                         const response = await axios.get("https://capstone-parking.onrender.com/user");
+                        console.log("Fetched users:", response.data); // Debug fetched data
                         const foundUser = response.data.find(user => user.login === true);
+
                         if (foundUser) {
                               setCurrentUser(foundUser);
+                              console.log("Current user set:", foundUser);
+                        } else {
+                              console.warn("No logged-in user found.");
                         }
                   } catch (error) {
                         console.error("Error fetching user data:", error);
                   }
-            }
+            };
             fetchData();
       }, []);
 
