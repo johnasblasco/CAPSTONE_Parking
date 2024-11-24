@@ -49,7 +49,7 @@
   },
   "build": {
   "appId": "com.yourapp.name",
-  "productName": "YourApp",
+  "productName": "Parkaid",
   "files": [
     "build/**/*",
     "main.cjs",
@@ -57,7 +57,7 @@
   ],
   "win": {
     "target": "nsis",
-    "icon": "public/icons/icon.ico"
+    "icon": "public/logo.png"
   }
 }
 
