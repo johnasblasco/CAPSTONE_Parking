@@ -145,14 +145,20 @@ const ParkOutDetails = ({ ticket2, ticket34, overTimeFees, hoursLimit, setAllVeh
                                     <div className='flex my-auto items-center gap-6 '>
                                           <div>
 
-                                                {(hoursDifference >= hoursLimit && hoursLimit != 0) ?
-                                                      (<div>
-                                                            <p>Total Charge: <b> Php.{overTimeFees}.00</b> </p>
-                                                            <p className='ml-24 font-bold'>(+ overstay)</p>
-                                                      </div>
-                                                      )
-                                                      :
-                                                      ""
+                                                {
+                                                      (() => {
+                                                            const startDate = moment(selectedVehicle.startDate);
+                                                            const endDate = moment(); // Current time
+                                                            const duration = moment.duration(endDate.diff(startDate));
+                                                            const hoursDifference = duration.asHours(); // Get the total hours as a decimal
+
+                                                            return (hoursDifference >= hoursLimit && hoursLimit !== 0) ? (
+                                                                  <div>
+                                                                        <p>Total Charge: <b> Php.{overTimeFees}.00</b> </p>
+                                                                        <p className='ml-24 font-bold'>(+ overstay)</p>
+                                                                  </div>
+                                                            ) : "";
+                                                      })()
                                                 }
 
                                           </div>

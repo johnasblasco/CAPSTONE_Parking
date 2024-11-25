@@ -21,13 +21,7 @@ const Navbar = () => {
                                     >
                                           Settings
                                     </Link>
-                                    <Link
-                                          to="/admin/home/create-account"
-                                          onClick={() => handleLinkClick('create-account')}
-                                          className={`rounded-full w-[200px] border-4 border-[#001858] py-2 px-4 ${activeLink === 'create-account' ? 'bg-darkYellow' : ''}`}
-                                    >
-                                          Create Account
-                                    </Link>
+
                                     <Link
                                           to="/admin/home/manage-account"
                                           onClick={() => handleLinkClick('manage-account')}
@@ -43,11 +37,11 @@ const Navbar = () => {
                                           Login History
                                     </Link>
                                     <Link
-                                          to="/admin/home/reports"
+                                          to="/admin/home/dashboard"
                                           onClick={() => handleLinkClick('reports')}
                                           className={`rounded-full w-[200px] border-4 border-[#001858] py-2 px-4 ${activeLink === 'reports' ? 'bg-darkYellow' : ''}`}
                                     >
-                                          Reports
+                                          Dashboard
                                     </Link>
                               </div>
                         </div>

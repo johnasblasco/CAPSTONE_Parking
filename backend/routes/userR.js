@@ -11,8 +11,7 @@ router.post("/", async(req,res) =>{
             if(
                   !req.body.name ||
                   !req.body.username ||
-                  !req.body.password ||
-                  !req.body.status
+                  !req.body.password
                   
             ){
                   return res.status(400).send("includes all information please")

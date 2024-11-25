@@ -20,7 +20,7 @@ const Admin = () => {
                                     setIsLogin(true);
                                     console.log("ok na")
 
-                                    navigate('/admin/home/reports');
+                                    navigate('/admin/home/dashboard');
                                     setTimeout(() => {
                                           Swal.fire({
                                                 position: "center",

@@ -16,7 +16,7 @@ import axios from 'axios';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const Reports = () => {
+const Dashboard = () => {
       const [totalEarnings, setTotalEarnings] = useState(0);
       const [totalVehicles, setTotalVehicles] = useState(0);
       const [TwoWheels, setTwoWheels] = useState(0);
@@ -265,4 +265,4 @@ const Reports = () => {
 
 }
 
-export default Reports;
+export default Dashboard;
