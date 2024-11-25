@@ -10,10 +10,12 @@ const GetStarted = () => {
             name: '',
             username: '',
             password: '',
+            confirmPassword: '', // Added confirmPassword field
             isChecked: false,
       });
       const [formError, setFormError] = useState('');
       const navigate = useNavigate();
+      const [loading, setLoading] = useState(true);
 
       const handleUpload = () => {
             fileInputRef.current.click();
@@ -54,20 +56,27 @@ const GetStarted = () => {
       const handleSubmit = async (e) => {
             e.preventDefault();
 
-            const { name, username, password, isChecked } = formData;
+            const { name, username, password, confirmPassword, isChecked } = formData;
 
-            // Validate inputs
+            // Validate terms agreement
             if (!isChecked) {
                   setFormError('Please agree to the terms by checking the box.');
                   return;
             }
 
-            if (!name || !username || !password) {
+            // Validate required fields
+            if (!name || !username || !password || !confirmPassword) {
                   setFormError('Please fill in all the fields.');
                   return;
             }
 
-            // Create the data object with the necessary fields
+            // Validate matching passwords
+            if (password !== confirmPassword) {
+                  setFormError('Passwords do not match.');
+                  return;
+            }
+
+            // Create the data object to send to the backend
             const userData = {
                   name,
                   username,
@@ -77,43 +86,29 @@ const GetStarted = () => {
             };
 
             try {
-
-
-                  console.log('User data being sent:', userData); // Debugging linex
-                  // Send the POST request to create a new user
                   const response = await axios.post('https://capstone-parking.onrender.com/user', userData);
 
-                  console.log('User created:', response.data);
-
-                  // Show a success alert using Swal
                   Swal.fire({
-                        title: "User Created!",
-                        text: "Awaiting admin activation.",
-                        icon: "success",
-                        confirmButtonText: "OK"
+                        title: 'User Created!',
+                        text: 'Awaiting admin activation.',
+                        icon: 'success',
+                        confirmButtonText: 'OK',
                   }).then(() => {
-                        // Clear the form data and error message on success
                         setFormData({
                               name: '',
                               username: '',
                               password: '',
+                              confirmPassword: '',
                               isChecked: false,
                         });
-
                         setFormError('');
-
-                        // Redirect the user to home or another page
                         navigate('/');
                   });
             } catch (error) {
                   console.error('Error creating user:', error.response ? error.response.data : error.message);
-
-                  // Show an error message if the creation fails
                   setFormError(error.response?.data?.message || 'Error creating user. Please try again.');
             }
       };
-
-      const [loading, setLoading] = useState(true);
 
       useEffect(() => {
             setTimeout(() => {
@@ -128,7 +123,6 @@ const GetStarted = () => {
                   </div>
             );
       }
-
       return (
             <>
                   <div className="min-h-screen pb-20 bg-[url('/BG.png')] bg-cover bg-bottom bg-no-repeat flex justify-center">
@@ -176,6 +170,15 @@ const GetStarted = () => {
                                                             value={formData.password}
                                                             onChange={handleChange}
                                                             placeholder="Password"
+                                                            className="p-3 rounded-2xl w-[70%] border-4 bg-vanilla border-[#001858] transition-all duration-300 focus:border-bloe outline-none"
+                                                            required
+                                                      />
+                                                      <input
+                                                            type="password"
+                                                            name="confirmPassword"
+                                                            value={formData.confirmPassword}
+                                                            onChange={handleChange}
+                                                            placeholder="Confirm Password"
                                                             className="p-3 rounded-2xl w-[70%] border-4 bg-vanilla border-[#001858] transition-all duration-300 focus:border-bloe outline-none"
                                                             required
                                                       />
