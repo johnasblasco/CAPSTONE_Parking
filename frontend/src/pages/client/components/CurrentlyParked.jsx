@@ -43,7 +43,7 @@ const CurrentlyParked = ({ vehicles, hoursLimit }) => {
                         <thead>
                               <tr className='text-center'>
                                     <th className='border-b-4 border-deepBlue'>Ticket No.</th>
-                                    <th className='border-l-4 border-b-4 border-r-4 border-deepBlue '>Type</th>
+                                    <th className='border-l-4 border-b-4 border-r-4 border-deepBlue '>Plate Number</th>
                                     <th className='border-b-4 border-deepBlue'>Total Time</th>
                               </tr>
                         </thead>
@@ -55,7 +55,7 @@ const CurrentlyParked = ({ vehicles, hoursLimit }) => {
                                     return (
                                           <tr key={index} className={`text-center ${overtime ? '' : ''}`}>
                                                 <td>{vehicle.ticketNumber}</td>
-                                                <td className='border-l-4 border-r-4  border-deepBlue'>{vehicle.category}</td>
+                                                <td className='border-l-4 border-r-4  border-deepBlue'>{vehicle.plateNumber}</td>
                                                 <td className={`${overtime ? 'text-[#892121]' : ''}`}>
                                                       {`${hours}:${minutes} hrs`}
 
