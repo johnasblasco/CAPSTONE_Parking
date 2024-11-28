@@ -10,11 +10,12 @@ const GetStarted = () => {
             name: '',
             username: '',
             password: '',
-            confirmPassword: '',
+            confirmPassword: '', // Added confirmPassword field
             isChecked: false,
       });
       const [formError, setFormError] = useState('');
       const navigate = useNavigate();
+      const [loading, setLoading] = useState(true);
 
       const handleUpload = () => {
             fileInputRef.current.click();
@@ -57,81 +58,101 @@ const GetStarted = () => {
 
             const { name, username, password, confirmPassword, isChecked } = formData;
 
+            // Validate terms agreement
             if (!isChecked) {
                   setFormError('Please agree to the terms by checking the box.');
                   return;
             }
 
-            if (password !== confirmPassword) {
-                  setFormError('Passwords do not match.');
-                  return;
-            }
-
+            // Validate required fields
             if (!name || !username || !password || !confirmPassword) {
                   setFormError('Please fill in all the fields.');
                   return;
             }
 
+            // Validate matching passwords
+            if (password !== confirmPassword) {
+                  setFormError('Passwords do not match.');
+                  return;
+            }
+
+            // Create the data object to send to the backend
+            const userData = {
+                  name,
+                  username,
+                  password,
+                  status: false,
+                  login: false,
+            };
+
             try {
-                  await axios.put('https://capstone-parking.onrender.com/admin', {
-                        name,
-                        username,
-                        password,
+                  const response = await axios.post('https://capstone-parking.onrender.com/user', userData);
+
+                  Swal.fire({
+                        title: 'User Created!',
+                        text: 'Awaiting admin activation.',
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                  }).then(() => {
+                        setFormData({
+                              name: '',
+                              username: '',
+                              password: '',
+                              confirmPassword: '',
+                              isChecked: false,
+                        });
+                        setFormError('');
+                        navigate('/');
                   });
-
-
-                  navigate('/admin/home/settings');
             } catch (error) {
-                  setFormError('Error updating admin details. Please try again.');
-                  console.error('Error:', error);
+                  console.error('Error creating user:', error.response ? error.response.data : error.message);
+                  setFormError(error.response?.data?.message || 'Error creating user. Please try again.');
             }
       };
 
-      const [loading, setLoading] = useState(true);
-
       useEffect(() => {
             setTimeout(() => {
-                  setLoading(false)
-            }, 1000)
-      }, [])
+                  setLoading(false);
+            }, 1000);
+      }, []);
 
       if (loading) {
             return (
                   <div className="bg-[url('/BG.png')] bg-cover flex justify-center items-center h-screen">
-
-                        <img src="/moving-car.gif" alt="" />
+                        <img src="/moving-car.gif" alt="Loading..." />
                   </div>
             );
       }
-
       return (
             <>
                   <div className="min-h-screen pb-20 bg-[url('/BG.png')] bg-cover bg-bottom bg-no-repeat flex justify-center">
-
-                        {/* back button */}
-                        <div data-aos="fade-down" className='z-20 absolute left-12 w-40 h-32 cursor-pointer top-2 hover:scale-y-90 '>
-                              <img onClick={() => navigate("/")} src="/BACK.png" alt="" className='absolute left-12 cursor-pointer top-[-30px] hover:scale-y-90 ' />
+                        {/* Back Button */}
+                        <div data-aos="fade-down" className='z-20 absolute left-12 w-40 h-32 cursor-pointer top-2 hover:scale-y-90'>
+                              <img onClick={() => navigate("/")} src="/BACK.png" alt="Back" className='absolute left-12 cursor-pointer top-[-30px] hover:scale-y-90' />
                         </div>
 
                         <div data-aos="zoom-in">
-                              <div className="md:mt-[15vh] transition-transform duration-300 hover:scale-105 ml-40 h-max-700:px-30 py-20 h-max-700:ml-10  mt-16 bg-[url('/Polygon.png')] h-max-700:h-auto h-[750px] w-[1400px] h-max-700:bg-cover bg-contain bg-no-repeat">
+                              <div className="md:mt-[15vh] transition-transform duration-300 hover:scale-105 ml-40 h-max-700:px-30 py-20 h-max-700:ml-10 mt-16 bg-[url('/Polygon.png')] h-max-700:h-auto h-[750px] w-[1400px] h-max-700:bg-cover bg-contain bg-no-repeat">
                                     <form onSubmit={handleSubmit}>
                                           <div className="flex ml-[-200px] justify-center h-full">
+                                                {/* Form Fields */}
                                                 <div className="flex flex-col px-4 w-[35%] gap-7 font-bold text-xl">
-                                                      <h2 className="text-4xl tracking-wider text-[#001858] font-extrabold">SETTING UP</h2>
+                                                      <h2 className="text-4xl tracking-wider text-[#001858] font-extrabold">GET STARTED</h2>
                                                       <p className="text-2xl w-[90%] text-balance text-[#001858]">
                                                             Welcome to ParKaid! Let's get you started.
                                                       </p>
                                                       <p className="w-[70%] text-balance text-[#001858]">
-                                                            As you Signup. You will be assigned to be the Admin of our System.
+                                                            Create a user account to begin.
                                                       </p>
+
+                                                      {/* Input Fields */}
                                                       <input
                                                             type="text"
                                                             name="name"
                                                             value={formData.name}
                                                             onChange={handleChange}
-                                                            placeholder="Admin Name"
-                                                            className="p-3 rounded-2xl w-[70%] border-4 bg-vanilla border-[#001858] transition-all duration-300  focus:border-bloe outline-none"
+                                                            placeholder="Full Name"
+                                                            className="p-3 rounded-2xl w-[70%] border-4 bg-vanilla border-[#001858] transition-all duration-300 focus:border-bloe outline-none"
                                                             required
                                                       />
                                                       <input
@@ -140,7 +161,7 @@ const GetStarted = () => {
                                                             value={formData.username}
                                                             onChange={handleChange}
                                                             placeholder="Username"
-                                                            className="p-3 rounded-2xl w-[70%] border-4 bg-vanilla border-[#001858] transition-all duration-300  focus:border-bloe outline-none"
+                                                            className="p-3 rounded-2xl w-[70%] border-4 bg-vanilla border-[#001858] transition-all duration-300 focus:border-bloe outline-none"
                                                             required
                                                       />
                                                       <input
@@ -149,7 +170,7 @@ const GetStarted = () => {
                                                             value={formData.password}
                                                             onChange={handleChange}
                                                             placeholder="Password"
-                                                            className="p-3 rounded-2xl w-[70%] border-4 bg-vanilla border-[#001858] transition-all duration-300  focus:border-bloe outline-none"
+                                                            className="p-3 rounded-2xl w-[70%] border-4 bg-vanilla border-[#001858] transition-all duration-300 focus:border-bloe outline-none"
                                                             required
                                                       />
                                                       <input
@@ -157,12 +178,13 @@ const GetStarted = () => {
                                                             name="confirmPassword"
                                                             value={formData.confirmPassword}
                                                             onChange={handleChange}
-                                                            placeholder="Re-type Password"
-                                                            className="p-3 rounded-2xl w-[70%] border-4 bg-vanilla border-[#001858] transition-all duration-300  focus:border-bloe outline-none"
+                                                            placeholder="Confirm Password"
+                                                            className="p-3 rounded-2xl w-[70%] border-4 bg-vanilla border-[#001858] transition-all duration-300 focus:border-bloe outline-none"
                                                             required
                                                       />
                                                 </div>
 
+                                                {/* Upload Section */}
                                                 <div className="flex flex-col gap-8 items-center">
                                                       <div
                                                             onClick={handleUpload}
@@ -184,7 +206,7 @@ const GetStarted = () => {
                                                       </div>
 
                                                       <button type="submit" className="w-fit py-3 px-12 rounded-full text-2xl font-bold border-4 border-[#001858] bg-greenWich/80 hover:scale-105 hover:contrast-125 hover:shadow-lg text-bloe transition-all duration-300">
-                                                            PROCEED?
+                                                            REGISTER
                                                       </button>
 
                                                       <div className="w-56 text-wrap">

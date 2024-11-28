@@ -1,19 +1,13 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import axios from 'axios';
-import etits, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 import { MdLocalPrintshop } from "react-icons/md";
 import Swal from 'sweetalert2';
-import { FaFilter } from "react-icons/fa";
 
 const ManageAccount = () => {
       const invoiceRef = useRef(null);
-
       const [users, setUsers] = useState([]);
-      const [editName, setEditName] = useState("");
-      const [editUsername, setEditUsername] = useState("");
-      const [editPassword, setEditPassword] = useState("");
-      const [showDeact, setShowDeact] = useState(false);
-      const [showAct, setShowAct] = useState(false);
+      const [inactiveUsers, setInactiveUsers] = useState([]);
       const [search, setSearch] = useState("");
       const [oyGalaw, setOyGalaw] = useState(false);
 
@@ -36,38 +30,25 @@ const ManageAccount = () => {
       );
 
       useEffect(() => {
+            // Fetch all users
             axios.get("https://capstone-parking.onrender.com/user")
                   .then(response => {
-                        if (!showAct && !showDeact) {
-                              setUsers(response.data);
-                        } else if (showAct) {
-                              setUsers(response.data.filter(user => user.status === true));
-                        } else if (showDeact) {
-                              setUsers(response.data.filter(user => user.status === false));
-                        }
+                        const activeUsers = response.data.filter(user => user.status === true); // Active users
+                        const inactiveUsers = response.data.filter(user => user.status === false); // Inactive users
+                        setUsers(activeUsers);
+                        setInactiveUsers(inactiveUsers);
                   })
-                  .catch(err => console.log(err));
-      }, [oyGalaw, showAct, showDeact]);
-
-      const handleAction = async (currentObject) => {
-            if (currentObject.status) {
-                  await axios.put(`https://capstone-parking.onrender.com/user/${currentObject._id}`, { ...currentObject, status: false });
-                  etits.error("DEACTIVATED");
-            } else {
-                  await axios.put(`https://capstone-parking.onrender.com/user/${currentObject._id}`, { ...currentObject, status: true });
-                  etits.success("ACTIVATED");
-            }
-            setOyGalaw(!oyGalaw);
-      };
+                  .catch(err => console.log('Error fetching users:', err));
+      }, [oyGalaw]); // Dependency to re-fetch on action
 
       const handleSaveButton = async (user) => {
             try {
                   const { value: formValues } = await Swal.fire({
                         title: "Edit Name, Username, and Password",
                         html: `
-                    <input id="swal-input1" class="swal2-input" placeholder="Name" value="${user.name}">
-                    <input id="swal-input2" class="swal2-input" placeholder="Username" value="${user.username}">
-                    <input id="swal-input3" type="password" class="swal2-input" placeholder="New Password">`,
+          <input id="swal-input1" class="swal2-input" placeholder="Name" value="${user.name}">
+          <input id="swal-input2" class="swal2-input" placeholder="Username" value="${user.username}">
+          <input id="swal-input3" type="password" class="swal2-input" placeholder="New Password">`,
                         focusConfirm: false,
                         preConfirm: () => {
                               const name = document.getElementById("swal-input1").value;
@@ -96,148 +77,128 @@ const ManageAccount = () => {
             }
       };
 
-      const handlePrint = () => {
-            if (!invoiceRef.current) {
-                  console.error("Invoice reference is missing");
-                  return;
+
+
+      const handleAcceptUser = async (userId) => {
+            try {
+                  // Sending a PUT request to update the user's status
+                  const response = await axios.put(
+                        `https://capstone-parking.onrender.com/user/${userId}`,
+                        { status: true }  // Ensure this is being sent as JSON
+                  );
+                  console.log(response.data);  // Log the response for debugging
+                  setOyGalaw(!oyGalaw);  // Refresh state to reflect changes
+            } catch (error) {
+                  console.error("Error activating user:", error);
             }
-
-            const printWindow = window.open('', '', 'height=842,width=595');
-            const invoiceContent = invoiceRef.current.innerHTML;
-
-            if (!printWindow) {
-                  console.error("Failed to open print window");
-                  return;
-            }
-
-            const printContent = `
-            <html>
-                <head>
-                    <title>Print Employees Account</title>
-                    <style>
-                        @media print {
-                            @page { size: A4; margin: 20mm; }
-                            body { font-family: Arial, sans-serif ; margin: 0; }
-                            table { width: 100%; border-collapse: collapse; }
-                            th, td { border: 1px solid black; padding: 8px; text-align: center; }
-                            th { background-color: #f2f2f2; }
-                            .no-print { display: none; }
-                        }
-                    </style>
-                </head>
-                <body>
-                    <h2>Employees Accounts</h2>
-                    ${invoiceContent}
-                </body>
-            </html>
-        `;
-
-            printWindow.document.open();
-            printWindow.document.write(printContent);
-            printWindow.document.close();
-            printWindow.focus();
-            printWindow.print();
       };
 
-      const handleAct = () => {
-            setShowAct(!showAct);
-            setShowDeact(false);
-            setOyGalaw(!oyGalaw);
-      };
 
-      const handleDeact = () => {
-            setShowDeact(!showDeact);
-            setShowAct(false);
-            setOyGalaw(!oyGalaw);
+
+      const handleDeleteUser = async (userId) => {
+            try {
+                  // Delete the user
+                  await axios.delete(`https://capstone-parking.onrender.com/user/${userId}`);
+                  setOyGalaw(!oyGalaw); // Trigger re-fetch of data
+            } catch (error) {
+                  console.log(error);
+            }
       };
 
       return (
             <>
-
                   <div className='mx-[10%] h-max-700:mt-[35vh] mt-[25vh] w-[80vw] text-deepBlue'>
+                        {/* Inactive Users Section */}
+                        <div className="my-8 pt-3 rounded-xl bg-white shadow-md">
+                              <p className="border-4 font-bold border-deepBlue w-fit ml-[-30px] bg-yellow-400 py-1 px-10 text-lg rounded-full shadow-lg">
+                                    New Accounts
+                              </p>
+                              <ul className="list-none p-0 mt-4">
+                                    {inactiveUsers.length === 0 ? (
+                                          <p className="text-center text-gray-600">No new users</p>
+                                    ) : (
+                                          inactiveUsers
+                                                .filter((user) => user.name.toUpperCase().includes(search.toUpperCase()))
+                                                .map((user) => (
+                                                      <li key={user._id} className="font-bold flex justify-between items-center p-3 border-b hover:bg-gray-50 transition-colors">
+                                                            <span className="text-lg font-semibold">{user.name} - {user.username}</span>
+                                                            <div className="flex space-x-2">
+                                                                  <button
+                                                                        className="bg-green-500 text-white py-2 px-4 rounded-lg shadow-sm hover:bg-green-600 transition-colors"
+                                                                        onClick={() => handleAcceptUser(user._id)}
+                                                                        aria-label={`Accept ${user.name}`}
+                                                                  >
+                                                                        Accept
+                                                                  </button>
+                                                                  <button
+                                                                        className="bg-red-500 text-white py-2 px-4 rounded-lg shadow-sm hover:bg-red-600 transition-colors"
+                                                                        onClick={() => handleDeleteUser(user._id)}
+                                                                        aria-label={`Delete ${user.name}`}
+                                                                  >
+                                                                        Delete
+                                                                  </button>
+                                                            </div>
+                                                      </li>
+                                                ))
+                                    )}
+                              </ul>
+                        </div>
 
-                        {/* CONTENT */}
+                        <div className="font-bold min-h-[700px] relative pt-14 pb-8 bg-white border-4 border-bloe mx-auto px-12 rounded-2xl">
+                              <p className='border-4 font-bold border-deepBlue absolute top-4 left-[-35px] bg-yeelow py-1 px-8 text-lg rounded-3xl'>Manage Account</p>
 
-                        <div className="font-bold min-h-[700px]  relative pt-14 pb-8 bg-white border-4 border-bloe mx-auto px-12 rounded-2xl ">
-
-                              <p className='border-4 font-bold border-deepBlue absolute top-4 left-[-35px] bg-yeelow py-1 px-8 text-lg rounded-3xl '>Manage Account</p>
-
-                              <div className='mt-4 mb-12 flex justify-between items-center gap-4'>
-                                    {/* Left side: Activate and Deactivate buttons */}
-                                    <div className='flex gap-4 shadow-xl border-2 rounded-3xl p-4'>
-                                          <button onClick={handleAct} className='font-extrabold h-12 bg-green-500 hover:scale-95 rounded-2xl p-2 px-4 text-white'>
-                                                <FaFilter className='inline text-2xl' /> Activate Only
-                                          </button>
-                                          <button onClick={handleDeact} className='font-extrabold h-12 bg-pink hover:scale-95 rounded-2xl p-2  text-white'>
-                                                <FaFilter className='inline text-2xl' /> Deactivate Only
-                                          </button>
+                              {/* SEARCH */}
+                              <div className='mt-4 mb-20 ml-36 flex items-center gap-4'>
+                                    <div className='flex mx-auto items-center gap-4'>
+                                          <input
+                                                onChange={(e) => handleSearch(e.target.value)}
+                                                className="w-[25vw] border-gray-500 py-2 px-4 rounded-2xl font-bold text-xl text-center border-4 outline-8 outline-bloe placeholder-deepBlue/50"
+                                                type="text"
+                                                placeholder='Search by Account Name'
+                                          />
+                                          <button onClick={() => { }} className='bg-bloe hover:scale-95 hover:brightness-125 text-white text-xl  font-bold py-2 px-8 rounded-2xl border-2 border-bloe shadow-xl'>Search</button>
                                     </div>
 
-                                    {/* SEARCH */}
-                                    <div className='flex items-center gap-4'>
-                                          <input onChange={(e) => handleSearch(e.target.value)} className=" w-[25vw] border-gray-500 py-2 px-4 rounded-2xl  font-bold text-xl text-center border-4 outline-8 outline-bloe placeholder-deepBlue/50" type="text" placeholder='Search by Account Name' />
-                                          <button className='bg-bloe hover:scale-95 hover:brightness-125 text-white text-xl  font-bold py-2 px-8 rounded-2xl border-2 border-bloe shadow-xl'>Search</button>
-                                    </div>
-
-                                    {/* Right side: Print button */}
-                                    <button onClick={handlePrint} className='font-extrabold h-12 bg-bloe hover:scale-95 rounded-2xl p-2 px-4 text-white'>
-                                          <MdLocalPrintshop className='inline text-2xl' /> Print
-                                    </button>
                               </div>
 
-                              {/* table */}
-                              <div ref={invoiceRef}>
-                                    <table className='mt-4 w-full h-auto '>
+                              {/* Active Users Table */}
+                              <div>
+                                    <table className='mt-4 w-full h-auto border-collapse'>
                                           <thead>
                                                 <tr className='border-b-4 border-bloe'>
-                                                      <th className="border-r-4 border-bloe" >Number</th>
-                                                      <th className="border-r-4 border-bloe" >Name</th>
-                                                      <th className="border-r-4 border-bloe" >Username</th>
-                                                      <th className="border-r-4 border-bloe" >Status</th>
-                                                      <th className='no-print'>Action</th>
+                                                      <th className="border-r-4 border-bloe px-2 py-2">Number</th>
+                                                      <th className="border-r-4 border-bloe px-2 py-2">Name</th>
+                                                      <th className="border-r-4 border-bloe px-2 py-2">Username</th>
+                                                      <th className="border-r-4 border-bloe px-2 py-2">Status</th>
+                                                      <th className='no-print border-bloe px-2 py-2'>Action</th>
                                                 </tr>
                                           </thead>
-                                          <tbody className='text-center '>
-                                                {
-                                                      users
-                                                            .filter((user) =>
-                                                                  user.name.toUpperCase().includes(search.toUpperCase())
-                                                            )
-                                                            .map((user, index) => {
-                                                                  return (
-                                                                        <tr className='hover:bg-vanilla h-12 rounded-3xl' key={index}>
-                                                                              <td className="border-r-4 border-bloe" >{index + 1}</td>
-                                                                              <td className="border-r-4 border-bloe" >{user.name}</td>
-                                                                              <td className="border-r-4 border-bloe" >{user.username}</td>
-                                                                              <td className="border-r-4 border-bloe" >{user.status ? "Active" : "Inactive"}</td>
-                                                                              <td className="w-[30%] no-print">
-                                                                                    <button
-                                                                                          className='bg-deepBlue py-1 px-8 mx-4 rounded-lg text-white hover:scale-95 '
-                                                                                          onClick={() => handleSaveButton(user)}
-                                                                                    >
-                                                                                          Edit
-                                                                                    </button>
-                                                                                    {user.status ?
-                                                                                          (
-                                                                                                <button onClick={() => handleAction(user)} className='text-white bg-greenWich hover:scale-95  py-1 px-[25px]  rounded-lg'>Activated</button>
-                                                                                          )
-                                                                                          :
-                                                                                          (
-                                                                                                <button onClick={() => handleAction(user)} className='text-white bg-pink hover:scale-95  py-1  px-4 rounded-lg'>Deactivated</button>
-                                                                                          )
-                                                                                    }
-                                                                              </td>
-                                                                        </tr>
-                                                                  )
-                                                            })
-                                                }
+                                          <tbody className='text-center'>
+                                                {users
+                                                      .filter((user) => user.name.toUpperCase().includes(search.toUpperCase()))
+                                                      .map((user, index) => (
+                                                            <tr className='hover:bg-vanilla h- 12 rounded-3xl' key={index}>
+                                                                  <td className="border-r-4 border-bloe px-2 py-2">{index + 1}</td>
+                                                                  <td className="border-r-4 border-bloe px-2 py-2">{user.name}</td>
+                                                                  <td className="border-r-4 border-bloe px-2 py-2">{user.username}</td>
+                                                                  <td className="border-r-4 border-bloe px-2 py-2">{user.status ? "Active" : "Inactive"}</td>
+                                                                  <td className="no-print">
+                                                                        <button
+                                                                              className='bg-deepBlue py-1 px-8 rounded-lg text-white hover:scale-95'
+                                                                              onClick={() => handleSaveButton(user)}
+                                                                              aria-label={`Edit ${user.name}`}
+                                                                        >
+                                                                              Edit
+                                                                        </button>
+                                                                  </td>
+                                                            </tr>
+                                                      ))}
                                           </tbody>
                                     </table>
                               </div>
-
                         </div>
-
                   </div>
+
                   {/* TOASTER */}
                   <Toaster />
             </>

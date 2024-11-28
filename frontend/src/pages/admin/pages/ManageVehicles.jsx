@@ -15,17 +15,10 @@ const ManageVehicles = () => {
       const [search, setSearch] = useState("");
 
       const [
-            socket,
             allVehicles,
             setAllVehicles,
             vehicles,
             setVehicles,
-            companyName,
-            parkingRules,
-            twoWheels,
-            threeAndFourWheels,
-            ticket34,
-            ticket2,
             hoursLimit,
             overTimeFees,
       ] = useContext(myContext);
@@ -328,7 +321,7 @@ const ManageVehicles = () => {
 
                               <div className="border-4 overflow-y-auto min-h-[760px] max-h-[760px] mb-12  border-bloe w-[99%] relative bg-white mx-8 rounded-3xl  flex flex-col px-8 py-4 gap-6 items-center">
 
-                                    <div className='flex items-center justify-center w-full'>
+                                    <div className='flex mt-10 ml-12 items-center justify-center w-full'>
                                           <div className='flex items-center gap-4'>
                                                 <input onChange={e => setSearch(e.target.value)} className=" w-[25vw] border-gray-500 py-2 px-4 rounded-2xl  font-bold text-xl text-center border-4 outline-8 outline-bloe placeholder-deepBlue/50" type="text" placeholder='Search by Plate Number' />
                                                 <button onClick={() => { }} className='bg-bloe hover:scale-95 hover:brightness-125 text-white text-xl  font-bold py-2 px-8 rounded-2xl border-2 border-bloe shadow-xl'>Search</button>
@@ -342,8 +335,8 @@ const ManageVehicles = () => {
                                                       <th className='border-r-4 border-deepBlue'>Date</th>
                                                       <th className='border-r-4 border-deepBlue'>Plate No.</th>
                                                       <th className='border-r-4 border-deepBlue'>Category</th>
-                                                      <th className='border-r-4 border-deepBlue'>Total Time</th>
-                                                      <th >Action</th>
+                                                      <th className='border-deepBlue'>Total Time</th>
+
                                                 </tr>
                                           </thead>
 
@@ -357,16 +350,10 @@ const ManageVehicles = () => {
                                                                   < td className='border-r-4 border-deepBlue'>{moment(new Date(vehicle.startDate)).format('DD-MM-YY')}</td>
                                                                   <td className='border-r-4 border-deepBlue'>{vehicle.plateNumber}</td>
                                                                   <td className='border-r-4 border-deepBlue'>{vehicle.category}</td>
-                                                                  <td className={` border-r-4 border-deepBlue ${overtime ? 'text-[#892121]' : ''}`}>
+                                                                  <td className={`  border-deepBlue ${overtime ? 'text-[#892121]' : ''}`}>
                                                                         {`${hours}:${minutes} hours`}
                                                                   </td>
-                                                                  <td >
-                                                                        <button onClick={() => handleEditPlateNumber(vehicle)} className='bg-blue-700 py-2 mr-2 px-8 hover:scale-95 text-white hover:brightness-90  rounded-2xl border-4 font-bold border-white'>Edit</button>
-                                                                        {vehicle.status ? (<button onClick={() => manageParkout(vehicle)} className='bg-pink py-2 px-3 hover:scale-95 hover:bg-red-500 hover:brightness-90 text-offWhite rounded-2xl border-4 font-bold border-offWhite'>Park Out</button>)
-                                                                              : <span className='bg-pink/30 w-fit py-2 px-3  text-black rounded-2xl border-4 font-bold border-white'><del>Park Out</del></span>
-                                                                        }
 
-                                                                  </td>
 
                                                             </tr>
                                                       )

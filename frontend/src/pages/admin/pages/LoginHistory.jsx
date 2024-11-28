@@ -1,12 +1,14 @@
-import React, { useState, useEffect, useContext, useRef, useCallback } from 'react';
-import { myContext } from '../Home';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { MdLocalPrintshop } from "react-icons/md";
 import moment from 'moment';
+import axios from 'axios';
 
 const LoginHistory = () => {
-      const [employee] = useContext(myContext);
-      const [displayEmployee, setDisplayEmployee] = useState(employee);
       const tableRef = useRef(null);
+
+      // employees
+      const [employee, setEmployee] = useState([]);
+      const [displayEmployee, setDisplayEmployee] = useState(employee);
 
       // handle Search
       const [search, setSearch] = useState("");
@@ -20,6 +22,18 @@ const LoginHistory = () => {
                   }, wait);
             };
       };
+
+      useEffect(() => {
+            axios.get("https://capstone-parking.onrender.com/admin/loginHistory")
+                  .then(response => {
+                        const updatedEmployees = response.data
+                        setEmployee(updatedEmployees);
+
+                  })
+                  .catch(err => {
+                        console.log(err)
+                  })
+      }, [])
 
       const handleSearch = useCallback(
             debounce((searchTerm) => {
@@ -65,7 +79,7 @@ const LoginHistory = () => {
                                       <tr>
                                           <th>Number</th>
                                           <th>Employee Name</th>
-                                          <th>Time In</th>
+                                          <th>Time In</th>a
                                           <th>Time Out</th>
                                           <th>Date</th>
                                       </tr>
@@ -100,9 +114,9 @@ const LoginHistory = () => {
 
                         <p className='border-4 font-bold border-deepBlue absolute top-4 left-[-35px] bg-yeelow py-1 px-8 text-lg rounded-3xl '>Login History</p>
 
-                        <div className='mb-12 mt-4 flex gap-60 justify-end items-center'>
+                        <div className='mb-20 mt-4 ml-48 flex items-center'>
                               {/* SEARCH */}
-                              <div className='flex items-center gap-4'>
+                              <div className='flex mx-auto items-center gap-4'>
                                     <input onChange={e => setSearch(e.target.value)} className=" w-[25vw] border-gray-500 py-2 px-4 rounded-2xl  font-bold text-xl text-center border-4 outline-8 outline-bloe placeholder-deepBlue/50" type="text" placeholder='Search by Employee Name' />
                                     <button className='bg-bloe hover:scale-95 hover:brightness-125 text-white text-xl  font-bold py-2 px-8 rounded-2xl border-2 border-bloe shadow-xl'>Search</button>
                               </div>

@@ -1,11 +1,8 @@
 import { useEffect, useState, createContext } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
-import ManageVehicles from './pages/ManageVehicles';
-import Reports from './pages/Reports';
 import axios from 'axios';
 import Header from './components/Header';
-import Navbar from './components/Navbar';
 import io from 'socket.io-client';
 import Swal from 'sweetalert2';
 import 'animate.css';
@@ -123,7 +120,14 @@ const Home = () => {
             });
 
             socket.on('updateVehicle', (updatedVehicle) => {
-                  setVehicles(prevVehicle => prevVehicle.filter(V => V.ticketNumber !== updatedVehicle.ticketNumber));
+                  setVehicles(prevVehicles =>
+                        prevVehicles.filter(v => v.ticketNumber !== updatedVehicle.ticketNumber)
+                  );
+                  setAllVehicles(prevAllVehicles =>
+                        prevAllVehicles.map(v =>
+                              v.ticketNumber === updatedVehicle.ticketNumber ? updatedVehicle : v
+                        )
+                  );
             });
 
             return () => {
@@ -164,11 +168,8 @@ const Home = () => {
                         <div className='h-screen overflow-y-auto overflow-x-hidden'>
                               <Routes>
                                     <Route path='/dashboard' element={<Dashboard />} />
-                                    <Route path='/manage-vehicles' element={<ManageVehicles />} />
-                                    <Route path='/reports' element={<Reports />} />
                               </Routes>
                         </div>
-                        <Navbar />
                   </myContext.Provider>
             </div>
       );

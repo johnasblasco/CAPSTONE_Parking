@@ -37,7 +37,7 @@ const CurrentlyParked = ({ vehicles, hoursLimit }) => {
       };
 
       return (
-            <div className='relative border-4 border-deepBlue shadow-2xl max-h-[55vh] min-h-[67%] overflow-y-auto flex flex-col items-center bg-offWhite rounded-2xl '>
+            <div className='relative border-4 border-deepBlue shadow-2xl max-h-[50vh] min-h-[67%] overflow-y-auto flex flex-col items-center bg-offWhite rounded-2xl '>
                   <span className='absolute top-2 px-8 py-2 bg-yeelow border-4 border-deepBlue text-xl font-bold  rounded-full'>Currently Parked</span>
                   <table className='w-[90%] m-4 mt-24'>
                         <thead>
