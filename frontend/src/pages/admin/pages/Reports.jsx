@@ -244,7 +244,7 @@ const Reports = () => {
             <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; margin-left:10px">
               <tr>
                 <th style="border: 1px solid black; padding: 8px; text-align: left;">Printed By</th>
-                <td style="border: 1px solid black; padding: 8px;">${currentUser}</td>
+                <td style="border: 1px solid black; padding: 8px;">ADMIN</td>
               </tr>
               <tr>
                 <th style="border: 1px solid black; padding: 8px; text-align: left;">Total Earnings</th>

@@ -102,7 +102,14 @@ const Home = () => {
             });
 
             socket.on('updateVehicle', (updatedVehicle) => {
-                  setVehicles(prevVehicle => prevVehicle.filter(V => V.ticketNumber !== updatedVehicle.ticketNumber));
+                  setVehicles(prevVehicles =>
+                        prevVehicles.filter(v => v.ticketNumber !== updatedVehicle.ticketNumber)
+                  );
+                  setAllVehicles(prevAllVehicles =>
+                        prevAllVehicles.map(v =>
+                              v.ticketNumber === updatedVehicle.ticketNumber ? updatedVehicle : v
+                        )
+                  );
             });
 
             return () => {

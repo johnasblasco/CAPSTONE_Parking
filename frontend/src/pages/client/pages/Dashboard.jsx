@@ -75,7 +75,7 @@ const Dashboard = () => {
       return (
             <>
 
-                  <div className='mx-[10%] h-max-700:mt-[35vh] mt-[25vh] w-[80vw] text-deepBlue'>
+                  <div className='mx-[10%] h-max-700:mt-[25vh] mt-[15vh] w-[80vw] text-deepBlue'>
                         {/* CONTENT GRID LEFT AND RIGHT */}
                         <div className='py-1 px-4 grid grid-cols-2 gap-10'>
 
