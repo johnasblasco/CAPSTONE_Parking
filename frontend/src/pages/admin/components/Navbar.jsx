@@ -15,12 +15,13 @@ const Navbar = () => {
                         <div className=" w-[80vw] bg-white border-4 border-[#001858] p-1 rounded-full text-center">
                               <div className='flex justify-center gap-4'>
                                     <Link
-                                          to="/admin/home/settings"
-                                          onClick={() => handleLinkClick('settings')}
-                                          className={`rounded-full w-[200px] border-4 border-[#001858] py-2 px-4 ${activeLink === 'settings' ? 'bg-darkYellow' : ''}`}
+                                          to="/admin/home/dashboard"
+                                          onClick={() => handleLinkClick('dashboard')}
+                                          className={`rounded-full w-[200px] border-4 border-[#001858] py-2 px-4 ${activeLink === 'dashboard' ? 'bg-darkYellow' : ''}`}
                                     >
-                                          Settings
+                                          Dashboard
                                     </Link>
+
 
                                     <Link
                                           to="/admin/home/manage-account"
@@ -29,6 +30,15 @@ const Navbar = () => {
                                     >
                                           Manage Account
                                     </Link>
+
+                                    <Link
+                                          to="/admin/home/manage-vehicles"
+                                          onClick={() => handleLinkClick('manage-vehicles')}
+                                          className={`rounded-full border-4 border-[#001858] w-[200px] py-2 px-4 ${activeLink === 'manage-vehicles' ? 'bg-darkYellow' : ''}`}
+                                    >
+                                          Manage Vehicles
+                                    </Link>
+
                                     <Link
                                           to="/admin/home/login-history"
                                           onClick={() => handleLinkClick('login-history')}
@@ -37,11 +47,11 @@ const Navbar = () => {
                                           Login History
                                     </Link>
                                     <Link
-                                          to="/admin/home/dashboard"
+                                          to="/admin/home/reports"
                                           onClick={() => handleLinkClick('reports')}
                                           className={`rounded-full w-[200px] border-4 border-[#001858] py-2 px-4 ${activeLink === 'reports' ? 'bg-darkYellow' : ''}`}
                                     >
-                                          Dashboard
+                                          Reports
                                     </Link>
                               </div>
                         </div>
