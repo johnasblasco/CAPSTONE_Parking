@@ -77,12 +77,13 @@ const GetStarted = () => {
             }
 
             try {
-                  // Check if the username already exists
-                  const checkResponse = await axios.get(`https://capstone-parking.onrender.com/user/check-username`, {
-                        params: { username },
-                  });
+                  // Fetch all users and check if the username exists
+                  const response = await axios.get('https://capstone-parking.onrender.com/user');
+                  const users = response.data;
 
-                  if (checkResponse.data.exists) {
+                  const usernameExists = users.some(user => user.username === username);
+
+                  if (usernameExists) {
                         Swal.fire('Error', 'The username is already taken. Please choose another.', 'error');
                         return; // Stop further execution
                   }
@@ -96,7 +97,7 @@ const GetStarted = () => {
                         login: false,
                   };
 
-                  const response = await axios.post('https://capstone-parking.onrender.com/user', userData);
+                  await axios.post('https://capstone-parking.onrender.com/user', userData);
 
                   Swal.fire('Success', 'User created! Awaiting admin activation.', 'success').then(() => {
                         setFormData({
@@ -110,9 +111,10 @@ const GetStarted = () => {
                   });
             } catch (error) {
                   console.error('Error creating user:', error.response?.data || error.message);
-                  Swal.fire('Error', error.response?.data?.message || 'An error occurred. Please try again.', 'error');
+                  Swal.fire('Error', 'An error occurred. Please try again.', 'error');
             }
       };
+
 
 
 
