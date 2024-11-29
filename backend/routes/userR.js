@@ -87,25 +87,22 @@ router.delete("/:id", async (req, res) => {
 });
 
 // GET route to check if username exists
-router.get("/check-username", async (req, res) => {
-    try {
-        const { username } = req.query;
-
-        if (!username) {
-            return res.status(400).json({ message: "Username is required" });
-        }
-
-        const existingUser = await USER.findOne({ username });
-
-        if (existingUser) {
-            return res.status(200).json({ exists: true });
-        } else {
-            return res.status(200).json({ exists: false });
-        }
-    } catch (error) {
-        console.error("Error checking username:", error);
-        return res.status(500).json({ message: "Internal Server Error" });
-    }
-});
-
+router.get('/check-username', async (req, res) => {
+      try {
+          const { username } = req.query;
+  
+          if (!username) {
+              return res.status(400).json({ message: "Username is required" });
+          }
+  
+          const existingUser = await USER.findOne({ username }); // Query database for the username
+          const exists = !!existingUser; // Convert to boolean
+  
+          return res.status(200).json({ exists });
+      } catch (error) {
+          console.error("Error checking username:", error);
+          return res.status(500).json({ message: "Internal Server Error" });
+      }
+  });
+  
 export default router;

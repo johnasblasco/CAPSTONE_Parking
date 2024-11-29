@@ -60,36 +60,34 @@ const GetStarted = () => {
 
             // Validate terms agreement
             if (!isChecked) {
-                  setFormError('Please agree to the terms by checking the box.');
+                  Swal.fire('Error', 'Please agree to the terms by checking the box.', 'error');
                   return;
             }
 
             // Validate required fields
             if (!name || !username || !password || !confirmPassword) {
-                  setFormError('Please fill in all the fields.');
+                  Swal.fire('Error', 'Please fill in all the fields.', 'error');
                   return;
             }
 
             // Validate matching passwords
             if (password !== confirmPassword) {
-                  setFormError('Passwords do not match.');
+                  Swal.fire('Error', 'Passwords do not match.', 'error');
                   return;
             }
 
             try {
-                  // Check if username already exists
-                  const checkResponse = await axios.get(`https://capstone-parking.onrender.com/user/check-username?username=${username}`);
+                  // Check if the username already exists
+                  const checkResponse = await axios.get(`https://capstone-parking.onrender.com/user/check-username`, {
+                        params: { username },
+                  });
+
                   if (checkResponse.data.exists) {
-                        Swal.fire({
-                              title: 'Username Taken!',
-                              text: 'The username you entered is already in use. Please choose another one.',
-                              icon: 'error',
-                              confirmButtonText: 'OK',
-                        });
-                        return;
+                        Swal.fire('Error', 'The username is already taken. Please choose another.', 'error');
+                        return; // Stop further execution
                   }
 
-                  // Create the data object to send to the backend
+                  // If username is unique, proceed with registration
                   const userData = {
                         name,
                         username,
@@ -98,15 +96,9 @@ const GetStarted = () => {
                         login: false,
                   };
 
-                  // Register the user
                   const response = await axios.post('https://capstone-parking.onrender.com/user', userData);
 
-                  Swal.fire({
-                        title: 'User Created!',
-                        text: 'Awaiting admin activation.',
-                        icon: 'success',
-                        confirmButtonText: 'OK',
-                  }).then(() => {
+                  Swal.fire('Success', 'User created! Awaiting admin activation.', 'success').then(() => {
                         setFormData({
                               name: '',
                               username: '',
@@ -114,14 +106,14 @@ const GetStarted = () => {
                               confirmPassword: '',
                               isChecked: false,
                         });
-                        setFormError('');
                         navigate('/');
                   });
             } catch (error) {
-                  console.error('Error creating user:', error.response ? error.response.data : error.message);
-                  setFormError(error.response?.data?.message || 'Error creating user. Please try again.');
+                  console.error('Error creating user:', error.response?.data || error.message);
+                  Swal.fire('Error', error.response?.data?.message || 'An error occurred. Please try again.', 'error');
             }
       };
+
 
 
       useEffect(() => {
