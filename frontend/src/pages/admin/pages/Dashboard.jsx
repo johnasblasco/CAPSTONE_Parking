@@ -63,7 +63,7 @@ const Dashboard = () => {
 
                         const usersResponse = await axios.get("https://capstone-parking.onrender.com/user");
 
-                        setUsers(usersResponse.data);
+                        setUsers(usersResponse.data.filter(user => user.status == true))
 
                         const earningsResponse = await axios.get("https://capstone-parking.onrender.com/earnings");
 

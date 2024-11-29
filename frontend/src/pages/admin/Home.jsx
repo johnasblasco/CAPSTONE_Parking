@@ -1,7 +1,6 @@
 import { useEffect, useState, createContext } from "react"
 
 // PAGES HERE
-import LoginHistory from "./pages/LoginHistory"
 import ManageAccount from "./pages/ManageAccount"
 import ManageVehicles from "./pages/ManageVehicles"
 import Dashboard from "./pages/Dashboard"
@@ -153,7 +152,6 @@ const Home = () => {
                   <myContext.Provider value={myContextValue}>
                         <div className='h-screen overflow-y-auto overflow-x-hidden'>
                               <Routes>
-                                    <Route path="/login-history" element={<LoginHistory />} />
                                     <Route path="/manage-account" element={<ManageAccount />} />
                                     <Route path="/manage-vehicles" element={<ManageVehicles />} />
                                     <Route path="/dashboard" element={<Dashboard />} />
