@@ -279,7 +279,7 @@ const ManageVehicles = () => {
             <>
                   <div className='mx-[9%] h-max-700:mt-[35vh] mt-[25vh] w-[80vw] text-deepBlue'>
                         <div className='flex font-bold gap-4 w-full'>
-                              <div className='relative mt-32 border-4 shadow-2xl border-deepBlue bg-offWhite min-w-[14vw] flex flex-col justify-center rounded-3xl h-fit gap-2 p-4 py-10'>
+                              <div className='relative  border-4 shadow-2xl border-deepBlue bg-offWhite min-w-[14vw] flex flex-col justify-center rounded-3xl h-fit gap-2 p-4 py-10'>
                                     <p className='flex border-4 border-deepBlue absolute left-[-35px] top-2 font-bold bg-yeelow py-1 px-12 text-lg rounded-3xl'><FaFilter />Filter</p>
 
                                     <p className='mt-12 text-center text-2xl font-bold'>By Wheels</p>
