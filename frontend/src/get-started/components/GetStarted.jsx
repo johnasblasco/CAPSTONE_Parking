@@ -76,16 +76,29 @@ const GetStarted = () => {
                   return;
             }
 
-            // Create the data object to send to the backend
-            const userData = {
-                  name,
-                  username,
-                  password,
-                  status: false,
-                  login: false,
-            };
-
             try {
+                  // Check if username already exists
+                  const checkResponse = await axios.get(`https://capstone-parking.onrender.com/user/check-username?username=${username}`);
+                  if (checkResponse.data.exists) {
+                        Swal.fire({
+                              title: 'Username Taken!',
+                              text: 'The username you entered is already in use. Please choose another one.',
+                              icon: 'error',
+                              confirmButtonText: 'OK',
+                        });
+                        return;
+                  }
+
+                  // Create the data object to send to the backend
+                  const userData = {
+                        name,
+                        username,
+                        password,
+                        status: false,
+                        login: false,
+                  };
+
+                  // Register the user
                   const response = await axios.post('https://capstone-parking.onrender.com/user', userData);
 
                   Swal.fire({
@@ -109,6 +122,7 @@ const GetStarted = () => {
                   setFormError(error.response?.data?.message || 'Error creating user. Please try again.');
             }
       };
+
 
       useEffect(() => {
             setTimeout(() => {
