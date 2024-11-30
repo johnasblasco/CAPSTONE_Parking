@@ -81,17 +81,17 @@ const ManageAccount = () => {
 
       const handleAcceptUser = async (userId) => {
             try {
-                  // Sending a PUT request to update the user's status
                   const response = await axios.put(
                         `https://capstone-parking.onrender.com/user/${userId}`,
-                        { status: true }  // Ensure this is being sent as JSON
+                        { status: true }  // Ensure status is sent as a boolean
                   );
                   console.log(response.data);  // Log the response for debugging
                   setOyGalaw(!oyGalaw);  // Refresh state to reflect changes
             } catch (error) {
-                  console.error("Error activating user:", error);
+                  console.error("Error activating user:", error.response?.data || error.message);
             }
       };
+
 
 
 

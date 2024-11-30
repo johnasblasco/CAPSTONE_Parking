@@ -49,15 +49,28 @@ router.get("/:id", (req, res) => {
 router.put("/:id", async (req, res) => {
       try {
           const { id } = req.params;
-          const { login } = req.body;
+          const { login, status } = req.body;  // Extract both login and status fields
   
-          if (typeof login !== "boolean") {
-              return res.status(400).json({ message: "Invalid login value" });
+          const updateFields = {};  // This will hold the fields to be updated
+  
+          // Conditionally add fields to be updated
+          if (typeof login === "boolean") {
+              updateFields.login = login;
+          }
+          
+          if (typeof status === "boolean") {
+              updateFields.status = status;  // Update status if present
           }
   
+          // If neither field is provided, return a bad request error
+          if (Object.keys(updateFields).length === 0) {
+              return res.status(400).json({ message: "No valid fields provided to update" });
+          }
+  
+          // Find and update the user
           const result = await USER.findByIdAndUpdate(
               id,
-              { login },
+              updateFields,  // Update only the fields that were passed
               { new: true }
           );
   
@@ -65,12 +78,13 @@ router.put("/:id", async (req, res) => {
               return res.status(404).json({ message: "User not found" });
           }
   
-          res.status(200).json({ message: "User login status updated successfully", result });
+          res.status(200).json({ message: "User updated successfully", result });
       } catch (error) {
-          console.error("Error updating user login status:", error);
+          console.error("Error updating user:", error);
           res.status(500).json({ message: error.message });
       }
   });
+  
   
   
 
