@@ -30,7 +30,7 @@ const Header = () => {
       const loginHistory = async () => {
             try {
                   const response = await axios.get("https://capstone-parking.onrender.com/admin/loginhistory");
-                  const foundUser = response.data.find(user => user.timeOut === null);
+                  const foundUser = response.data.filter(user => user.timeOut === null && user.name === currentUser.name);
 
                   if (foundUser) {
                         setUser(foundUser);

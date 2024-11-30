@@ -70,67 +70,101 @@ router.get("/", async(req,res) => {
 
 
 
-router.post("/loginHistory", async(req,res) => {
-     
+router.post('/loginHistory', async (req, res) => {
       try {
-            if(!req.body.name ||!req.body.timeIn ){
-                  return res.status(400).send("includes all information please")
-            }
-            const newLogHistory = {
-                  name : req.body.name,
-                  timeIn : req.body.timeIn,
-                  timeOut : req.body.timeOut
-            }
-            const newLog = await LOGHISTORY.create(newLogHistory);
-            return res.status(201).json(newLog)
-
+          const { name, timeIn } = req.body;
+  
+          if (!name || !timeIn) {
+              return res.status(400).json({ message: 'Name and timeIn are required' });
+          }
+  
+          const newLogHistory = {
+              name,
+              timeIn,
+              timeOut: null, // Default value
+          };
+  
+          const newLog = await LOGHISTORY.create(newLogHistory);
+          res.status(201).json(newLog);
       } catch (error) {
-            console.log(error)
-            res.send(error)
+          console.error('Error creating log history:', error);
+          res.status(500).json({ message: 'An error occurred while creating the log history' });
       }
-      
-})
-
-router.get("/loginHistory", async(req,res) => {
-      LOGHISTORY.find({})
-      .then(result =>{
-            res.json(result)
-      })
-      .catch(error => res.json(error))
-})
-
-router.get("/loginHistory/:id",(req, res)=>{  
-
-      const {id} = req.params
-      // then / promises
-      LOGHISTORY.findById(id)
-      .then(result => {
-            res.json(result);
-      })
-      .catch(err => {
-            res.json(err);
-      });
-
-})
-
-router.put("/loginHistory/:id", async(req, res) => {
+  });
+  
+  // Get all log entries
+  router.get('/loginHistory', async (req, res) => {
       try {
-            
-            const {id} = req.params;
-
-            const result = await LOGHISTORY.findByIdAndUpdate(id, req.body)
-
-            if(!result){
-                  return res.status(404).json({message: 'user not found'})
-            }
-
-            return res.status(200).send({message: 'User updated successfully'})
-
+          const logs = await LOGHISTORY.find({});
+          res.status(200).json(logs);
       } catch (error) {
-            console.log("error sa update")
-            res.status(500).send({message: error.message})
+          console.error('Error fetching log histories:', error);
+          res.status(500).json({ message: 'An error occurred while fetching log histories' });
       }
-})
+  });
+  
+  // Get a single log entry by ID
+  router.get('/loginHistory/:id', async (req, res) => {
+      try {
+          const { id } = req.params;
+          const log = await LOGHISTORY.findById(id);
+  
+          if (!log) {
+              return res.status(404).json({ message: 'Log entry not found' });
+          }
+  
+          res.status(200).json(log);
+      } catch (error) {
+          console.error('Error fetching log entry:', error);
+          res.status(500).json({ message: 'An error occurred while fetching the log entry' });
+      }
+  });
+  
+  // Update timeOut for a log entry (logout)
+  router.put('/loginHistory/:id', async (req, res) => {
+      try {
+          const { id } = req.params;
+          const { timeOut } = req.body;
+  
+          if (!timeOut) {
+              return res.status(400).json({ message: 'timeOut is required for logout' });
+          }
+  
+          const updatedLog = await LOGHISTORY.findByIdAndUpdate(
+              id,
+              { timeOut },
+              { new: true } // Return the updated document
+          );
+  
+          if (!updatedLog) {
+              return res.status(404).json({ message: 'Log entry not found' });
+          }
+  
+          res.status(200).json({ message: 'Log entry updated successfully', log: updatedLog });
+      } catch (error) {
+          console.error('Error updating log entry:', error);
+          res.status(500).json({ message: 'An error occurred while updating the log entry' });
+      }
+  });
+  
+  // Delete a log entry by ID
+  router.delete('/loginHistory/:id', async (req, res) => {
+      try {
+          const { id } = req.params;
+  
+          const deletedLog = await LOGHISTORY.findByIdAndDelete(id);
+  
+          if (!deletedLog) {
+              return res.status(404).json({ message: 'Log entry not found' });
+          }
+  
+          res.status(200).json({ message: 'Log entry deleted successfully' });
+      } catch (error) {
+          console.error('Error deleting log entry:', error);
+          res.status(500).json({ message: 'An error occurred while deleting the log entry' });
+      }
+  });
+  
 
 
 export default router
