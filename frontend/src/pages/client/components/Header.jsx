@@ -27,34 +27,6 @@ const Header = () => {
             fetchData();
       }, [state]);
 
-      const loginHistory = async () => {
-            try {
-                  const response = await axios.get("https://capstone-parking.onrender.com/admin/loginhistory");
-                  const foundUser = response.data.find(user => user.timeOut === null);
-
-                  if (foundUser) {
-                        setUser(foundUser);
-                        const currentTime = new Date();
-
-                        // Update the login history record with timeOut
-                        await axios.put(`https://capstone-parking.onrender.com/admin/loginhistory/${foundUser._id}`, {
-                              ...foundUser,
-                              timeOut: currentTime.toISOString()
-                        });
-
-                        // Update current user's login status to false
-                        await axios.put(`https://capstone-parking.onrender.com/user/${currentUser._id}`, {
-                              ...currentUser,
-                              login: false
-                        });
-
-                        console.log("Logout successful.");
-                  }
-            } catch (error) {
-                  console.error("Error fetching or updating login history:", error);
-            }
-      };
-
       const logoutAlert = Swal.mixin({
             customClass: {
                   confirmButton: "btn btn-success",
@@ -63,7 +35,7 @@ const Header = () => {
             buttonsStyling: false
       });
 
-      const logout = () => {
+      const logout = async () => {
             logoutAlert.fire({
                   width: 300,
                   title: "Logout?",
@@ -74,7 +46,11 @@ const Header = () => {
                   reverseButtons: true
             }).then(async (result) => {
                   if (result.isConfirmed) {
-                        await loginHistory();
+                        // Update current user's login status to false
+                        await axios.put(`https://capstone-parking.onrender.com/user/${currentUser._id}`, { login: false });
+
+
+                        console.log("Logout successful." + currentUser._id);
                         logoutAlert.fire({
                               icon: "success",
                               title: "Successfully logged out!",

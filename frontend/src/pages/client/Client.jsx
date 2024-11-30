@@ -16,43 +16,40 @@ const Client = () => {
             try {
                   const response = await axios.get("https://capstone-parking.onrender.com/user");
 
-                  // main logic here
+                  // Find user with matching credentials and status
                   const user = response.data.find((user) => user.username === username && user.password === password && user.status === true);
                   if (!user) {
-
                         Swal.fire({
                               title: "LOGIN FAILED!",
                               text: "Please check your username and password.",
-                              icon: "error"
+                              icon: "error",
                         });
-                        return
+                        return;
                   }
+
                   setIsLogin(true);
                   console.log("Login successful");
                   navigate('/user/home/dashboard', { replace: true, state: { userId: user._id } });
 
-
-                  // Make a log of the data
+                  // Log the timeIn data
                   const now = new Date();
                   const logData = {
                         name: user.name,
                         timeIn: now,
-                        timeOut: null
+                        timeOut: null,
                   };
                   await axios.post("https://capstone-parking.onrender.com/admin/loginHistory", logData);
 
-                  // Proceed to update the data on the server
-                  await axios.put(`https://capstone-parking.onrender.com/user/${user._id}`, { ...user, login: true });
+                  // Update the login status to true
+                  await axios.put(`https://capstone-parking.onrender.com/user/${user._id}`, { login: true });
                   console.log('Data updated successfully:');
 
-
-
             } catch (err) {
-
                   console.error('Error:', err);
                   setError("Login failed");
             }
       };
+
 
       return (
             <div className="h-screen bg-[url('/BG.png')] bg-cover bg-bottom bg-no-repeat">

@@ -47,26 +47,32 @@ router.get("/:id", (req, res) => {
 
 // PUT to update user
 router.put("/:id", async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { status } = req.body;
-
-        if (typeof status !== 'boolean') {
-            return res.status(400).json({ message: "Invalid status value" });
-        }
-
-        const result = await USER.findByIdAndUpdate(id, { status }, { new: true });
-
-        if (!result) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        return res.status(200).json({ message: 'User updated successfully', user: result });
-    } catch (error) {
-        console.log("Error in update:", error);
-        res.status(500).json({ message: error.message });
-    }
-});
+      try {
+          const { id } = req.params;
+          const { login } = req.body;
+  
+          if (typeof login !== "boolean") {
+              return res.status(400).json({ message: "Invalid login value" });
+          }
+  
+          const result = await USER.findByIdAndUpdate(
+              id,
+              { login },
+              { new: true }
+          );
+  
+          if (!result) {
+              return res.status(404).json({ message: "User not found" });
+          }
+  
+          res.status(200).json({ message: "User login status updated successfully", result });
+      } catch (error) {
+          console.error("Error updating user login status:", error);
+          res.status(500).json({ message: error.message });
+      }
+  });
+  
+  
 
 // DELETE a user
 router.delete("/:id", async (req, res) => {
