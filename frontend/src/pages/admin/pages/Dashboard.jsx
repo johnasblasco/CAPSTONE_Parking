@@ -165,7 +165,7 @@ const Dashboard = () => {
                               <DoughnutComponents TwoWheels={TwoWheels} ThreeWheels={ThreeWheels} FourWheels={FourWheels} vehicles={vehicles} filteredVehicles={filteredVehicles} setFilteredVehicles={setFilteredVehicles} />
                               {/* EMPLOYEE TABLE */}
                               <div className="text-xl max-h-[700px] relative w-[40%] shadow-2xl border-4 border-bloe bg-white rounded-3xl overflow-y-auto p-4">
-                                    <p className='border-4 border-deepBlue font-bold mx-auto w-fit my-4 bg-yeelow py-1 px-8 text-lg rounded-3xl'>Employee Accounts</p>
+                                    <p className=' border-4 border-deepBlue font-bold mx-auto w-fit my-8 bg-yeelow py-1 px-8 text-lg rounded-xl'>Employee Accounts</p>
 
                                     <table className="w-full border-collapse bg-white shadow-lg rounded-lg overflow-hidden">
                                           <thead className="bg-deepBlue text-white text-center">
