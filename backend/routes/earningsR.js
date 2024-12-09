@@ -19,6 +19,7 @@ router.post("/", async(req,res) => {
             }
       
             const earnings = await EARNINGS.create(newEarnings);
+            io.emit('updateEarnings', newEarnings)
             return res.status(201).json(earnings)
       } catch (error) {
             res.json(error)
@@ -49,7 +50,6 @@ router.put("/:id", async(req, res) => {
             if(!result){
                   return res.status(404).json({message: 'not found'})
             }
-            io.emit('updateEarnings', result)
             return res.status(200).json(result)
 
       } catch (error) {
